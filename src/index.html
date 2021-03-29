@@ -1,12 +1,169 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>{ProjectName}</title>
-    </head>
-    <body>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="team.html">Team</a>
-        </nav>
-    </body>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="name" content="">
+    <meta name="description" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="img/header.jpg">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{ProjectName}</title>
+</head>
+
+<body>
+    <header class="hero">
+        <div class="navigation-bar">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div class="logo-container">
+                            <img src="img/logo.svg" alt="Logo">
+                        </div>
+                    </td>
+                    <td align="right" width="100%">
+                        <nav>
+                            <a href="index.html">Home</a>
+                            <a href="team.html">Team</a>
+                            <a href="">Login</a>
+                            &nbsp;
+                        </nav>
+                    </td>
+                    <td>
+                        <div class="search-container">
+                            <input type="search" placeholder="Search...">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <img src="img/header.jpg" alt="Productivity" width="100%">
+        <h1>{Catchphrase}</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non voluptates vero quasi unde ullam saepe harum
+            illum tempore minus fugiat!</p>
+        <a href="#">Get started</a>
+    </header>
+    <main>
+        <section class="intro-section">
+            <table>
+                <tr>
+                    <td>
+                        <img src="img/product-preview.jpg" alt="Product preview" width="400px">
+                    </td>
+                    <td>
+                        <h2>{Catchphrase 2}</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat culpa doloribus, autem
+                            eligendi ipsam
+                            laboriosam, incidunt temporibus adipisci repellendus cupiditate cumque laborum ut aliquam
+                            voluptatum!
+                            Aliquid est dolore optio quo!
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <section class="testimonal-section">
+
+        </section>
+        <section class="feature-section">
+            <h2>Try this!</h2>
+            <table border="1" cellspacing="0" cellpadding="20px">
+                <tr>
+                    <td>
+                        <div class="icon">&#8986;</div>
+                        <h3>Work faster</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, ut.
+                        </p>
+                    </td>
+                    <td>
+                        <div class="icon">&#127993;</div>
+                        <h3>Right to the point</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, ut.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <section class="team-section">
+            <h2>This is us</h2>
+        </section>
+        <section class="contact-form">
+            <h2>Get in touch</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati sed quo alias necessitatibus cumque
+                inventore, at culpa doloremque amet laborum veniam doloribus eaque. Sit et minus quod possimus aperiam!
+                Totam.</p>
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td>
+
+                            <label for="firstname">Firstname</label> <br>
+                            <input type="text" name="firstname">
+                        </td>
+                        <td>
+                            <label for="lastname">Lastname</label> <br>
+                            <input type="text" name="lastname">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label for="subject">Subject</label> <br>
+                            <input type="text" name="subject">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label for="message">Message</label> <br>
+                            <textarea name="message" id="message" cols="48" rows="10"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </section>
+        <section class="partner-section">
+
+        </section>
+    </main>
+    <footer>
+
+        <table width="100%" valign="top">
+            <tr>
+                <td>
+                    <div class="logo-container">
+                        <img src="img/logo.svg" alt="Logo"> <br>
+                        <div class="copyright">
+                            &copy; <a href="index.html">{companyName},</a> 2021 <br>
+                            All rights reserved.
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="footer-box">
+                        <h3>Find out more!</h3>
+                        <ul class="footer-navigation">
+                            <li class="nav-item active">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="team.html">Team</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </footer>
+</body>
+
 </html>
