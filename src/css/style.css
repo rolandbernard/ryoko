@@ -45,27 +45,49 @@ body {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: var(--weight-bold);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 h2 {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     font-weight: var(--weight-bold);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: var(--weight-semi-bold);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 h4 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: var(--weight-semi-bold);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+@media screen and (min-width: 960px) {
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
 }
 
 .intro-section .intro-container {
@@ -120,6 +142,7 @@ h4 {
         flex-direction: column;
         align-items: center;
     }
+
     .feature-section .feature-item {
         padding: 1.5rem 0;
     }
@@ -168,9 +191,11 @@ h4 {
         margin-right: 0;
         margin-bottom: 3rem;
     }
+
     .team-section .team-member {
         flex-direction: column;
     }
+
     .team-section .team-member-info {
         align-items: center;
         text-align: center;
@@ -242,14 +267,14 @@ a {
 header {
     display: flex;
     align-items: center;
-    padding-top: 80px;
-    padding-left: 90px;
+    padding: 20px;
 }
 
 nav a {
     color: var(--body-color);
     font-weight: var(--weight-bold);
     margin-left: 40px;
+    display: none;
 }
 
 .hero-section {
@@ -257,10 +282,11 @@ nav a {
 }
 
 .hero-section .text-container {
-    width: 32%;
-    font-size: 24px;
     font-weight: var(--weight-semi-bold);
-    padding-bottom: 160px;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 30px;
+    font-size: 18px;
 }
 
 .hero-section .button-container {
@@ -268,35 +294,32 @@ nav a {
 }
 
 .hero-section .hero-container {
-    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .hero-section .preview-container {
-    position: absolute;
-    right: 0;
-    width: 45%;
-    height: 100%;
-    top: 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 30px 0;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
     background: var(--linear-gradient);
-    border-bottom-left-radius: 50px;
 }
 
 .hero-section .preview-phone {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 300px;
-    transform: translate(-30%, -50%);
+    transform: translate(50%, 0%);
+    width: 75vw;
 }
 
 .preview-phone .inner {
     padding-bottom: 177.77777777778%;
     background: #fff;
     width: 100%;
-    border: 10px solid var(--body-color);
+    border: 7px solid var(--body-color);
     border-radius: 25px;
     box-shadow: 0 0 40px rgba(0, 0, 0, .15);
 }
@@ -304,8 +327,8 @@ nav a {
 .preview-phone .inner:before {
     content: ' ';
     position: absolute;
-    width: 100px;
-    height: 25px;
+    width: 25%;
+    height: 16px;
     background: var(--body-color);
     left: 50%;
     top: 2px;
@@ -313,12 +336,77 @@ nav a {
     transform: translateX(-50%);
 }
 
+
+@media screen and (min-width: 500px) {
+    .hero-section .preview-container {
+        right: 0;
+        height: 100%;
+        width: 40%;
+        top: 0;
+        border-bottom-left-radius: 50px;
+        position: absolute;
+        margin: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .hero-section .preview-phone {
+        left: 0;
+        top: 50%;
+        transform: translate(-20%, -50%);
+        position: absolute;
+        width: 200px;
+    }
+
+    .hero-section .text-container {
+        width: 50%;
+        font-size: 24px;
+    }
+}
+
+@media screen and (min-width: 860px) {
+    nav a {
+        display: inline-block;
+    }
+
+    header {
+        padding-top: 80px;
+        padding-left: 90px;
+    }
+
+    .hero-section .hero-container {
+        height: 100vh;
+    }
+
+
+    .hero-section .preview-phone {
+        left: 0;
+        transform: translate(-30%, -50%);
+        top: 50%;
+        width: 300px;
+    }
+
+    .hero-section .preview-phone .inner {
+        border-width: 10px;
+    }
+
+    .hero-section .text-container {
+        width: 32%;
+        padding-bottom: 160px;
+    }
+}
+
 @media screen and (min-width: 1280px) {
     body {
         padding: 5rem 0;
     }
+
+    .hero-section .preview-container {
+        width: 45%;
+    }
+
+
     .hero-section .hero-container {
         height: calc(100vh - 100px);
     }
 }
-
