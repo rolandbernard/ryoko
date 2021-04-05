@@ -177,6 +177,72 @@ h4 {
     }
 }
 
+.contact-section .contact-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5rem auto;
+    text-align: center;
+}
+
+.contact-section .contact-form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.contact-section .contact-form-input {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+}
+
+.contact-section .contact-fields {
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-section .contact-field {
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-section .contact-message {
+    margin: 0.5rem;
+}
+
+.contact-section .contact-message textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact-section .submit-button {
+    appearance: none;
+    border: none;
+    margin: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .contact-section .contact-form-input {
+        flex-direction: column;
+        align-items: center;
+    }
+    .contact-section .contact-fields {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
 footer .footer-container {
     display: flex;
     flex-direction: row;
@@ -209,8 +275,6 @@ footer .footer-nav {
     align-items: start;
     justify-content: center;
 }
-
-
 
 a {
     text-decoration: none;

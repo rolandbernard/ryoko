@@ -128,48 +128,41 @@
                     </div>
                 </div>
             </section>
-            <section class="contact-form" id="contact">
-                <h2>Get in touch</h2>
-                <p>
-                    Do you still have a question? Just contact us directly and we will be glad
-                    to help you resolve the issue.
-                </p>
-                <form action="mailto:dplanoetscher@unibz.it" method="POST">
-                    <table>
-                        <tr>
-                            <td>
-
-                                <label for="firstname">Firstname</label> <br>
-                                <input type="text" required name="firstname" id="firstname">
-                            </td>
-                            <td>
-                                <label for="lastname">Lastname</label> <br>
-                                <input type="text" required name="lastname" id="lastname">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="email">Email</label> <br>
-                                <input type="email" required name="email" id="email">
-                            </td>
-                            <td>
-                                <label for="subject">Subject</label> <br>
-                                <input type="text" required name="subject" id="subject">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <label for="message">Message</label> <br>
-                                <textarea name="message" required id="message" cols="48" rows="10"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" value="Send">
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+            <section class="contact-section" id="contact">
+                <div class="content-container contact-container">
+                    <h2>Get in touch</h2>
+                    <p>
+                        Do you still have a question? Just contact us directly and we will be glad
+                        to help you resolve the issue.
+                    </p>
+                    <form class="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
+                        <div class="contact-form-input">
+                            <div class="contact-fields">
+                                <div class="contact-field">
+                                    <label for="firstname">Firstname</label>
+                                    <input type="text" required name="firstname" id="firstname">
+                                </div>
+                                <div class="contact-field">
+                                    <label for="lastname">Lastname</label>
+                                    <input type="text" required name="lastname" id="lastname">
+                                </div>
+                                <div class="contact-field">
+                                    <label for="email">Email</label>
+                                    <input type="email" required name="email" id="email">
+                                </div>
+                                <div class="contact-field">
+                                    <label for="subject">Subject</label>
+                                    <input type="text" required name="subject" id="subject">
+                                </div>
+                            </div>
+                            <div class="contact-message">
+                                <label for="message">Message</label>
+                                <textarea name="message" required id="message" cols="48" rows="13"></textarea>
+                            </div>
+                        </div>
+                        <input class="button submit-button" type="submit" value="Send">
+                    </form>
+                </div>
             </section>
         </main>
         <footer>
