@@ -4,6 +4,7 @@
 :root {
     --primary: #AC42FF;
     --secondary: #F15154;
+    --accent: #7DEFFF;
     --linear-gradient: linear-gradient(to bottom, var(--secondary), var(--primary));
     --radial-gradient: radial-gradient(100% 115% at 0% 0%, var(--primary) 0%, var(--secondary) 100%);
     --weight-light: 300;
@@ -19,7 +20,7 @@ html {
 }
 
 .content-container {
-    max-width: 1100px;
+    max-width: 1280px;
     width: 100%;
     margin: 0 auto;
     padding: 20px;
@@ -27,21 +28,18 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url('../img/background.svg');
-    background-size: 400vw;
-    background-position: center;
     background-color: #f9f9f9;
-    background-repeat: repeat;
-    background-attachment: fixed;
+    position: relative;
     color: var(--body-color);
+    background: linear-gradient(to left, #F9F9F9 0%, #FBFBFB 100%);
 }
 
 .page-container {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1440px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(30px);
 }
 
 h1 {
@@ -262,6 +260,7 @@ h4 {
         flex-direction: column;
         align-items: center;
     }
+
     .contact-section .contact-fields {
         flex-direction: row;
         flex-wrap: wrap;
@@ -474,4 +473,59 @@ nav a {
     .hero-section .hero-container {
         height: calc(100vh - 100px);
     }
+}
+
+.background-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+
+@keyframes move {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(15%, -20%) scale(1.2);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.background-container .bubble {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: move 10s ease infinite;
+}
+
+@media screen and (min-width: 1280px) {
+    .background-container .bubble {
+        width: 500px;
+        height: 500px;
+        filter: blur(200px);
+        opacity: 0.75;
+    }
+}
+
+.bubble.secondary {
+    background: var(--secondary);
+}
+
+.bubble.primary {
+    background: var(--primary);
+}
+
+.bubble.accent {
+    background: var(--accent);
 }
