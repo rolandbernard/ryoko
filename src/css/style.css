@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 :root {
     --primary: #AC42FF;
     --secondary: #F15154;
@@ -13,11 +14,23 @@
 }
 
 html {
-   scroll-behavior: smooth; 
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
+    background-image: url('../img/background.svg');
+    background-size: 250vw;
+    background-position: center;
+    background-repeat: repeat;
+}
+
+.page-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
 }
 
 * {
