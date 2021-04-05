@@ -22,13 +22,9 @@ html {
     max-width: 1000px;
     width: 100%;
     margin: 0 auto;
+    padding: 20px;
 }
 
-@media screen and (min-width: 1280px) {
-   body {
-       padding-top: 100px;
-   } 
-}
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -97,6 +93,7 @@ nav a {
 .hero-section {
     position: relative;
 }
+
 .hero-section .text-container {
     width: 32%;
     font-size: 24px;
@@ -109,7 +106,7 @@ nav a {
 }
 
 .hero-section .intro-container {
-    height: calc(100vh - 100px);
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -140,6 +137,7 @@ nav a {
     width: 100%;
     border: 10px solid var(--body-color);
     border-radius: 25px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, .15);
 }
 
 .preview-phone .inner:before {
@@ -152,4 +150,14 @@ nav a {
     top: 2px;
     border-radius: 5px;
     transform: translateX(-50%);
+}
+
+@media screen and (min-width: 1280px) {
+    body {
+        padding-top: 100px;
+    }
+
+    .hero-section .intro-container {
+        height: calc(100vh - 100px);
+    }
 }
