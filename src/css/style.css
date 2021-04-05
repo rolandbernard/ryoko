@@ -25,7 +25,6 @@ html {
     padding: 20px;
 }
 
-
 body {
     font-family: 'Poppins', sans-serif;
     background-image: url('../img/background.svg');
@@ -53,6 +52,7 @@ h1 {
 h2 {
     font-size: 2.25rem;
     font-weight: var(--weight-bold);
+    margin-bottom: 2rem;
 }
 
 h3 {
@@ -60,41 +60,59 @@ h3 {
     font-weight: var(--weight-semi-bold);
 }
 
-.feature-container {
+.intro-section .intro-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 5rem auto;
+    text-align: center;
 }
 
-.feature-list {
-    margin-top: 3rem;
+.feature-section .feature-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5rem auto;
+    text-align: center;
+}
+
+.feature-section .feature-list {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: start;
 }
 
-.feature-item {
+.feature-section .feature-item {
     flex: 1 1 100%;
     display: flex;
     flex-direction: column;
     justify-content: left;
     align-items: center;
-    text-align: center;
     padding: 0 1rem;
 }
 
-.feature-icon {
+.feature-section .feature-icon {
     background: var(--radial-gradient);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
     font-size: 5rem;
 }
 
-.feature-title {
+.feature-section .feature-title {
     padding: 1rem 0;
+}
+
+@media screen and (max-width: 750px) {
+    .feature-section .feature-list {
+        flex-direction: column;
+    }
+    .feature-section .feature-item {
+        padding: 1.5rem 0;
+    }
 }
 
 a {
@@ -152,7 +170,7 @@ nav a {
     margin-top: 40px;
 }
 
-.hero-section .intro-container {
+.hero-section .hero-container {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -204,7 +222,7 @@ nav a {
         padding-top: 100px;
     }
 
-    .hero-section .intro-container {
+    .hero-section .hero-container {
         height: calc(100vh - 100px);
     }
 }
