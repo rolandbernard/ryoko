@@ -139,31 +139,29 @@
                         to help you resolve the issue.
                     </p>
                     <form class="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
-                        <div class="contact-form-input">
-                            <div class="contact-fields">
-                                <div class="contact-field">
-                                    <label for="firstname">Firstname</label>
-                                    <input type="text" required name="firstname" id="firstname">
-                                </div>
-                                <div class="contact-field">
-                                    <label for="lastname">Lastname</label>
-                                    <input type="text" required name="lastname" id="lastname">
-                                </div>
-                                <div class="contact-field">
-                                    <label for="email">Email</label>
-                                    <input type="email" required name="email" id="email">
-                                </div>
-                                <div class="contact-field">
-                                    <label for="subject">Subject</label>
-                                    <input type="text" required name="subject" id="subject">
-                                </div>
-                            </div>
-                            <div class="contact-message">
-                                <label for="message">Message</label>
-                                <textarea name="message" required id="message" cols="48" rows="13"></textarea>
-                            </div>
+                        <div class="contact-field">
+                            <label for="firstname">Firstname</label>
+                            <input type="text" required name="firstname" id="firstname">
                         </div>
-                        <input class="button submit-button" type="submit" value="Send">
+                        <div class="contact-field">
+                            <label for="lastname">Lastname</label>
+                            <input type="text" required name="lastname" id="lastname">
+                        </div>
+                        <div class="contact-field">
+                            <label for="email">Email</label>
+                            <input type="email" required name="email" id="email">
+                        </div>
+                        <div class="contact-field">
+                            <label for="subject">Subject</label>
+                            <input type="text" required name="subject" id="subject">
+                        </div>
+                        <div class="contact-field textarea">
+                            <label for="message">Message</label>
+                            <textarea name="message" required id="message" cols="48" rows="13"></textarea>
+                        </div>
+                        <div class="button-container">
+                            <button class="button submit-button" type="submit">Send</button>
+                        </div>
                     </form>
                 </div>
             </section>
@@ -193,9 +191,9 @@
     <div class="background-container">
         <div class="bubble secondary" style="top: 0; right: 0;"></div>
         <div class="bubble primary" style="top: 20%; left: 0;"></div>
-        <div class="bubble accent" style="top: 40%; right: 0;"></div>
-        <div class="bubble secondary" style="top: 70%; right: 40%;"></div>
-        <div class="bubble primary" style="top: 50%; left: 10;"></div>
+        <div class="bubble accent" style="top: 32%; right: 5%;"></div>
+        <div class="bubble secondary" style="top: 65%; left: -15%;"></div>
+        <div class="bubble primary" style="bottom: 0%; right: 0%;"></div>
     </div>
 </body>
 
