@@ -19,8 +19,19 @@ html {
     scroll-behavior: smooth;
 }
 
+a {
+    font-weight: var(--weight-bold);
+    color: var(--primary);
+    transition: 300ms ease;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(172, 66, 255, 0.5);
+}
+
 section {
-    margin-bottom: 100px;
+    margin-bottom: 70px;
 }
 
 .content-container {
@@ -39,10 +50,9 @@ body {
 }
 
 .page-container {
-    width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(30px);
 }
 
@@ -65,7 +75,7 @@ h2.left {
 
 h3 {
     font-size: 1.25rem;
-    font-weight: var(--weight-semi-bold);
+    font-weight: var(--weight-bold);
     margin-bottom: 0.75rem;
 }
 
@@ -83,7 +93,7 @@ h4 {
 
     h2 {
         font-size: 2.25rem;
-        margin: 0 auto 2.5rem auto;
+        margin: 0 auto 2rem auto;
         max-width: 560px;
         text-align: center;
     }
@@ -119,8 +129,8 @@ h4 {
         align-items: center;
     }
 
-    .intro-section .intro-container>* {
-        width: 50%;
+    .intro-section .intro-container .text-container {
+        flex-grow: 1;
     }
 
     .intro-section .text-container {
@@ -134,7 +144,7 @@ h4 {
 
 .intro-section .project-overview {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: 30px;
     grid-template-areas:
         'small-1 large'
         'small-2 large';
@@ -158,13 +168,42 @@ h4 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 22px;
     text-align: center;
+    background: radial-gradient(100% 100% at 4.43% 0.11%, rgba(255, 255, 255, 0.8) 0%, rgba(252, 249, 255, 0.8) 100%);
+    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.project .tag {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: var(--weight-bold);
+    font-size: 12px;
+    padding: 3px 15px;
+    background: radial-gradient(100% 1892.25% at 0% 0%, #AC42FF 0%, #8A24DA 100%);
+    color: #fff;
+    border-radius: 5px;
+}
+
+.tag .icon {
+    font-size: 13px;
+    margin-right: 4px;
+    line-height: 1;
+}
+
+.project .tag.red {
+    background: radial-gradient(100% 1892.25% at 0% 0%, #F15154 0%, #DA2E31 100%);
 }
 
 .project .title {
-    margin-top: 5px;
-    line-height: 1.2;
+    margin-top: 10px;
+    line-height: 1.4;
+    font-size: 12px;
     font-weight: var(--weight-bold);
 }
 
@@ -191,18 +230,26 @@ h4 {
 .project path {
     width: 70px;
     height: 70px;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke: url(#gradient);
+    fill: none;
+}
+
+.project circle {
+    fill: none;
+    stroke: #dcdcdc;
+    stroke-width: 8;
 }
 
 .project-overview .project-small {
     width: 150px;
     height: 150px;
-    background: #fff;
 }
 
 .project-overview .project-large {
     width: 150px;
-    height: 320px;
-    background: #fff;
+    height: 330px;
 }
 
 .feature-section .feature-container {
@@ -269,6 +316,7 @@ h4 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .team-section .team-member {
@@ -277,20 +325,26 @@ h4 {
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
+    text-align: left;
     margin: 3rem 0;
+}
+
+.team-section .team-member-title {
+    font-size: 14px;
+    font-weight: var(--weight-bold);
+    display: inline-block;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    background: radial-gradient(100% 1892.25% at 0% 0%, #AC42FF 0%, #8A24DA 100%);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: #fff;
+    border-radius: 5px;
 }
 
 .team-section .team-member-image {
     margin-right: 3rem;
     border-radius: 50%;
-}
-
-.team-section .team-member-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    text-align: left;
 }
 
 @media screen and (max-width: 750px) {
@@ -345,12 +399,6 @@ h4 {
 }
 
 footer .footer-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     padding: 100px 0;
 }
 
@@ -362,32 +410,30 @@ footer .footer-copyright {
     justify-content: center;
 }
 
-footer .footer-more {
-    flex: 1 1 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+footer .logo {
+    margin-bottom: 10px;
 }
+
 
 footer .footer-nav {
     flex: 1 1 100%;
     display: flex;
-    flex-direction: column;
-    align-items: start;
     justify-content: center;
+    margin-top: 30px;
 }
 
-a {
-    text-decoration: none;
+footer .footer-nav a {
+    padding: 5px 10px;
+    color: var(--primary);
+    font-weight: var(--weight-bold);
 }
 
 .button {
-    padding: 14px 35px;
+    padding: 14px 50px;
     font-size: 18px;
     font-weight: var(--weight-bold);
     background: radial-gradient(60% 100% at 50% 0%, #D298FF 0.01%, var(--primary) 100%);
-    box-shadow: 0px 5px 25px rgba(172, 66, 255, 0.25);
+    box-shadow: 0px 5px 15px rgba(172, 66, 255, 0.25);
     border-radius: 25px;
     display: inline-block;
     color: #fff;
@@ -395,8 +441,10 @@ a {
 }
 
 .button:hover {
-    box-shadow: 0px 5px 25px rgba(172, 66, 255, 0.35);
+    box-shadow: 0px 10px 25px rgba(172, 66, 255, 0.35);
     cursor: pointer;
+    color: #fff;
+    transform: translateY(-5%) scale(1.025);
 }
 
 .button:active {
@@ -435,7 +483,6 @@ nav a {
 }
 
 .hero-section .text-container {
-    font-weight: var(--weight-semi-bold);
     position: relative;
     z-index: 2;
     padding-bottom: 30px;
@@ -513,7 +560,6 @@ nav a {
 
     .hero-section .text-container {
         width: 50%;
-        font-size: 24px;
     }
 }
 
@@ -544,7 +590,7 @@ nav a {
     }
 
     .hero-section .text-container {
-        width: 25%;
+        width: 30%;
         padding-bottom: 160px;
     }
 }
@@ -633,7 +679,7 @@ nav a {
 }
 
 label {
-    font-size: 14px;
+    font-size: 16px;
     position: absolute;
     left: 20px;
     font-weight: var(--weight-bold);
