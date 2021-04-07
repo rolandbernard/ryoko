@@ -145,7 +145,7 @@ h4 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px 20px 10px 20px;
+    padding: 20px 24px 10px 24px;
     text-align: center;
     background: radial-gradient(100% 100% at 4.43% 0.11%, rgba(255, 255, 255, 0.8) 0%, rgba(252, 249, 255, 0.8) 100%);
     box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
@@ -185,7 +185,7 @@ h4 {
     transform: translate(-50%, -50%);
     font-weight: var(--weight-bold);
     font-size: 12px;
-    padding: 3px 15px;
+    padding: 3px 10px;
     background: radial-gradient(100% 1892.25% at 0% 0%, #AC42FF 0%, #8A24DA 100%);
     color: #fff;
     border-radius: 5px;
@@ -226,6 +226,12 @@ h4 {
     line-height: 1;
     font-weight: var(--weight-bold);
     font-size: 14px;
+}
+
+.project .info {
+    font-size: 12px;
+    margin-top: 16px;
+    line-height: 1.8;
 }
 
 .project path {
@@ -554,7 +560,7 @@ nav a {
     background-repeat: no-repeat;
     background-position: top left;
     width: 100%;
-    border: 7px solid var(--body-color);
+    border: 7px solid #303030;
     border-radius: 25px;
     box-shadow: 0 0 40px rgba(0, 0, 0, .15);
 }
@@ -564,7 +570,7 @@ nav a {
     position: absolute;
     width: 25%;
     height: 20px;
-    background: var(--body-color);
+    background: #303030;
     left: 50%;
     top: 2px;
     border-radius: 5px;
