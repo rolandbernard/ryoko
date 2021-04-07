@@ -283,7 +283,7 @@ h4 {
 .feature-section .feature-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     margin: 5rem auto;
 }
@@ -329,7 +329,6 @@ h4 {
         padding: 1.5rem 0;
     }
 }
-
 
 .team-section .team-list {
     display: flex;
@@ -386,6 +385,10 @@ h4 {
         justify-content: center;
         margin: 5rem auto;
         text-align: center;
+    }
+
+    .feature-section .feature-container {
+        align-items: center;
     }
 }
 
@@ -449,8 +452,6 @@ footer .footer-nav {
 
 footer .footer-nav a {
     padding: 5px 10px;
-    color: var(--primary);
-    font-weight: var(--weight-bold);
 }
 
 .button {
@@ -714,7 +715,6 @@ nav a {
 .contact-field.textarea {
     width: 100%;
 }
-
 
 .contact-form .button-container {
     display: flex;
