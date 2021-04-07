@@ -124,6 +124,36 @@ h4 {
 }
 
 
+
+@keyframes move-up {
+
+    5%,
+    35% {
+        transform: translateY(0);
+        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    10%,
+    30% {
+        transform: translateY(-10px);
+        box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.project {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+    text-align: center;
+    background: radial-gradient(100% 100% at 4.43% 0.11%, rgba(255, 255, 255, 0.8) 0%, rgba(252, 249, 255, 0.8) 100%);
+    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
+    animation: move-up 9s ease-in infinite;
+    position: relative;
+}
+
 .intro-section .project-overview {
     display: grid;
     grid-gap: 20px;
@@ -138,23 +168,13 @@ h4 {
 
 .small-2 {
     grid-area: small-2;
+    animation-delay: 3s;
+
 }
 
 .large {
     grid-area: large;
-}
-
-.project {
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 20px 10px 20px;
-    text-align: center;
-    background: radial-gradient(100% 100% at 4.43% 0.11%, rgba(255, 255, 255, 0.8) 0%, rgba(252, 249, 255, 0.8) 100%);
-    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
-    position: relative;
+    animation-delay: 6s;
 }
 
 .project .tag {
@@ -450,7 +470,7 @@ footer .footer-nav a {
     box-shadow: 0px 10px 25px rgba(172, 66, 255, 0.35);
     cursor: pointer;
     color: #fff;
-    transform: translateY(-5%) scale(1.025);
+    transform: translateY(-5%);
 }
 
 .button:active {
@@ -561,6 +581,9 @@ nav a {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
+    header {
+        padding-top: 80px;
+    }
 
     .hero-section .preview-phone {
         left: 0;
@@ -580,10 +603,6 @@ nav a {
         display: inline-block;
     }
 
-    header {
-        padding-top: 80px;
-        padding-left: 90px;
-    }
 
     .hero-section .hero-container {
         height: calc(100vh - 0.5rem);
@@ -608,6 +627,11 @@ nav a {
 }
 
 @media screen and (min-width: 1480px) {
+    header {
+        padding-top: 80px;
+        padding-left: 90px;
+    }
+
     body {
         padding: 5rem 0;
     }
