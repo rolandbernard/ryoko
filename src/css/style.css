@@ -126,7 +126,6 @@ h4 {
 
 
 @keyframes move-up {
-
     5%,
     35% {
         transform: translateY(0);
@@ -549,7 +548,10 @@ nav a {
 
 .preview-phone .inner {
     padding-bottom: 177.77777777778%;
-    background: #fff;
+    background: url('../img/screen-design.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: top left;
     width: 100%;
     border: 7px solid var(--body-color);
     border-radius: 25px;
