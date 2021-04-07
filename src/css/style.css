@@ -468,14 +468,14 @@ footer .footer-nav a {
 }
 
 .button:hover {
-    box-shadow: 0px 5px 20px rgba(172, 66, 255, 0.35);
+    box-shadow: 0px 10px 25px rgba(172, 66, 255, 0.35);
     cursor: pointer;
     color: #fff;
     transform: translateY(-5%);
 }
 
 .button:active {
-    transform: scale(0.98);
+    transform: scale(0.9);
 }
 
 section.darker {
@@ -713,7 +713,6 @@ nav a {
 .contact-field.textarea {
     width: 100%;
 }
-
 
 .contact-form .button-container {
     display: flex;
