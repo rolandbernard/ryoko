@@ -1,0 +1,9 @@
+@import 'settings.scss';
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: $body-color;
+}
