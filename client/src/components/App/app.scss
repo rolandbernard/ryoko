@@ -1,9 +1,11 @@
-@import 'settings.scss';
+
+@use 'scss/settings';
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    color: $body-color;
+    color: settings.$body-color;
 }
+

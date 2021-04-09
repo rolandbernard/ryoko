@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from 'components/pages/Home';
 import './app.scss';
 
-function App() {
+export default function App() {
     return (
         <Router>
             <Switch>
@@ -14,6 +14,4 @@ function App() {
         </Router>
     );
 }
-
-export default App;
 

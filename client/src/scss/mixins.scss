@@ -1,8 +1,10 @@
-@import 'functions.scss';
-@import 'settings.scss';
+
+@use 'functions';
+@use 'settings';
 
 @mixin breakpoint($bp) {
-    @media screen and (min-width: getFrom($breakpoints, $bp)) {
+    @media screen and (min-width: functions.getFrom(settings.$breakpoints, $bp)) {
         @content;
     }
 }
+
