@@ -1,0 +1,28 @@
+
+@use 'styles/settings';
+
+.button {
+    padding: 14px 50px;
+    font-size: 18px;
+    font-weight: settings.$weight-bold;
+    background: radial-gradient(60% 100% at 50% 0%, #D298FF 0.01%, settings.$primary 100%);
+    box-shadow: 0px 5px 15px rgba(settings.$primary, 0.25);
+    border-radius: 25px;
+    display: inline-block;
+    color: #fff;
+    transition: 300ms ease;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.button:hover {
+    box-shadow: 0px 10px 25px rgba(settings.$primary, 0.35);
+    cursor: pointer;
+    color: #fff;
+    transform: translateY(-5%);
+}
+
+.button:active {
+    transform: scale(0.9);
+}
+
