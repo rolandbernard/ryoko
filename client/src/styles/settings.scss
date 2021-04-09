@@ -19,6 +19,7 @@ $linear-gradient: linear-gradient(to top, $primary, $secondary);
 $radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, $secondary 100%);
 
 $body-color: #4B4B4B;
+$body-font: 'Poppins', sans-serif;
 
 // Typography
 $weight-light: 300;
@@ -26,7 +27,6 @@ $weight-regular: 400;
 $weight-medium: 500;
 $weight-semi-bold: 600;
 $weight-bold: 700;
-
 
 // Breakpoints
 $breakpoints: (

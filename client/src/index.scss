@@ -1,4 +1,3 @@
-
 @use 'styles/settings';
 @use 'styles/mixins';
 
@@ -8,9 +7,8 @@ html {
 
 body {
     color: settings.$body-color;
-}
 
 * {
     transition: settings.$transition;
+    font-family: settings.$body-font;
 }
-
