@@ -1,6 +1,7 @@
 @use 'settings.scss';
 @use 'mixins.scss';
 
+
 html {
     scroll-behavior: smooth;
 }
@@ -11,3 +12,4 @@ body {
         color: black;
     }
 }
+
