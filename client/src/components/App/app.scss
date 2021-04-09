@@ -1,9 +1,13 @@
-@import 'settings.scss';
+@use 'settings.scss';
+@use 'mixins.scss';
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    color: $body-color;
+    color: settings.$body-color;
+    @include mixins.breakpoint(large) {
+        color: black;
+    }
 }
