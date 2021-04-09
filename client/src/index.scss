@@ -1,15 +1,96 @@
-@use 'styles/settings';
+@use 'styles/settings'as s;
 @use 'styles/mixins';
+@use 'styles/functions'as fn;
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    color: settings.$body-color;
+    color: s.$body-color;
+    position: relative;
+    background: linear-gradient(to left, #e2e2e2 0%, #e6e6e6 100%);
 }
-    
+
 * {
-    transition: settings.$transition;
-    font-family: settings.$body-font;
+    transition: s.$transition;
+    font-family: s.$body-font;
+}
+
+a {
+    font-weight: s.$weight-bold;
+    color: s.$primary;
+    text-decoration: none;
+
+    &:hover {
+        color: rgba(s.$primary, 0.5);
+    }
+}
+
+.page-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(30px);
+}
+.content-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: s.$weight-bold;
+}
+
+h1 {
+    font-size: fn.toRem(36);
+    margin-bottom: fn.toRem(20);
+
+    @include mixins.breakpoint(large) {
+        font-size: fn.toRem(48);
+        margin-bottom: fn.toRem(40);
+    }
+}
+
+h2 {
+    font-size: fn.toRem(24);
+    margin-bottom: fn.toRem(16);
+
+    @include mixins.breakpoint(large) {
+        font-size: fn.toRem(36);
+        margin: 0 auto fn.toRem(24) auto;
+        max-width: 560px;
+        text-align: center;
+    }
+
+    &.left {
+        text-align: left;
+        max-width: none;
+    }
+}
+
+h3 {
+    font-size: fn.toRem(20);
+    margin-bottom: fn.toRem(12);
+
+    @include mixins.breakpoint(large) {
+        font-size: fn.toRem(24);
+        margin-bottom: fn.toRem(16);
+    }
+}
+
+h4 {
+    font-size: fn.toRem(16);
+    margin-bottom: fn.toRem(10);
+    @include mixins.breakpoint(large) {
+        font-size: fn.toRem(20);
+        margin-bottom: fn.toRem(16);
+    }
 }
