@@ -1,5 +1,6 @@
 
 @use 'styles/settings';
+@use 'styles/mixins';
 
 html {
     scroll-behavior: smooth;
@@ -7,5 +8,8 @@ html {
 
 body {
     color: settings.$body-color;
+    @include mixins.breakpoint(medium) {
+        color: black;
+    }
 }
 

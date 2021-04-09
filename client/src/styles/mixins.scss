@@ -1,6 +1,6 @@
 
-@use 'functions';
-@use 'settings';
+@use 'functions.scss';
+@use 'settings.scss';
 
 @mixin breakpoint($bp) {
     @media screen and (min-width: functions.getFrom(settings.$breakpoints, $bp)) {
