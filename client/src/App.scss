@@ -8,6 +8,7 @@ html {
 
 body {
     color: settings.$body-color;
+    font-family: settings.$body-font;
     @include mixins.breakpoint(medium) {
         color: black;
     }
