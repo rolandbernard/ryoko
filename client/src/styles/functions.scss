@@ -1,6 +1,5 @@
-
 @function toRem($px) {
-    @return ($px / 16px)+0rem;
+    @return ($px / 16)+0rem;
 }
 
 @function getFrom($map, $key) {
@@ -13,6 +12,5 @@
 }
 
 @function hoverify($color) {
-    @return scale-color($color, $lightness: +5%, $hue: +5%); 
+    @return color.scale-color($color, $lightness: +5%, $hue: +5%); 
 }
-

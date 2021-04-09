@@ -8,8 +8,9 @@ html {
 
 body {
     color: settings.$body-color;
-    @include mixins.breakpoint(medium) {
-        color: black;
-    }
+}
+
+* {
+    transition: settings.$transition;
 }
 
