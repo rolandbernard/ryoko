@@ -27,6 +27,11 @@
         color: #fff;
         border-radius: 5px;
 
+        &.red {
+
+            background: radial-gradient(100% 1892.25% at 0% 0%, #F15154 0%, #DA2E31 100%);
+        }
+
         .icon {
             font-size: 13px;
             margin-right: 4px;
@@ -75,3 +80,4 @@
         line-height: 1.8;
     }
 }
+

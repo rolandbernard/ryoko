@@ -17,9 +17,9 @@ function ProjectTag(status: "open" | "suspended" | "closed"): ReactNode {
             );
         case "suspended":
             return (
-                <span className="tag">
+                <span className="tag red">
                     <i className="icon material-icons">
-                        clock
+                        watch_later
                     </i>
                     Suspended
                 </span>
