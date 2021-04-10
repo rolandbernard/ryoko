@@ -52,6 +52,12 @@ export default function Home() {
                                     <div className="small-1 project-small">
                                         <Project status="open" name="xx" percent={5} />
                                     </div>
+                                    <div className="small-2 project-small">
+                                        <Project status="suspended" name="xx" percent={5} />
+                                    </div>
+                                    <div className="large project-large">
+                                        <Project status="open" name="xx" percent={5} />
+                                    </div>
                                 </div>
                             </div>
                         </div>

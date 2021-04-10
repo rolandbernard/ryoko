@@ -1,6 +1,6 @@
 .circular-progress {
     path {
-        stroke-width: 8;
+        stroke-width: 20;
         stroke-linecap: round;
         stroke: url(#gradient);
         fill: none;
@@ -9,6 +9,6 @@
     circle {
         fill: none;
         stroke: #dcdcdc;
-        stroke-width: 8;
+        stroke-width: 20;
     }
 }

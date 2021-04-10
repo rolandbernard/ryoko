@@ -26,9 +26,9 @@ export default function Project({ status, name, percent }: Props) {
             break;
         case "suspended":
             tag = (
-                <span className="tag">
+                <span className="tag red">
                     <i className="icon material-icons">
-                        clock
+                        watch_later
                     </i>
                     Suspended
                 </span>

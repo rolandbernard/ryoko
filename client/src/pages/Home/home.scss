@@ -11,7 +11,7 @@ section {
 
 .intro-section {
     .intro-container {
-        @include mx.breakpoint(large) {
+        @include mx.breakpoint(medium) {
             display: flex;
             align-items: center;
         }
@@ -21,7 +21,7 @@ section {
         padding-right: 10%;
         margin-bottom: 50px;
 
-        @include mx.breakpoint(large) {
+        @include mx.breakpoint(medium) {
             flex-grow: 1;
             margin-bottom: 0;
         }
@@ -48,7 +48,7 @@ section {
             'small-1 large'
             'small-2 large';
 
-        @include mx.breakpoint(large) {
+        @include mx.breakpoint(medium) {
             grid-gap: 30px;
 
             .project-small {
@@ -73,16 +73,24 @@ section {
 
         .small-2 {
             grid-area: small-2;
-            animation-delay: 3s;
+
+            .project {
+                animation-delay: 3s;
+            }
         }
+
 
         .large {
             grid-area: large;
-            animation-delay: 6s;
+
+            .project {
+                animation-delay: 6s;
+            }
         }
 
         .project {
             animation: move-up 9s ease-in infinite;
+
             svg {
                 width: 70px;
                 height: 70px;
