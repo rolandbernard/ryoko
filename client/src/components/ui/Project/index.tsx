@@ -1,10 +1,8 @@
 
-import React, {ReactNode} from "react";
-
 import CircularProgress from 'components/graphs/CircularProgress';
 import './project.scss';
 
-function ProjectTag(status: "open" | "suspended" | "closed"): ReactNode {
+function ProjectTag(status: "open" | "suspended" | "closed") {
     switch (status) {
         case "open":
             return (
@@ -35,7 +33,7 @@ interface Props {
     percent: number
 }
 
-export default function Project({ status, name, percent }: Props): ReactNode {
+export default function Project({ status, name, percent }: Props) {
     return (
         <div className="project">
             {ProjectTag(status)}

@@ -1,7 +1,10 @@
 
 import Project from 'components/ui/Project';
+import ButtonLink from 'components/ui/ButtonLink';
 import Button from 'components/ui/Button';
 import './home.scss';
+
+import Logo from 'images/logo.svg';
 
 export default function Home() {
     return (<>
@@ -11,7 +14,7 @@ export default function Home() {
                     <div className="hero-container">
                         <header>
                             <a href="index.html">
-                                <img src="img/logo.svg" alt="Logo" width="100" height="35" />
+                                <img src={Logo} alt="Logo" width="100" height="35" />
                             </a>
                             <nav>
                                 <a href="#hero">Home</a>
@@ -30,7 +33,7 @@ export default function Home() {
                                 <h1>ryoko</h1>
                                 <p>Are you feeling lost with your tasks? Maximize your productivity now with ryoko.</p>
                                 <div className="button-container">
-                                    <Button><a href="#intro">Get started</a></Button>
+                                    <ButtonLink href="#intro">Get started</ButtonLink>
                                 </div>
                             </div>
                         </div>
@@ -52,13 +55,13 @@ export default function Home() {
                             <div className="preview-container">
                                 <div className="project-overview">
                                     <div className="small-1 project-small">
-                                        <Project status="open" name="xx" percent={5} />
+                                        <Project status="open" name="Hello world!" percent={5} />
                                     </div>
                                     <div className="small-2 project-small">
-                                        <Project status="suspended" name="xx" percent={5} />
+                                        <Project status="suspended" name="FizzBuzz" percent={33} />
                                     </div>
                                     <div className="large project-large">
-                                        <Project status="open" name="xx" percent={5} />
+                                        <Project status="open" name="Array summation" percent={78} />
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +149,7 @@ export default function Home() {
                     </p>
                         <form className="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
                             <div className="button-container">
-                                <button className="button submit-button" type="submit">Send</button>
+                                <Button type="submit">Send</Button>
                             </div>
                         </form>
                     </div>

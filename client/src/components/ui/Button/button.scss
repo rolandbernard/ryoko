@@ -13,6 +13,8 @@
     color: settings.$white;
     text-transform: uppercase;
     user-select: none;
+    appearance: none;
+    border: none;
 
     &:hover,
     &:focus {

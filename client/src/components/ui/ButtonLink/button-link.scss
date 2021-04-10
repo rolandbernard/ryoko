@@ -1,0 +1,9 @@
+
+@use 'styles/settings';
+
+.button-link {
+    &, &:hover, &:active, &:focus {
+        color: settings.$white;
+    }
+}
+

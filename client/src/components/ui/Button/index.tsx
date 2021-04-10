@@ -4,11 +4,16 @@ import React from "react";
 
 import './button.scss';
 
-export default function Button({children}: {children: ReactNode}) {
+interface Props {
+    children: ReactNode;
+    type?: "button" | "submit" | "reset";
+}
+
+export default function Button({children, type}: Props) {
     return (
-        <div className="button">
+        <button className="button" type={type}>
             {children}
-        </div>
+        </button>
     );
 }
 
