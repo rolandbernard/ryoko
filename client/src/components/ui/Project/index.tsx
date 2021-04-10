@@ -1,21 +1,13 @@
-import React from "react";
+
+import React, {ReactNode} from "react";
 
 import CircularProgress from 'components/graphs/CircularProgress';
-
 import './project.scss';
 
-interface Props {
-    status: "open" | "suspended" | "closed",
-    name: string,
-    percent: number
-}
-
-export default function Project({ status, name, percent }: Props) {
-    let tag;
-
+function ProjectTag(status: "open" | "suspended" | "closed"): ReactNode {
     switch (status) {
         case "open":
-            tag = (
+            return (
                 <span className="tag">
                     <i className="icon material-icons">
                         work
@@ -23,9 +15,8 @@ export default function Project({ status, name, percent }: Props) {
                     Open
                 </span>
             );
-            break;
         case "suspended":
-            tag = (
+            return (
                 <span className="tag">
                     <i className="icon material-icons">
                         clock
@@ -33,12 +24,21 @@ export default function Project({ status, name, percent }: Props) {
                     Suspended
                 </span>
             );
-            break;
+        default:
+            return null;
     }
+}
 
+interface Props {
+    status: "open" | "suspended" | "closed",
+    name: string,
+    percent: number
+}
+
+export default function Project({ status, name, percent }: Props): ReactNode {
     return (
         <div className="project">
-            {tag}
+            {ProjectTag(status)}
             <CircularProgress percent={percent} />
             <div className="title">{name}</div>
         </div>

@@ -1,4 +1,6 @@
+
 import Project from 'components/ui/Project';
+import Button from 'components/ui/Button';
 import './home.scss';
 
 export default function Home() {
@@ -28,7 +30,7 @@ export default function Home() {
                                 <h1>ryoko</h1>
                                 <p>Are you feeling lost with your tasks? Maximize your productivity now with ryoko.</p>
                                 <div className="button-container">
-                                    <a href="#intro" className="button">Get started</a>
+                                    <Button><a href="#intro">Get started</a></Button>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +174,6 @@ export default function Home() {
             <div className="bubble accent" style={{ bottom: '5%', left: '10%' }}></div>
             <div className="bubble primary" style={{ bottom: '0%', right: '0%' }}></div>
         </div>
-    </>
-    );
+    </>);
 }
 

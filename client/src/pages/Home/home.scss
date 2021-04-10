@@ -1,3 +1,4 @@
+
 @use 'styles/settings.scss'as s;
 @use 'styles/mixins.scss'as mx;
 
@@ -66,7 +67,6 @@ section {
             }
         }
 
-
         .small-1 {
             grid-area: small-1;
         }
@@ -89,20 +89,15 @@ section {
             }
 
             @keyframes move-up {
-
-                5%,
-                35% {
+                5%, 35% {
                     transform: translateY(0);
                     box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
                 }
-
-                10%,
-                30% {
+                10%, 30% {
                     transform: translateY(-10px);
                     box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.15);
                 }
             }
-
         }
     }
 }
@@ -111,7 +106,7 @@ section {
 .feature-section .feature-container {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
     margin: 5rem auto;
 }
@@ -120,7 +115,7 @@ section {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
     margin-top: 10px;
 }
@@ -282,29 +277,6 @@ footer .footer-nav a {
     padding: 5px 10px;
 }
 
-.button {
-    padding: 14px 50px;
-    font-size: 18px;
-    font-weight: var(--weight-bold);
-    background: radial-gradient(60% 100% at 50% 0%, #D298FF 0.01%, var(--primary) 100%);
-    box-shadow: 0px 5px 15px rgba(172, 66, 255, 0.25);
-    border-radius: 25px;
-    display: inline-block;
-    color: #fff;
-    transition: 300ms ease;
-}
-
-.button:hover {
-    box-shadow: 0px 10px 25px rgba(172, 66, 255, 0.35);
-    cursor: pointer;
-    color: #fff;
-    transform: translateY(-5%);
-}
-
-.button:active {
-    transform: scale(0.9);
-}
-
 section.darker {
     padding: 30px 0;
     color: #f1f1f1;
@@ -377,7 +349,7 @@ nav a {
 
 .preview-phone .inner {
     padding-bottom: 177.77777777778%;
-    background: url('../../img/screen-design.jpg');
+    background: url('../../images/screen-design.jpg');
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: top left;
@@ -435,11 +407,9 @@ nav a {
         display: inline-block;
     }
 
-
     .hero-section .hero-container {
         height: calc(100vh - 0.5rem);
     }
-
 
     .hero-section .preview-phone {
         left: 0;
@@ -471,7 +441,6 @@ nav a {
     .hero-section .preview-container {
         width: 45%;
     }
-
 
     .hero-section .hero-container {
         height: calc(100vh - 6rem);
@@ -558,7 +527,6 @@ label {
     font-weight: var(--weight-bold);
     z-index: 20;
     transform: translateY(-50%);
-
 }
 
 textarea {
@@ -581,3 +549,4 @@ textarea {
     font-family: 'Poppins', sans-serif;
     background: rgba(255, 255, 255, 0.1);
 }
+
