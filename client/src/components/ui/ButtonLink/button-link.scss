@@ -1,9 +1,16 @@
 
 @use 'styles/settings';
 
-.button-link {
-    &, &:hover, &:active, &:focus {
-        color: settings.$white;
+.button.button-link {
+    padding: 0;
+
+    a {
+        display: inline-block;
+        padding: 14px 50px;
+
+        &, &:hover, &:active, &:focus {
+            color: settings.$white;
+        }
     }
 }
 

@@ -6,11 +6,12 @@ import './button.scss';
 interface Props {
     children: ReactNode;
     type?: "button" | "submit" | "reset";
+    className?: string;
 }
 
-export default function Button({children, type}: Props) {
+export default function Button({children, type, className}: Props) {
     return (
-        <button className="button" type={type}>
+        <button className={"button " + (className || '')} type={type}>
             {children}
         </button>
     );

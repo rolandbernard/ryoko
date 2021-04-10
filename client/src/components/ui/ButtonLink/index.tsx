@@ -13,10 +13,10 @@ interface Props {
 
 export default function ButtonLink({children, href, routing}: Props) {
     return (
-        <Button>
+        <Button className="button-link">
             { routing
-                ? <Link className="button-link" to={href}>{children}</Link>
-                : <a className="button-link" href={href}>{children}</a>
+                ? <Link to={href}>{children}</Link>
+                : <a href={href}>{children}</a>
             }
         </Button>
     );
