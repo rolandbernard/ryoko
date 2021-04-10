@@ -1,6 +1,4 @@
 
-import React from "react";
-
 import './circular-progress.scss';
 
 const CIRCLE_RADUIS = 30;

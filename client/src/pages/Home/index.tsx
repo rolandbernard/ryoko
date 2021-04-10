@@ -5,6 +5,8 @@ import Button from 'components/ui/Button';
 import './home.scss';
 
 import Logo from 'images/logo.svg';
+import ImageRoland from 'images/roland-bernard.jpg';
+import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 export default function Home() {
     return (<>
@@ -106,7 +108,7 @@ export default function Home() {
                     </p>
                         <div className="team-list">
                             <div className="team-member">
-                                <img className="team-member-image" src="img/daniel-planoetscher.jpg" width="200" height="200"
+                                <img className="team-member-image" src={ImageDaniel} width="200" height="200"
                                     alt="Daniel Planötscher" />
                                 <div className="team-member-info">
                                     <div className="team-member-title">Web Developer</div>
@@ -122,7 +124,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="team-member">
-                                <img className="team-member-image" src="img/roland-bernard.jpg" width="200" height="200"
+                                <img className="team-member-image" src={ImageRoland} width="200" height="200"
                                     alt="Roland Bernard" />
                                 <div className="team-member-info">
                                     <h4 className="team-member-title">Software Engineer</h4>
@@ -158,7 +160,7 @@ export default function Home() {
             <footer>
                 <div className="content-container footer-container">
                     <div className="footer-copyright">
-                        <img src="img/logo.svg" className="logo" alt="Logo" width="70" height="24" />
+                        <img src={Logo} className="logo" alt="Logo" width="70" height="24" />
                         <p>
                             &copy; <a href="index.html">ryoko</a>, 2021
                     </p>
