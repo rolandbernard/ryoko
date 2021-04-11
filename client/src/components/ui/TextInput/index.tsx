@@ -10,20 +10,15 @@ interface Props {
 
 export default function TextInput({ label, name, type }: Props) {
     type = type ? type : 'text';
-    let field = (
-        <input type={type} required name={name} id={name} />
-    );
-
-    if (type === 'textarea') {
-        field = (
-            <textarea name={name} id={name} required></textarea>
-        )
-    }
 
     return (
         <div className={'input-field' + (type === 'textarea' ? ' textarea' : '')}>
             <label htmlFor={name}>{label}</label>
-            {field}
+            {
+                type === 'textarea' ?
+                    (<textarea name={name} id={name} required></textarea>)
+                    : (<input type={type} required name={name} id={name} />)
+            }
         </div>
     );
 }
