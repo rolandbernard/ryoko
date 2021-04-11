@@ -1,6 +1,7 @@
 import Project from 'components/ui/Project';
 import ButtonLink from 'components/ui/ButtonLink';
 import Button from 'components/ui/Button';
+import TextInput from 'components/ui/TextInput';
 import './home.scss';
 
 import Logo from 'images/logo.svg';
@@ -149,6 +150,11 @@ export default function Home() {
                             to help you resolve the issue.
                     </p>
                         <form className="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
+                            <TextInput label="Fistname" name="firstname" />
+                            <TextInput label="Lastname" name="lastname" />
+                            <TextInput label="Email" name="email" type="email" />
+                            <TextInput label="Subject" name="subject" />
+                            <TextInput label="Message" name="message" type="textarea" />
                             <div className="button-container">
                                 <Button type="submit">Send</Button>
                             </div>

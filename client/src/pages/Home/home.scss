@@ -69,7 +69,7 @@ header {
             height: calc(100vh - 0.5rem);
         }
 
-        @include mx.breakpoint(large) {
+        @include mx.breakpoint(xlarge) {
             height: calc(100vh - 6rem);
         }
 

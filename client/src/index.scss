@@ -20,7 +20,7 @@ body {
     position: relative;
     background: linear-gradient(to left, #e2e2e2 0%, #e6e6e6 100%);
 
-    @include mx.breakpoint(large) {
+    @include mx.breakpoint(xlarge) {
         padding: 5rem 0;
     }
 }
