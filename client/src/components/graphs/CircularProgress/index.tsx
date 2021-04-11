@@ -25,8 +25,8 @@ export default function CircularProgress({ percent }: Props) {
                     <linearGradient xmlns="http://www.w3.org/2000/svg" id="gradient"
                         x1="37.0361" y1="73.1719" x2="36.5" y2="0.500001"
                         gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#AC42FF" />
-                        <stop offset="1" stop-color="#F15154" />
+                        <stop stopColor="#AC42FF" />
+                        <stop offset="1" stopColor="#F15154" />
                     </linearGradient>
                 </defs>
             </svg>
