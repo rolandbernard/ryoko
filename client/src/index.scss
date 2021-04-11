@@ -1,3 +1,4 @@
+
 @use 'styles/settings'as s;
 @use 'styles/mixins' as mx;
 @use 'styles/functions'as fn;
@@ -48,12 +49,7 @@ a {
     padding: 20px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-weight: s.$weight-bold;
 }
 
@@ -103,3 +99,4 @@ h4 {
         margin-bottom: fn.toRem(16);
     }
 }
+

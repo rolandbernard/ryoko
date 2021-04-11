@@ -1,17 +1,19 @@
 
-import React from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Home from 'pages/Home';
-import Login from 'pages/Login';
+const Home = lazy(() => import('pages/Home'));
+const Login = lazy(() => import('pages/Login'));
 
 export default function App() {
     return (
         <Router>
-            <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/" component={Home} />
-            </Switch>
+            <Suspense fallback={false}>
+                <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/" component={Home} />
+                </Switch>
+            </Suspense>
         </Router>
     );
 }

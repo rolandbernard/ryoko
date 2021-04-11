@@ -1,3 +1,4 @@
+
 @use 'styles/settings.scss'as s;
 @use 'styles/mixins.scss'as mx;
 @use 'styles/functions.scss'as fn;
@@ -139,7 +140,7 @@ header {
 
                 .inner {
                     padding-bottom: 177.77777777778%;
-                    background: url('../../img/screen-design.jpg');
+                    background: url('/images/screen-design.jpg');
                     background-size: 100% auto;
                     background-repeat: no-repeat;
                     background-position: top left;

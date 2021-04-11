@@ -6,7 +6,6 @@ import App from 'App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-import 'styles/fonts.css';
 import 'index.scss';
 
 ReactDOM.render(
