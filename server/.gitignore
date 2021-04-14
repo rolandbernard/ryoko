@@ -10,3 +10,7 @@
 # production
 /build
 
+# database
+*.db
+*.sqlite3
+
