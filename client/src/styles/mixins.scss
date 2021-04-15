@@ -1,0 +1,15 @@
+@use 'functions.scss'as fn;
+@use 'settings.scss'as s;
+
+@mixin breakpoint($bp) {
+    @if type-of($bp)==string {
+        $bp: fn.getFrom(s.$breakpoints, $bp);
+    } @else {
+        $bp: $bp + 0px;
+    }
+    
+
+    @media screen and (min-width: $bp) {
+        @content;
+    }
+}

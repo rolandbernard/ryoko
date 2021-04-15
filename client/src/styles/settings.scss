@@ -1,0 +1,42 @@
+
+// Colors
+$primary: #AC42FF;
+$secondary: #F15154;
+$accent: #7DEFFF;
+$light: #f0f0f0;
+$dark: #1f1f1f;
+
+$white: #fff;
+$black: #000;
+
+$colors: (
+   'primary': $primary,
+   'secondary': $secondary,
+   'light': $light,
+   'dark': $dark
+);
+
+$linear-gradient: linear-gradient(to top, $primary, $secondary);
+$radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, $secondary 100%);
+
+$body-color: #3A5255;
+$body-font: 'Poppins', sans-serif;
+
+// Typography
+$weight-light: 300;
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semi-bold: 600;
+$weight-bold: 700;
+
+// Breakpoints
+$breakpoints: (
+    'small': 480px,
+    'medium': 860px,
+    'large': 1400px,
+    'xlarge': 1640px
+);
+
+// General
+$transition: 300ms ease;
+
