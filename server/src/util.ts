@@ -3,10 +3,10 @@ import { readFile } from 'fs';
 
 export const isOfType = <T>(
     varToBeChecked: any,
-    propertyToCheckFor: (keyof T)[]
+    propertyToCheckFor: [(keyof T), string][]
 ): varToBeChecked is T => {
-    for (const key of propertyToCheckFor) {
-        if (!(varToBeChecked as T)[key]) {
+    for (const [key, type] of propertyToCheckFor) {
+        if (typeof (varToBeChecked as T)[key] !== type) {
             return false;
         }
     }

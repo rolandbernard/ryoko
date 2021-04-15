@@ -16,7 +16,7 @@ interface RegisterBody {
 }
 
 auth.post('/register', async (req, res) => {
-    if (isOfType<RegisterBody>(req.body, ['username', 'password'])) {
+    if (isOfType<RegisterBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: RegisterBody = req.body;
         const id = uuid();
         const passwdHash = await hash(body.password, 10);
@@ -30,6 +30,7 @@ auth.post('/register', async (req, res) => {
                 status: 'success',
             });
         } catch (e) {
+            // Fails if unique constraint for username is not met
             res.status(400).json({
                 status: 'error',
                 message: 'failed to create user',
@@ -49,7 +50,7 @@ interface TokenBody {
 }
 
 auth.post('/token', async (req, res) => {
-    if (isOfType<TokenBody>(req.body, ['username', 'password'])) {
+    if (isOfType<TokenBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: TokenBody = req.body;
         try {
             const user = await database('users').where({ user_name: body.username });
@@ -89,6 +90,8 @@ auth.post('/token', async (req, res) => {
     }
 });
 
+auth.use(requireVerification);
+
 auth.get("/extend", async function (req, res) {
     if (req.body?.token) {
         const token = await asyncify(sign, {
@@ -112,8 +115,10 @@ export async function tokenVerification(req: Request, res: Response, next: NextF
     if (header) {
         const bearer = header.split(' ');
         token = bearer[1];
-    } else if (req.body?.token) {
-        token = req.body?.token;
+    } else if (!req.body) {
+        req.body = {};
+    } else if (req.body.token) {
+        token = req.body.token;
     }
     if (token) {
         try {
@@ -128,6 +133,17 @@ export async function tokenVerification(req: Request, res: Response, next: NextF
         }
     } else {
         next();
+    }
+}
+
+export function requireVerification(req: Request, res: Response, next: NextFunction) {
+    if (req.body.token) {
+        next();
+    } else {
+        res.status(403).json({
+            status: 'error',
+            message: 'authentication failed',
+        });
     }
 }
 

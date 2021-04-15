@@ -12,12 +12,16 @@ app.use(bodyJson());
 app.use('/v1', v1);
 
 app.use((_req, res) => {
-    res.sendStatus(404);
+    res.status(404).json({
+        status: 'error',
+        message: 'unknown resource',
+    });
 });
 
 app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
     return res.status(400).json({
         status: 'error',
+        message: 'unknown error',
     });
 });
 
