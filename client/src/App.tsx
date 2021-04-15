@@ -16,9 +16,9 @@ export default function App() {
         <Router>
             <Suspense fallback={false}>
                 <Switch>
-                    <ProtectedRoute path="/tasks" component={Tasks} />
-                    <ProtectedRoute path="/projects" component={Projects} />
-                    <ProtectedRoute path="/stats" component={Stats} />
+                    <ProtectedRoute path="/tasks" component={<Tasks />} />
+                    <ProtectedRoute path="/projects" component={<Projects />} />
+                    <ProtectedRoute path="/stats" component={<Stats />} />
                     <LoginRoute path="/login" component={Login} />
                     <LoginRoute path="/register" component={Register} />
                     <Route path="/" component={Home} />
