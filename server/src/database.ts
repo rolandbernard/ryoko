@@ -1,15 +1,11 @@
 
 import knex from 'knex';
 
-const database = knex({
-    client: 'sqlite3',
-    connection: {
-        filename: './database.db'
-    }
-});
+import { environment } from './config';
+import config from './knexconfig';
+
+const database = knex(config[environment]);
 database.migrate.latest();
 
-export default function getDatabase() {
-    return database;
-}
+export default database;
 
