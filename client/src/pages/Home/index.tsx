@@ -29,6 +29,7 @@ export default function Home() {
                             <div className="inner">
                             </div>
                         </div>
+                    </div>
                     <div className="content-container">
                         <div className="text-container">
                             <h1>ryoko</h1>
