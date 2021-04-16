@@ -35,7 +35,7 @@ export default function Home() {
                                 <h1>ryoko</h1>
                                 <p>Are you feeling lost with your tasks? Maximize your productivity now with ryoko.</p>
                                 <div className="button-container">
-                                    <ButtonLink href="/register" routing={true}>Get started</ButtonLink>
+                                    <ButtonLink href="/tasks" routing={true}>Get started</ButtonLink>
                                 </div>
                             </div>
                         </div>

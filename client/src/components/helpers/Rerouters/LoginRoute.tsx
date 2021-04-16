@@ -10,7 +10,7 @@ export default function LoginRoute(props: RouteProps) {
             if (history.length === 0) {
                 history.push('/tasks');
             } else {
-                history.goBack();;
+                history.goBack();
             }
         }
     })
