@@ -1,24 +1,27 @@
 
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { isLoggedIn } from 'adapters/api';
+import ProtectedRoute from 'components/helpers/Rerouters/ProtectedRoute'; 
+import LoginRoute from 'components/helpers/Rerouters/LoginRoute'; 
 
 const Home = lazy(() => import('pages/Home'));
 const Login = lazy(() => import('pages/Login'));
 const Register = lazy(() => import('pages/Register'));
 const Tasks = lazy(() => import('pages/Tasks'));
-const Navigation = lazy(() => import('components/ui/Navigation'));
+const Projects = lazy(() => import('pages/Projects'));
+const Stats = lazy(() => import('pages/Stats'));
 
 export default function App() {
     return (
         <Router>
             <Suspense fallback={false}>
-                {isLoggedIn() && <Navigation />}
                 <Switch>
-                    {!isLoggedIn() && <Route path="/register" component={Register} />}
-                    {!isLoggedIn() && <Route exact path="/" component={Home} />}
-                    {!isLoggedIn() && <Route path="/" component={Login} />}
-                    <Route path="/" component={Tasks} />
+                    <ProtectedRoute path="/tasks" component={<Tasks />} />
+                    <ProtectedRoute path="/projects" component={<Projects />} />
+                    <ProtectedRoute path="/stats" component={<Stats />} />
+                    <LoginRoute path="/login" component={Login} />
+                    <LoginRoute path="/register" component={Register} />
+                    <Route path="/" component={Home} />
                 </Switch>
             </Suspense>
         </Router>

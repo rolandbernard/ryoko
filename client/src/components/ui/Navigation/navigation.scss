@@ -1,0 +1,54 @@
+@use 'styles/settings.scss'as s;
+
+.site-nav {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .background {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        max-width: 100%;
+        height: auto;
+        z-index: -1;
+    }
+
+    .nav-link {
+        color: s.$body-color;
+        position: relative;
+        padding: 10px 30px;
+        display: flex;
+
+        .icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .label {
+            position: absolute;
+            opacity: 0;
+            font-size: 12px;
+            top: 50%;
+            left: 60px;
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        &.active {
+            padding-right: 60px;
+            .icon {
+                font-family: 'Material Icons';
+            }
+
+            .label {
+                opacity: 1;
+            }
+        }
+    }
+}
