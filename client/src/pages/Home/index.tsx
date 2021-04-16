@@ -11,7 +11,7 @@ import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 export default function Home() {
     return (<>
-        <Page>
+        <Page header={false}>
             <section className="hero-section" id="hero">
                 <div className="hero-container">
                     <header>
@@ -152,7 +152,7 @@ export default function Home() {
                     <form className="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
                         <TextInput label="Fistname" name="firstname" />
                         <TextInput label="Lastname" name="lastname" />
-                        <TextInput label="Email" name="email" type="email" />
+                        <TextInput label="Email" name="email" />
                         <TextInput label="Subject" name="subject" />
                         <TextInput label="Message" name="message" type="textarea" />
                         <div className="button-container">

@@ -1,4 +1,3 @@
-
 @use 'styles/settings.scss'as s;
 @use 'styles/mixins.scss'as mx;
 @use 'styles/functions.scss'as fn;
@@ -391,6 +390,16 @@ header {
         max-width: 960px;
         margin-left: auto;
         margin-right: auto;
+
+        .input-element {
+            @include mx.breakpoint(medium) {
+                width: 50%;
+            }
+
+            &.textarea {
+                width: 100%;
+            }
+        }
 
         .submit-button {
             appearance: none;

@@ -1,15 +1,18 @@
 
 import express, { Request, Response, NextFunction } from 'express';
 import { json as bodyJson } from 'body-parser';
+import cors from 'cors';
 
 import v1 from './v1';
 
 const app = express();
 const PORT = 8000;
 
+app.use(cors());
 app.use(bodyJson());
 
 app.use('/v1', v1);
+
 
 app.use((_req, res) => {
     res.status(404).json({
