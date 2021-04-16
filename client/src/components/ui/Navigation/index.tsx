@@ -7,6 +7,7 @@ import background from 'images/svg/nav-bg.svg';
 export default function Navigation() {
     return (
         <nav className="site-nav">
+            <img src={background} alt="Background" className="background" />
             <NavLink to="/tasks" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
                     home
@@ -25,7 +26,6 @@ export default function Navigation() {
                 </span>
                 <span className="label">Stats</span>
             </NavLink>
-            <img src={background} alt="Background" className="background" />
         </nav>
     );
 }
