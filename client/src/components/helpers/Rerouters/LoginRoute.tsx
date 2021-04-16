@@ -1,19 +1,21 @@
-import { ComponentType } from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { isLoggedIn } from 'adapters/api';
 
-interface Props {
-    path: string,
-    exact?: boolean,
-    component: ComponentType<any>
-}
-export default function ProtectedRoute({ path, exact, component }: Props) {
-    if (!isLoggedIn()) {
-        return (
-            <Route path={path} exact={exact} component={component} />
-        );
-    }
+import { Route, RouteProps, useHistory } from 'react-router-dom';
+import { isLoggedIn } from 'adapters/api';
+import { useEffect } from 'react';
+
+export default function LoginRoute(props: RouteProps) {
+    const history = useHistory();
+    useEffect(() => {
+        if (isLoggedIn()) {
+            if (history.length === 0) {
+                history.push('/tasks');
+            } else {
+                history.goBack();;
+            }
+        }
+    })
     return (
-        <Redirect to="/tasks"/>
+        <Route {...props} />
     );
 }
+

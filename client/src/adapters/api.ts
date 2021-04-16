@@ -1,1 +1,5 @@
-export const isLoggedIn = (): boolean => true;
+
+export function isLoggedIn() {
+    return true;
+}
+

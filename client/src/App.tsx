@@ -1,6 +1,6 @@
 
 import { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route,  } from 'react-router-dom';
 import ProtectedRoute from 'components/helpers/Rerouters/ProtectedRoute'; 
 import LoginRoute from 'components/helpers/Rerouters/LoginRoute'; 
 
@@ -16,9 +16,9 @@ export default function App() {
         <Router>
             <Suspense fallback={false}>
                 <Switch>
-                    <ProtectedRoute path="/tasks" component={<Tasks />} />
-                    <ProtectedRoute path="/projects" component={<Projects />} />
-                    <ProtectedRoute path="/stats" component={<Stats />} />
+                    <ProtectedRoute path="/tasks" component={Tasks} />
+                    <ProtectedRoute path="/projects" component={Projects} />
+                    <ProtectedRoute path="/stats" component={Stats} />
                     <LoginRoute path="/login" component={Login} />
                     <LoginRoute path="/register" component={Register} />
                     <Route path="/" component={Home} />
