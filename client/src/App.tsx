@@ -2,7 +2,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route,  } from 'react-router-dom';
 
-import LoginRoute from 'components/helpers/Rerouters/LoginRoute'; 
+import LoginRoute from 'components/helpers/LoginRoute'; 
 import AppWrapper from 'pages/AppWrapper'; 
 
 const Home = lazy(() => import('pages/Home'));

@@ -1,7 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 
-import ProtectedRoute from 'components/helpers/Rerouters/ProtectedRoute'; 
+import ProtectedRoute from 'components/helpers/ProtectedRoute'; 
 import Header from 'components/ui/Header';
 import Navigation from 'components/ui/Navigation';
 
