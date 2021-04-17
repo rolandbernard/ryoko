@@ -69,7 +69,7 @@ auth.post('/register', async (req, res) => {
             const token = await generateToken({ id: id });
             await database('users').insert({
                 id: id,
-                user_name: body.username,
+                user_name: body.username.trim(),
                 passwd_hash: passwdHash,
                 email: body.email ?? null,
                 real_name: body.realname ?? null,
@@ -102,7 +102,7 @@ auth.post('/token', async (req, res) => {
     if (isOfType<TokenBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: TokenBody = req.body;
         try {
-            const user = await database('users').where({ user_name: body.username });
+            const user = await database('users').where({ user_name: body.username.trim() });
             if (user.length === 1) {
                 if (await compare(body.password, user[0].passwd_hash)) {
                     const token = await generateToken({ id: user[0].id });
@@ -165,7 +165,7 @@ auth.put("/username", async function (req, res) {
         const body: UsernameBody = req.body;
         try {
             await database('users').update({
-                user_name: body.username,
+                user_name: body.username.trim(),
             }).where({
                 id: body.token.id,
             });
