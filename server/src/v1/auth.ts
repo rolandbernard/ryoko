@@ -109,7 +109,7 @@ auth.get("/extend", async function (req, res) {
     }
 });
 
-export async function tokenVerification(req: Request, res: Response, next: NextFunction) {
+export async function tokenVerification(req: Request, _res: Response, next: NextFunction) {
     const header = req.headers?.authorization;
     let token: string | null = null;
     if (header) {
@@ -124,13 +124,10 @@ export async function tokenVerification(req: Request, res: Response, next: NextF
         try {
             const decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
             req.body.token = decoded;
-            next();
         } catch (err) {
-            res.status(403).json({
-                status: 'error',
-                message: 'authentication failed',
-            });
+            delete req.body.token;
         }
+        next();
     } else {
         next();
     }
