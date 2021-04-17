@@ -8,9 +8,7 @@ export const keys = {
     public: '/etc/ssl/localcerts/cert.pem',
 };
 
-export const headers = {
-    'Access-Control-Allow-Origin': '*',
-};
+export const allowedOrigins = [ "*" ];
 
 export const environment = (env.NODE_ENV ?? 'development') as ('development' | 'staging' | 'production');
 
