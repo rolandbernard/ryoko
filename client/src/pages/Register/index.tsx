@@ -7,20 +7,17 @@ import { registerUser } from 'adapters/api';
 import './register.scss';
 
 function usernameIsValid(username: string) {
-    return (username && username.length > 3);
+    return (username && username.length > 3) ? null : 'Username has to be at least 4 characters long.';
 }
 
 function passwordIsValid(password: string) {
-    return (password && password.length > 5);
+    return (password && password.length > 5) ? null : 'Password has to be at least 6 characters long';
 }
 
 export default function Register() {
     const [username, setUsername] = useState<string>('');
-    const [usernameError, setUsernameError] = useState<string>('');
-
     const [password, setPassword] = useState<string>('');
-    const [passwordError, setPasswordError] = useState<string>('');
-    
+
     const history = useHistory();
 
 
@@ -28,28 +25,11 @@ export default function Register() {
         e.preventDefault();
 
         if (usernameIsValid(username) && passwordIsValid(password)) {
-            setPasswordError('');
-            setUsernameError('');
-
-            
             await registerUser(username, password).then((data) => {
-                console.log(data);
-                
                 history.push('/tasks');
             }).catch(() => {
-                setUsernameError('This username is already used.');
             });
 
-        } else {
-            if (!usernameIsValid(username))
-                setUsernameError('Your username has to be at least 4 characters long');
-            else
-                setUsernameError('');
-
-            if (!passwordIsValid(password))
-                setPasswordError('Your password has to be at least 6 characters long');
-            else
-                setPasswordError('');
         }
     }
 
@@ -62,16 +42,16 @@ export default function Register() {
                         label="Username"
                         name="username"
                         color="dark"
-                        valueSetter={setUsername}
-                        error={usernameError}
+                        onChange={setUsername}
+                        validateFn={usernameIsValid}
                     />
                     <TextInput
                         label="Password"
                         name="password"
                         color="dark"
                         type="password"
-                        valueSetter={setPassword}
-                        error={passwordError}
+                        onChange={setPassword}
+                        validateFn={passwordIsValid}
                     />
                     <Button type="submit">
                         Register now

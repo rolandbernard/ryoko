@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch } from "react";
+import React, { ChangeEvent, Dispatch, FocusEvent, useState } from "react";
 
 import './text-input.scss';
 
@@ -7,17 +7,28 @@ interface Props {
     name: string,
     color?: 'dark'
     type?: 'password' | 'textarea' | 'text',
-    valueSetter?: Dispatch<string>,
-    error?: string
+    onChange: Dispatch<string>,
+    validateFn: (arg0: string) => string | null;
 }
 
-export default function TextInput({ label, name, type, color, valueSetter, error }: Props) {
+export default function TextInput({ label, name, type, color, onChange, validateFn }: Props) {
+    const [error, setError] = useState('');
 
     type = type ?? 'text';
 
     const setValue = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
-        if (valueSetter)
-            valueSetter(e.target.value);
+        onChange(e.target.value);
+    }
+
+    const validateField = (e: FocusEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+        if (validateFn) {
+            let error = validateFn(e.target.value);
+            
+            if (error)
+                setError(error);
+            else
+                setError('');
+        }
     }
 
     const errorTag = error ? (<div className="error">{error}</div>) : null;
@@ -28,8 +39,8 @@ export default function TextInput({ label, name, type, color, valueSetter, error
                 <label htmlFor={name}>{label}</label>
                 {
                     type === 'textarea' ?
-                        (<textarea onChange={(e) => setValue(e)} name={name} id={name}></textarea>)
-                        : (<input onChange={(e) => setValue(e)} type={type} name={name} id={name} />)
+                        (<textarea onChange={setValue} name={name} id={name} onBlur={validateField}></textarea>)
+                        : (<input onChange={setValue} type={type} name={name} id={name} onBlur={validateField} />)
                 }
             </div >
             {errorTag}
