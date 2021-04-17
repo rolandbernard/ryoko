@@ -21,20 +21,23 @@ export function setAccesstoken(token: string): void {
     localStorage.setItem('access-token', token);
 }
 
-export function registerUser(username: string, password: string): boolean {
-    axios.post(`${baseUrl}/auth/register`, {
-        username: username,
-        password: password
-    }).then(() => {
-        axios.post(`${baseUrl}/auth/token`, {
+export function registerUser(username: string, password: string) {
+    return new Promise(function (resolve, reject) {
+        axios.post(`${baseUrl}/auth/register`, {
             username: username,
             password: password
-        }).then(({ data }) => {
-            setAccesstoken(data.token);
-            return true;
-        }).catch(() => {
+        }).then(() => {
+            axios.post(`${baseUrl}/auth/token`, {
+                username: username,
+                password: password
+            }).then(({ data }) => {
+                setAccesstoken(data.token);
+                resolve(true);
+            }).catch((e) => {
+                reject(e);
+            });
+        }).catch((e) => {
+            reject(e);
         });
-    }).catch(() => {
-    });
-    return false;
+    })
 }

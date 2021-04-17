@@ -2,7 +2,7 @@ import Page from 'components/ui/Page';
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { registerUser } from 'adapters/api';
 import './register.scss';
 
@@ -20,19 +20,26 @@ export default function Register() {
 
     const [password, setPassword] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
+    
+    const history = useHistory();
 
 
-    const register = (e: FormEvent) => {
+    const register = async (e: FormEvent) => {
         e.preventDefault();
 
         if (usernameIsValid(username) && passwordIsValid(password)) {
             setPasswordError('');
             setUsernameError('');
 
-            if (registerUser(username, password)) {
-                console.log('success');
-            }
             
+            await registerUser(username, password).then((data) => {
+                console.log(data);
+                
+                history.push('/tasks');
+            }).catch(() => {
+                setUsernameError('This username is already used.');
+            });
+
         } else {
             if (!usernameIsValid(username))
                 setUsernameError('Your username has to be at least 4 characters long');
