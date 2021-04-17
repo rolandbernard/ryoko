@@ -1,4 +1,6 @@
+
 import { ReactNode } from 'react';
+
 import Header from 'components/ui/Header';
 import './page.scss';
 
@@ -19,3 +21,4 @@ export default function Page({ children, className, header }: Props) {
         </>
     );
 }
+

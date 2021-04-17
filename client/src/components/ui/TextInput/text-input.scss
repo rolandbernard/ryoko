@@ -1,3 +1,4 @@
+
 @use 'styles/settings.scss'as s;
 @use 'styles/mixins.scss'as mx;
 
@@ -8,6 +9,7 @@
         color: s.$error-color;
         margin-top: 10px;
         padding-left: 15px;
+        height: 1rem;
     }
 
     .input-field {
@@ -16,7 +18,6 @@
         width: 100%;
 
         &.dark {
-
             textarea,
             input {
                 color: s.$body-color;
@@ -24,10 +25,8 @@
             }
 
             &:before {
-
                 background: rgba(0, 0, 0, 0.05);
             }
-
         }
 
         &:before {
@@ -49,7 +48,6 @@
             font-weight: s.$weight-bold;
             z-index: 20;
             transform: translateY(-50%);
-
         }
 
         textarea {
@@ -75,3 +73,4 @@
         }
     }
 }
+
