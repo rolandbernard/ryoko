@@ -1,4 +1,6 @@
 
+import { env } from 'process';
+
 export const port = 8000;
 
 export const keys = {
@@ -10,5 +12,5 @@ export const headers = {
     'Access-Control-Allow-Origin': '*',
 };
 
-export const environment = "development";
+export const environment = (env.NODE_ENV ?? 'development') as ('development' | 'staging' | 'production');
 
