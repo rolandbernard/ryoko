@@ -2,7 +2,6 @@
 import express from 'express';
 
 import database from '../database';
-import { isOfType } from '../util';
 import { requireVerification } from './auth';
 
 const user = express();

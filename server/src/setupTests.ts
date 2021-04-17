@@ -1,3 +1,3 @@
 
-// Setup the testing environment right here
+import '@testing-library/jest-dom';
 

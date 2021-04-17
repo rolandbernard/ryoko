@@ -2,11 +2,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { json as bodyJson } from 'body-parser';
 
+import { port } from './config';
+import { addDefaultHeaders } from './headers';
 import v1 from './v1';
 
 const app = express();
-const PORT = 8000;
 
+app.use(addDefaultHeaders);
 app.use(bodyJson());
 
 app.use('/v1', v1);
@@ -25,7 +27,7 @@ app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`[server] Server is running at https://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`[server] Server is running at https://localhost:${port}`);
 });
 
