@@ -39,7 +39,7 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
 }
 
 export function requireVerification(req: Request, res: Response, next: NextFunction) {
-    if (req.body.token) {
+    if (req.body?.token) {
         next();
     } else {
         res.status(403).json({
@@ -111,13 +111,13 @@ auth.post('/token', async (req, res) => {
                         token: token,
                     });
                 } else {
-                    res.status(400).json({
+                    res.status(403).json({
                         status: 'error',
                         message: 'wrong username or password',
                     });
                 }
             } else {
-                res.status(400).json({
+                res.status(404).json({
                     status: 'error',
                     message: 'username not found',
                 });
@@ -139,20 +139,13 @@ auth.post('/token', async (req, res) => {
 auth.use(requireVerification);
 
 auth.get("/extend", async function (req, res) {
-    if (req.body?.token) {
-        const token = await asyncify(sign, {
-            id: req.body.token.id,
-        }, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
-        res.status(200).json({
-            status: 'success',
-            token: token,
-        });
-    } else {
-        res.status(403).json({
-            status: 'error',
-            message: 'authentication failed',
-        });
-    }
+    const token = await asyncify(sign, {
+        id: req.body.token.id,
+    }, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
+    res.status(200).json({
+        status: 'success',
+        token: token,
+    });
 });
 
 interface UsernameBody {
@@ -164,14 +157,21 @@ auth.put("/username", async function (req, res) {
     if (isOfType<UsernameBody>(req.body, [['username', 'string']])) {
         const body: UsernameBody = req.body;
         try {
-            await database('users').update({
+            const count = await database('users').update({
                 user_name: body.username.trim(),
             }).where({
                 id: body.token.id,
             });
-            res.status(200).json({
-                status: 'success',
-            });
+            if (count == 1) {
+                res.status(200).json({
+                    status: 'success',
+                });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'user not found',
+                });
+            }
         } catch (e) {
             // Fails if unique constraint for username is not met
             res.status(400).json({
@@ -197,14 +197,21 @@ auth.put("/password", async function (req, res) {
         const body: PasswordBody = req.body;
         try {
             const passwdHash = await hash(body.password, 10);
-            await database('users').update({
+            const count = await database('users').update({
                 passwd_hash: passwdHash
             }).where({
                 id: body.token.id,
             });
-            res.status(200).json({
-                status: 'success',
-            });
+            if (count == 1) {
+                res.status(200).json({
+                    status: 'success',
+                });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'user not found',
+                });
+            }
         } catch (e) {
             res.status(400).json({
                 status: 'error',

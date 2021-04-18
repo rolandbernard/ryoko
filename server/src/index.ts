@@ -20,14 +20,14 @@ app.use((_req, res) => {
     });
 });
 
-app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     return res.status(400).json({
         status: 'error',
-        message: 'unknown error',
+        message: err.message,
     });
 });
 
 app.listen(port, () => {
-    console.log(`[server] Server is running at https://localhost:${port}`);
+    console.log(`[server] Server is running at http://localhost:${port}`);
 });
 

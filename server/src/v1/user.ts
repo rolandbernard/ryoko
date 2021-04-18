@@ -113,13 +113,13 @@ user.get('/:uuid', async (req, res) => {
         const id = req.params.uuid;
         if (validate(id)) {
             const user = await database('users')
-            .select({
-                id: 'id',
-                username: 'user_name',
-                email: 'email',
-                realname: 'real_name',
-            })
-            .where({ id: id });
+                .select({
+                    id: 'id',
+                    username: 'user_name',
+                    email: 'email',
+                    realname: 'real_name',
+                })
+                .where({ id: id });
             if (user.length === 1) {
                 res.status(200).json({
                     status: 'success',
