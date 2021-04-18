@@ -11,7 +11,7 @@ import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 export default function Home() {
     return (<>
-        <Page header={false}>
+        <Page className="landing-page" header={false}>
             <section className="hero-section" id="hero">
                 <div className="hero-container">
                     <header>

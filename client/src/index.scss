@@ -53,6 +53,7 @@ h6 {
 h1 {
     font-size: fn.toRem(36);
     margin-bottom: fn.toRem(20);
+    font-weight: s.$weight-xbold;
 
     &.underlined {
         position: relative;
@@ -61,16 +62,17 @@ h1 {
         &:after {
             content: ' ';
             position: absolute;
-            right: -10px;
-            bottom: 10px;
+            right: -7px;
+            bottom: 5px;
             width: 90px;
             background: rgba(s.$accent, .5);
-            height: 16px;
+            height: 20px;
             z-index: -1;
 
             @include mx.breakpoint(large) {
                 height: 24px;
                 width: 120px;
+                bottom: 10px;
             }
 
         }
@@ -130,16 +132,22 @@ h4 {
     overflow: hidden;
 
     .bubble {
-        width: 400px;
-        height: 400px;
+        width: 300px;
+        height: 300px;
         position: absolute;
-        filter: blur(200px);
-        opacity: 0.75;
+        filter: blur(150px);
+        opacity: 0.5;
 
+        @include mx.breakpoint(medium) {
+            width: 400px;
+            height: 400px;
+            filter: blur(300px);
+            opacity: 0.6;
+        }
+        
         @include mx.breakpoint(large) {
             width: 500px;
             height: 500px;
-            filter: blur(200px);
         }
 
         &.secondary {

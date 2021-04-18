@@ -10,10 +10,10 @@ interface Props {
 export default function RegisterForm({ onSubmit }: Props) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    
+
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-            onSubmit?.(username, password);
+        onSubmit?.(username, password);
     }, [onSubmit, password, username]);
 
     return (
