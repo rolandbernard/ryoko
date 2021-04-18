@@ -17,16 +17,22 @@ export default function Register() {
                 history.push('/tasks');
             }
         } catch (e) { }
-    }, [ history ]);
+    }, [history]);
 
     return (
-        <Page header={false}>
-            <div className="content-container">
-                <h1>Register</h1>
-                <RegisterForm onSubmit={handleSubmit} />
-                <Link to="/login">You already have an account?</Link>
+        <div className="register-page-container">
+            <Page className="register-page" header={false}>
+                <div className="content-container">
+                    <h1 className="underlined">Register</h1>
+                    <RegisterForm onSubmit={handleSubmit} />
+                    <Link className="link" to="/login">You already have an account?</Link>
+                </div>
+            </Page>
+            <div className="background-container">
+                <div className="bubble primary" style={{ top: '-10%', right: '-20%' }}></div>
+                <div className="bubble accent" style={{ bottom: '-20%', left: '-20%' }}></div>
             </div>
-        </Page>
+        </div>
     );
 }
 

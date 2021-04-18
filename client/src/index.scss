@@ -1,6 +1,5 @@
-
 @use 'styles/settings'as s;
-@use 'styles/mixins' as mx;
+@use 'styles/mixins'as mx;
 @use 'styles/functions'as fn;
 
 * {
@@ -42,7 +41,12 @@ a {
     padding: 30px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: s.$weight-bold;
 }
 
@@ -50,9 +54,31 @@ h1 {
     font-size: fn.toRem(36);
     margin-bottom: fn.toRem(20);
 
+    &.underlined {
+        position: relative;
+        display: inline-block;
+
+        &:after {
+            content: ' ';
+            position: absolute;
+            right: -10px;
+            bottom: 10px;
+            width: 90px;
+            background: rgba(s.$accent, .5);
+            height: 16px;
+            z-index: -1;
+
+            @include mx.breakpoint(large) {
+                height: 24px;
+                width: 120px;
+            }
+
+        }
+    }
+
     @include mx.breakpoint(large) {
         font-size: fn.toRem(48);
-        margin-bottom: fn.toRem(40);
+        margin-bottom: fn.toRem(28);
     }
 }
 
@@ -93,3 +119,39 @@ h4 {
     }
 }
 
+
+.background-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+
+    .bubble {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        filter: blur(200px);
+        opacity: 0.75;
+
+        @include mx.breakpoint(large) {
+            width: 500px;
+            height: 500px;
+            filter: blur(200px);
+        }
+
+        &.secondary {
+            background: s.$secondary;
+        }
+
+        &.primary {
+            background: s.$primary;
+        }
+
+        &.accent {
+            background: s.$accent;
+        }
+    }
+}

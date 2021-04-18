@@ -8,21 +8,22 @@ interface Props {
     name: string,
     color?: 'dark'
     type?: 'password' | 'textarea' | 'text',
+    compareValue?: string,
     onChange: Dispatch<string>,
-    validation: (text: string) => Promise<string | null> | string | null;
+    validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
 }
 
-export default function TextInput({ label, name, type, color, onChange, validation }: Props) {
+export default function TextInput({ label, name, type, color, onChange, validation, compareValue }: Props) {
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         onChange(e.target.value);
-    }, [ onChange ]);
+    }, [onChange]);
 
     const handleBlur = useCallback(async (e: FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        let error = await validation?.(e.target.value);
+        let error = await validation?.(e.target.value, compareValue ?? '');
         setError(error ?? '');
-    }, [ validation ]);
+    }, [validation, compareValue]);
 
     return (
         <div className={'input-element' + (type === 'textarea' ? ' textarea' : '')}>
@@ -31,10 +32,10 @@ export default function TextInput({ label, name, type, color, onChange, validati
                 {
                     type === 'textarea' ?
                         (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} />)
-                        : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} autoComplete="off"/>)
+                        : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} autoComplete="off" />)
                 }
             </div >
-            <div className="error">{error}</div>
+            {error && (<div className="error">{error}</div>)}
         </div>
     );
 }

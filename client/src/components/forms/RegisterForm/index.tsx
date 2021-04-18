@@ -18,13 +18,20 @@ async function validateUsername(username: string) {
 }
 
 function validatePassword(password: string) {
-    if (password?.length < 3) {
+    if (password?.length < 6) {
         return 'Password has to be at least 6 characters long';
     } else {
         return null;
     }
 }
 
+function validateRepeatPassword(password: string, password2: string) {
+    if (password !== password2) {
+        return 'The passwords are not the same.';
+    } else {
+        return null;
+    }
+}
 interface Props {
     onSubmit?: (username: string, password: string) => void
 }
@@ -32,16 +39,17 @@ interface Props {
 export default function RegisterForm({ onSubmit }: Props) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        if (await validateUsername(username) === null && validatePassword(password) === null) {
+        if (await validateUsername(username) === null && validatePassword(password) === null && validateRepeatPassword(repeatedPassword, password) === null) {
             onSubmit?.(username, password);
         }
-    }, [ onSubmit, password, username ]);
+    }, [onSubmit, password, username, repeatedPassword]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="register-form" onSubmit={handleSubmit}>
             <TextInput
                 label="Username"
                 name="username"
@@ -56,6 +64,15 @@ export default function RegisterForm({ onSubmit }: Props) {
                 type="password"
                 onChange={setPassword}
                 validation={validatePassword}
+            />
+            <TextInput
+                label="Repeat password"
+                name="repeat-password"
+                color="dark"
+                type="password"
+                onChange={setRepeatedPassword}
+                compareValue={password}
+                validation={validateRepeatPassword}
             />
             <Button type="submit">
                 Register now

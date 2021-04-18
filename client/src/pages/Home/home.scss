@@ -443,39 +443,3 @@ footer {
         }
     }
 }
-
-.background-container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    overflow: hidden;
-
-    .bubble {
-        width: 400px;
-        height: 400px;
-        position: absolute;
-        filter: blur(200px);
-        opacity: 0.75;
-
-        @include mx.breakpoint(large) {
-            width: 500px;
-            height: 500px;
-            filter: blur(200px);
-        }
-
-        &.secondary {
-            background: s.$secondary;
-        }
-
-        &.primary {
-            background: s.$primary;
-        }
-
-        &.accent {
-            background: s.$accent;
-        }
-    }
-}
