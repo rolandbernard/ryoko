@@ -1,0 +1,21 @@
+.task {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    border-radius: 5px;
+    background: rgba(#fff, .5);
+
+    .icon-container {
+        font-size: 36px;
+        margin-right: 15px;
+    }
+
+    h4 {
+        margin-bottom: 0;
+    }
+
+    .time {
+        opacity: .75;
+        font-size: 12px;
+    }
+}

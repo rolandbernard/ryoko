@@ -1,7 +1,6 @@
 import Project from 'components/ui/Project';
 import ButtonLink from 'components/ui/ButtonLink';
-import Button from 'components/ui/Button';
-//import TextInput from 'components/ui/TextInput';
+import ContactForm from 'components/forms/ContactForm';
 import Page from 'components/ui/Page';
 import './home.scss';
 
@@ -149,16 +148,7 @@ export default function Home() {
                         Do you still have a question? Just contact us directly and we will be glad
                         to help you resolve the issue.
                     </p>
-                    <form className="contact-form" action="mailto:dplanoetscher@unibz.it" method="GET">
-                        {/*                        <TextInput label="Fistname" name="firstname" />
-                        <TextInput label="Lastname" name="lastname" />
-                        <TextInput label="Email" name="email" />
-                        <TextInput label="Subject" name="subject" />
-    <TextInput label="Message" name="message" type="textarea" />*/}
-                        <div className="button-container">
-                            <Button type="submit">Send</Button>
-                        </div>
-                    </form>
+                    <ContactForm />
                 </div>
             </section>
             <footer>

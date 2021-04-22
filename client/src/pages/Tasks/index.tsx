@@ -1,4 +1,5 @@
 import Page from 'components/ui/Page';
+import Task from 'components/ui/Task';
 import './tasks.scss';
 
 export default function Tasks() {
@@ -9,6 +10,24 @@ export default function Tasks() {
                     <section className="intro-section">
                         <h1 className="underlined">Tasks</h1>
                         <p>Hey Daniel, you have <strong>10 tasks</strong> for today.</p>
+                    </section>
+                    <section className="tasks-container">
+                        <h2>Today</h2>
+                        <div className="hour-container">
+                            <h3>09:00</h3>
+                            <Task task={{
+                                 name: 'Create API Routes',
+                                 icon: '🌎',
+                                 start: 1619074800000,
+                                 end: 1619076600000
+                                 }} />
+                            <Task task={{
+                                 name: 'Create API Routes',
+                                 icon: '🌎',
+                                 start: 1619074800000,
+                                 end: 1619076600000
+                                 }} />
+                        </div>
                     </section>
                 </main>
             </Page>
