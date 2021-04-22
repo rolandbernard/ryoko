@@ -21,6 +21,8 @@ The source code for the repository is split into two parts. The backend code can
 `server` directory while the frontend code can be found inside the `client` directory. Both parts
 are managed using the `yarn` package manager, but can also be used with `npm` if necessary. The
 server and client parts also use the same commands for running building and testing.
+Before building or running you will have to make sure that you have installed all dependencies. This
+can be done by executing `yarn install` (or `npm install --legacy-peer-deps`).
 
 ### How to Run
 
