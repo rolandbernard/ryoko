@@ -10,12 +10,13 @@ const user = express();
 
 user.get('/name/:username', async (req, res) => {
     try {
+        const name = req.params.username.trim().toLowerCase();
         const user = await database('users')
             .select({
                 id: 'id',
                 username: 'user_name',
             })
-            .where({ username: req.params.username });
+            .where({ username: name });
         if (user.length === 1) {
             res.status(200).json({
                 status: 'success',

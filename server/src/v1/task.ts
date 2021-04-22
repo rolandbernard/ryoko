@@ -51,7 +51,7 @@ task.get('/:uuid', async (req, res) => {
     } catch (e) {
         res.status(400).json({
             status: 'error',
-            message: 'failed get user',
+            message: 'failed get task',
         });
     }
 });

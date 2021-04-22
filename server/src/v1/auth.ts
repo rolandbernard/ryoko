@@ -65,24 +65,32 @@ auth.post('/register', async (req, res) => {
         const body: RegisterBody = req.body;
         const id = uuid();
         const passwdHash = await hash(body.password, 10);
-        try {
-            const token = await generateToken({ id: id });
-            await database('users').insert({
-                id: id,
-                user_name: body.username.trim(),
-                passwd_hash: passwdHash,
-                email: body.email ?? null,
-                real_name: body.realname ?? null,
-            });
-            res.status(200).json({
-                status: 'success',
-                token: token,
-            });
-        } catch (e) {
-            // Fails if unique constraint for username is not met
+        const name = body.username.trim().toLowerCase();
+        if (name.length >= 4) {
+            try {
+                const token = await generateToken({ id: id });
+                await database('users').insert({
+                    id: id,
+                    user_name: name,
+                    passwd_hash: passwdHash,
+                    email: body.email ?? null,
+                    real_name: body.realname ?? null,
+                });
+                res.status(200).json({
+                    status: 'success',
+                    token: token,
+                });
+            } catch (e) {
+                // Fails if unique constraint for username is not met
+                res.status(400).json({
+                    status: 'error',
+                    message: 'failed to create user',
+                });
+            }
+        } else {
             res.status(400).json({
                 status: 'error',
-                message: 'failed to create user',
+                message: 'usernames must be four letters or longer',
             });
         }
     } else {
@@ -102,7 +110,8 @@ auth.post('/token', async (req, res) => {
     if (isOfType<TokenBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: TokenBody = req.body;
         try {
-            const user = await database('users').where({ user_name: body.username.trim() });
+            const name = body.username.trim().toLowerCase();
+            const user = await database('users').where({ user_name: name });
             if (user.length === 1) {
                 if (await compare(body.password, user[0].passwd_hash)) {
                     const token = await generateToken({ id: user[0].id });
@@ -157,8 +166,9 @@ auth.put("/username", async function (req, res) {
     if (isOfType<UsernameBody>(req.body, [['username', 'string']])) {
         const body: UsernameBody = req.body;
         try {
+            const name = body.username.trim().toLowerCase();
             const count = await database('users').update({
-                user_name: body.username.trim(),
+                user_name: name,
             }).where({
                 id: body.token.id,
             });
