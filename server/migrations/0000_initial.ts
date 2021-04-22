@@ -40,10 +40,18 @@ export async function up(database: Knex): Promise<void> {
             table.text('name').notNullable();
             table.text('text').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
+            table.enum('priority', [ 'low', 'medium', 'high', 'urgent' ]).notNullable();
+            table.dateTime('created').notNullable();
+            table.dateTime('edited').notNullable();
+        })
+        .createTable('task_dependencies', table => {
+            table.uuid('task_id').notNullable().references('tasks.id');
+            table.uuid('requires_id').notNullable().references('tasks.id');
+            table.primary(['task_id', 'requires_id']);
         })
         .createTable('task_requirements', table => {
             table.uuid('task_id').notNullable().references('tasks.id');
-            table.uuid('role_id').notNullable().references('users.id');
+            table.uuid('role_id').notNullable().references('roles.id');
             table.primary(['task_id', 'role_id']);
             table.integer('time').notNullable();
         })
@@ -60,6 +68,8 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('task_id').notNullable().references('tasks.id');
             table.uuid('user_id').notNullable().references('users.id');
             table.text('text').notNullable();
+            table.dateTime('created').notNullable();
+            table.dateTime('edited').notNullable();
         });
 }
 
