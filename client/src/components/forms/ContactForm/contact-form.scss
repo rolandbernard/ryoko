@@ -1,0 +1,24 @@
+@use 'styles/mixins' as mx;
+
+.input-element {
+    width: 100%;
+    @include mx.breakpoint(medium) {
+        width: 50%;
+    }
+
+    &.textarea {
+        width: 100%;
+    }
+}
+
+.submit-button {
+    appearance: none;
+    border: none;
+    margin: 0.5rem;
+}
+
+.button-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
