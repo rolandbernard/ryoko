@@ -27,15 +27,20 @@ export function clearToken() {
     localStorage.removeItem('access-token');
 }
 
+extendAccessToken();
 setInterval(extendAccessToken, 1000 * 60 * 30);
 
 async function extendAccessToken() {
     if (isLoggedIn()) {
-        const response = await fetch(`${apiRoot}/auth/extend`, { headers: getAuthHeader() });
-        if (response.ok) {
-            const json = await response.json();
-            setToken(json.token);
-        } else if (response.status === 403) {
+        try {
+            const response = await fetch(`${apiRoot}/auth/extend`, { headers: getAuthHeader() });
+            if (response.ok) {
+                const json = await response.json();
+                setToken(json.token);
+            } else if (response.status === 403) {
+                clearToken();
+            }
+        } catch(e) {
             clearToken();
         }
     }
