@@ -4,6 +4,14 @@
 
 .tasks-page {
     .intro-section {
-       font-size: fn.toRem(18); 
+        font-size: fn.toRem(18);
+    }
+
+    .tasks-container {
+        margin-top: 50px;
+
+        .task {
+            margin-bottom: 30px;
+        }
     }
 }

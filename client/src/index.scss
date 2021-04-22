@@ -19,9 +19,6 @@ body {
     position: relative;
     background: linear-gradient(to right, #fff 0%, #f2f2f2 100%);
 
-    @include mx.breakpoint(xlarge) {
-        padding: 5rem 0;
-    }
 }
 
 a {
@@ -102,8 +99,9 @@ h2 {
 }
 
 h3 {
-    font-size: fn.toRem(20);
+    font-size: fn.toRem(18);
     margin-bottom: fn.toRem(12);
+    font-weight: s.$weight-semi-bold;
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(24);

@@ -6,6 +6,10 @@
 .landing-page {
     //General
 
+    @include mx.breakpoint(xlarge) {
+        padding: 5rem 0;
+    }
+
     section {
         margin-bottom: 70px;
 
