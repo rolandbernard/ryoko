@@ -50,7 +50,7 @@ export function requireVerification(req: Request, res: Response, next: NextFunct
 }
 
 async function generateToken(token: Token) {
-    return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
+    return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 * 10000000000000 });
 }
 
 interface RegisterBody {
