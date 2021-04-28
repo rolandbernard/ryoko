@@ -1,6 +1,26 @@
+@use 'styles/mixins'as mx;
+
+@include mx.breakpoint(large) {
+    .has-sidebar {
+        padding-left: 340px;
+
+        .page-container {
+            max-width: 940px;
+        }
+
+    }
+}
+
 .site-header {
     display: flex;
     justify-content: space-between;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(30px);
+
+    @include mx.breakpoint(large) {
+        display: none;
+    }
+
     img {
         padding: 35px 30px 20px 30px;
     }

@@ -21,7 +21,7 @@ export default function Register() {
 
     return (
         <div className="register-page-container">
-            <Page className="register-page" header={false}>
+            <Page className="register-page">
                 <div className="content-container">
                     <h1 className="underlined">Register</h1>
                     <RegisterForm onSubmit={handleSubmit} />

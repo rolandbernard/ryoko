@@ -17,7 +17,7 @@ export default function Login() {
 
     return (
         <div className="login-page-container">
-            <Page className="login-page" header={false}>
+            <Page className="login-page">
                 <div className="content-container">
                     <h1 className="underlined">Login</h1>
                     <LoginForm onSubmit={handleSubmit} />

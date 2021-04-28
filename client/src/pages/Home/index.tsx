@@ -10,7 +10,7 @@ import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 export default function Home() {
     return (<>
-        <Page className="landing-page" header={false}>
+        <Page className="landing-page">
             <section className="hero-section" id="hero">
                 <div className="hero-container">
                     <header>

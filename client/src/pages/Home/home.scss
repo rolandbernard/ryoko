@@ -6,9 +6,15 @@
 .landing-page {
     //General
 
-    @include mx.breakpoint(xlarge) {
-        padding: 5rem 0;
+    h2 {
+
+        @include mx.breakpoint(large) {
+            margin: 0 auto fn.toRem(24) auto;
+            max-width: 560px;
+            text-align: center;
+        }
     }
+
 
     section {
         margin-bottom: 70px;

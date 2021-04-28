@@ -87,9 +87,7 @@ h2 {
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(36);
-        margin: 0 auto fn.toRem(24) auto;
-        max-width: 560px;
-        text-align: center;
+        margin-bottom: fn.toRem(24);
     }
 
     &.left {
@@ -134,13 +132,13 @@ h4 {
         height: 300px;
         position: absolute;
         filter: blur(150px);
-        opacity: 0.5;
+        opacity: 0.6;
 
         @include mx.breakpoint(medium) {
             width: 400px;
             height: 400px;
             filter: blur(300px);
-            opacity: 0.6;
+            opacity: 0.75;
         }
         
         @include mx.breakpoint(large) {
