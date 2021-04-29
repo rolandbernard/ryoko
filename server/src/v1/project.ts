@@ -29,7 +29,6 @@ project.get('/', async (req, res) => {
             projects: projects,
         });
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed to get project',
@@ -76,7 +75,6 @@ project.get('/:uuid', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed to get project',
