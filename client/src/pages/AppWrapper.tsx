@@ -10,14 +10,13 @@ const Stats = lazy(() => import('pages/Stats'));
 
 export default function AppWrapper() {
     return (<>
-        <Header />
-        <div className="has-sidebar">
+        <Header>
             <Suspense fallback={false}>
                 <ProtectedRoute path="/tasks" component={Tasks} />
                 <ProtectedRoute path="/projects" component={Projects} />
                 <ProtectedRoute path="/stats" component={Stats} />
             </Suspense>
-        </div>
+        </Header>
     </>);
 }
 
