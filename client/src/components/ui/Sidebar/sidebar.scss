@@ -1,5 +1,6 @@
 @use 'styles/settings.scss'as s;
 @use 'styles/mixins.scss'as mx;
+@use 'styles/functions.scss'as fn;
 
 .site-aside {
     position: fixed;
@@ -16,6 +17,12 @@
     border-bottom-right-radius: 25px;
     transform: translateX(-100%);
     visibility: hidden;
+    padding: 60px 30px;
+    color: s.$white;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &.shown {
         transform: translateX(0);
@@ -30,14 +37,82 @@
 
     }
 
+
+    .profile {
+        margin-bottom: 50px;
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .name {
+            font-size: fn.toRem(20);
+            font-weight: s.$weight-semi-bold;
+            display: block;
+        }
+
+        .team {
+            font-size: fn.toRem(14);
+        }
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        color: s.$white;
+        opacity: 0.7;
+
+        .icon {
+            padding-right: 10px;
+        }
+
+        &.active,
+        &:hover {
+            opacity: 1;
+        }
+    }
+
     .site-nav {
-        display: block;
-        position: static;
+        display: none;
+        position: relative;
+        background: transparent;
+        box-shadow: none;
+        height: auto;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+
+        @include mx.breakpoint(medium) {
+            display: block;
+        }
+
+        &:after {
+            content: ' ';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 40px;
+            background: rgba(s.$white, 0.1);
+
+        }
 
         .nav-link {
-            color: s.$white;
+            padding: 10px 0;
+
             .label {
+                position: static;
+                transform: none;
                 opacity: 1;
+                font-size: fn.toRem(20);
             }
         }
 
@@ -46,4 +121,25 @@
         }
     }
 
+    .secondary-nav {
+        display: block;
+
+        .nav-link {
+            font-size: fn.toRem(18);
+            padding: 5px 0;
+        }
+    }
+
+    .stats {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        font-size: fn.toRem(14);
+        font-weight: s.$weight-semi-bold;
+        .line-graph {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
 }

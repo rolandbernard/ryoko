@@ -21,10 +21,17 @@ body {
 
 }
 
-a {
-    font-weight: s.$weight-bold;
+button {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+a, button {
+    font-weight: s.$weight-semi-bold;
     color: s.$primary;
     text-decoration: none;
+    cursor: pointer;
 
     &:hover {
         color: rgba(s.$primary, 0.5);
@@ -140,7 +147,7 @@ h4 {
             filter: blur(300px);
             opacity: 0.75;
         }
-        
+
         @include mx.breakpoint(large) {
             width: 500px;
             height: 500px;

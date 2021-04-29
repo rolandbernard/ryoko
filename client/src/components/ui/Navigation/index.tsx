@@ -1,13 +1,11 @@
 import { NavLink } from 'react-router-dom';
 
 import './navigation.scss';
-import background from 'images/svg/nav-bg.svg';
 
 
 export default function Navigation() {
     return (
         <nav className="site-nav">
-            <img src={background} alt="Background" className="background" />
             <NavLink to="/tasks" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
                     home
