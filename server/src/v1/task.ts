@@ -1,9 +1,10 @@
 
 import express from 'express';
-import { validate } from 'uuid';
+import { v4 as uuid, validate } from 'uuid';
 
 import database from '../database';
-import { requireVerification } from './auth';
+import { requireVerification, Token } from './auth';
+import { isOfType } from '../util';
 
 const task = express();
 
@@ -55,6 +56,7 @@ task.get('/:uuid', async (req, res) => {
         });
     }
 });
+
 
 export default task;
 
