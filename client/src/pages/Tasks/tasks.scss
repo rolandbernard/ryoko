@@ -10,8 +10,24 @@
     .tasks-container {
         margin-top: 50px;
 
-        .task {
-            margin-bottom: 30px;
+        .task-group {
+            @include mx.breakpoint(medium) {
+                display: flex;
+                width: 100%;
+
+                h3 {
+                    width: 30%;
+                }
+
+                .tasks-list {
+                    flex-grow: 1;
+                }
+            }
+
+            .task {
+                margin-bottom: 30px;
+            }
         }
+
     }
 }

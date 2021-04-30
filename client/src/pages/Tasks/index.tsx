@@ -13,27 +13,29 @@ export default function Tasks() {
                     </section>
                     <section className="tasks-container">
                         <h2>Today</h2>
-                        <div className="hour-container">
+                        <div className="task-group">
                             <h3>09:00</h3>
-                            <Task task={{
-                                 name: 'Create API Routes',
-                                 icon: '🌎',
-                                 start: 1619074800000,
-                                 end: 1619076600000
-                                 }} />
-                            <Task task={{
-                                 name: 'Create API Routes',
-                                 icon: '🌎',
-                                 start: 1619074800000,
-                                 end: 1619076600000
-                                 }} />
+                            <div className="tasks-list">
+                                <Task task={{
+                                    name: 'Create API Routes',
+                                    icon: '🌎',
+                                    start: 1619074800000,
+                                    end: 1619076600000
+                                }} />
+                                <Task task={{
+                                    name: 'Create API Routes',
+                                    icon: '🌎',
+                                    start: 1619074800000,
+                                    end: 1619076600000
+                                }} />
+                            </div>
                         </div>
                     </section>
                 </main>
             </Page>
             <div className="background-container">
                 <div className="bubble primary" style={{ top: '-20%', right: '-20%' }}></div>
-                <div className="bubble accent" style={{ bottom: '-20%', left: '-20%' }}></div>
+                <div className="bubble accent" style={{ bottom: '-20%', left: '20%' }}></div>
             </div>
         </>
     );

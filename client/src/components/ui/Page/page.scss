@@ -1,14 +1,17 @@
 @use 'styles/mixins' as mx;
 body {
-    @include mx.breakpoint(xlarge) {
-        padding: 5rem 0;
+    @include mx.breakpoint(large) {
+        padding-top: 5rem;
     }
 }
 .page-container {
     max-width: 1440px;
     min-height: 100vh;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(30px);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    @include mx.breakpoint(large) {
+        min-height: calc(100vh - 5rem);
+    }
 }
 

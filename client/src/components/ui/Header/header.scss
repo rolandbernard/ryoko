@@ -9,13 +9,18 @@
 
 .page-wrapper {
     &.moved {
-        transform: translateX(340px) scale(.9);
+        transform: translateX(340px);
     }
+
     @include mx.breakpoint(large) {
         padding-left: 340px;
 
         .page-container {
             max-width: 940px;
+
+            @include mx.breakpoint(large) {
+                padding: 4rem 60px;
+            }
         }
 
     }
@@ -24,8 +29,7 @@
 .site-header {
     display: flex;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(30px);
+    background: rgba(255, 255, 255, 0.25);
 
     @include mx.breakpoint(large) {
         display: none;

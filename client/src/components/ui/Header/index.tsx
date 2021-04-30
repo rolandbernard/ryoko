@@ -12,18 +12,15 @@ interface Props {
 export default function Header({ children }: Props) {
     const [showSidebar, setShowSidebar] = useState<boolean>(false);
     return (
-        <>
-            <div className="full-width">
-                <Sidebar mobileShown={showSidebar} />
-                <div className={'page-wrapper' + (showSidebar ? ' moved' : '')} onClick={() => showSidebar && setShowSidebar(false)}>
-                    <header className="site-header">
-                        <img src={hamburger} alt="Navigation" onClick={() => !showSidebar && setShowSidebar(true)} />
-                        <img src={profile} alt="Profile" />
-                    </header>
-                    {children}
-                    <Navigation />
-                </div>
+        <div className="full-width">
+            <Sidebar mobileShown={showSidebar} />
+            <div className={'page-wrapper' + (showSidebar ? ' moved' : '')} onClick={() => showSidebar && setShowSidebar(false)}>
+                <header className="site-header">
+                    <img src={hamburger} alt="Navigation" onClick={() => !showSidebar && setShowSidebar(true)} />
+                </header>
+                {children}
+                <Navigation />
             </div>
-        </>
+        </div>
     );
 }
