@@ -10,8 +10,11 @@ import { getPublicKey, getPrivateKey } from '../keys';
 
 const auth = express();
 
+const authTokenType = 'ryoko-auth';
+
 export interface Token {
     id: string;
+    type: string;
 }
 
 export async function tokenVerification(req: Request, _res: Response, next: NextFunction) {
@@ -26,12 +29,13 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
         token = req.body.token;
     }
     if (token) {
+        delete req.body.token;
         try {
             const decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
-            req.body.token = decoded;
-        } catch (err) {
-            delete req.body.token;
-        }
+            if (isOfType<Token>(decoded, [['id', 'string'], ['type', 'string']]) && decoded.type === authTokenType) {
+                req.body.token = decoded;
+            }
+        } catch (err) { /* Token has already been deleted */ }
         next();
     } else {
         next();
@@ -49,8 +53,12 @@ export function requireVerification(req: Request, res: Response, next: NextFunct
     }
 }
 
-async function generateToken(token: Token) {
-    return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 * 10000000000000 });
+async function generateAuthToken(id: string) {
+    const token: Token = {
+        id: id,
+        type: authTokenType,
+    };
+    return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
 }
 
 interface RegisterBody {
@@ -68,7 +76,7 @@ auth.post('/register', async (req, res) => {
         const name = body.username.trim().toLowerCase();
         if (name.length >= 4) {
             try {
-                const token = await generateToken({ id: id });
+                const token = await generateAuthToken(id);
                 await database('users').insert({
                     id: id,
                     user_name: name,
@@ -112,9 +120,9 @@ auth.post('/token', async (req, res) => {
         try {
             const name = body.username.trim().toLowerCase();
             const user = await database('users').where({ user_name: name });
-            if (user.length === 1) {
+            if (user.length >= 1) {
                 if (await compare(body.password, user[0].passwd_hash)) {
-                    const token = await generateToken({ id: user[0].id });
+                    const token = await generateAuthToken(user[0].id);
                     res.status(200).json({
                         status: 'success',
                         token: token,
@@ -148,9 +156,7 @@ auth.post('/token', async (req, res) => {
 auth.use(requireVerification);
 
 auth.get("/extend", async function (req, res) {
-    const token = await asyncify(sign, {
-        id: req.body.token.id,
-    }, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
+    const token = await generateAuthToken(req.body.token.id);
     res.status(200).json({
         status: 'success',
         token: token,
