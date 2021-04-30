@@ -1,6 +1,7 @@
 
 import express, { Request, Response, NextFunction } from 'express';
 import { json as bodyJson } from 'body-parser';
+import fileupload from 'express-fileupload';
 
 import { port } from './config';
 import { addDefaultHeaders } from './headers';
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(addDefaultHeaders);
 app.use(bodyJson());
+app.use(fileupload());
 
 app.use('/v1', v1);
 

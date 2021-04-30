@@ -9,6 +9,7 @@ export async function up(database: Knex): Promise<void> {
             table.string('passwd_hash', 60).notNullable();
             table.text('email');
             table.text('real_name');
+            table.binary('image');
         })
         .createTable('teams', table => {
             table.uuid('id').notNullable().primary();
@@ -28,6 +29,7 @@ export async function up(database: Knex): Promise<void> {
         .createTable('projects', table => {
             table.uuid('id').notNullable().primary();
             table.text('name').notNullable();
+            table.string('color').notNullable();
         })
         .createTable('team_projects', table => {
             table.uuid('project_id').notNullable().references('projects.id');
@@ -39,6 +41,7 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('project_id').notNullable().references('projects.id');
             table.text('name').notNullable();
             table.text('text').notNullable();
+            table.string('icon').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
             table.enum('priority', [ 'low', 'medium', 'high', 'urgent' ]).notNullable();
             table.timestamp('created').notNullable();
@@ -59,8 +62,6 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('user_id').notNullable().references('users.id');
             table.uuid('task_id').notNullable().references('tasks.id');
             table.primary(['user_id', 'task_id']);
-            table.boolean('assigned').notNullable();
-            table.boolean('working').notNullable();
         })
         .createTable('comments', table => {
             table.uuid('id').notNullable().primary();

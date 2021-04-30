@@ -85,11 +85,12 @@ project.get('/:uuid', async (req, res) => {
 interface AddProjectBody {
     teams: Array<string>;
     name: string;
+    color: string;
     token: Token;
 }
 
 project.post('/', async (req, res) => {
-    if (isOfType<AddProjectBody>(req.body, [['teams', 'object'], ['name', 'string']])) {
+    if (isOfType<AddProjectBody>(req.body, [['teams', 'object'], ['name', 'string'], ['color', 'string']])) {
         try {
             const team_ids = req.body.teams;
             for (const team_id of team_ids) {
@@ -101,36 +102,44 @@ project.post('/', async (req, res) => {
                     return;
                 }
             }
-            const project_id = uuid();
-            const team = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
-                .select({ id: 'team_members.team_id' })
-                .where({
-                    'users.id': req.body.token.id,
-                })
-                .whereIn('team_members.team_id', team_ids);
-            if (team.length === team_ids.length) {
-                await database.transaction(async transaction => {
-                    await transaction('projects').insert({
-                        id: project_id,
-                        name: req.body.name,
-                    });
-                    await transaction('team_projects').insert(
-                        team_ids.map(team_id => ({
-                            project_id: project_id,
-                            team_id: team_id,
-                        }))
-                    );
-                });
-                res.status(200).json({
-                    status: 'success',
-                    id: project_id,
+            const color = req.body.color;
+            if (!color.match(/^#[0-9a-fA-F]{6}$/)) {
+                res.status(400).json({
+                    status: 'error',
+                    message: 'malformed color',
                 });
             } else {
-                res.status(404).json({
-                    status: 'error',
-                    message: 'team not found',
-                });
+                const project_id = uuid();
+                const team = await database('users')
+                    .innerJoin('team_members', 'users.id', 'team_members.user_id')
+                    .select({ id: 'team_members.team_id' })
+                    .where({
+                        'users.id': req.body.token.id,
+                    })
+                    .whereIn('team_members.team_id', team_ids);
+                if (team.length === team_ids.length) {
+                    await database.transaction(async transaction => {
+                        await transaction('projects').insert({
+                            id: project_id,
+                            name: req.body.name,
+                        });
+                        await transaction('team_projects').insert(
+                            team_ids.map(team_id => ({
+                                project_id: project_id,
+                                team_id: team_id,
+                            }))
+                        );
+                    });
+                    res.status(200).json({
+                        status: 'success',
+                        id: project_id,
+                    });
+                } else {
+                    res.status(404).json({
+                        status: 'error',
+                        message: 'team not found',
+                    });
+                }
             }
         } catch (e) {
             res.status(400).json({
@@ -147,9 +156,10 @@ project.post('/', async (req, res) => {
 });
 
 interface UpdateProjectBody {
-    add_teams?: Array<string>;
     remove_teams?: Array<string>;
+    add_teams?: Array<string>;
     name?: string;
+    color?: string;
     token: Token;
 }
 
@@ -184,13 +194,20 @@ project.put('/:uuid', async (req, res) => {
                     });
                 if (projects.length >= 1) {
                     await database.transaction(async transaction => {
-                        if (typeof req.body.name === 'string') {
-                            await transaction('projects')
-                                .update({
-                                    name: req.body.name,
-                                }).where({
-                                    id: id,
-                                });
+                        await transaction('projects')
+                            .update({
+                                name: req.body.name,
+                                color: req.body.color,
+                            }).where({
+                                id: id,
+                            });
+                        if (remove_team_ids.length !== 0) {
+                            await transaction('team_projects')
+                                .delete()
+                                .where({
+                                    'project_id': id,
+                                })
+                                .whereIn('team_id', remove_team_ids);
                         }
                         if (add_team_ids.length !== 0) {
                             await transaction('team_projects').insert(
@@ -199,14 +216,6 @@ project.put('/:uuid', async (req, res) => {
                                     team_id: team_id,
                                 }))
                             );
-                        }
-                        if (remove_team_ids.length !== 0) {
-                            await transaction('team_projects')
-                                .delete()
-                                .where({
-                                    'project_id': id,
-                                })
-                                .whereIn('team_id', remove_team_ids);
                         }
                     });
                     res.status(200).json({

@@ -1,6 +1,8 @@
 
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { validate } from 'uuid';
+import sharp from 'sharp';
+import { UploadedFile } from 'express-fileupload';
 
 import database from '../database';
 import { isOfType } from '../util';
@@ -17,7 +19,7 @@ user.get('/name/:username', async (req, res) => {
                 username: 'user_name',
             })
             .where({ username: name });
-        if (user.length === 1) {
+        if (user.length >= 1) {
             res.status(200).json({
                 status: 'success',
                 user: user[0],
@@ -48,7 +50,7 @@ user.get('/', async (req, res) => {
                 realname: 'real_name',
             })
             .where({ id: req.body.token.id });
-        if (user.length === 1) {
+        if (user.length >= 1) {
             res.status(200).json({
                 status: 'success',
                 user: user[0],
@@ -85,7 +87,7 @@ user.put('/', async (req, res) => {
                     real_name: req.body.realname,
                 })
                 .where({ id: req.body.token.id });
-            if (updated === 1) {
+            if (updated >= 1) {
                 res.status(200).json({
                     status: 'success',
                 });
@@ -109,6 +111,43 @@ user.put('/', async (req, res) => {
     }
 });
 
+user.put('/image', async (req, res) => {
+    if (req.files?.image && isOfType<UploadedFile>(req.files.image, [['data', 'object']])) {
+        try {
+            const image = await sharp(req.files.image.data).resize(128, 128, {
+                fit: "contain",
+            }).png({
+                compressionLevel: 9,
+            }).toBuffer();
+            const updated = await database('users')
+                .update({
+                    image: image,
+                })
+                .where({ id: req.body.token.id });
+            if (updated >= 1) {
+                res.status(200).json({
+                    status: 'success',
+                });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'user not found',
+                });
+            }
+        } catch (e) {
+            res.status(400).json({
+                status: 'error',
+                message: 'failed to update user',
+            });
+        }
+    } else {
+        res.status(400).json({
+            status: 'error',
+            message: 'missing image file',
+        });
+    }
+});
+
 user.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -121,11 +160,56 @@ user.get('/:uuid', async (req, res) => {
                     realname: 'real_name',
                 })
                 .where({ id: id });
-            if (user.length === 1) {
+            if (user.length >= 1) {
                 res.status(200).json({
                     status: 'success',
                     user: user[0],
                 });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'user not found',
+                });
+            }
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get user',
+        });
+    }
+});
+
+function sendRangedData(req: Request, res: Response, data: Buffer) {
+    res.setHeader('Accept-Ranges', 'bytes');
+    const range = req.range(data.length);
+    if (typeof range === 'object' && range.type === 'bytes' && range.length === 1) {
+        res.status(206);
+        res.setHeader('Content-Range', `${range[0].start}\-${range[0].end}/${data.length}`);
+        res.send(data.slice(range[0].start, range[0].end+1));
+    } else {
+        res.status(200);
+        res.send(data);
+    }
+}
+
+user.get('/:uuid/image', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const user = await database('users')
+                .select({
+                    image: 'users.image'
+                })
+                .where({ id: id });
+            if (user.length >= 1) {
+                res.setHeader('Content-Type', 'image/png');
+                sendRangedData(req, res, user[0].image);
             } else {
                 res.status(404).json({
                     status: 'error',
