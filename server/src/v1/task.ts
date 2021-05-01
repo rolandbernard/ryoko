@@ -33,6 +33,7 @@ export interface Task {
 
 export function generateFromFlatResult(results: any[]): Task[] {
     const grouped_tasks: Record<string, Task> = { };
+    const to_remove: Array<string> = [];
     for (const row of results) {
         if (!grouped_tasks[row.id]) {
             grouped_tasks[row.id] = {
@@ -75,6 +76,12 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 grouped_tasks[row.id].dependentcies.push(row.dependentcy);
             }
         }
+        if (row.dependentcy_status && row.dependentcy_status !== 'closed') {
+            to_remove.push(row.id);
+        }
+    }
+    for (const remove of to_remove) {
+        delete grouped_tasks[remove];
     }
     return Object.values(grouped_tasks);
 }
@@ -82,6 +89,173 @@ export function generateFromFlatResult(results: any[]): Task[] {
 const task = express();
 
 task.use(requireVerification);
+
+task.get('/', async (req, res) => {
+    try {
+        const tasks = await database('team_members')
+            .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+            .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+            .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
+            .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+            .select({
+                id: 'tasks.id',
+                project: 'tasks.project_id',
+                name: 'tasks.name',
+                text: 'tasks.text',
+                icon: 'tasks.icon',
+                status: 'tasks.status',
+                priority: 'tasks.priority',
+                created: 'tasks.created',
+                edited: 'tasks.edited',
+                requirement_role: 'task_requirements.role_id', 
+                requirement_time: 'task_requirements.time', 
+                assigned_user: 'task_assignees.user_id', 
+                assigned_time: 'task_assignees.time', 
+                dependentcy: 'task_dependencies.requires_id', 
+            })
+            .where({
+                'team_members.user_id': req.body.token.id,
+            });
+        res.status(200).json({
+            status: 'success',
+            tasks: generateFromFlatResult(tasks),
+        });
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get tasks',
+        });
+    }
+});
+
+task.get('/open', async (req, res) => {
+    try {
+        const tasks = await database('team_members')
+            .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+            .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+            .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
+            .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+            .select({
+                id: 'tasks.id',
+                project: 'tasks.project_id',
+                name: 'tasks.name',
+                text: 'tasks.text',
+                icon: 'tasks.icon',
+                status: 'tasks.status',
+                priority: 'tasks.priority',
+                created: 'tasks.created',
+                edited: 'tasks.edited',
+                requirement_role: 'task_requirements.role_id', 
+                requirement_time: 'task_requirements.time', 
+                assigned_user: 'task_assignees.user_id', 
+                assigned_time: 'task_assignees.time', 
+                dependentcy: 'task_dependencies.requires_id', 
+            })
+            .where({
+                'team_members.user_id': req.body.token.id,
+                'tasks.status': 'open',
+            });
+        res.status(200).json({
+            status: 'success',
+            tasks: generateFromFlatResult(tasks),
+        });
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get tasks',
+        });
+    }
+});
+
+task.get('/possible', async (req, res) => {
+    try {
+        const tasks = await database('team_members')
+            .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+            .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+            .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
+            .leftJoin({ 'require': 'tasks' }, 'task_dependencies.requires_id', 'require.id')
+            .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+            .select({
+                id: 'tasks.id',
+                project: 'tasks.project_id',
+                name: 'tasks.name',
+                text: 'tasks.text',
+                icon: 'tasks.icon',
+                status: 'tasks.status',
+                priority: 'tasks.priority',
+                created: 'tasks.created',
+                edited: 'tasks.edited',
+                requirement_role: 'task_requirements.role_id', 
+                requirement_time: 'task_requirements.time', 
+                assigned_user: 'task_assignees.user_id', 
+                assigned_time: 'task_assignees.time', 
+                dependentcy: 'task_dependencies.requires_id', 
+                dependentcy_status: 'require.status',
+            })
+            .where({
+                'team_members.user_id': req.body.token.id,
+                'tasks.status': 'open',
+            });
+        res.status(200).json({
+            status: 'success',
+            tasks: generateFromFlatResult(tasks),
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get tasks',
+        });
+    }
+});
+
+task.get('/:uuid/comments', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const comments = await database('team_members')
+                .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('comments', 'tasks.id', 'comments.task_id')
+                .select({
+                    id: 'comments.id',
+                    task: 'comments.task_id',
+                    user: 'comments.user_id',
+                    text: 'comments.text',
+                    created: 'comments.created',
+                    edited: 'comments.edited',
+                })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'tasks.id': id,
+                });
+            if (task.length >= 1) {
+                res.status(200).json({
+                    status: 'success',
+                    comments: comments,
+                });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'task not found',
+                });
+            }
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get comments',
+        });
+    }
+});
 
 task.get('/:uuid', async (req, res) => {
     try {
