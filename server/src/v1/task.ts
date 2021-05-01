@@ -129,7 +129,7 @@ task.get('/', async (req, res) => {
     }
 });
 
-task.get('/open', async (req, res) => {
+task.get('/:status(open|closed|suspended)', async (req, res) => {
     try {
         const tasks = await database('team_members')
             .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
@@ -155,7 +155,7 @@ task.get('/open', async (req, res) => {
             })
             .where({
                 'team_members.user_id': req.body.token.id,
-                'tasks.status': 'open',
+                'tasks.status': req.params.status,
             });
         res.status(200).json({
             status: 'success',
