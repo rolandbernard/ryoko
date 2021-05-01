@@ -70,6 +70,7 @@ team.get('/', async (req, res) => {
             .select({
                 id: 'teams.id',
                 name: 'teams.name',
+                role: 'team_members.role_id'
             })
             .where({
                 'users.id': req.body.token.id
@@ -96,6 +97,7 @@ team.get('/:uuid/', async (req, res) => {
                 .select({
                     id: 'teams.id',
                     name: 'teams.name',
+                    role: 'team_members.role_id',
                 })
                 .where({
                     'users.id': req.body.token.id,

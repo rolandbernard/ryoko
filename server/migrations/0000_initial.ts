@@ -62,6 +62,7 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('user_id').notNullable().references('users.id');
             table.uuid('task_id').notNullable().references('tasks.id');
             table.primary(['user_id', 'task_id']);
+            table.integer('time').notNullable();
         })
         .createTable('comments', table => {
             table.uuid('id').notNullable().primary();
