@@ -64,8 +64,7 @@ team.post('/', async (req, res) => {
 
 team.get('/', async (req, res) => {
     try {
-        const teams = await database('users')
-            .innerJoin('team_members', 'users.id', 'team_members.user_id')
+        const teams = await database('team_members')
             .innerJoin('teams', 'team_members.team_id', 'teams.id')
             .select({
                 id: 'teams.id',
@@ -73,7 +72,7 @@ team.get('/', async (req, res) => {
                 role: 'team_members.role_id'
             })
             .where({
-                'users.id': req.body.token.id
+                'team_members.user_id': req.body.token.id
             });
         res.status(200).json({
             status: 'success',
@@ -91,18 +90,21 @@ team.get('/:uuid/', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const team = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
-                .innerJoin('teams', 'team_members.team_id', 'teams.id')
+            const team = await database('teams')
+                .leftJoin('team_members', 'teams.id', 'team_members.team_id')
                 .select({
                     id: 'teams.id',
                     name: 'teams.name',
                     role: 'team_members.role_id',
                 })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'teams.id': id,
-                });
+                })
+                .orWhere({
+                    'team_members.user_id': null,
+                    'teams.id': id,
+                })
             if (team.length === 1) {
                 res.status(200).json({
                     status: 'success',
@@ -121,6 +123,7 @@ team.get('/:uuid/', async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get team',
@@ -132,8 +135,7 @@ team.get('/:uuid/members', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const members = await database({ user: 'users' })
-                .innerJoin({ ut: 'team_members'}, 'user.id', 'ut.user_id')
+            const members = await database({ ut: 'team_members'})
                 .innerJoin({ tm: 'team_members'}, 'ut.team_id', 'tm.team_id')
                 .innerJoin({ members: 'users'}, 'tm.user_id', 'members.id')
                 .innerJoin('roles', 'tm.role_id', 'roles.id')
@@ -146,7 +148,7 @@ team.get('/:uuid/members', async (req, res) => {
                     role_name: 'roles.name',
                 })
                 .where({
-                    'user.id': req.body.token.id,
+                    'ut.user_id': req.body.token.id,
                     'ut.team_id': id,
                 });
             if (members.length >= 1) {
@@ -188,15 +190,14 @@ team.get('/:uuid/roles', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const roles = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
+            const roles = await database('team_members')
                 .innerJoin('roles', 'team_members.team_id', 'roles.team_id')
                 .select({
                     id: 'roles.id',
                     name: 'roles.name',
                 })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'team_members.team_id': id,
                 });
             if (roles.length >= 1) {
@@ -225,6 +226,40 @@ team.get('/:uuid/roles', async (req, res) => {
     }
 });
 
+team.get('/:uuid/projects', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const projects = await database('team_members')
+                .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                .innerJoin('projects', 'team_projects.project_id', 'projects.id')
+                .select({
+                    id: 'projects.id',
+                    name: 'projects.name',
+                    status: 'projects.status',
+                })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'team_members.team_id': id,
+                });
+            res.status(200).json({
+                status: 'success',
+                projects: projects,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get projects',
+        });
+    }
+});
+
 interface AddRoleBody {
     name: string;
     token: Token;
@@ -235,11 +270,10 @@ team.post('/:uuid/roles', async (req, res) => {
         try {
             const team_id = req.params.uuid;
             if (validate(team_id)) {
-                const team = await database('users')
-                    .innerJoin('team_members', 'users.id', 'team_members.user_id')
+                const team = await database('team_members')
                     .select({ id: 'team_members.team_id' })
                     .where({
-                        'users.id': req.body.token.id,
+                        'team_members.user_id': req.body.token.id,
                         'team_members.team_id': team_id,
                     });
                 if (team.length === 1) {
@@ -288,11 +322,10 @@ team.delete('/:teamid/roles/:roleid', async (req, res) => {
         const team_id = req.params.teamid;
         const role_id = req.params.roleid;
         if (validate(team_id) && validate(role_id)) {
-            const team = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
+            const team = await database('team_members')
                 .select({ id: 'team_members.team_id' })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'team_members.team_id': team_id,
                 });
             if (team.length === 1) {
@@ -345,12 +378,11 @@ team.post('/:uuid/members', async (req, res) => {
             const user_id = req.body.user;
             const role_id = req.body.role;
             if (validate(team_id) && validate(user_id) && validate(role_id)) {
-                const role = await database('users')
-                    .innerJoin('team_members', 'users.id', 'team_members.user_id')
+                const role = await database('team_members')
                     .innerJoin('roles', 'team_members.team_id', 'roles.team_id')
                     .select({ id: 'roles.id' })
                     .where({
-                        'users.id': req.body.token.id,
+                        'team_members.user_id': req.body.token.id,
                         'team_members.team_id': team_id,
                         'roles.id': role_id,
                     });
@@ -402,12 +434,11 @@ team.put('/:uuid/members', async (req, res) => {
             const user_id = req.body.user;
             const role_id = req.body.role;
             if (validate(team_id) && validate(user_id) && validate(role_id)) {
-                const role = await database('users')
-                    .innerJoin('team_members', 'users.id', 'team_members.user_id')
+                const role = await database('team_members')
                     .innerJoin('roles', 'team_members.team_id', 'roles.team_id')
                     .select({ id: 'roles.id' })
                     .where({
-                        'users.id': req.body.token.id,
+                        'team_members.user_id': req.body.token.id,
                         'team_members.team_id': team_id,
                         'roles.id': role_id,
                     });

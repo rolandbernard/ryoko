@@ -6,6 +6,79 @@ import database from '../database';
 import { requireVerification, Token } from './auth';
 import { isOfType } from '../util';
 
+interface TaskRequirement {
+    role: string;
+    time: number;
+}
+
+interface TaskAssignment {
+    user: string;
+    time: number;
+}
+
+export interface Task {
+    id: string;
+    project: string;
+    name: string;
+    text: string;
+    icon: string;
+    priority: string;
+    status: string;
+    dependentcies: Array<string>;
+    requirements: Array<TaskRequirement>;
+    assigned: Array<TaskAssignment>;
+    created: number;
+    edited: number;
+}
+
+export function generateFromFlatResult(results: any[]): Task[] {
+    const grouped_tasks: Record<string, Task> = { };
+    for (const row of results) {
+        if (!grouped_tasks[row.id]) {
+            grouped_tasks[row.id] = {
+                id: row.id,
+                project: row.project,
+                name: row.name,
+                text: row.text,
+                icon: row.icon,
+                status: row.status,
+                priority: row.priority,
+                created: row.created,
+                edited: row.edited,
+                requirements: [],
+                assigned: [],
+                dependentcies: [],
+            };
+        }
+        if (row.requirement_role) {
+            const existing = grouped_tasks[row.id].requirements
+            .find(req => req.role === row.requirement_role)
+            if (!existing) {
+                grouped_tasks[row.id].requirements.push({
+                    role: row.requirement_role,
+                    time: row.requirement_time,
+                });
+            }
+        }
+        if (row.assigned_user) {
+            const existing = grouped_tasks[row.id].assigned
+            .find(req => req.user === row.assigned_user)
+            if (!existing) {
+                grouped_tasks[row.id].assigned.push({
+                    user: row.assigned_user,
+                    time: row.assigned_time,
+                });
+            }
+        }
+        if (row.dependentcy) {
+            if (!grouped_tasks[row.id].dependentcies.includes(row.dependentcy)) {
+                grouped_tasks[row.id].dependentcies.push(row.dependentcy);
+            }
+        }
+    }
+    return Object.values(grouped_tasks);
+}
+
 const task = express();
 
 task.use(requireVerification);
@@ -14,8 +87,7 @@ task.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const task = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
+            const task = await database('team_members')
                 .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
                 .select({
@@ -30,7 +102,7 @@ task.get('/:uuid', async (req, res) => {
                     edited: 'tasks.edited',
                 })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'tasks.id': id,
                 });
             if (task.length >= 1) {
@@ -92,16 +164,6 @@ task.get('/:uuid', async (req, res) => {
     }
 });
 
-interface TaskRequirement {
-    role: string;
-    time: number;
-}
-
-interface TaskAssignment {
-    user: string;
-    time: number;
-}
-
 interface AddTaskBody {
     project: string;
     name: string;
@@ -136,13 +198,12 @@ task.post('/', async (req, res) => {
                 }
             }
             const task_id = uuid();
-            const project = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
+            const project = await database('team_members')
                 .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                 .innerJoin('projects', 'team_projects.project_id', 'projects.id')
                 .select({ id: 'projects.id' })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'projects.id': project_id,
                 });
             if (project.length >= 1) {
@@ -254,13 +315,12 @@ task.put('/:uuid', async (req, res) => {
                     return;
                 }
             }
-            const task = await database('users')
-                .innerJoin('team_members', 'users.id', 'team_members.user_id')
+            const task = await database('team_members')
                 .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
                 .select({ id: 'tasks.id' })
                 .where({
-                    'users.id': req.body.token.id,
+                    'team_members.user_id': req.body.token.id,
                     'tasks.id': task_id,
                 });
             if (task.length >= 1) {

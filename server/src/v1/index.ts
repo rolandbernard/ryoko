@@ -7,6 +7,7 @@ import team from './team';
 import project from './project';
 import task from './task';
 import comment from './comment';
+import work from './work';
 
 const v1 = express();
 
@@ -17,6 +18,7 @@ v1.use('/team', team);
 v1.use('/project', project);
 v1.use('/task', task);
 v1.use('/comment', comment);
+v1.use('/work', work);
 
 export default v1;
 

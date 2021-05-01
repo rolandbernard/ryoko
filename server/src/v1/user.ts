@@ -7,6 +7,7 @@ import { UploadedFile } from 'express-fileupload';
 import database from '../database';
 import { isOfType } from '../util';
 import { requireVerification, Token } from './auth';
+import { generateFromFlatResult } from './task';
 
 const user = express();
 
@@ -65,6 +66,44 @@ user.get('/', async (req, res) => {
         res.status(400).json({
             status: 'error',
             message: 'failed get user',
+        });
+    }
+});
+
+user.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await database({ 'ut': 'task_assignees' })
+            .innerJoin('tasks', 'ut.task_id', 'tasks.id')
+            .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+            .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
+            .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+            .select({
+                id: 'tasks.id',
+                project: 'tasks.project_id',
+                name: 'tasks.name',
+                text: 'tasks.text',
+                icon: 'tasks.icon',
+                status: 'tasks.status',
+                priority: 'tasks.priority',
+                created: 'tasks.created',
+                edited: 'tasks.edited',
+                requirement_role: 'task_requirements.role_id', 
+                requirement_time: 'task_requirements.time', 
+                assigned_user: 'task_assignees.user_id', 
+                assigned_time: 'task_assignees.time', 
+                dependentcy: 'task_dependencies.requires_id', 
+            })
+            .where({
+                'ut.user_id': req.body.token.id,
+            });
+        res.status(200).json({
+            status: 'success',
+            tasks: generateFromFlatResult(tasks),
+        });
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get tasks',
         });
     }
 });
