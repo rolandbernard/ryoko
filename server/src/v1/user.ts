@@ -108,6 +108,34 @@ user.get('/tasks', async (req, res) => {
     }
 });
 
+user.get('/work', async (req, res) => {
+    try {
+        const since = (req.query.since ?? 0) as number;
+        const work = await database('workhours')
+            .select({
+                id: 'workhours.id',
+                task: 'workhours.task_id',
+                user: 'workhours.user_id',
+                started: 'workhours.started',
+                finished: 'workhours.finished',
+            })
+            .where({
+                'workhours.user_id': req.body.token.id,
+            })
+            .andWhere('workhours.started', '>=', since)
+            .groupBy('workhours.id');
+        res.status(200).json({
+            status: 'success',
+            work: work,
+        });
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get work',
+        });
+    }
+});
+
 interface UserUpdateBody {
     token: Token;
     realname?: string;

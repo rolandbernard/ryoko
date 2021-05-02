@@ -260,6 +260,45 @@ team.get('/:uuid/projects', async (req, res) => {
     }
 });
 
+team.get('/:uuid/work', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const work = await database({ ut: 'team_members' })
+                .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
+                .innerJoin('workhours', 'team_members.user_id', 'workhours.user_id')
+                .select({
+                    id: 'workhours.id',
+                    task: 'workhours.task_id',
+                    user: 'workhours.user_id',
+                    started: 'workhours.started',
+                    finished: 'workhours.finished',
+                })
+                .where({
+                    'ut.user_id': req.body.token.id,
+                    'ut.team_id': id,
+                })
+                .andWhere('workhours.started', '>=', since)
+                .groupBy('workhours.id');
+            res.status(200).json({
+                status: 'success',
+                work: work,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get work',
+        });
+    }
+});
+
 interface AddRoleBody {
     name: string;
     token: Token;

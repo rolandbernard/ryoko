@@ -48,6 +48,8 @@ project.get('/:uuid', async (req, res) => {
                 .select({
                     id: 'projects.id',
                     name: 'projects.name',
+                    text: 'projects.text',
+                    color: 'projects.color',
                     status: 'projects.status',
                     team_id: 'tms.team_id',
                 })
@@ -134,15 +136,96 @@ project.get('/:uuid/tasks', async (req, res) => {
     }
 });
 
+project.get('/:uuid/assigned', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const users = await database('team_members')
+                .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+                .innerJoin('users', 'task_assignees.user_id', 'users.id')
+                .select({
+                    id: 'users.id',
+                    username: 'users.user_name',
+                    email: 'users.email',
+                    realname: 'users.real_name',
+                })
+                .sum({ time: 'task_assignees.time' })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'team_projects.project_id': id,
+                })
+                .groupBy('users.id');
+            res.status(200).json({
+                status: 'success',
+                tasks: users,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(400).json({
+            status: 'error',
+            message: 'failed to get assignees',
+        });
+    }
+});
+
+project.get('/:uuid/work', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const work = await database({ ut: 'team_members' })
+                .innerJoin('team_projects', 'ut.team_id', 'team_projects.team_id')
+                .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('workhours', 'tasks.id', 'workhours.task_id')
+                .select({
+                    id: 'workhours.id',
+                    task: 'workhours.task_id',
+                    user: 'workhours.user_id',
+                    started: 'workhours.started',
+                    finished: 'workhours.finished',
+                })
+                .where({
+                    'ut.user_id': req.body.token.id,
+                    'team_projects.project_id': id,
+                })
+                .andWhere('workhours.started', '>=', since)
+                .groupBy('workhours.id');
+            res.status(200).json({
+                status: 'success',
+                work: work,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get work',
+        });
+    }
+});
+
 interface AddProjectBody {
     teams: Array<string>;
     name: string;
+    text: string;
     color: string;
     token: Token;
 }
 
 project.post('/', async (req, res) => {
-    if (isOfType<AddProjectBody>(req.body, [['teams', 'object'], ['name', 'string'], ['color', 'string']])) {
+    if (isOfType<AddProjectBody>(req.body, [['teams', 'object'], ['name', 'string'], ['text', 'string'], ['color', 'string']])) {
         try {
             const team_ids = req.body.teams;
             for (const team_id of team_ids) {
@@ -173,6 +256,8 @@ project.post('/', async (req, res) => {
                         await transaction('projects').insert({
                             id: project_id,
                             name: req.body.name,
+                            text: req.body.text,
+                            color: req.body.color,
                             status: 'open',
                         });
                         await transaction('team_projects').insert(
@@ -211,6 +296,7 @@ interface UpdateProjectBody {
     remove_teams?: Array<string>;
     add_teams?: Array<string>;
     name?: string;
+    text?: string;
     color?: string;
     status?: string;
     token: Token;
@@ -245,6 +331,7 @@ project.put('/:uuid', async (req, res) => {
                         await transaction('projects')
                             .update({
                                 name: req.body.name,
+                                text: req.body.text,
                                 color: req.body.color,
                                 status: req.body.status,
                             }).where({

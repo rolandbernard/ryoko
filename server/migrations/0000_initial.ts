@@ -29,6 +29,7 @@ export async function up(database: Knex): Promise<void> {
         .createTable('projects', table => {
             table.uuid('id').notNullable().primary();
             table.text('name').notNullable();
+            table.text('text').notNullable();
             table.string('color').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
         })
