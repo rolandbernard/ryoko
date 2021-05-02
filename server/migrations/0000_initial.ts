@@ -9,6 +9,7 @@ export async function up(database: Knex): Promise<void> {
             table.string('passwd_hash', 60).notNullable();
             table.text('email');
             table.text('real_name');
+            table.binary('image');
         })
         .createTable('teams', table => {
             table.uuid('id').notNullable().primary();
@@ -28,6 +29,9 @@ export async function up(database: Knex): Promise<void> {
         .createTable('projects', table => {
             table.uuid('id').notNullable().primary();
             table.text('name').notNullable();
+            table.text('text').notNullable();
+            table.string('color').notNullable();
+            table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
         })
         .createTable('team_projects', table => {
             table.uuid('project_id').notNullable().references('projects.id');
@@ -39,10 +43,11 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('project_id').notNullable().references('projects.id');
             table.text('name').notNullable();
             table.text('text').notNullable();
+            table.string('icon').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
             table.enum('priority', [ 'low', 'medium', 'high', 'urgent' ]).notNullable();
-            table.dateTime('created').notNullable();
-            table.dateTime('edited').notNullable();
+            table.timestamp('created').notNullable();
+            table.timestamp('edited').notNullable();
         })
         .createTable('task_dependencies', table => {
             table.uuid('task_id').notNullable().references('tasks.id');
@@ -60,16 +65,21 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('task_id').notNullable().references('tasks.id');
             table.primary(['user_id', 'task_id']);
             table.integer('time').notNullable();
-            table.boolean('assigned').notNullable();
-            table.boolean('working').notNullable();
         })
         .createTable('comments', table => {
             table.uuid('id').notNullable().primary();
             table.uuid('task_id').notNullable().references('tasks.id');
             table.uuid('user_id').notNullable().references('users.id');
             table.text('text').notNullable();
-            table.dateTime('created').notNullable();
-            table.dateTime('edited').notNullable();
+            table.timestamp('created').notNullable();
+            table.timestamp('edited').notNullable();
+        })
+        .createTable('workhours', table => {
+            table.uuid('id').notNullable().primary();
+            table.uuid('user_id').notNullable().references('users.id');
+            table.uuid('task_id').notNullable().references('tasks.id');
+            table.timestamp('started').notNullable();
+            table.timestamp('finished');
         });
 }
 
@@ -84,6 +94,7 @@ export async function down(database: Knex): Promise<void> {
         .dropTable('roles')
         .dropTable('team_members')
         .dropTable('teams')
-        .dropTable('users');
+        .dropTable('users')
+        .dropTable('workhours');
 }
 
