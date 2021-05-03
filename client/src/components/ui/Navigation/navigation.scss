@@ -33,17 +33,15 @@
             position: absolute;
             opacity: 0;
             font-size: 12px;
-            top: 50%;
-            left: 60px;
-            transform: translateY(-50%);
-            z-index: -1;
+            bottom: 0;
+            transform: translate(-50%, 10%);
+            left: 50%
         }
 
         &.active {
-            padding-right: 60px;
-
             .icon {
                 font-family: 'Material Icons';
+                transform: translateY(-5px);
             }
 
             .label {

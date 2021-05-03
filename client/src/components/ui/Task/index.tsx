@@ -1,10 +1,13 @@
 import './task.scss';
+import { Link } from 'react-router-dom';
 
 interface TaskInt {
+    uuid: string,
     name: string,
     icon: string,
     start: number,
-    end: number
+    end: number,
+    description: string
 }
 
 interface Props {
@@ -23,15 +26,20 @@ export default function Task({ task, active }: Props) {
 
 
     return (
-        <div className="task">
-            <div className="icon-container">
-                {task.icon}
+        <Link to={'/tasks/' + task.uuid} className="task">
+            <div className="main-info">
+                <div className="icon-container">
+                    {task.icon}
+                </div>
+                <div className="text-container">
+                    <h4>{task.name}</h4>
+                    <div className="time">{formattedTime(start)} - {formattedTime(end)}</div>
+                </div>
             </div>
-            <div className="text-container">
-                <h4>{task.name}</h4>
-                <div className="time">{formattedTime(start)} - {formattedTime(end)}</div>
+            <div className="description-container">
+                {task.description}
             </div>
 
-        </div>
+        </Link>
     )
 }

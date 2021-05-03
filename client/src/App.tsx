@@ -16,7 +16,7 @@ export default function App() {
                 <Switch>
                     <LoginRoute path="/login" component={Login} />
                     <LoginRoute path="/register" component={Register} />
-                    <Route path={["/tasks", "/projects", "/stats"]} component={AppWrapper} />
+                    <Route path={['/tasks', '/projects', '/stats', '/teams', '/settings']} component={AppWrapper} />
                     <Route path="/" component={Home} />
                 </Switch>
             </Suspense>

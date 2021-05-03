@@ -14,15 +14,15 @@ export default function Navigation() {
             </NavLink>
             <NavLink to="/projects" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
-                    public
+                    folder
                 </span>
                 <span className="label">Projects</span>
             </NavLink>
-            <NavLink to="/stats" activeClassName="active" className="nav-link">
+            <NavLink to="/teams" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
-                    public
+                    people
                 </span>
-                <span className="label">Stats</span>
+                <span className="label">Teams</span>
             </NavLink>
         </nav>
     );

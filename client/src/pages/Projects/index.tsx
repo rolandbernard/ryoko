@@ -1,12 +1,12 @@
-
 import './projects.scss';
+import Page from 'components/ui/Page';
 
 export default function Tasks() {
     return (
-        <div className="projects-page">
-            <main>
-                <h1>Projects</h1>
-            </main>
-        </div>
+        <Page className="projects-page">
+            <div className="content-container">
+                <h1 className="underlined">Projects</h1>
+            </div>
+        </Page>
     );
 }

@@ -18,8 +18,8 @@ export default function Header({ children }: Props) {
                 <header className="site-header">
                     <img src={hamburger} alt="Navigation" onClick={() => !showSidebar && setShowSidebar(true)} />
                 </header>
-                {children}
                 <Navigation />
+                {children}
             </div>
         </div>
     );

@@ -1,15 +1,15 @@
-@use 'styles/settings';
-@use 'styles/functions';
+@use 'styles/settings' as s;
+@use 'styles/functions' as fn;
 
 .button {
     padding: 14px 50px;
-    font-size: functions.toRem(18);
-    font-weight: settings.$weight-bold;
-    background: radial-gradient(60% 100% at 50% 0%, #D298FF 0%, settings.$primary 100%);
-    box-shadow: 0px 5px 15px rgba(settings.$primary, 0.25);
+    font-size: fn.toRem(18);
+    font-weight: s.$weight-bold;
+    background: s.$linear-gradient;
+    box-shadow: 0px 5px 15px rgba(s.$primary, 0.25);
     border-radius: 25px;
     display: inline-block;
-    color: settings.$white;
+    color: s.$white;
     text-transform: uppercase;
     user-select: none;
     appearance: none;
@@ -18,9 +18,9 @@
 
     &:hover,
     &:focus {
-        box-shadow: 0px 10px 25px rgba(settings.$primary, 0.35);
+        box-shadow: 0px 10px 25px rgba(s.$primary, 0.35);
         cursor: pointer;
-        color: settings.$white;
+        color: s.$white;
         transform: translateY(-5%);
     }
 

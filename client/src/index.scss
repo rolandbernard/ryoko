@@ -17,7 +17,7 @@ html {
 body {
     color: s.$body-color;
     position: relative;
-    background: #fff;
+    background: s.$light;
 }
 
 button {
@@ -68,7 +68,7 @@ h1 {
             right: -7px;
             bottom: 5px;
             width: 90px;
-            background: rgba(s.$accent, .5);
+            background: rgba(s.$secondary, .5);
             height: 20px;
             z-index: -1;
 
@@ -159,8 +159,5 @@ h4 {
             background: s.$primary;
         }
 
-        &.accent {
-            background: s.$accent;
-        }
     }
 }

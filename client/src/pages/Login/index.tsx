@@ -28,7 +28,7 @@ export default function Login() {
             </Page>
             <div className="background-container">
                 <div className="bubble primary" style={{ top: '0', right: '0' }}></div>
-                <div className="bubble accent" style={{ bottom: '-20%', left: '-20%' }}></div>
+                <div className="bubble secondary" style={{ bottom: '-20%', left: '-20%' }}></div>
             </div>
         </div>
     );

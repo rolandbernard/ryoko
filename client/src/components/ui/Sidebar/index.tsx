@@ -1,7 +1,7 @@
 import Navigation from 'components/ui/Navigation';
 import avatar from 'images/daniel-planoetscher.jpg';
 import LineGraph from 'components/graphs/LineGraph';
-import { Link, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { clearToken } from 'adapters/auth';
 import './sidebar.scss';
 
@@ -30,15 +30,24 @@ export default function Sidebar({ mobileShown }: Props) {
                 </div>
                 <Navigation />
                 <nav className="secondary-nav">
-                    <Link to="/team" className="nav-link">
-                        Team
-                </Link>
-                    <Link to="/settings" className="nav-link">
+                    <NavLink to="/stats" className="nav-link">
+                        <span className="icon material-icons-outlined">
+                            assessment
+                        </span>
+                        Stats
+                    </NavLink>
+                    <NavLink to="/settings" className="nav-link">
+                        <span className="icon material-icons-outlined">
+                            settings
+                        </span>
                         Settings
-                </Link>
+                    </NavLink>
                     <button className="nav-link" onClick={logout}>
+                        <span className="icon material-icons-outlined">
+                            logout
+                        </span>
                         Logout
-                </button>
+                    </button>
                 </nav>
             </div>
             <div className="stats">

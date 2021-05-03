@@ -17,16 +17,20 @@ export default function Tasks() {
                             <h3>09:00</h3>
                             <div className="tasks-list">
                                 <Task task={{
+                                    uuid: 'asdf',
                                     name: 'Create API Routes',
                                     icon: '🌎',
                                     start: 1619074800000,
-                                    end: 1619076600000
+                                    end: 1619076600000,
+                                    description: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
                                 }} />
                                 <Task task={{
+                                    uuid: 'asdfds',
                                     name: 'Create API Routes',
                                     icon: '🌎',
                                     start: 1619074800000,
-                                    end: 1619076600000
+                                    end: 1619076600000,
+                                    description: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
                                 }} />
                             </div>
                         </div>
@@ -35,7 +39,7 @@ export default function Tasks() {
             </Page>
             <div className="background-container">
                 <div className="bubble primary" style={{ top: '-20%', right: '-20%' }}></div>
-                <div className="bubble accent" style={{ bottom: '-20%', left: '20%' }}></div>
+                <div className="bubble secondary" style={{ bottom: '-20%', left: '20%' }}></div>
             </div>
         </>
     );
