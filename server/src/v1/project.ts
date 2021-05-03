@@ -112,6 +112,7 @@ project.get('/:uuid/tasks', async (req, res) => {
                     requirement_time: 'task_requirements.time', 
                     assigned_user: 'task_assignees.user_id', 
                     assigned_time: 'task_assignees.time', 
+                    assigned_finished: 'task_assignees.finished', 
                     dependentcy: 'task_dependencies.requires_id', 
                 })
                 .where({
@@ -168,7 +169,6 @@ project.get('/:uuid/assigned', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed to get assignees',
@@ -221,6 +221,7 @@ interface AddProjectBody {
     name: string;
     text: string;
     color: string;
+    deadline?: string;
     token: Token;
 }
 
@@ -258,8 +259,9 @@ project.post('/', async (req, res) => {
                             name: req.body.name,
                             text: req.body.text,
                             color: req.body.color,
+                            deadline: req.body.deadline ? new Date(req.body.deadline) : null,
                             status: 'open',
-                        });
+                        })
                         await transaction('team_projects').insert(
                             team_ids.map(team_id => ({
                                 project_id: project_id,

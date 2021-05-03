@@ -123,7 +123,6 @@ team.get('/:uuid/', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get team',
@@ -185,6 +184,55 @@ team.get('/:uuid/members', async (req, res) => {
         });
     }
 });
+
+team.delete('/:teamid/members/:userid', async (req, res) => {
+    try {
+        const team_id = req.params.teamid;
+        const user_id = req.params.userid;
+        if (validate(team_id) && validate(user_id)) {
+            const team = await database('team_members')
+                .select({ id: 'team_members.team_id' })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'team_members.team_id': team_id,
+                });
+            if (team.length === 1) {
+                const deleted = await database('team_members')
+                    .delete()
+                    .where({
+                        'team_members.user_id': user_id,
+                        'team_members.team_id': team_id,
+                    });
+                if (deleted >= 1) {
+                    res.status(200).json({
+                        status: 'success',
+                    });
+                } else {
+                    res.status(404).json({
+                        status: 'error',
+                        message: 'role not found',
+                    });
+                }
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'team not found',
+                });
+            }
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed remove members',
+        });
+    }
+});
+
 
 team.get('/:uuid/roles', async (req, res) => {
     try {
@@ -399,7 +447,7 @@ team.delete('/:teamid/roles/:roleid', async (req, res) => {
     } catch (e) {
         res.status(400).json({
             status: 'error',
-            message: 'failed to add role',
+            message: 'failed to delete role',
         });
     }
 });
@@ -521,24 +569,22 @@ team.delete('/:uuid/', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            await database.transaction(async transaction => {
-                const deleted = await transaction('team_members')
-                    .delete()
-                    .where({
-                        'team_members.user_id': req.body.token.id,
-                        'team_members.team_id': id,
-                    });
-                if (deleted >= 1) {
-                    res.status(200).json({
-                        status: 'success',
-                    });
-                } else {
-                    res.status(404).json({
-                        status: 'error',
-                        message: 'team not found',
-                    });
-                }
-            });
+            const deleted = await database('team_members')
+                .delete()
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'team_members.team_id': id,
+                });
+            if (deleted >= 1) {
+                res.status(200).json({
+                    status: 'success',
+                });
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'team not found',
+                });
+            }
         } else {
             res.status(400).json({
                 status: 'error',

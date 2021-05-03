@@ -32,6 +32,7 @@ export async function up(database: Knex): Promise<void> {
             table.text('text').notNullable();
             table.string('color').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
+            table.date('deadline');
         })
         .createTable('team_projects', table => {
             table.uuid('project_id').notNullable().references('projects.id');
@@ -65,6 +66,7 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('task_id').notNullable().references('tasks.id');
             table.primary(['user_id', 'task_id']);
             table.integer('time').notNullable();
+            table.boolean('finished').notNullable();
         })
         .createTable('comments', table => {
             table.uuid('id').notNullable().primary();

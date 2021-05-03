@@ -14,6 +14,7 @@ interface TaskRequirement {
 interface TaskAssignment {
     user: string;
     time: number;
+    finished: boolean;
 }
 
 export interface Task {
@@ -68,6 +69,7 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 grouped_tasks[row.id].assigned.push({
                     user: row.assigned_user,
                     time: row.assigned_time,
+                    finished: row.assigned_finished,
                 });
             }
         }
@@ -112,6 +114,7 @@ task.get('/', async (req, res) => {
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
+                assigned_finished: 'task_assignees.finished', 
                 dependentcy: 'task_dependencies.requires_id', 
             })
             .where({
@@ -151,6 +154,7 @@ task.get('/:status(open|closed|suspended)', async (req, res) => {
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
+                assigned_finished: 'task_assignees.finished', 
                 dependentcy: 'task_dependencies.requires_id', 
             })
             .where({
@@ -192,6 +196,7 @@ task.get('/possible', async (req, res) => {
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
+                assigned_finished: 'task_assignees.finished', 
                 dependentcy: 'task_dependencies.requires_id', 
                 dependentcy_status: 'require.status',
             })
@@ -204,7 +209,6 @@ task.get('/possible', async (req, res) => {
             tasks: generateFromFlatResult(tasks),
         });
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get tasks',
@@ -324,6 +328,7 @@ task.get('/:uuid', async (req, res) => {
                     .select({
                         user: 'task_assignees.user_id',
                         time: 'task_assignees.time',
+                        finished: 'task_assignees.finished',
                     })
                     .where({
                         'task_assignees.task_id': id,
@@ -350,6 +355,7 @@ task.get('/:uuid', async (req, res) => {
                         assigned: assigned.map(row => ({
                             user: row.user,
                             time: row.time,
+                            finished: row.finished,
                         })),
                         dependentcies: dependentcies.map(row => row.id),
                         requirements: requirements.map(row => ({
@@ -456,6 +462,7 @@ task.post('/', async (req, res) => {
                                 task_id: task_id,
                                 user_id: assigned.user,
                                 time: assigned.time,
+                                finished: assigned.finished ?? false,
                             }))
                         );
                     }
@@ -598,6 +605,7 @@ task.put('/:uuid', async (req, res) => {
                                 task_id: task_id,
                                 user_id: assigned.user,
                                 time: assigned.time,
+                                finished: assigned.finished ?? false,
                             }))
                         );
                     }
