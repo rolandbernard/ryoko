@@ -1,18 +1,35 @@
 @use 'styles/settings.scss'as s;
 
 .task {
-    padding: 25px;
+    padding: 30px;
     border-radius: 10px;
     background: s.$white;
     width: 100%;
-    box-shadow: 0 5px 30px rgba(s.$black, 0.05);
+    box-shadow: 0 0px 20px rgba(s.$black, 0.05);
     display: block;
     color: s.$body-color;
     font-weight: s.$weight-regular;
+    position: relative;
 
     &:hover {
         color: s.$body-color;
         box-shadow: 0 5px 30px rgba(s.$black, 0.15);
+        transform: translateY(-5px);
+
+        .tag {
+            height: 40%;
+        }
+    }
+
+    .tag {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: s.$primary;
+        width: 6px;
+        height: 50%;
+        border-radius: 3px;
     }
 
 
@@ -50,6 +67,32 @@
     &:first-child {
         .description-container {
             display: block;
+        }
+    }
+
+    .assignees-container {
+        position: absolute;
+        right: -15px;
+        bottom: -20px;
+        display: flex;
+
+
+        &:hover {
+            .assignee {
+                margin-left: 0;
+            }
+        }
+
+        .assignee {
+
+            margin-left: -15px;
+
+            img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+            }
+
         }
     }
 }

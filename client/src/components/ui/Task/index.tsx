@@ -1,5 +1,7 @@
 import './task.scss';
 import { Link } from 'react-router-dom';
+import Tooltip from 'components/ui/Tooltip';
+import avatar from 'images/daniel-planoetscher.jpg';
 
 interface TaskInt {
     uuid: string,
@@ -27,6 +29,7 @@ export default function Task({ task, active }: Props) {
 
     return (
         <Link to={'/tasks/' + task.uuid} className="task">
+            <div className="tag"></div>
             <div className="main-info">
                 <div className="icon-container">
                     {task.icon}
@@ -38,6 +41,14 @@ export default function Task({ task, active }: Props) {
             </div>
             <div className="description-container">
                 {task.description}
+            </div>
+            <div className="assignees-container">
+                <Tooltip text="Daniel Planötscher" className="assignee">
+                   <img src={avatar} alt="Someone"/> 
+                </Tooltip>
+                <Tooltip text="Daniel Planötscher" className="assignee">
+                   <img src={avatar} alt="Someone"/> 
+                </Tooltip>
             </div>
 
         </Link>
