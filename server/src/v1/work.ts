@@ -109,7 +109,13 @@ work.put('/finish', async (req, res) => {
 work.get('/', async (req, res) => {
     try {
         const work = await database('workhours')
-            .select()
+            .select({
+                id: 'workhours.id',
+                task: 'workhours.task_id',
+                user: 'workhours.user_id',
+                started: 'workhours.started',
+                finished: 'workhours.finished',
+            })
             .where({
                 user_id: req.body.token.id,
                 finished: null,

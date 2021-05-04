@@ -70,12 +70,12 @@ comment.post('/', async (req, res) => {
 });
 
 interface UpdateCommentBody {
-    text?: string;
+    text: string;
     token: Token;
 }
 
 comment.put('/:uuid', async (req, res) => {
-    if (isOfType<UpdateCommentBody>(req.body, [])) {
+    if (isOfType<UpdateCommentBody>(req.body, [['text', 'string']])) {
         try {
             const comment_id = req.params.uuid;
             if (validate(comment_id)) {

@@ -338,16 +338,18 @@ project.put('/:uuid', async (req, res) => {
                     });
                 if (projects.length >= 1) {
                     await database.transaction(async transaction => {
-                        await transaction('projects')
-                            .update({
-                                name: req.body.name,
-                                text: req.body.text,
-                                color: req.body.color,
-                                status: req.body.status,
-                                deadline: req.body.deadline,
-                            }).where({
-                                id: id,
-                            });
+                        if (req.body.name || req.body.text || req.body.color || req.body.status || req.body.deadline) {
+                            await transaction('projects')
+                                .update({
+                                    name: req.body.name,
+                                    text: req.body.text,
+                                    color: req.body.color,
+                                    status: req.body.status,
+                                    deadline: req.body.deadline,
+                                }).where({
+                                    id: id,
+                                });
+                        }
                         if (remove_team_ids.length !== 0) {
                             await transaction('team_projects')
                                 .delete()

@@ -546,18 +546,20 @@ task.put('/:uuid', async (req, res) => {
                 });
             if (task.length >= 1) {
                 await database.transaction(async transaction => {
-                    await transaction('tasks')
-                        .update({
-                            name: req.body.name,
-                            text: req.body.text,
-                            icon: req.body.icon,
-                            priority: req.body.priority,
-                            status: req.body.status,
-                            edited: new Date(),
-                        })
-                        .where({
-                            'tasks.id': task_id,
-                        });
+                    if (req.body.name || req.body.text || req.body.icon || req.body.priority || req.body.status) {
+                        await transaction('tasks')
+                            .update({
+                                name: req.body.name,
+                                text: req.body.text,
+                                icon: req.body.icon,
+                                priority: req.body.priority,
+                                status: req.body.status,
+                                edited: new Date(),
+                            })
+                            .where({
+                                'tasks.id': task_id,
+                            });
+                    }
                     if (remove_requirement_ids.length !== 0) {
                         await transaction('task_requirements')
                             .delete()
