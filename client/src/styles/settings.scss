@@ -1,13 +1,16 @@
 
 // Colors
 $primary: #AC42FF;
-$secondary: #F15154;
-$accent: #7DEFFF;
-$light: #f0f0f0;
-$dark: #1f1f1f;
+$secondary: #7DEFFF;
+$light: #F1F1F1;
+$dark: #180923;
+
+$light-gray: #F8F8F8;
 
 $white: #fff;
 $black: #000;
+
+$error-color: $secondary;
 
 $colors: (
    'primary': $primary,
@@ -16,8 +19,8 @@ $colors: (
    'dark': $dark
 );
 
-$linear-gradient: linear-gradient(to top, $primary, $secondary);
-$radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, $secondary 100%);
+$linear-gradient: linear-gradient(to bottom, $primary, #930AFF);
+$radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, #930AFF 100%);
 
 $body-color: #3A5255;
 $body-font: 'Poppins', sans-serif;
@@ -28,6 +31,7 @@ $weight-regular: 400;
 $weight-medium: 500;
 $weight-semi-bold: 600;
 $weight-bold: 700;
+$weight-xbold: 800;
 
 // Breakpoints
 $breakpoints: (

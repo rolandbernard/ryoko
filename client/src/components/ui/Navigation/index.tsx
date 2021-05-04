@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
 import './navigation.scss';
-import background from 'images/svg/nav-bg.svg';
 
 
 export default function Navigation() {
@@ -15,17 +14,16 @@ export default function Navigation() {
             </NavLink>
             <NavLink to="/projects" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
-                    public
+                    folder
                 </span>
                 <span className="label">Projects</span>
             </NavLink>
-            <NavLink to="/stats" activeClassName="active" className="nav-link">
+            <NavLink to="/teams" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
-                    public
+                    people
                 </span>
-                <span className="label">Stats</span>
+                <span className="label">Teams</span>
             </NavLink>
-            <img src={background} alt="Background" className="background" />
         </nav>
     );
 }

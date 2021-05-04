@@ -1,12 +1,26 @@
 import './header.scss';
 import hamburger from 'images/svg/hamburger.svg';
 import profile from 'images/svg/profile.svg';
+import Navigation from 'components/ui/Navigation';
+import Sidebar from 'components/ui/Sidebar';
+import { ReactNode, useState } from 'react';
 
-export default function Header() {
-   return (
-       <header className="site-header">
-           <img src={hamburger} alt="Navigation"/>
-           <img src={profile} alt="Profile"/>
-       </header>
-   );
+interface Props {
+    children?: ReactNode
+}
+
+export default function Header({ children }: Props) {
+    const [showSidebar, setShowSidebar] = useState<boolean>(false);
+    return (
+        <div className="full-width">
+            <Sidebar mobileShown={showSidebar} />
+            <div className={'page-wrapper' + (showSidebar ? ' moved' : '')} onClick={() => showSidebar && setShowSidebar(false)}>
+                <header className="site-header">
+                    <img src={hamburger} alt="Navigation" onClick={() => !showSidebar && setShowSidebar(true)} />
+                </header>
+                <Navigation />
+                {children}
+            </div>
+        </div>
+    );
 }

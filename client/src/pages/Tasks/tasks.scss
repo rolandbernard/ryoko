@@ -1,0 +1,33 @@
+@use 'styles/settings'as s;
+@use 'styles/mixins'as mx;
+@use 'styles/functions'as fn;
+
+.tasks-page {
+    .intro-section {
+        font-size: fn.toRem(18);
+    }
+
+    .tasks-container {
+        margin-top: 50px;
+
+        .task-group {
+            @include mx.breakpoint(medium) {
+                display: flex;
+                width: 100%;
+
+                h3 {
+                    width: 30%;
+                }
+
+                .tasks-list {
+                    flex-grow: 1;
+                }
+            }
+
+            .task {
+                margin-bottom: 30px;
+            }
+        }
+
+    }
+}

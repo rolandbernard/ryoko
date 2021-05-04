@@ -1,14 +1,12 @@
-
-import Navigation from 'components/ui/Navigation';
+import Page from 'components/ui/Page';
 import './stats.scss';
 
 export default function Tasks() {
     return (
-        <div className="stats-page">
-            <Navigation />
-            <main>
-                <h1>Stats</h1>
-            </main>
-        </div>
+        <Page className="stats-page">
+            <div className="content-container">
+                <h1 className="underlined">Stats</h1>
+            </div>
+        </Page>
     );
 }

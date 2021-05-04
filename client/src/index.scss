@@ -1,6 +1,5 @@
-
 @use 'styles/settings'as s;
-@use 'styles/mixins' as mx;
+@use 'styles/mixins'as mx;
 @use 'styles/functions'as fn;
 
 * {
@@ -18,28 +17,24 @@ html {
 body {
     color: s.$body-color;
     position: relative;
-    background: linear-gradient(to right, #fff 0%, #f2f2f2 100%);
-
-    @include mx.breakpoint(xlarge) {
-        padding: 5rem 0;
-    }
+    background: s.$light;
 }
 
-a {
-    font-weight: s.$weight-bold;
+button {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+a, button {
+    font-weight: s.$weight-semi-bold;
     color: s.$primary;
     text-decoration: none;
+    cursor: pointer;
 
     &:hover {
         color: rgba(s.$primary, 0.5);
     }
-}
-
-.page-container {
-    max-width: 1440px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(30px);
 }
 
 .content-container {
@@ -49,17 +44,46 @@ a {
     padding: 30px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: s.$weight-bold;
 }
 
 h1 {
     font-size: fn.toRem(36);
     margin-bottom: fn.toRem(20);
+    font-weight: s.$weight-xbold;
+
+    &.underlined {
+        position: relative;
+        display: inline-block;
+
+        &:after {
+            content: ' ';
+            position: absolute;
+            right: -7px;
+            bottom: 5px;
+            width: 90px;
+            background: rgba(s.$secondary, .5);
+            height: 20px;
+            z-index: -1;
+
+            @include mx.breakpoint(large) {
+                height: 24px;
+                width: 120px;
+                bottom: 10px;
+            }
+
+        }
+    }
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(48);
-        margin-bottom: fn.toRem(40);
+        margin-bottom: fn.toRem(28);
     }
 }
 
@@ -69,9 +93,7 @@ h2 {
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(36);
-        margin: 0 auto fn.toRem(24) auto;
-        max-width: 560px;
-        text-align: center;
+        margin-bottom: fn.toRem(24);
     }
 
     &.left {
@@ -81,8 +103,9 @@ h2 {
 }
 
 h3 {
-    font-size: fn.toRem(20);
+    font-size: fn.toRem(18);
     margin-bottom: fn.toRem(12);
+    font-weight: s.$weight-semi-bold;
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(24);
@@ -100,3 +123,41 @@ h4 {
     }
 }
 
+
+.background-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+
+    .bubble {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        filter: blur(200px);
+        opacity: 0.9;
+
+        @include mx.breakpoint(medium) {
+            width: 400px;
+            height: 400px;
+            filter: blur(400px);
+        }
+
+        @include mx.breakpoint(large) {
+            width: 600px;
+            height: 600px;
+        }
+
+        &.secondary {
+            background: s.$secondary;
+        }
+
+        &.primary {
+            background: s.$primary;
+        }
+
+    }
+}

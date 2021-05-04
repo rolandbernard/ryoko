@@ -1,0 +1,17 @@
+@use 'styles/mixins' as mx;
+body {
+    @include mx.breakpoint(xlarge) {
+        padding-top: 5rem;
+    }
+}
+.page-container {
+    max-width: 1540px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    @include mx.breakpoint(xlarge) {
+        min-height: calc(100vh - 5rem);
+    }
+}
+
