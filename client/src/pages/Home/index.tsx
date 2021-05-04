@@ -1,5 +1,5 @@
 import Project from 'components/ui/Project';
-import ButtonLink from 'components/ui/ButtonLink';
+import ButtonLink from 'components/navigation/ButtonLink';
 import ContactForm from 'components/forms/ContactForm';
 import Page from 'components/ui/Page';
 import './home.scss';

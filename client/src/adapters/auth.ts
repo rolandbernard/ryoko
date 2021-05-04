@@ -64,7 +64,7 @@ export async function register(username: string, password: string): Promise<bool
         }
         return response.ok;
     } catch (e) {
-        // Probably a network error
+        // Probably a network errlor
         throw e;
     }
 }

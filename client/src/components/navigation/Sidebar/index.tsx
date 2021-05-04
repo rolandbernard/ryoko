@@ -1,4 +1,4 @@
-import Navigation from 'components/ui/Navigation';
+import Navigation from 'components/navigation/Navigation';
 import avatar from 'images/daniel-planoetscher.jpg';
 import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';

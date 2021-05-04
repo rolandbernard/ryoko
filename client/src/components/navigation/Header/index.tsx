@@ -1,8 +1,8 @@
 import './header.scss';
 import hamburger from 'images/svg/hamburger.svg';
 import profile from 'images/svg/profile.svg';
-import Navigation from 'components/ui/Navigation';
-import Sidebar from 'components/ui/Sidebar';
+import Navigation from 'components/navigation/Navigation';
+import Sidebar from 'components/navigation/Sidebar';
 import { ReactNode, useState } from 'react';
 
 interface Props {
