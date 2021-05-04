@@ -11,7 +11,7 @@ export default function DetailGrid({ details }: Props) {
         <div className="detail-grid">
             {
                 details.map((detail) => (
-                    <div className="box-container">
+                    <div key={detail.title} className="box-container">
                         <DetailBox {...detail} />
                     </div>
                 ))

@@ -21,7 +21,7 @@ export default function AppWrapper() {
                 <ProtectedRoute path="/projects" component={Projects} />
                 <ProtectedRoute path="/stats" component={Stats} />
                 <ProtectedRoute path="/teams/:uuid/edit" component={TeamsEdit} />
-                <ProtectedRoute path="/teams" exact component={Teams} />
+                <ProtectedRoute path={["/teams", "/teams/:tab"]} exact component={Teams} />
                 <ProtectedRoute path="/settings" component={Settings} />
             </Suspense>
         </Header>
