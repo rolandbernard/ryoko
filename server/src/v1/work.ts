@@ -93,7 +93,7 @@ work.put('/finish', async (req, res) => {
                 status: 'success',
             });
         } else {
-            res.status(200).json({
+            res.status(404).json({
                 status: 'error',
                 message: 'no work to finish',
             });
@@ -102,6 +102,33 @@ work.put('/finish', async (req, res) => {
         res.status(400).json({
             status: 'error',
             message: 'failed to finish work',
+        });
+    }
+});
+
+work.get('/', async (req, res) => {
+    try {
+        const work = await database('workhours')
+            .select()
+            .where({
+                user_id: req.body.token.id,
+                finished: null,
+            });
+        if (work.length >= 1) {
+            res.status(200).json({
+                status: 'success',
+                work: work[0],
+            });
+        } else {
+            res.status(404).json({
+                status: 'error',
+                message: 'no open work',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed to get work',
         });
     }
 });
