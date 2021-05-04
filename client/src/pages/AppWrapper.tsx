@@ -12,8 +12,9 @@ const TeamsEdit = lazy(() => import('pages/Teams/TeamsEdit'));
 const Teams = lazy(() => import('pages/Teams'));
 const Settings = lazy(() => import('pages/Settings'));
 
+
 export default function AppWrapper() {
-    return (<>
+    return (
         <Header>
             <Suspense fallback={false}>
                 <ProtectedRoute path="/tasks/:uuid" component={TaskDetail} />
@@ -25,10 +26,6 @@ export default function AppWrapper() {
                 <ProtectedRoute path="/settings" component={Settings} />
             </Suspense>
         </Header>
-        <div className="background-container">
-            <div className="bubble primary" style={{ top: '-20%', right: '-20%' }}></div>
-            <div className="bubble secondary" style={{ bottom: '-20%', left: '20%' }}></div>
-        </div>
-    </>);
+        );
 }
 

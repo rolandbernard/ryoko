@@ -28,10 +28,6 @@ export default function Register() {
                     <Link className="link" to="/login">You already have an account?</Link>
                 </div>
             </Page>
-            <div className="background-container">
-                <div className="bubble primary" style={{ top: '-10%', right: '-20%' }}></div>
-                <div className="bubble secondary" style={{ bottom: '-20%', left: '-20%' }}></div>
-            </div>
         </div>
     );
 }

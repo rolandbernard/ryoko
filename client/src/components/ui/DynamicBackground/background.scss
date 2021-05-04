@@ -1,0 +1,40 @@
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
+
+.background-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+
+    .bubble {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        filter: blur(200px);
+        opacity: 0.9;
+
+        @include mx.breakpoint(medium) {
+            width: 400px;
+            height: 400px;
+            filter: blur(400px);
+        }
+
+        @include mx.breakpoint(large) {
+            width: 600px;
+            height: 600px;
+        }
+
+        &.secondary {
+            background: s.$secondary;
+        }
+
+        &.primary {
+            background: s.$primary;
+        }
+
+    }
+}

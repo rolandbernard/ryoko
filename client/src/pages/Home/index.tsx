@@ -9,7 +9,7 @@ import ImageRoland from 'images/roland-bernard.jpg';
 import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 export default function Home() {
-    return (<>
+    return (
         <Page className="landing-page">
             <section className="hero-section" id="hero">
                 <div className="hero-container">
@@ -170,15 +170,6 @@ export default function Home() {
                 </div>
             </footer>
         </Page>
-        <div className="background-container">
-            <div className="bubble secondary" style={{ top: '0', right: '0' }}></div>
-            <div className="bubble primary" style={{ top: '20%', left: '0' }}></div>
-            <div className="bubble secondary" style={{ top: '32%', right: '5%' }}></div>
-            <div className="bubble primary" style={{ top: '50%', right: '20%' }}></div>
-            <div className="bubble secondary" style={{ top: '65%', left: '-15%' }}></div>
-            <div className="bubble secondary" style={{ bottom: '5%', left: '10%' }}></div>
-            <div className="bubble primary" style={{ bottom: '0%', right: '0%' }}></div>
-        </div>
-    </>);
+    );
 }
 
