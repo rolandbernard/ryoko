@@ -18,7 +18,7 @@ export default function Navigation() {
                 </span>
                 <span className="label">Projects</span>
             </NavLink>
-            <NavLink to="/teams" activeClassName="active" className="nav-link">
+            <NavLink to="/teams/members" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
                     people
                 </span>

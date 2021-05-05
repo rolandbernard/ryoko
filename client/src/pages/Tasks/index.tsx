@@ -1,10 +1,9 @@
-import Page from 'components/ui/Page';
 import Task from 'components/ui/Task';
 import './tasks.scss';
 
 export default function Tasks() {
     return (
-        <Page className="tasks-page">
+        <div className="tasks-page">
             <main className="content-container">
                 <section className="intro-section">
                     <h1 className="underlined">Tasks</h1>
@@ -35,7 +34,7 @@ export default function Tasks() {
                     </div>
                 </section>
             </main>
-        </Page>
+        </div>
     );
 }
 

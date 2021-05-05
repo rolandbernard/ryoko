@@ -34,8 +34,6 @@
 .site-header {
     display: flex;
     justify-content: space-between;
-    background: rgba(s.$white, 0.5);
-    backdrop-filter: blur(10px);
 
     @include mx.breakpoint(large) {
         display: none;

@@ -12,10 +12,10 @@ export default function DynamicBackground() {
     }, [])
 
     let bubbles = [];
-    let secondary = true;
+    let secondary = false;
 
     for (let i = 0; i <= height; i += 700) {
-        let lr = secondary ? { right: '-5%' } : { left: '-5%' };
+        let lr = secondary ? { left: '-5%' } : { right: '-5%' };
         bubbles.push(
             <div
                 className={'bubble ' + (secondary ? 'secondary' : 'primary')}

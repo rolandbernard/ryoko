@@ -15,7 +15,7 @@
         height: 400px;
         position: absolute;
         filter: blur(200px);
-        opacity: 0.9;
+        opacity: 1;
 
         @include mx.breakpoint(medium) {
             width: 400px;

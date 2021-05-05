@@ -1,0 +1,31 @@
+@use 'styles/settings.scss' as s;
+.team-member-item {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    margin: 30px auto;
+    padding: 10px;
+    background: s.$white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(s.$black, 0.1);
+    .avatar-container {
+        width: 60px;
+        height: 60px;
+        transform: translateX(-50%);
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .details {
+        margin-left: -10px;
+    }
+    .name {
+        font-weight: s.$weight-bold;
+        font-size: 18px;
+    }
+    .role {
+        font-size: 14px;
+        line-height: 1.2;
+    }
+}

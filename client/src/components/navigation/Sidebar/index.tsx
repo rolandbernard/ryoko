@@ -7,9 +7,10 @@ import './sidebar.scss';
 
 interface Props {
     mobileShown: boolean;
+    setMobileShown: Function;
 }
 
-export default function Sidebar({ mobileShown }: Props) {
+export default function Sidebar({ mobileShown, setMobileShown }: Props) {
 
     const history = useHistory();
 
@@ -30,13 +31,13 @@ export default function Sidebar({ mobileShown }: Props) {
                 </div>
                 <Navigation />
                 <nav className="secondary-nav">
-                    <NavLink to="/stats" className="nav-link">
+                    <NavLink to="/stats" className="nav-link" onClick={() => setMobileShown(false)}>
                         <span className="icon material-icons-outlined">
                             assessment
                         </span>
                         Stats
                     </NavLink>
-                    <NavLink to="/settings" className="nav-link">
+                    <NavLink to="/settings" className="nav-link" onClick={() => setMobileShown(false)}>
                         <span className="icon material-icons-outlined">
                             settings
                         </span>

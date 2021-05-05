@@ -4,6 +4,8 @@
     display: flex;
     justify-content: space-between;
     background: rgba(s.$white, 0.25);
+    border-radius: 15px;
+    position: relative;
 
     .tab {
         display: flex;
@@ -37,5 +39,33 @@
                 transform: translate(-50%, 50%) scaleX(1);
             }
         }
+    }
+
+    .tab {
+        &.active {
+            &:first-of-type {
+                &+.background {
+                    left: 0;
+                }
+            }
+
+            &:last-of-type {
+                &+.background {
+                    left: calc(50% + 20px);
+                }
+            }
+        }
+    }
+
+    .background {
+        position: absolute;
+        height: 100%;
+        background: s.$white;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: calc(50% - 20px);
+        border-radius: 15px;
+        box-shadow: 0 0 5px rgba(s.$black, 0.05);
     }
 }
