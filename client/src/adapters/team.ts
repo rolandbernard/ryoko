@@ -101,4 +101,125 @@ export async function getTeamWork(uuid: string): Promise<Work[]> {
     }
 }
 
+export async function createTeam(name: string): Promise<string> {
+    try {
+        const response = await fetch(`${apiRoot}/team/`, {
+            method: 'POST',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+            }),
+        });
+        if (response.ok) {
+            return (await response.json()).id;
+        } else {
+            throw new Error("Failed to create team");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function removeTeamMember(team: string, user: string) {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}/members/${user}`, {
+            method: 'DELETE',
+            headers: getAuthHeader(),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to create team");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function createTeamRole(team: string, name: string): Promise<TeamRole> {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}/roles`, {
+            method: 'POST',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+            }),
+        });
+        if (response.ok) {
+            return (await response.json()).role;
+        } else {
+            throw new Error("Failed to create team role");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function deleteTeamRole(team: string, role: string) {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}/roles/${role}`, {
+            method: 'DELETE',
+            headers: getAuthHeader(),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to delete team role");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function addTeamMember(team: string, member: { user: string, role: string }) {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}/members`, {
+            method: 'POST',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(member),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to add team member");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function updateTeamMember(team: string, member: { user: string, role: string }) {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}/members`, {
+            method: 'PUT',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(member),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to update team member");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function leaveTeam(team: string) {
+    try {
+        const response = await fetch(`${apiRoot}/team/${team}`, {
+            method: 'DELETE',
+            headers: getAuthHeader(),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to leave team");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
 
