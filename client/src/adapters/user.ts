@@ -5,6 +5,13 @@ import { getAuthHeader } from './auth';
 import { Task } from './task';
 import { Work } from './work';
 
+export interface User {
+    id: string;
+    username: string;
+    realname?: string;
+    email?: string;
+}
+
 export async function exists(username: string) {
     try {
         const response = await fetch(`${apiRoot}/user/name/${username}`);
@@ -13,13 +20,6 @@ export async function exists(username: string) {
         // Probably a network error
         return false;
     }
-}
-
-export interface User {
-    id: string;
-    username: string;
-    realname?: string;
-    email?: string;
 }
 
 export async function getCurrentUser(): Promise<User> {
@@ -35,7 +35,7 @@ export async function getCurrentUser(): Promise<User> {
     }
 }
 
-export async function getTasks(): Promise<Array<Task>> {
+export async function getUserTasks(): Promise<Array<Task>> {
     try {
         const response = await fetch(`${apiRoot}/user/tasks`, { headers: getAuthHeader() });
         if (response.ok) {
@@ -52,7 +52,7 @@ export async function getTasks(): Promise<Array<Task>> {
     }
 }
 
-export async function getWork(): Promise<Work> {
+export async function getUserWork(): Promise<Work> {
     try {
         const response = await fetch(`${apiRoot}/user/work`, { headers: getAuthHeader() });
         if (response.ok) {
