@@ -23,7 +23,7 @@ project.get('/', async (req, res) => {
                 color: 'projects.color',
                 status: 'projects.status',
                 deadline: 'projects.deadline',
-        })
+            })
             .where({
                 'team_members.user_id': req.body.token.id,
             })
@@ -167,7 +167,7 @@ project.get('/:uuid/assigned', async (req, res) => {
                 .groupBy('users.id');
             res.status(200).json({
                 status: 'success',
-                tasks: users,
+                assigned: users,
             });
         } else {
             res.status(400).json({

@@ -284,7 +284,10 @@ team.get('/:uuid/projects', async (req, res) => {
                 .select({
                     id: 'projects.id',
                     name: 'projects.name',
+                    text: 'projects.text',
+                    color: 'projects.color',
                     status: 'projects.status',
+                    deadline: 'projects.deadline',
                 })
                 .where({
                     'team_members.user_id': req.body.token.id,
