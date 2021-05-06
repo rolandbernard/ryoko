@@ -56,7 +56,11 @@ export async function getUserWork(): Promise<Work> {
     try {
         const response = await fetch(`${apiRoot}/user/work`, { headers: getAuthHeader() });
         if (response.ok) {
-            return (await response.json()).work;
+            return (await response.json()).work.map((work: any) => ({
+                ...work,
+                started: new Date(work.started),
+                finished: new Date(work.finished),
+            }));
         } else {
             throw new Error("Failed to get user work");
         }

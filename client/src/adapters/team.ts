@@ -3,7 +3,7 @@ import { apiRoot } from 'config';
 
 import { getAuthHeader } from './auth';
 import { User } from './user';
-import { Project } from './project';
+import { ReducedProject } from './project';
 import { Work } from './work';
 
 export interface Team {
@@ -20,8 +20,6 @@ export interface TeamRole {
 export interface TeamMember extends User {
     role: TeamRole;
 }
-
-type TeamProject = Exclude<Project, 'teams'>;
 
 export async function getTeams(): Promise<Team[]> {
     try {
@@ -75,11 +73,14 @@ export async function getTeamRoles(uuid: string): Promise<TeamRole[]> {
     }
 }
 
-export async function getTeamProjects(uuid: string): Promise<TeamProject[]> {
+export async function getTeamProjects(uuid: string): Promise<ReducedProject[]> {
     try {
         const response = await fetch(`${apiRoot}/team/${uuid}/projects`, { headers: getAuthHeader() });
         if (response.ok) {
-            return (await response.json()).projects;
+            return (await response.json()).projects.map((project: any) => ({
+                ...project,
+                deadline: new Date(project.deadline),
+            }));
         } else {
             throw new Error("Failed to get team projects");
         }
@@ -92,7 +93,11 @@ export async function getTeamWork(uuid: string): Promise<Work[]> {
     try {
         const response = await fetch(`${apiRoot}/team/${uuid}/work`, { headers: getAuthHeader() });
         if (response.ok) {
-            return (await response.json()).work;
+            return (await response.json()).work.map((work: any) => ({
+                ...work,
+                started: new Date(work.started),
+                finished: new Date(work.finished),
+            }));
         } else {
             throw new Error("Failed to get team work");
         }
