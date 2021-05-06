@@ -34,11 +34,8 @@
             }
 
             @include mx.breakpoint(medium) {
-                width: 64px;
-                height: 64px;
-
                 .icon {
-                    font-size: 32px;
+                    font-size: 28px;
                 }
             }
         }

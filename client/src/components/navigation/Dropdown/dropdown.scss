@@ -1,0 +1,41 @@
+@use 'styles/settings.scss'as s;
+
+.dropdown-container {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 5px;
+
+    &.open {
+        .dropdown {
+            opacity: 1;
+            transform: translateY(100%);
+            visibility: visible;
+        }
+    }
+
+    .dropdown {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform: translateY(75%);
+        background: s.$white;
+        z-index: 2000;
+        max-width: 200px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(s.$black, 0.05);
+        visibility: hidden;
+        opacity: 0;
+
+
+        .dropdown-item {
+            padding: 10px 20px;
+            display: block;
+            color: s.$body-color;
+            border-radius: 5px;
+
+            &:hover {
+                box-shadow: 0 0 10px rgba(s.$black, 0.1);
+            }
+        }
+    }
+}
