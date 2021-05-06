@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import Page from 'components/ui/Page';
+import Page from 'components/layout/Page';
 import RegisterForm from 'components/forms/RegisterForm';
 import { register } from 'adapters/auth';
 

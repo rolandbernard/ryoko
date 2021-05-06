@@ -1,13 +1,13 @@
 import './team-member.scss';
 import avatar from 'images/roland-bernard.jpg';
 
-interface TeamMember {
+interface TeamMemberInterface {
     name: string;
     role: string;
 }
 
 interface Props {
-    member: TeamMember
+    member: TeamMemberInterface
 }
 
 export default function TeamMember({ member }: Props) {

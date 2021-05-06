@@ -7,6 +7,10 @@
     align-items: center;
     min-height: 100vh;
 
+    @include mx.breakpoint(large) {
+        min-height: calc(100vh - 5rem);
+    }
+
     .login-page {
         max-width: 600px;
         width: 100%;

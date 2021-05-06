@@ -1,6 +1,5 @@
 import './teams.scss';
-import Page from 'components/ui/Page';
-import DetailGrid from 'components/ui/DetailGrid';
+import DetailGrid from 'components/layout/DetailGrid';
 import ButtonLink from 'components/navigation/ButtonLink';
 import Tabs from 'components/navigation/Tabs';
 

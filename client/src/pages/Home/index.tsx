@@ -1,7 +1,7 @@
 import Project from 'components/ui/Project';
 import ButtonLink from 'components/navigation/ButtonLink';
 import ContactForm from 'components/forms/ContactForm';
-import Page from 'components/ui/Page';
+import Page from 'components/layout/Page';
 import './home.scss';
 
 import Logo from 'images/logo.svg';

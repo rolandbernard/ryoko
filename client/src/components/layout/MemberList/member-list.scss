@@ -1,0 +1,21 @@
+@use 'styles/settings.scss' as s;
+.team-member-list {
+    .add-btn {
+        width: 85%;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: s.$white;
+        font-weight: s.$weight-semi-bold;
+        font-size: 36px;
+        border-radius: 15px;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 0 0 5px rgba(s.$black, 0.05);
+        }
+    }
+    & > * {
+        margin: 30px auto;
+    }
+}

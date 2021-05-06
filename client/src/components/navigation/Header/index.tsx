@@ -2,7 +2,7 @@ import './header.scss';
 import hamburger from 'images/svg/hamburger.svg';
 import Navigation from 'components/navigation/Navigation';
 import Sidebar from 'components/navigation/Sidebar';
-import Page from 'components/ui/Page'
+import Page from 'components/layout/Page'
 import { ReactNode, useState } from 'react';
 
 interface Props {

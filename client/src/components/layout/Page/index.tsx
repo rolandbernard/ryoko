@@ -1,6 +1,6 @@
 
 import { ReactNode } from 'react';
-import DynamicBackground from 'components/ui/DynamicBackground';
+import DynamicBackground from 'components/layout/DynamicBackground';
 
 import './page.scss';
 

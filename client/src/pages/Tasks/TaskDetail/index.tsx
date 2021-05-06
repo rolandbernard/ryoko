@@ -1,5 +1,4 @@
 import './task-detail.scss';
-import Page from 'components/ui/Page';
 
 export default function TaskDetail() {
     
