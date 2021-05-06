@@ -7,7 +7,7 @@
     align-items: center;
     min-height: 100vh;
 
-    @include mx.breakpoint(large) {
+    @include mx.breakpoint(xlarge) {
         min-height: calc(100vh - 5rem);
     }
 
