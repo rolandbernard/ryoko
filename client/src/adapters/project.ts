@@ -1,7 +1,5 @@
 
-import { apiRoot } from 'config';
-
-import { getAuthHeader } from './auth';
+import { executeApiGet, executeApiPost, executeApiPut } from './util';
 import { Task } from './task';
 import { User } from './user';
 import { Work } from './work';
@@ -22,84 +20,38 @@ export interface AssignedUser extends User {
 
 export type ReducedProject = Exclude<Project, 'teams'>;
 
-export async function getProjects(): Promise<ReducedProject[]> {
-    try {
-        const response = await fetch(`${apiRoot}/project/`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).projects.map((project: any) => ({
-                ...project,
-                deadline: project.deadline ? new Date(project.deadline) : undefined,
-            }));
-        } else {
-            throw new Error("Failed to get projects");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getProjects(): Promise<ReducedProject[]> {
+    return executeApiGet(`project`, ({ projects }) => projects.map((project: any) => ({
+        ...project,
+        deadline: project.deadline ? new Date(project.deadline) : undefined,
+    })), "Failed to get projects");
 }
 
-export async function getProject(uuid: string): Promise<Project> {
-    try {
-        const response = await fetch(`${apiRoot}/project/${uuid}`, { headers: getAuthHeader() });
-        if (response.ok) {
-            const project = (await response.json()).project;
-            return {
-                ...project,
-                deadline: project.deadline ? new Date(project.deadline) : undefined,
-            }
-        } else {
-            throw new Error("Failed to get project");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getProject(uuid: string): Promise<Project> {
+    return executeApiGet(`project/${uuid}`, ({ project }) => ({
+        ...project,
+        deadline: project.deadline ? new Date(project.deadline) : undefined,
+    }), "Failed to get project");
 }
 
-export async function getProjectTasks(uuid: string): Promise<Task[]> {
-    try {
-        const response = await fetch(`${apiRoot}/project/${uuid}/tasks`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).tasks.map((task: any) => ({
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            }));
-        } else {
-            throw new Error("Failed to get project tasks");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getProjectTasks(uuid: string): Promise<Task[]> {
+    return executeApiGet(`project/${uuid}/tasks`, ({ tasks }) => tasks.map((task: any) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    })), "Failed to get project tasks");
 }
 
-export async function getProjectAssignees(uuid: string): Promise<AssignedUser[]> {
-    try {
-        const response = await fetch(`${apiRoot}/project/${uuid}/assigned`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).assigned;
-        } else {
-            throw new Error("Failed to get project assignees");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getProjectAssignees(uuid: string): Promise<AssignedUser[]> {
+    return executeApiGet(`project/${uuid}/assigned`, ({ assigned }) => assigned, "Failed to get project assignees");
 }
 
-export async function getProjectWork(uuid: string): Promise<Work[]> {
-    try {
-        const response = await fetch(`${apiRoot}/project/${uuid}/work`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).work.map((work: any) => ({
-                ...work,
-                started: new Date(work.started),
-                finished: work.finished ? new Date(work.finished) : undefined,
-            }));
-        } else {
-            throw new Error("Failed to get project work");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getProjectWork(uuid: string): Promise<Work[]> {
+    return executeApiGet(`project/${uuid}/work`, ({ work }) => work.map((work: any) => ({
+        ...work,
+        started: new Date(work.started),
+        finished: work.finished ? new Date(work.finished) : undefined,
+    })), "Failed to get project work");
 }
 
 interface NewTeamData {
@@ -110,24 +62,8 @@ interface NewTeamData {
     deadline?: Date;
 }
 
-export async function createProject(project: NewTeamData): Promise<string> {
-    try {
-        const response = await fetch(`${apiRoot}/project/`, {
-            method: 'POST',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(project),
-        });
-        if (response.ok) {
-            return (await response.json()).id;
-        } else {
-            throw new Error("Failed to create project");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function createProject(project: NewTeamData): Promise<string> {
+    return executeApiPost(`project`, project, ({ id }) => id, "Failed to create project");
 }
 
 interface UpdateTeamData {
@@ -140,24 +76,8 @@ interface UpdateTeamData {
     deadline?: string;
 }
 
-export async function updateProject(uuid: string, project: UpdateTeamData) {
-    try {
-        const response = await fetch(`${apiRoot}/project/${uuid}`, {
-            method: 'PUT',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(project),
-        });
-        if (response.ok) {
-            return (await response.json()).id;
-        } else {
-            throw new Error("Failed to update project");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function updateProject(uuid: string, project: UpdateTeamData) {
+    return executeApiPut(`project/${uuid}`, project, () => {}, "Failed to update project");
 }
 
 

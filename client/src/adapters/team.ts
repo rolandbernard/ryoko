@@ -1,7 +1,5 @@
 
-import { apiRoot } from 'config';
-
-import { getAuthHeader } from './auth';
+import { executeApiDelete, executeApiGet, executeApiPost, executeApiPut } from './util';
 import { User } from './user';
 import { ReducedProject } from './project';
 import { Work } from './work';
@@ -21,210 +19,62 @@ export interface TeamMember extends User {
     role: TeamRole;
 }
 
-export async function getTeams(): Promise<Team[]> {
-    try {
-        const response = await fetch(`${apiRoot}/team/`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).teams;
-        } else {
-            throw new Error("Failed to get teams");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeams(): Promise<Team[]> {
+    return executeApiGet(`team`, ({ teams }) => teams, "Failed to get teams");
 }
 
-export async function getTeam(uuid: string): Promise<Team> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${uuid}`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).team;
-        } else {
-            throw new Error("Failed to get team");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeam(uuid: string): Promise<Team> {
+    return executeApiGet(`team/${uuid}`, ({ team }) => team, "Failed to get team");
 }
 
-export async function getTeamMembers(uuid: string): Promise<TeamMember[]> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${uuid}/members`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).members;
-        } else {
-            throw new Error("Failed to get team members");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeamMembers(uuid: string): Promise<TeamMember[]> {
+    return executeApiGet(`team/${uuid}/members`, ({ members }) => members, "Failed to get team members");
 }
 
-export async function getTeamRoles(uuid: string): Promise<TeamRole[]> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${uuid}/roles`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).roles;
-        } else {
-            throw new Error("Failed to get team roles");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeamRoles(uuid: string): Promise<TeamRole[]> {
+    return executeApiGet(`team/${uuid}/roles`, ({ roles }) => roles, "Failed to get team roles");
 }
 
-export async function getTeamProjects(uuid: string): Promise<ReducedProject[]> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${uuid}/projects`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).projects.map((project: any) => ({
-                ...project,
-                deadline: new Date(project.deadline),
-            }));
-        } else {
-            throw new Error("Failed to get team projects");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeamProjects(uuid: string): Promise<ReducedProject[]> {
+    return executeApiGet(`team/${uuid}/projects`, ({ projects }) => projects.map((project: any) => ({
+        ...project,
+        deadline: new Date(project.deadline),
+    })), "Failed to get team projects");
 }
 
-export async function getTeamWork(uuid: string): Promise<Work[]> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${uuid}/work`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).work.map((work: any) => ({
-                ...work,
-                started: new Date(work.started),
-                finished: work.finished ? new Date(work.finished) : undefined,
-            }));
-        } else {
-            throw new Error("Failed to get team work");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTeamWork(uuid: string): Promise<Work[]> {
+    return executeApiGet(`team/${uuid}/work`, ({ work }) => work.map((work: any) => ({
+        ...work,
+        started: new Date(work.started),
+        finished: work.finished ? new Date(work.finished) : undefined,
+    })), "Failed to get team work");
 }
 
-export async function createTeam(name: string): Promise<string> {
-    try {
-        const response = await fetch(`${apiRoot}/team/`, {
-            method: 'POST',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-            }),
-        });
-        if (response.ok) {
-            return (await response.json()).id;
-        } else {
-            throw new Error("Failed to create team");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function createTeam(name: string): Promise<string> {
+    return executeApiPost(`team`, { name: name }, ({ id }) => id, "Failed to create team");
 }
 
-export async function removeTeamMember(team: string, user: string) {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}/members/${user}`, {
-            method: 'DELETE',
-            headers: getAuthHeader(),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to create team");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function removeTeamMember(team: string, user: string) {
+    return executeApiDelete(`team/${team}/members/${user}`, () => {}, "Failed to remove team member");
 }
 
-export async function createTeamRole(team: string, name: string): Promise<TeamRole> {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}/roles`, {
-            method: 'POST',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-            }),
-        });
-        if (response.ok) {
-            return (await response.json()).role;
-        } else {
-            throw new Error("Failed to create team role");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function createTeamRole(team: string, name: string): Promise<TeamRole> {
+    return executeApiPost(`team/${team}/roles`, { name: name }, ({ role }) => role, "Failed to create team role");
 }
 
-export async function deleteTeamRole(team: string, role: string) {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}/roles/${role}`, {
-            method: 'DELETE',
-            headers: getAuthHeader(),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to delete team role");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function deleteTeamRole(team: string, role: string) {
+    return executeApiDelete(`team/${team}/roles/${role}`, () => {}, "Failed to delete team role");
 }
 
-export async function addTeamMember(team: string, member: { user: string, role: string }) {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}/members`, {
-            method: 'POST',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(member),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to add team member");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function addTeamMember(team: string, member: { user: string, role: string }) {
+    return executeApiPost(`team/${team}/members`, member, () => {}, "Failed to add team member");
 }
 
-export async function updateTeamMember(team: string, member: { user: string, role: string }) {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}/members`, {
-            method: 'PUT',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(member),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to update team member");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function updateTeamMember(team: string, member: { user: string, role: string }) {
+    return executeApiPut(`team/${team}/members`, member, () => {}, "Failed to update team member");
 }
 
-export async function leaveTeam(team: string) {
-    try {
-        const response = await fetch(`${apiRoot}/team/${team}`, {
-            method: 'DELETE',
-            headers: getAuthHeader(),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to leave team");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function leaveTeam(team: string) {
+    return executeApiDelete(`team/${team}`, () => {}, "Failed to leave team");
 }
 

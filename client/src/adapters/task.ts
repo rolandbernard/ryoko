@@ -1,7 +1,5 @@
 
-import { apiRoot } from 'config';
-
-import { getAuthHeader } from './auth';
+import { executeApiGet } from './util';
 import { Comment } from './comment';
 import { Work } from './work';
 
@@ -31,106 +29,51 @@ export interface Task {
     edited: Date;
 }
 
-export async function getTasks(): Promise<Task[]> {
-    try {
-        const response = await fetch(`${apiRoot}/task`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).tasks.map((task: any) => ({
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            }));
-        } else {
-            throw new Error("Failed to get tasks");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTasks(): Promise<Task[]> {
+    return executeApiGet(`task`, ({ tasks }) => tasks.map((task: any) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    })), "Failed to get tasks");
 }
 
-export async function getTasksWithStatus(status: 'open' | 'closed' | 'suspended'): Promise<Task[]> {
-    try {
-        const response = await fetch(`${apiRoot}/task/${status}`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).tasks.map((task: any) => ({
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            }));
-        } else {
-            throw new Error("Failed to get tasks with status");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTasksWithStatus(status: 'open' | 'closed' | 'suspended'): Promise<Task[]> {
+    return executeApiGet(`task/${status}`, ({ tasks }) => tasks.map((task: any) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    })), "Failed to get tasks with status");
 }
 
-export async function getPossibleTasks(): Promise<Task[]> {
-    try {
-        const response = await fetch(`${apiRoot}/task/possible`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).tasks.map((task: any) => ({
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            }));
-        } else {
-            throw new Error("Failed to get possible tasks");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getPossibleTasks(): Promise<Task[]> {
+    return executeApiGet(`task/possible`, ({ tasks }) => tasks.map((task: any) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    })), "Failed to get possible tasks");
 }
 
-export async function getTask(uuid: string): Promise<Task> {
-    try {
-        const response = await fetch(`${apiRoot}/task/${uuid}`, { headers: getAuthHeader() });
-        if (response.ok) {
-            const task = (await response.json()).task;
-            return {
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            };
-        } else {
-            throw new Error("Failed to get task");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTask(uuid: string): Promise<Task> {
+    return executeApiGet(`task/${uuid}`, ({ task }) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    }), "Failed to get task");
 }
 
-export async function getTaskComments(uuid: string): Promise<Comment[]> {
-    try {
-        const response = await fetch(`${apiRoot}/task/${uuid}/comments`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).comments.map((comment: any) => ({
-                ...comment,
-                edited: new Date(comment.edited),
-                created: new Date(comment.created),
-            }));
-        } else {
-            throw new Error("Failed to get task comments");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTaskComments(uuid: string): Promise<Comment[]> {
+    return executeApiGet(`task/${uuid}/comments`, ({ comments }) => comments.map((comment: any) => ({
+        ...comment,
+        edited: new Date(comment.edited),
+        created: new Date(comment.created),
+    })), "Failed to get task comments");
 }
 
-export async function getTaskWork(uuid: string): Promise<Work[]> {
-    try {
-        const response = await fetch(`${apiRoot}/task/${uuid}/work`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).work.map((work: any) => ({
-                ...work,
-                started: new Date(work.started),
-                finished: work.finished ? new Date(work.finished) : undefined,
-            }));
-        } else {
-            throw new Error("Failed to get task work");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getTaskWork(uuid: string): Promise<Work[]> {
+    return executeApiGet(`task/${uuid}/work`, ({ work }) => work.map((work: any) => ({
+        ...work,
+        started: new Date(work.started),
+        finished: work.finished ? new Date(work.finished) : undefined,
+    })), "Failed to get task work");
 }
 

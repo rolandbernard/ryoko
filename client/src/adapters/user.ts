@@ -1,7 +1,7 @@
 
 import { apiRoot } from 'config';
 
-import { getAuthHeader } from './auth';
+import { executeApiGet, executeApiPut } from './util';
 import { Task } from './task';
 import { Work } from './work';
 
@@ -22,82 +22,32 @@ export async function exists(username: string) {
     }
 }
 
-export async function getCurrentUser(): Promise<User> {
-    try {
-        const response = await fetch(`${apiRoot}/user/`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).user;
-        } else {
-            throw new Error("Failed to get user");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getCurrentUser(): Promise<User> {
+    return executeApiGet(`user`, ({ user }) => user, "Failed to get user");
 }
 
-export async function getUserTasks(): Promise<Array<Task>> {
-    try {
-        const response = await fetch(`${apiRoot}/user/tasks`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).tasks.map((task: any) => ({
-                ...task,
-                edited: new Date(task.edited),
-                created: new Date(task.created),
-            }));
-        } else {
-            throw new Error("Failed to get user tasks");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getUserTasks(): Promise<Array<Task>> {
+    return executeApiGet(`user/tasks`, ({ tasks }) => tasks.map((task: any) => ({
+        ...task,
+        edited: new Date(task.edited),
+        created: new Date(task.created),
+    })), "Failed to get user tasks");
 }
 
-export async function getUserWork(): Promise<Work> {
-    try {
-        const response = await fetch(`${apiRoot}/user/work`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).work.map((work: any) => ({
-                ...work,
-                started: new Date(work.started),
-                finished: work.finished ? new Date(work.finished) : undefined,
-            }));
-        } else {
-            throw new Error("Failed to get user work");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getUserWork(): Promise<Work> {
+    return executeApiGet(`user/work`, ({ work }) => work.map((work: any) => ({
+        ...work,
+        started: new Date(work.started),
+        finished: work.finished ? new Date(work.finished) : undefined,
+    })), "Failed to get user work");
 }
 
-export async function getUser(uuid: string): Promise<User> {
-    try {
-        const response = await fetch(`${apiRoot}/user/${uuid}`, { headers: getAuthHeader() });
-        if (response.ok) {
-            return (await response.json()).user;
-        } else {
-            throw new Error("Failed to get user");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function getUser(uuid: string): Promise<User> {
+    return executeApiGet(`user/${uuid}`, ({ user }) => user, "Failed to get user");
 }
 
-export async function updateUser(user: { realname?: string, email?: string }) {
-    try {
-        const response = await fetch(`${apiRoot}/user/`, {
-            method: 'PUT',
-            headers: {
-                ...getAuthHeader(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user),
-        });
-        if (!response.ok) {
-            throw new Error("Failed to update user");
-        }
-    } catch (e) {
-        throw e;
-    }
+export function updateUser(user: { realname?: string, email?: string }) {
+    return executeApiPut(`user`, user, () => {}, "Failed to update user");
 }
 
 export function getUserImageUri(uuid: string): string {
