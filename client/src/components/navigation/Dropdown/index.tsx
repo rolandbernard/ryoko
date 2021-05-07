@@ -16,11 +16,13 @@ export default function Dropdown({ children, items }: Props) {
     const [isOpen, setOpen] = useState(false);
     return (
         <div className={'dropdown-container' + (isOpen ? ' open' : '')} onClick={() => setOpen(state => !state)}>
-            {children}
+            <div className="current-item">
+                {children}
+            </div>
             <div className="dropdown">
                 {
                     items.map((item) => (
-                        <Link className="dropdown-item" to={item.route}>
+                        <Link className="dropdown-item" key={item.label} to={item.route}>
                             {item.label}
                         </Link>
                     ))

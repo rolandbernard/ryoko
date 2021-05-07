@@ -5,11 +5,26 @@
     cursor: pointer;
     padding-bottom: 5px;
 
+    .current-item {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: s.$weight-bold;
+
+        .icon {
+            margin-right: 5px;
+        }
+    }
+
     &.open {
         .dropdown {
             opacity: 1;
             transform: translateY(100%);
             visibility: visible;
+        }
+
+        .icon {
+            transform: rotate(180deg);
         }
     }
 

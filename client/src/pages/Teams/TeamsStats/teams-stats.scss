@@ -3,22 +3,7 @@
 .teams-stats-section {
     margin-top: 20px;
 
-    .dropdown-container {
-        &.open {
-            .icon {
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    .filter-label {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        font-weight: s.$weight-bold;
-
-        .icon {
-            margin-right: 5px;
-        }
+    h3 {
+        margin-top: 30px;
     }
 }

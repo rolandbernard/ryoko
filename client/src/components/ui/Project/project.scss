@@ -49,29 +49,6 @@
         font-weight: s.$weight-bold;
     }
 
-    .circular-progress {
-        position: relative;
-        height: 70px;
-
-        svg {
-            width: 70px;
-            height: 70px;
-
-            path {
-                width: 70px;
-                height: 70px;
-            }
-        }
-
-        .percent {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            line-height: 1;
-            font-size: 14px;
-        }
-    }
 
     .info {
         font-size: 12px;

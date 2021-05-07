@@ -105,7 +105,7 @@ h2 {
 h3 {
     font-size: fn.toRem(18);
     margin-bottom: fn.toRem(12);
-    font-weight: s.$weight-semi-bold;
+    font-weight: s.$weight-bold;
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(24);

@@ -1,0 +1,25 @@
+@use 'styles/mixins.scss'as mx;
+
+.completion-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -12px;
+
+    @include mx.breakpoint(medium) {
+        margin: -16px;
+    }
+
+    .box-container {
+        margin: 12px;
+        width: calc(50% - 24px);
+
+        @include mx.breakpoint(medium) {
+            width: calc(25% - 32px);
+            margin: 16px;
+        }
+
+        @include mx.breakpoint(large) {
+            width: calc(20% - 32px);
+        }
+    }
+}
