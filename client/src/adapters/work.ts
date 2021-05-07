@@ -4,6 +4,6 @@ export interface Work {
     task: string;
     user: string;
     started: Date;
-    finished: Date;
+    finished?: Date;
 }
 

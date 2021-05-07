@@ -59,7 +59,7 @@ export async function getUserWork(): Promise<Work> {
             return (await response.json()).work.map((work: any) => ({
                 ...work,
                 started: new Date(work.started),
-                finished: new Date(work.finished),
+                finished: work.finished ? new Date(work.finished) : undefined,
             }));
         } else {
             throw new Error("Failed to get user work");

@@ -12,7 +12,7 @@ export interface Project {
     text: string;
     color: string;
     status: 'open' | 'closed' | 'suspended';
-    deadline: Date;
+    deadline?: Date;
     teams: Array<string>;
 }
 
@@ -28,7 +28,7 @@ export async function getProjects(): Promise<ReducedProject[]> {
         if (response.ok) {
             return (await response.json()).projects.map((project: any) => ({
                 ...project,
-                deadline: new Date(project.deadline),
+                deadline: project.deadline ? new Date(project.deadline) : undefined,
             }));
         } else {
             throw new Error("Failed to get projects");
@@ -45,7 +45,7 @@ export async function getProject(uuid: string): Promise<Project> {
             const project = (await response.json()).project;
             return {
                 ...project,
-                deadline: new Date(project.deadline),
+                deadline: project.deadline ? new Date(project.deadline) : undefined,
             }
         } else {
             throw new Error("Failed to get project");
@@ -92,7 +92,7 @@ export async function getProjectWork(uuid: string): Promise<Work[]> {
             return (await response.json()).work.map((work: any) => ({
                 ...work,
                 started: new Date(work.started),
-                finished: new Date(work.finished),
+                finished: work.finished ? new Date(work.finished) : undefined,
             }));
         } else {
             throw new Error("Failed to get project work");
@@ -101,4 +101,63 @@ export async function getProjectWork(uuid: string): Promise<Work[]> {
         throw e;
     }
 }
+
+interface NewTeamData {
+    teams: Array<string>;
+    name: string;
+    text: string;
+    color: string;
+    deadline?: Date;
+}
+
+export async function createProject(project: NewTeamData): Promise<string> {
+    try {
+        const response = await fetch(`${apiRoot}/project/`, {
+            method: 'POST',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(project),
+        });
+        if (response.ok) {
+            return (await response.json()).id;
+        } else {
+            throw new Error("Failed to create project");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+interface UpdateTeamData {
+    remove_teams?: Array<string>;
+    add_teams?: Array<string>;
+    name?: string;
+    text?: string;
+    color?: string;
+    status?: string;
+    deadline?: string;
+}
+
+export async function updateProject(uuid: string, project: UpdateTeamData) {
+    try {
+        const response = await fetch(`${apiRoot}/project/${uuid}`, {
+            method: 'PUT',
+            headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(project),
+        });
+        if (response.ok) {
+            return (await response.json()).id;
+        } else {
+            throw new Error("Failed to update project");
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
 
