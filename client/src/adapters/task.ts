@@ -1,5 +1,5 @@
 
-import { executeApiGet } from './util';
+import { executeApiGet, executeApiPost, executeApiPut } from './util';
 import { Comment } from './comment';
 import { Work } from './work';
 
@@ -75,5 +75,38 @@ export function getTaskWork(uuid: string): Promise<Work[]> {
         started: new Date(work.started),
         finished: work.finished ? new Date(work.finished) : undefined,
     })), "Failed to get task work");
+}
+
+interface AddTaskBody {
+    project: string;
+    name: string;
+    text: string;
+    icon: string;
+    priority: string;
+    dependentcies: Array<string>;
+    requirements: Array<TaskRequirement>;
+    assigned: Array<TaskAssignment>;
+}
+
+export function createTask(task: AddTaskBody): Promise<string> {
+    return executeApiPost(`task`, task, ({ id }) => id, "Failed to create task");
+}
+
+interface UpdateTaskBody {
+    name?: string;
+    text?: string;
+    icon?: string;
+    priority?: string;
+    status?: string;
+    remove_dependentcies?: Array<string>;
+    remove_requirements?: Array<string>;
+    remove_assigned?: Array<string>;
+    add_dependentcies?: Array<string>;
+    add_requirements?: Array<TaskRequirement>;
+    add_assigned?: Array<TaskAssignment>;
+}
+
+export function updateTask(uuid: string, task: UpdateTaskBody) {
+    return executeApiPut(`task/${uuid}`, task, () => {}, "Failed to update task");
 }
 
