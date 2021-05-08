@@ -18,7 +18,7 @@ export default function DetailBox({ number, icon, title, label }: DetailProps) {
                 </div>
                 <div className="text">
                     {!label && number && <div className="number">{number}</div>}
-                    <div className="title">{title}</div>
+                    <div className={'title' + (label ? ' bold' : '')}>{title}</div>
                     {label && <div className="label">{label}</div>}
                 </div>
             </div>

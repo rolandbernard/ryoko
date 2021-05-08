@@ -48,6 +48,11 @@
 
         .title {
             font-weight: s.$weight-semi-bold;
+
+            &.bold {
+                font-weight: s.$weight-bold;
+                font-size: 18px;
+            }
         }
 
         .label {

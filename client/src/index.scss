@@ -83,7 +83,7 @@ h1 {
 
     @include mx.breakpoint(large) {
         font-size: fn.toRem(48);
-        margin-bottom: fn.toRem(28);
+        margin-bottom: fn.toRem(24);
     }
 }
 

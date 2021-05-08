@@ -1,9 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, RouteProps, Route } from 'react-router-dom';
 import './tabs.scss';
 
-interface Tab {
-    route: string,
-    label: string
+interface Tab extends RouteProps {
+    label: string;
+    state?: object;
 }
 
 interface Props {
@@ -12,13 +12,20 @@ interface Props {
 
 export default function Tabs({ tabs }: Props) {
     return (
-        <nav className="tabs-container">
-            {tabs.map((tab) => (
-                <NavLink key={tab.route} className="tab" exact activeClassName="active" to={tab.route}>
-                    {tab.label}
-                </NavLink>
-            ))}
-            <div className="background"></div>
-        </nav>
+        <>
+            <nav className="tabs-container">
+                {tabs.map((tab) => (
+                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={{ pathname: tab.path?.toString(), state: tab.state }}>
+                        {tab.label}
+                    </NavLink>
+                ))}
+                <div className="background"></div>
+            </nav>
+            {
+                tabs.map((tab) => (
+                    <Route exact key={tab.label} {...tab} />
+                ))
+            }
+        </>
     );
 }

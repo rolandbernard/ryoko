@@ -25,11 +25,9 @@ export default function Task({ task, active }: Props) {
     const start = new Date(task.start);
     const end = new Date(task.end);
 
-
-
     return (
         <Link to={'/tasks/' + task.uuid} className="task">
-            <div className="tag"></div>
+            <div className="project-indicator"></div>
             <div className="main-info">
                 <div className="icon-container">
                     {task.icon}

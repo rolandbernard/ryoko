@@ -1,5 +1,5 @@
-@use 'styles/settings' as s;
-@use 'styles/functions' as fn;
+@use 'styles/settings'as s;
+@use 'styles/functions'as fn;
 
 .button {
     padding: 14px 50px;
@@ -29,5 +29,10 @@
 
     &:active {
         transform: scale(0.9);
+    }
+
+    &.dark {
+        background: darken(s.$primary, 40%);
+        box-shadow: 0px 5px 15px rgba(darken(s.$primary, 40%), 0.1);
     }
 }

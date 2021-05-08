@@ -28,6 +28,10 @@
             padding: 4rem 60px;
 
         }
+
+        @include mx.breakpoint(xlarge) {
+            padding-top: 6rem;
+        }
     }
 }
 

@@ -3,6 +3,8 @@ import DetailGrid from 'components/layout/DetailGrid';
 import ButtonLink from 'components/navigation/ButtonLink';
 import Tabs from 'components/navigation/Tabs';
 import Dropdown from 'components/navigation/Dropdown';
+import TeamsMembers from './TeamsMembers';
+import TeamsStats from './TeamsStats';
 
 export default function Teams() {
     const teamDetails = [{
@@ -16,11 +18,13 @@ export default function Teams() {
     }];
 
     const tabs = [{
-        route: '/teams/members',
+        path: '/teams',
         label: 'Members',
+        component: TeamsMembers
     }, {
-        route: '/teams/stats',
-        label: 'Stats'
+        path: '/teams/stats',
+        label: 'Stats',
+        component: TeamsStats
     }];
 
     const teams = [{
@@ -38,7 +42,7 @@ export default function Teams() {
                     </span>
                 </Dropdown>
                 <DetailGrid details={teamDetails} />
-                <ButtonLink href="/teams/uuid/edit" routing={true} className="expanded">
+                <ButtonLink href="/teams/uuid/edit" className="expanded">
                     Edit
                 </ButtonLink>
                 <Tabs tabs={tabs} />

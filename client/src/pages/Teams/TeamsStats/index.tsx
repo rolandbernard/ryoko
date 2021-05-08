@@ -20,18 +20,16 @@ export default function TeamsStats() {
     ]
     return (
         <section className="teams-stats-section">
-            <div className="content-container">
-                <Dropdown items={[{ label: "Last month", route: "lastmonth" }]}>
-                    <span className="material-icons icon">
-                        expand_more
+            <Dropdown items={[{ label: "Last month", route: "lastmonth" }]}>
+                <span className="material-icons icon">
+                    expand_more
                         </span>
                         Last week
                 </Dropdown>
-                <h3>Activities</h3>
-                <BarChart data={[{ label: 'mon', value: 20 }, { label: 'tue', value: 10 }, { label: 'wed', value: 5 }]} />
-                <h3>Completion</h3>
-                <CompletionGrid items={completions} />
-            </div>
+            <h3>Activities</h3>
+            <BarChart data={[{ label: 'mon', value: 20 }, { label: 'tue', value: 10 }, { label: 'wed', value: 5 }]} />
+            <h3>Completion</h3>
+            <CompletionGrid items={completions} />
         </section>
     )
 }
