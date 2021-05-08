@@ -54,6 +54,10 @@ export function createTeam(name: string): Promise<string> {
     return executeApiPost(`team`, { name: name }, ({ id }) => id, "Failed to create team");
 }
 
+export function updateTeam(uuid: string, name: string) {
+    return executeApiPut(`team/${uuid}`, { name: name }, () => {}, "Failed to update team");
+}
+
 export function removeTeamMember(team: string, user: string) {
     return executeApiDelete(`team/${team}/members/${user}`, () => {}, "Failed to remove team member");
 }
