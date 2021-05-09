@@ -19,7 +19,10 @@ project.get('/', async (req, res) => {
             .select({
                 id: 'projects.id',
                 name: 'projects.name',
+                text: 'projects.text',
+                color: 'projects.color',
                 status: 'projects.status',
+                deadline: 'projects.deadline',
             })
             .where({
                 'team_members.user_id': req.body.token.id,
@@ -51,6 +54,7 @@ project.get('/:uuid', async (req, res) => {
                     text: 'projects.text',
                     color: 'projects.color',
                     status: 'projects.status',
+                    deadline: 'projects.deadline',
                     team_id: 'tms.team_id',
                 })
                 .where({
@@ -64,7 +68,10 @@ project.get('/:uuid', async (req, res) => {
                     project: {
                         id: projects[0].id,
                         name: projects[0].name,
+                        text: projects[0].text,
                         status: projects[0].status,
+                        color: projects[0].color,
+                        deadline: projects[0].deadline,
                         teams: projects.map(task => task.team_id),
                     }
                 });
@@ -160,7 +167,7 @@ project.get('/:uuid/assigned', async (req, res) => {
                 .groupBy('users.id');
             res.status(200).json({
                 status: 'success',
-                tasks: users,
+                assigned: users,
             });
         } else {
             res.status(400).json({
@@ -301,6 +308,7 @@ interface UpdateProjectBody {
     text?: string;
     color?: string;
     status?: string;
+    deadline?: string;
     token: Token;
 }
 
@@ -330,15 +338,18 @@ project.put('/:uuid', async (req, res) => {
                     });
                 if (projects.length >= 1) {
                     await database.transaction(async transaction => {
-                        await transaction('projects')
-                            .update({
-                                name: req.body.name,
-                                text: req.body.text,
-                                color: req.body.color,
-                                status: req.body.status,
-                            }).where({
-                                id: id,
-                            });
+                        if (req.body.name || req.body.text || req.body.color || req.body.status || req.body.deadline) {
+                            await transaction('projects')
+                                .update({
+                                    name: req.body.name,
+                                    text: req.body.text,
+                                    color: req.body.color,
+                                    status: req.body.status,
+                                    deadline: req.body.deadline,
+                                }).where({
+                                    id: id,
+                                });
+                        }
                         if (remove_team_ids.length !== 0) {
                             await transaction('team_projects')
                                 .delete()

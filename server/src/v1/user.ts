@@ -145,25 +145,29 @@ interface UserUpdateBody {
 }
 
 user.put('/', async (req, res) => {
-    if (
-        isOfType<UserUpdateBody>(req.body, [['realname', 'string']])
-        || isOfType<UserUpdateBody>(req.body, [['email', 'string']])
-    ) {
+    if (isOfType<UserUpdateBody>(req.body, [])) {
         try {
-            const updated = await database('users')
-                .update({
-                    email: req.body.email,
-                    real_name: req.body.realname,
-                })
-                .where({ id: req.body.token.id });
-            if (updated >= 1) {
+            if (req.body.realname || req.body.email) {
+                const updated = await database('users')
+                    .update({
+                        email: req.body.email,
+                        real_name: req.body.realname,
+                    })
+                    .where({ id: req.body.token.id });
+                if (updated >= 1) {
+                    res.status(200).json({
+                        status: 'success',
+                    });
+                } else {
+                    res.status(404).json({
+                        status: 'error',
+                        message: 'user not found',
+                    });
+                }
+            } else {
                 res.status(200).json({
                     status: 'success',
-                });
-            } else {
-                res.status(404).json({
-                    status: 'error',
-                    message: 'user not found',
+                    message: 'nothing to do',
                 });
             }
         } catch (e) {
