@@ -1,0 +1,42 @@
+@use 'styles/settings.scss'as s;
+
+.comment-container {
+    padding: 0 20px;
+    background: rgba(s.$white, 0.95);
+    box-shadow: 0 0 25px rgba(s.$black, 0.1);
+    border-radius: 25px;
+    margin-top: 10px;
+
+    .head {
+        display: flex;
+        align-items: flex-end;
+        transform: translateY(-10px);
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .user-info {
+            margin-left: 10px;
+
+            .name {
+                font-weight: s.$weight-bold;
+            }
+
+            .time {
+                font-size: 12px;
+            }
+        }
+    }
+    .comment {
+        font-size: 14px;
+        padding: 20px 0;
+    }
+}

@@ -1,0 +1,51 @@
+@use 'styles/settings.scss'as s;
+
+.comment-list {
+    .comment-container {
+        margin: 40px 0;
+    }
+
+    .add-comment {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .head {
+            padding: 0 20px;
+            align-items: center;
+
+            .name {
+                margin-top: 5px;
+            }
+        }
+
+        textarea {
+            background: s.$light;
+            border: none;
+            border-radius: 25px;
+            width: 100%;
+            margin: 0;
+            height: 100%;
+            font-size: 14px;
+            padding: 25px;
+            display: flex;
+            resize: vertical;
+            outline: none;
+            min-height: 150px;
+        }
+
+        button {
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+            transform: translateY(50%);
+            padding: 8px 20px;
+            background: s.$linear-gradient;
+            color: s.$white;
+            font-weight: s.$weight-regular;
+            border-radius: 10px;
+
+        }
+    }
+}

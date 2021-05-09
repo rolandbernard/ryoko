@@ -3,7 +3,7 @@ import './tabs.scss';
 
 interface Tab extends RouteProps {
     label: string;
-    state?: object;
+    routePath?: string;
 }
 
 interface Props {
@@ -11,11 +11,12 @@ interface Props {
 }
 
 export default function Tabs({ tabs }: Props) {
+
     return (
         <>
             <nav className="tabs-container">
                 {tabs.map((tab) => (
-                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={{ pathname: tab.path?.toString(), state: tab.state }}>
+                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={{ pathname: tab.path?.toString() }}>
                         {tab.label}
                     </NavLink>
                 ))}
@@ -23,7 +24,7 @@ export default function Tabs({ tabs }: Props) {
             </nav>
             {
                 tabs.map((tab) => (
-                    <Route exact key={tab.label} {...tab} />
+                    <Route exact key={tab.label} {...tab} path={tab.routePath ?? tab.path} />
                 ))
             }
         </>

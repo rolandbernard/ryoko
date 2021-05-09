@@ -18,13 +18,13 @@ export default function TaskDetail() {
         {
             label: 'Assignees',
             path: '/tasks/' + uuid,
-            state: { uuid },
+            routePath: '/tasks/:uuid',
             component: TaskAssignees
         },
         {
             label: 'Comments',
             path: '/tasks/' + uuid + '/comments',
-            state: { uuid },
+            routePath: '/tasks/:uuid/comments',
             component: TaskComments
         }
     ];
