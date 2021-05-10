@@ -1,5 +1,5 @@
 import './header.scss';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Navigation from 'components/navigation/Navigation';
 import Sidebar from 'components/navigation/Sidebar';
 import Page from 'components/layout/Page'

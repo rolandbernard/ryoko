@@ -8,6 +8,19 @@ export interface TaskRequirement {
     time: number;
 }
 
+export enum Status {
+    OPEN = 'open',
+    CLOSED = 'closed',
+    SUSPENDED = 'suspended'
+}
+
+export enum Priority {
+    LOW = 'low',
+    MEDIUM = 'medium',
+    HIGH = 'high',
+    URGENT = 'urgent'
+}
+
 export interface TaskAssignment {
     user: string;
     time: number;
@@ -20,9 +33,9 @@ export interface Task {
     name: string;
     text: string;
     icon: string;
-    priority: 'low' | 'medium' | 'high' | 'urgent';
-    status: 'open' | 'closed' | 'suspended';
-    dependentcies: Array<string>;
+    priority: Priority;
+    status: Status;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
     created: Date;

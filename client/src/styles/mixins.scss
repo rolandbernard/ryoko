@@ -13,3 +13,16 @@
         @content;
     }
 }
+
+@mixin breakpoint-down($bp) {
+    @if type-of($bp)==string {
+        $bp: fn.getFrom(s.$breakpoints, $bp);
+    } @else {
+        $bp: $bp + 0px;
+    }
+    
+
+    @media screen and (max-width: $bp) {
+        @content;
+    }
+}

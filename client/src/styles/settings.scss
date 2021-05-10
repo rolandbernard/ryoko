@@ -21,6 +21,7 @@ $colors: (
 );
 
 $linear-gradient: linear-gradient(to bottom, $primary, #930AFF);
+$linear-gradient-horizontal: linear-gradient(to right, $primary, #930AFF);
 $radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, #930AFF 100%);
 
 $body-color: #3A5255;

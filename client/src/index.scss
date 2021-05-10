@@ -67,7 +67,7 @@ h1 {
             content: ' ';
             position: absolute;
             right: -7px;
-            bottom: 5px;
+            bottom: 0;
             width: 90px;
             background: rgba(s.$secondary, .5);
             height: 20px;
@@ -76,7 +76,7 @@ h1 {
             @include mx.breakpoint(large) {
                 height: 24px;
                 width: 120px;
-                bottom: 10px;
+                bottom: 5px;
             }
 
         }

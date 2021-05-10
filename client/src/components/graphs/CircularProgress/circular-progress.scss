@@ -1,6 +1,8 @@
+@use 'styles/settings.scss' as s;
+
 .circular-progress {
     position: relative;
-
+    display: flex;
 
     svg {
         width: 70px;
@@ -26,6 +28,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         line-height: 1;
+        font-weight: s.$weight-bold;
         font-size: 14px;
+        display: flex;
     }
 }

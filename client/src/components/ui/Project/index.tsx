@@ -1,45 +1,33 @@
 
 import CircularProgress from 'components/graphs/CircularProgress';
+import AssigneeList from 'components/ui/AssigneeList';
+import { Project as IProject } from 'adapters/project';
 import './project.scss';
-
-function ProjectTag(status: "open" | "suspended" | "closed") {
-    switch (status) {
-        case "open":
-            return (
-                <span className="tag">
-                    <i className="icon material-icons">
-                        work
-                    </i>
-                    Open
-                </span>
-            );
-        case "suspended":
-            return (
-                <span className="tag red">
-                    <i className="icon material-icons">
-                        watch_later
-                    </i>
-                    Suspended
-                </span>
-            );
-        default:
-            return null;
-    }
+import { Link } from 'react-router-dom';
+const member = {
+    id: 'asdf',
+    username: 'testname',
+    realname: 'Roland Bernard',
+    role: 'Backend'
 }
 
-interface Props {
-    status: "open" | "suspended" | "closed",
-    name: string,
-    percent: number
+export interface ProjectProps {
+    project: IProject
 }
 
-export default function Project({ status, name, percent }: Props) {
+export default function Project({ project }: ProjectProps) {
     return (
-        <div className="project">
-            {ProjectTag(status)}
-            <CircularProgress percent={percent} />
-            <div className="title">{name}</div>
-        </div>
+        <Link to={'/projects/' + project.id} className="project">
+            <div className="content">
+                <CircularProgress percent={75} />
+                <div className="title">{project.name}</div>
+                <div className="details">
+                    <div className="range">April - {project.deadline}</div>
+                    <AssigneeList assignees={[member, member, member, member]} max={3} />
+                </div>
+            </div>
+            
+        </Link>
     );
 }
 

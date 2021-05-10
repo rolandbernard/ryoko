@@ -18,7 +18,7 @@ export default function BarChart({ data }: Props) {
                     data.map((item) => (
                         <div key={item.label} className="bar" style={{
                             height: (item.value / maxValue) * 100 + '%',
-                            width: 'calc(' + 100 / data.length + '% - 30px)'
+                            width: 'calc(' + 100 / data.length + '% - 10px)'
                         }}>
                             <div className="label">
                                 {item.label}

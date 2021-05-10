@@ -70,29 +70,9 @@
         }
     }
 
-    .assignees-container {
+    .assignee-list {
         position: absolute;
         right: -15px;
         bottom: -20px;
-        display: flex;
-
-
-        &:hover {
-            .assignee {
-                margin-left: 0;
-            }
-        }
-
-        .assignee {
-
-            margin-left: -15px;
-
-            img {
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-            }
-
-        }
     }
 }

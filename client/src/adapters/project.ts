@@ -4,12 +4,18 @@ import { Task } from './task';
 import { User } from './user';
 import { Work } from './work';
 
+export enum Status {
+    OPEN = 'open',
+    CLOSED = 'closed',
+    SUSPENDED = 'suspended'
+}
+
 export interface Project {
     id: string;
     name: string;
     text: string;
     color: string;
-    status: 'open' | 'closed' | 'suspended';
+    status: Status;
     deadline?: Date;
     teams: Array<string>;
 }

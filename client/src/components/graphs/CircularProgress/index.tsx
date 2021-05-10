@@ -15,7 +15,7 @@ export default function CircularProgress({ percent }: Props) {
     const yEndPosition = CIRCLE_CENTER[1] + CIRCLE_RADUIS * Math.sin(angle - Math.PI / 2);
     return (
         <div className="circular-progress">
-            <span className="percent">{percent} %</span>
+            <span className="percent">{percent}%</span>
             <svg viewBox={`0 0 ${CIRCLE_RADUIS * 2 + 9} ${CIRCLE_RADUIS * 2 + 9}`}>
                 <circle cx={CIRCLE_CENTER[0]} cy={CIRCLE_CENTER[1]} r={CIRCLE_RADUIS} />
                 <path d={
