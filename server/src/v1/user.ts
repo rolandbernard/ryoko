@@ -39,6 +39,53 @@ user.get('/name/:username', async (req, res) => {
     }
 });
 
+function sendRangedData(req: Request, res: Response, data: Buffer) {
+    res.setHeader('Accept-Ranges', 'bytes');
+    const range = req.range(data.length);
+    if (typeof range === 'object' && range.type === 'bytes' && range.length === 1) {
+        res.status(206);
+        res.setHeader('Content-Range', `${range[0].start}\-${range[0].end}/${data.length}`);
+        res.send(data.slice(range[0].start, range[0].end+1));
+    } else {
+        res.status(200);
+        res.send(data);
+    }
+}
+
+user.get('/:uuid/image', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const user = await database('users')
+                .select({
+                    image: 'users.image'
+                })
+                .where({ id: id });
+            if (user.length >= 1 && user[0].image) {
+                res.setHeader('Content-Type', 'image/png');
+                sendRangedData(req, res, user[0].image);
+            } else if (user.length >= 1) {
+                res.status(404).send();
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'user not found',
+                });
+            }
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get user',
+        });
+    }
+});
+
 user.use(requireVerification);
 
 user.get('/', async (req, res) => {
@@ -238,51 +285,6 @@ user.get('/:uuid', async (req, res) => {
                     status: 'success',
                     user: user[0],
                 });
-            } else {
-                res.status(404).json({
-                    status: 'error',
-                    message: 'user not found',
-                });
-            }
-        } else {
-            res.status(400).json({
-                status: 'error',
-                message: 'malformed uuid',
-            });
-        }
-    } catch (e) {
-        res.status(400).json({
-            status: 'error',
-            message: 'failed get user',
-        });
-    }
-});
-
-function sendRangedData(req: Request, res: Response, data: Buffer) {
-    res.setHeader('Accept-Ranges', 'bytes');
-    const range = req.range(data.length);
-    if (typeof range === 'object' && range.type === 'bytes' && range.length === 1) {
-        res.status(206);
-        res.setHeader('Content-Range', `${range[0].start}\-${range[0].end}/${data.length}`);
-        res.send(data.slice(range[0].start, range[0].end+1));
-    } else {
-        res.status(200);
-        res.send(data);
-    }
-}
-
-user.get('/:uuid/image', async (req, res) => {
-    try {
-        const id = req.params.uuid;
-        if (validate(id)) {
-            const user = await database('users')
-                .select({
-                    image: 'users.image'
-                })
-                .where({ id: id });
-            if (user.length >= 1) {
-                res.setHeader('Content-Type', 'image/png');
-                sendRangedData(req, res, user[0].image);
             } else {
                 res.status(404).json({
                     status: 'error',
