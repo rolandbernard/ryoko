@@ -1,7 +1,7 @@
 
 import { executeApiGet, executeApiPost, executeApiPut } from './util';
 import { Task } from './task';
-import { User } from './user';
+import { AssignedUser } from './user';
 import { Work } from './work';
 
 export interface Project {
@@ -12,10 +12,6 @@ export interface Project {
     status: 'open' | 'closed' | 'suspended';
     deadline?: Date;
     teams: Array<string>;
-}
-
-export interface AssignedUser extends User {
-    time: number;
 }
 
 export type ReducedProject = Exclude<Project, 'teams'>;

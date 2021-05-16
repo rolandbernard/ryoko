@@ -12,6 +12,10 @@ export interface User {
     email?: string;
 }
 
+export interface AssignedUser extends User {
+    time: number;
+}
+
 export async function exists(username: string) {
     try {
         const response = await fetch(`${apiRoot}/user/name/${username}`);

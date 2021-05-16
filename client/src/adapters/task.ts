@@ -2,6 +2,7 @@
 import { executeApiGet, executeApiPost, executeApiPut } from './util';
 import { Comment } from './comment';
 import { Work } from './work';
+import { AssignedUser } from './user';
 
 export interface TaskRequirement {
     role: string;
@@ -75,6 +76,10 @@ export function getTaskWork(uuid: string): Promise<Work[]> {
         started: new Date(work.started),
         finished: work.finished ? new Date(work.finished) : undefined,
     })), "Failed to get task work");
+}
+
+export function getTaskAssignees(uuid: string): Promise<AssignedUser[]> {
+    return executeApiGet(`task/${uuid}/assigned`, ({ assigned }) => assigned, "Failed to get task assignees");
 }
 
 interface AddTaskBody {
