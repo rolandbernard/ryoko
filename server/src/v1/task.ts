@@ -301,6 +301,45 @@ task.get('/:uuid/work', async (req, res) => {
     }
 });
 
+task.get('/:uuid/assigned', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const users = await database('team_members')
+                .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
+                .innerJoin('users', 'task_assignees.user_id', 'users.id')
+                .select({
+                    id: 'users.id',
+                    username: 'users.user_name',
+                    email: 'users.email',
+                    realname: 'users.real_name',
+                })
+                .sum({ time: 'task_assignees.time' })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'tasks.id': id,
+                })
+                .groupBy('users.id');
+            res.status(200).json({
+                status: 'success',
+                assigned: users,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed to get assignees',
+        });
+    }
+});
+
 task.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;
