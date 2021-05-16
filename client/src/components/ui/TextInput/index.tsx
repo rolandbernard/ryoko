@@ -26,7 +26,7 @@ export default function TextInput({ label, name, type, onChange, validation, com
 
     return (
         <div className={'input-element' + (type === 'textarea' ? ' textarea' : '')}>
-            <div className="input-field">
+            <div className={'input-field' + (validation ? ' mandatory' : '')}>
                 <label htmlFor={name}>{label}</label>
                 {
                     type === 'textarea' ?

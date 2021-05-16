@@ -4,6 +4,8 @@ import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';
 import { clearToken } from 'adapters/auth';
 import './sidebar.scss';
+import { useEffect, useState } from 'react';
+import { getCurrentUser, getUserImageUri, User } from 'adapters/user';
 
 interface Props {
     mobileShown: boolean;
@@ -11,6 +13,13 @@ interface Props {
 }
 
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
+    const [user, setUser] = useState<User>();
+
+    useEffect(() => {
+        getCurrentUser().then((user) => {
+            setUser(user);
+        }).catch(() => { });
+    }, [])
 
     const history = useHistory();
 
@@ -24,10 +33,10 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
             <div className="top">
                 <div className="profile">
                     <div className="avatar">
-                        <img src={avatar} alt="Profile" />
+                        <img src={user && getUserImageUri(user.id)} alt="Profile" />
                     </div>
-                    <span className="name">Daniel Planötscher</span>
-                    <span className="team">ryoko</span>
+                    <span className="name">{user?.realname ?? user?.username}</span>
+                    {user?.realname && <span className="username">{user?.username}</span>}
                 </div>
                 <Navigation />
                 <nav className="secondary-nav">
