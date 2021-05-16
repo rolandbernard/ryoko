@@ -6,7 +6,11 @@ import { allowedOrigins } from './config';
 export function addDefaultHeaders(req: Request, res: Response, next: NextFunction) {
     const origin = req.header('Origin');
     if (allowedOrigins.includes('*') || origin && allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin);
+        if (origin) {
+            res.header('Access-Control-Allow-Origin', origin);
+        } else {
+            res.header('Access-Control-Allow-Origin', '*');
+        }
         const headers = req.header('Access-Control-Request-Headers');
         if (headers) {
             res.header('Access-Control-Allow-Headers', headers);
