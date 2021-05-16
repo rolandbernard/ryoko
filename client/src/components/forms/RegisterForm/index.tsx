@@ -53,14 +53,12 @@ export default function RegisterForm({ onSubmit }: Props) {
             <TextInput
                 label="Username"
                 name="username"
-                color="dark"
                 onChange={setUsername}
                 validation={validateUsername}
             />
             <TextInput
                 label="Password"
                 name="password"
-                color="dark"
                 type="password"
                 onChange={setPassword}
                 validation={validatePassword}
@@ -68,7 +66,6 @@ export default function RegisterForm({ onSubmit }: Props) {
             <TextInput
                 label="Repeat password"
                 name="repeat-password"
-                color="dark"
                 type="password"
                 onChange={setRepeatedPassword}
                 compareValue={password}

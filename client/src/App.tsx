@@ -8,6 +8,7 @@ import AppWrapper from 'pages/AppWrapper';
 const Home = lazy(() => import('pages/Home'));
 const Login = lazy(() => import('pages/Login'));
 const Register = lazy(() => import('pages/Register'));
+const Introduction = lazy(() => import('pages/Introduction'));
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                 <Switch>
                     <LoginRoute path="/login" component={Login} />
                     <LoginRoute path="/register" component={Register} />
+                    <Route path="/introduction" component={Introduction} />
                     <Route path={['/tasks', '/projects', '/stats', '/teams', '/settings']} component={AppWrapper} />
                     <Route path="/" component={Home} />
                 </Switch>

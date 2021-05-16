@@ -6,14 +6,13 @@ import './text-input.scss';
 interface Props {
     label: string,
     name: string,
-    color?: 'dark'
     type?: 'password' | 'textarea' | 'text',
     compareValue?: string,
     onChange: Dispatch<string>,
     validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
 }
 
-export default function TextInput({ label, name, type, color, onChange, validation, compareValue }: Props) {
+export default function TextInput({ label, name, type, onChange, validation, compareValue }: Props) {
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -27,7 +26,7 @@ export default function TextInput({ label, name, type, color, onChange, validati
 
     return (
         <div className={'input-element' + (type === 'textarea' ? ' textarea' : '')}>
-            <div className={'input-field ' + (color ?? '')}>
+            <div className="input-field">
                 <label htmlFor={name}>{label}</label>
                 {
                     type === 'textarea' ?
