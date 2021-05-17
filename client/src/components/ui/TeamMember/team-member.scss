@@ -8,6 +8,7 @@
     background: s.$white;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(s.$black, 0.1);
+    position: relative;
     .avatar {
         width: 60px;
         height: 60px;
@@ -25,8 +26,30 @@
         font-weight: s.$weight-bold;
         font-size: 18px;
     }
-    .role {
+    .info {
         font-size: 14px;
         line-height: 1.2;
+    }
+    .dropdown-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .settings {
+        transform: translate(50%, -50%);
+        height: 35px;
+        width: 35px;
+        background: s.$primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        color: s.$white;
+        border-radius: 50%;
+        cursor: pointer;
+        .icon {
+            margin-right: 0;
+        }
     }
 }

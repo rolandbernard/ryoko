@@ -11,9 +11,6 @@
         font-size: 18px;
         font-weight: s.$weight-bold;
 
-        .icon {
-            margin-right: 5px;
-        }
     }
     
     &.inactive {
@@ -42,8 +39,8 @@
         transform: translateY(75%);
         background: s.$white;
         z-index: 2000;
-        max-width: 200px;
         border-radius: 5px;
+        white-space: nowrap;
         box-shadow: 0 0 5px rgba(s.$black, 0.05);
         visibility: hidden;
         opacity: 0;

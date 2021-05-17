@@ -1,0 +1,19 @@
+@use 'styles/settings.scss' as s;
+
+.popup-container {
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(s.$black, 0.75);    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .popup {
+        padding: 100px;
+        width: 70%;
+        background: s.$white;
+        border-radius: 25px;
+    }
+}
