@@ -1,12 +1,13 @@
 import './teams.scss';
 import DetailGrid from 'components/layout/DetailGrid';
 import ButtonLink from 'components/navigation/ButtonLink';
+import Button from 'components/ui/Button';
 import Tabs, { Tab } from 'components/navigation/Tabs';
 import Dropdown, { DropDownItem } from 'components/navigation/Dropdown';
 import TeamsMembers from './TeamsMembers';
 import TeamsStats from './TeamsStats';
-import { useEffect, useState } from 'react';
-import { getTeamMembers, getTeamProjects, getTeams, Team } from 'adapters/team';
+import { useCallback, useEffect, useState } from 'react';
+import { getTeamMembers, getTeamProjects, getTeams, leaveTeam, Team } from 'adapters/team';
 import { DetailProps } from 'components/ui/DetailBox';
 import { useHistory, useParams } from 'react-router';
 
@@ -28,7 +29,7 @@ export default function Teams() {
     useEffect(() => {
         getTeams().then((teams) => {
             //if no team is defined, take the first one
-            if (!teamId && teams[0]) {
+            if ((!teamId && teams[0]) || !teams.find(team => team.id === teamId)) {
                 history.push('/teams/' + teams[0].id);
             }
             setTeams(teams);
@@ -76,7 +77,14 @@ export default function Teams() {
                 }
             }));
         }
-    }, [currentTeam, allTeams])
+    }, [currentTeam, allTeams]);
+
+    const leaveCurrentTeam = useCallback(async () => {
+        if (currentTeam) {
+            await leaveTeam(currentTeam.id);
+            history.go(0);
+        }
+    }, [currentTeam, history])
 
     return (
         <div className="teams-page">
@@ -96,6 +104,12 @@ export default function Teams() {
                 <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
                     Edit
                 </ButtonLink>
+                {
+                    allTeams && allTeams.length > 1 &&
+                    <Button className="expanded dark" onClick={leaveCurrentTeam}>
+                        Leave Team
+                    </Button>
+                }
                 <Tabs tabs={tabs} />
             </div>
         </div>
