@@ -473,7 +473,7 @@ team.get('/:uuid/completion', async (req, res) => {
                 completion: completion.reduce((object, { status, count }) => ({
                     ...object,
                     [status]: count,
-                }), {}),
+                }), { open: 0, closed: 0, suspended: 0, overdue: 0 }),
             });
         } else {
             res.status(400).json({
