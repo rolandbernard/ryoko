@@ -1,18 +1,19 @@
 import './team-member.scss';
-import { TeamMember as ITeamMember } from 'adapters/team';
 import Avatar from 'components/ui/Avatar';
+import { User } from 'adapters/user';
 
-interface Props {
-    member: ITeamMember
+export interface TeamMemberProps {
+    user: User;
+    info: string;
 }
 
-export default function TeamMember({ member }: Props) {
+export default function TeamMember({ user, info }: TeamMemberProps) {
     return (
         <div className="team-member-item">
-            <Avatar user={member} />
+            <Avatar user={user} />
             <div className="details">
-                <div className="name">{member.username}</div>
-                <div className="role">{member.role.name}</div>
+                <div className="name">{user.username}</div>
+                <div className="role">{info}</div>
             </div>
             <div className="settings">
 

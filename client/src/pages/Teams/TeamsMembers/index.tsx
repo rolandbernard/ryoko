@@ -7,9 +7,15 @@ interface Props {
 }
 
 export default function TeamsMembers({ members }: Props) {
+    const teamMembers = members.map(member => {
+        return {
+            user: member,
+            info: member.role.name
+        }
+    })
     return (
         <section className="teams-members-section">
-            <MemberList members={members} />
+            <MemberList members={teamMembers} />
         </section>
     )
 }

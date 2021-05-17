@@ -8,7 +8,7 @@ interface Props {
 export default function TaskAssignees({assignees}: Props) {
     return (
         <section className="teams-assignees-section">
-            <MemberList members={assignees} />
+            {/*<MemberList members={assignees} />*/}
         </section>
     );
 }

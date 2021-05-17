@@ -4,15 +4,16 @@ import { ChangeEvent, Dispatch, FocusEvent, useCallback, useState } from "react"
 import './text-input.scss';
 
 interface Props {
-    label: string,
-    name: string,
-    type?: 'password' | 'textarea' | 'text',
-    compareValue?: string,
-    onChange: Dispatch<string>,
+    label: string;
+    name: string;
+    type?: 'password' | 'textarea' | 'text';
+    defaultText?: string;
+    compareValue?: string;
+    onChange: Dispatch<string>;
     validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
 }
 
-export default function TextInput({ label, name, type, onChange, validation, compareValue }: Props) {
+export default function TextInput({ label, name, type, onChange, validation, compareValue, defaultText }: Props) {
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -30,8 +31,8 @@ export default function TextInput({ label, name, type, onChange, validation, com
                 <label htmlFor={name}>{label}</label>
                 {
                     type === 'textarea' ?
-                        (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} />)
-                        : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} autoComplete="off" />)
+                        (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} value={name} />)
+                        : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} value={defaultText} autoComplete="off" />)
                 }
             </div >
             {error && (<div className="error">{error}</div>)}

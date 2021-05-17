@@ -3,7 +3,7 @@ import Page from 'components/layout/Page';
 import Button from 'components/ui/Button';
 import { getCurrentUser } from 'adapters/user';
 import { useCallback, useEffect, useState } from 'react';
-import TeamCreateForm from 'components/forms/TeamCreateForm';
+import TeamForm from 'components/forms/TeamForm';
 import { createTeam } from 'adapters/team';
 import { useHistory } from 'react-router';
 
@@ -53,10 +53,15 @@ export default function Introduction() {
                     }
                     {
                         showForm &&
-                        <TeamCreateForm onSubmit={handleCreateTeam} onBack={() => setShowForm(false)} />
+                        (<>
+                            <p className="lead-text">
+                                Create a new team with just one click by giving it a name!
+                            </p>
+                            <TeamForm onSubmit={handleCreateTeam} onBack={() => setShowForm(false)} />)
+                        </>)
                     }
                 </div>
             </Page>
-        </div>
+        </div >
     )
 }
