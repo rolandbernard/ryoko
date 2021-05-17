@@ -26,7 +26,7 @@ export default function TeamsMembers({ members, team }: Props) {
                 label: 'Edit role',
                 popupContent: (
                     <>
-                        <RoleForm roles={roles} team={team} member={member} />
+                        <RoleForm setRoles={setRoles} roles={roles} team={team} member={member} />
                     </>
                 )
             }]
@@ -35,7 +35,7 @@ export default function TeamsMembers({ members, team }: Props) {
 
     return (
         <section className="teams-members-section">
-            <MemberList members={teamMembers} addContent={<MemberForm roles={roles} team={team} />} />
+            <MemberList members={teamMembers} addContent={<MemberForm setRoles={setRoles} roles={roles} team={team} />} />
         </section>
     )
 }

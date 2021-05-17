@@ -34,7 +34,7 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
 
     return (
         <form className="role-change-form" onSubmit={onSubmit}>
-            <h2>Update the role</h2>
+            <h2>Set the role</h2>
             {
                 roles.map((role) => (
                     <div className="role-item" key={role.id}>
@@ -54,7 +54,7 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
                 +
             </div>
             <Button type="submit">
-                Change
+                Save
             </Button>
         </form >
     )

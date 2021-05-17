@@ -38,21 +38,23 @@ export default function Teams() {
 
     useEffect(() => {
         if (currentTeam && allTeams) {
-            setDetails([]);
             getTeamProjects(currentTeam.id).then((projects) => {
-                setDetails((state) => [...state, {
-                    icon: 'folder',
-                    title: 'Projects',
-                    number: projects.length
-                }]);
+                setDetails((state) => state
+                    .filter(detail => detail.title !== 'Projects')
+                    .concat({
+                        icon: 'folder',
+                        title: 'Projects',
+                        number: projects.length
+                    }));
             });
             getTeamMembers(currentTeam.id).then((members) => {
-
-                setDetails((state) => [...state, {
-                    icon: 'group',
-                    title: 'Members',
-                    number: members.length
-                }]);
+                setDetails((state) => state
+                    .filter(detail => detail.title !== 'Members')
+                    .concat({
+                        icon: 'group',
+                        title: 'Members',
+                        number: members.length
+                    }));
 
                 setTabs([{
                     route: '/teams/' + currentTeam.id,
@@ -69,7 +71,7 @@ export default function Teams() {
             //update Tabs link
             setPageLinks(allTeams.filter(team => currentTeam.id !== team.id).map(team => {
                 return {
-                    route: '/teams' + team.id,
+                    route: '/teams/' + team.id,
                     label: team.name,
                 }
             }));

@@ -43,6 +43,7 @@ export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props
                 name="name"
                 defaultText={name}
                 onChange={setName}
+                validation={validateName}
             />
             <Button >
                 {!role?.id ? 'Create' : 'Update'}

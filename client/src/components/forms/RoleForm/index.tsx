@@ -9,16 +9,16 @@ interface Props {
     team: Team;
     member?: TeamMember;
     setResult?: Function;
+    setRoles: (state: any) => void
 }
 
-export default function RoleForm({ roles, team, member, setResult }: Props) {
+export default function RoleForm({ roles, team, member, setResult, setRoles }: Props) {
     const [edit, setEdit] = useState<TeamRole | null>(null);
-    const [allRoles, setRoles] = useState(roles);
     return (
         <>
             {
                 edit === null ?
-                    <RoleChangeForm roles={allRoles} setEdit={setEdit} team={team} member={member} setAllRoles={setRoles} setResult={setResult} />
+                    <RoleChangeForm roles={roles} setEdit={setEdit} team={team} member={member} setAllRoles={setRoles} setResult={setResult} />
                     : <RoleEditForm role={edit} team={team} setEdit={setEdit} setAllRoles={setRoles} />
             }
         </>
