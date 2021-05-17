@@ -19,6 +19,18 @@ export interface TeamMember extends User {
     role: TeamRole;
 }
 
+export interface TeamActivity {
+    day: string;
+    time: number;
+}
+
+export interface TeamCompletion {
+    open: number,
+    closed: number,
+    suspended: number,
+    overdue: number,
+}
+
 export function getTeams(): Promise<Team[]> {
     return executeApiGet(`team`, ({ teams }) => teams, "Failed to get teams");
 }
@@ -48,6 +60,20 @@ export function getTeamWork(uuid: string): Promise<Work[]> {
         started: new Date(work.started),
         finished: work.finished ? new Date(work.finished) : undefined,
     })), "Failed to get team work");
+}
+
+export function getTeamActivity(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<TeamActivity[]> {
+    return executeApiGet(
+        `team/${uuid}/activity?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ activity }) => activity, "Failed to get team activity"
+    );
+}
+
+export function getTeamCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<TeamCompletion> {
+    return executeApiGet(
+        `team/${uuid}/completion?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ completion }) => completion, "Failed to get team completion"
+    );
 }
 
 export function createTeam(name: string): Promise<string> {
