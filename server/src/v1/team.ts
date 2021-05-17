@@ -233,54 +233,6 @@ team.get('/:uuid/members', async (req, res) => {
     }
 });
 
-team.delete('/:teamid/members/:userid', async (req, res) => {
-    try {
-        const team_id = req.params.teamid;
-        const user_id = req.params.userid;
-        if (validate(team_id) && validate(user_id)) {
-            const team = await database('team_members')
-                .select({ id: 'team_members.team_id' })
-                .where({
-                    'team_members.user_id': req.body.token.id,
-                    'team_members.team_id': team_id,
-                });
-            if (team.length >= 1) {
-                const deleted = await database('team_members')
-                    .delete()
-                    .where({
-                        'team_members.user_id': user_id,
-                        'team_members.team_id': team_id,
-                    });
-                if (deleted >= 1) {
-                    res.status(200).json({
-                        status: 'success',
-                    });
-                } else {
-                    res.status(404).json({
-                        status: 'error',
-                        message: 'role not found',
-                    });
-                }
-            } else {
-                res.status(404).json({
-                    status: 'error',
-                    message: 'team not found',
-                });
-            }
-        } else {
-            res.status(400).json({
-                status: 'error',
-                message: 'malformed uuid',
-            });
-        }
-    } catch (e) {
-        res.status(400).json({
-            status: 'error',
-            message: 'failed remove members',
-        });
-    }
-});
-
 team.get('/:uuid/roles', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -454,6 +406,69 @@ team.post('/:uuid/roles', async (req, res) => {
     }
 });
 
+interface UpdateRoleBody {
+    name: string;
+    token: Token;
+}
+
+team.put('/:teamid/roles/:roleid', async (req, res) => {
+    if (isOfType<UpdateRoleBody>(req.body, [['name', 'string']])) {
+        try {
+            const team_id = req.params.teamid;
+            const role_id = req.params.roleid;
+            if (validate(team_id) && validate(role_id)) {
+                const team = await database('team_members')
+                    .select({ id: 'team_members.team_id' })
+                    .where({
+                        'team_members.user_id': req.body.token.id,
+                        'team_members.team_id': team_id,
+                    });
+                if (team.length >= 1) {
+                    const role_name = req.body.name;
+                    const updated = await database('roles')
+                        .update({
+                            name: role_name,
+                        })
+                        .where({
+                            id: role_id,
+                            team_id: team_id,
+                        });
+                    if (updated >= 1) {
+                        res.status(200).json({
+                            status: 'success',
+                        });
+                    } else {
+                        res.status(404).json({
+                            status: 'error',
+                            message: 'role not found',
+                        });
+                    }
+                } else {
+                    res.status(404).json({
+                        status: 'error',
+                        message: 'team not found',
+                    });
+                }
+            } else {
+                res.status(400).json({
+                    status: 'error',
+                    message: 'malformed uuid',
+                });
+            }
+        } catch (e) {
+            res.status(400).json({
+                status: 'error',
+                message: 'failed to update role',
+            });
+        }
+    } else {
+        res.status(400).json({
+            status: 'error',
+            message: 'missing request fields',
+        });
+    }
+});
+
 team.delete('/:teamid/roles/:roleid', async (req, res) => {
     try {
         const team_id = req.params.teamid;
@@ -611,6 +626,54 @@ team.put('/:uuid/members', async (req, res) => {
         res.status(400).json({
             status: 'error',
             message: 'missing request fields',
+        });
+    }
+});
+
+team.delete('/:teamid/members/:userid', async (req, res) => {
+    try {
+        const team_id = req.params.teamid;
+        const user_id = req.params.userid;
+        if (validate(team_id) && validate(user_id)) {
+            const team = await database('team_members')
+                .select({ id: 'team_members.team_id' })
+                .where({
+                    'team_members.user_id': req.body.token.id,
+                    'team_members.team_id': team_id,
+                });
+            if (team.length >= 1) {
+                const deleted = await database('team_members')
+                    .delete()
+                    .where({
+                        'team_members.user_id': user_id,
+                        'team_members.team_id': team_id,
+                    });
+                if (deleted >= 1) {
+                    res.status(200).json({
+                        status: 'success',
+                    });
+                } else {
+                    res.status(404).json({
+                        status: 'error',
+                        message: 'role not found',
+                    });
+                }
+            } else {
+                res.status(404).json({
+                    status: 'error',
+                    message: 'team not found',
+                });
+            }
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed remove members',
         });
     }
 });
