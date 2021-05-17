@@ -397,6 +397,99 @@ team.get('/:uuid/work', async (req, res) => {
     }
 });
 
+team.get('/:uuid/activity', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const to = (req.query.to ?? Date.now()) as number;
+            const activity = await database({ ut: 'team_members' })
+                .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
+                .innerJoin('workhours', 'team_members.user_id', 'workhours.user_id')
+                .select({
+                    day: database.raw('Date(`workhours`.`started` / 1000, \'unixepoch\')'),
+                })
+                .sum({ time: database.raw('`workhours`.`finished` - `workhours`.`started`') })
+                .where({
+                    'ut.user_id': req.body.token.id,
+                    'ut.team_id': id,
+                })
+                .andWhereNot({ 'workhours.finished': null })
+                .andWhere('workhours.started', '>=', since)
+                .andWhere('workhours.started', '<=', to)
+                .groupBy('day');
+            res.status(200).json({
+                status: 'success',
+                activity: activity,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get activity',
+        });
+    }
+});
+
+team.get('/:uuid/completion', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const to = (req.query.to ?? Date.now()) as number;
+            const completion = await database(
+                    database('team_members')
+                        .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                        .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                        .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+                        .leftJoin('workhours', 'tasks.id', 'workhours.task_id')
+                        .select({
+                            id: 'tasks.id',
+                            status: database.raw(
+                                'Case When `tasks`.`status` = \'open\' '
+                                + 'And Sum(`task_requirements`.`time` * 60 * 1000) < Sum(`workhours`.`finished` - `workhours`.`started`) '
+                                + 'Then \'overdue\' Else `tasks`.`status` End'),
+                        })
+                        .where({
+                            'team_members.user_id': req.body.token.id,
+                            'team_members.team_id': id,
+                        })
+                        .andWhere('tasks.edited', '>=', since)
+                        .andWhere('tasks.created', '<=', to)
+                        .groupBy('tasks.id')
+                )
+                .select({
+                    status: 'status',
+                })
+                .count({ count: 'id' })
+                .groupBy('status') as any[];
+            res.status(200).json({
+                status: 'success',
+                completion: completion.reduce((object, { status, count }) => ({
+                    ...object,
+                    [status]: count,
+                }), {}),
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get completion',
+        });
+    }
+});
+
 interface AddRoleBody {
     name: string;
     token: Token;
