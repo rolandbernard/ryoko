@@ -5,17 +5,39 @@ import Tabs from 'components/navigation/Tabs';
 import Dropdown from 'components/navigation/Dropdown';
 import TeamsMembers from './TeamsMembers';
 import TeamsStats from './TeamsStats';
+import { useEffect, useState } from 'react';
+import { getTeamMembers, getTeamProjects, getTeams, Team } from 'adapters/team';
+import { DetailProps } from 'components/ui/DetailBox';
+
 
 export default function Teams() {
-    const teamDetails = [{
-        icon: 'group',
-        title: 'Member',
-        number: 2
-    }, {
-        icon: 'folder',
-        title: 'Projects',
-        number: 3
-    }];
+    const [allTeams, setTeams] = useState<Team[]>();
+    const [currentTeam, setCurrentTeam] = useState<Team>();
+    const [details, setDetails] = useState<DetailProps[]>([]);
+
+    useEffect(() => {
+        getTeams().then((teams) => {
+            setTeams(teams);
+            setCurrentTeam(teams[0]);
+            if (teams[0]) {
+                getTeamProjects(teams[0].id).then((projects) => {
+                    console.log(projects);
+                    setDetails((state) => [...state, {
+                        icon: 'folder',
+                        title: 'Projects',
+                        number: projects.length
+                    }]);
+                });
+                getTeamMembers(teams[0].id).then((members) => {
+                    setDetails((state) => [...state, {
+                        icon: 'group',
+                        title: 'Members',
+                        number: members.length
+                    }]);
+                })
+            }
+        }).catch(() => { });
+    }, []);
 
     const tabs = [{
         path: '/teams',
@@ -27,6 +49,7 @@ export default function Teams() {
         component: TeamsStats
     }];
 
+    //TODO dynamic
     const teams = [{
         route: '/teams/members?team=someOther',
         label: 'Some other Team',
@@ -35,14 +58,23 @@ export default function Teams() {
         <div className="teams-page">
             <div className="content-container">
                 <h1 className="underlined">Teams</h1>
-                <Dropdown items={teams}>
-                    <h2>Ryoko</h2>
-                    <span className="material-icons icon">
-                        expand_more
-                    </span>
-                </Dropdown>
-                <DetailGrid details={teamDetails} />
-                <ButtonLink href="/teams/uuid/edit" className="expanded">
+                {
+                    allTeams && allTeams?.length > 1 && (
+                        <Dropdown items={teams}>
+                            <h2>{currentTeam?.name}</h2>
+                            <span className="material-icons icon">
+                                expand_more
+                            </span>
+                        </Dropdown>
+                    )
+                }
+                {
+                    allTeams && allTeams?.length === 1 && (
+                        <h2>{currentTeam?.name}</h2>
+                    )
+                }
+                <DetailGrid details={details} />
+                <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
                     Edit
                 </ButtonLink>
                 <Tabs tabs={tabs} />
