@@ -32,7 +32,7 @@ export default function Dropdown({ children, items }: Props) {
                                         {item.label}
                                     </Link>)) ||
                                 (item.popupContent &&
-                                    <div className="dropdown-item" onClick={() => setOpenPopup(item.label)}>
+                                    <div className="dropdown-item" key={item.label} onClick={() => setOpenPopup(item.label)}>
                                         {item.label}
                                     </div>))
                         }
@@ -42,9 +42,9 @@ export default function Dropdown({ children, items }: Props) {
             {
                 items.filter(item => item.popupContent).map((item) => (
                     openPopup === item.label && (
-                    <Popup onClose={() => setOpenPopup(null)}>
-                        {item.popupContent}
-                    </Popup>)
+                        <Popup onClose={() => setOpenPopup(null)}>
+                            {item.popupContent}
+                        </Popup>)
                 ))
             }
         </>

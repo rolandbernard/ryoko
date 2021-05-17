@@ -8,10 +8,11 @@ interface Props {
 
 export default function Popup({ children, onClose }: Props) {
     return (
-        <div className="popup-container" onClick={() => onClose()}>
+        <div className="popup-container">
             <div className="popup">
                 {children}
             </div>
+            <div className="background" onClick={() => onClose()}></div>
         </div>
     )
 }

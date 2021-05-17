@@ -34,10 +34,10 @@
         position: absolute;
         right: 0;
         top: 0;
+        transform: translate(50%, -50%);
     }
 
     .settings {
-        transform: translate(50%, -50%);
         height: 35px;
         width: 35px;
         background: s.$primary;

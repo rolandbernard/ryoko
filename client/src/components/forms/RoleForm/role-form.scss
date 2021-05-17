@@ -1,0 +1,14 @@
+@use 'styles/settings.scss' as s;
+
+.role-change-form {
+    .role-item {
+        padding: 25px;
+        background: s.$light;
+        border-radius: 25px;
+        font-size: 18px;
+        margin: 10px 0;
+        label {
+            margin-left: 10px;
+        }
+    }
+}

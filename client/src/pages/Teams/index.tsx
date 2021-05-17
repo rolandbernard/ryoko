@@ -57,13 +57,13 @@ export default function Teams() {
                 setTabs([{
                     route: '/teams/' + currentTeam.id,
                     label: 'Members',
-                    component: (<TeamsMembers members={members}/>)
+                    component: (<TeamsMembers members={members} team={currentTeam} />)
                 }, {
                     route: '/teams/' + currentTeam.id + '/stats',
                     label: 'Stats',
                     component: <TeamsStats />
                 }]);
-                
+
             });
 
             //update Tabs link
