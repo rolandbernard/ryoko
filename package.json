@@ -8,7 +8,7 @@
     "private": true,
     "main": "server/build.js",
     "scripts": {
-        "install": "cd server && yarn install && cd ../client && yarn install", 
+        "install": "cd server && yarn install --production=false && cd ../client && yarn install --production=false", 
         "build": "cd server && yarn build && cd ../client && yarn build",
         "start": "cd server && node build/index.js"
     },
