@@ -474,13 +474,19 @@ team.delete('/:teamid/roles/:roleid', async (req, res) => {
         const team_id = req.params.teamid;
         const role_id = req.params.roleid;
         if (validate(team_id) && validate(role_id)) {
-            const team = await database('team_members')
-                .select({ id: 'team_members.team_id' })
+            const members = await database({ ut: 'team_members' })
+                .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
+                .select({ role: 'team_members.role_id' })
                 .where({
-                    'team_members.user_id': req.body.token.id,
-                    'team_members.team_id': team_id,
+                    'ut.user_id': req.body.token.id,
+                    'ut.team_id': team_id,
                 });
-            if (team.length >= 1) {
+            if (members.find(member => member.role == role_id)) {
+                res.status(400).json({
+                    status: 'error',
+                    message: 'role is in use',
+                });
+            } else if (members.length >= 1) {
                 const deleted = await database('roles')
                     .delete()
                     .where({
