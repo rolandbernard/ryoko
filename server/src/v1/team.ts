@@ -482,7 +482,6 @@ team.get('/:uuid/completion', async (req, res) => {
             });
         }
     } catch (e) {
-        console.error(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get completion',

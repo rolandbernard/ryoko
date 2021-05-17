@@ -223,6 +223,107 @@ project.get('/:uuid/work', async (req, res) => {
     }
 });
 
+project.get('/:uuid/activity', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const to = (req.query.to ?? Date.now()) as number;
+            const activity = await database(
+                    database('team_members')
+                    .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                    .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                    .innerJoin('workhours', 'tasks.id', 'workhours.task_id')
+                    .select({
+                        started: 'workhours.started',
+                        finished: 'workhours.finished',
+                    })
+                    .where({
+                        'team_members.user_id': req.body.token.id,
+                        'team_projects.project_id': id,
+                    })
+                    .andWhereNot({ 'workhours.finished': null })
+                    .andWhere('workhours.started', '>=', since)
+                    .andWhere('workhours.started', '<=', to)
+                    .groupBy('workhours.id')
+                )
+                .select({
+                    day: database.raw('Date(`started` / 1000, \'unixepoch\')'),
+                })
+                .sum({ time: database.raw('`finished` - `started`') })
+                .groupBy('day');
+            res.status(200).json({
+                status: 'success',
+                activity: activity,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get activity',
+        });
+    }
+});
+
+project.get('/:uuid/completion', async (req, res) => {
+    try {
+        const id = req.params.uuid;
+        if (validate(id)) {
+            const since = (req.query.since ?? 0) as number;
+            const to = (req.query.to ?? Date.now()) as number;
+            const completion = await database(
+                    database('team_members')
+                        .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
+                        .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                        .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
+                        .leftJoin('workhours', 'tasks.id', 'workhours.task_id')
+                        .select({
+                            id: 'tasks.id',
+                            status: database.raw(
+                                'Case When `tasks`.`status` = \'open\' '
+                                + 'And Sum(`task_requirements`.`time` * 60 * 1000) < Sum(`workhours`.`finished` - `workhours`.`started`) '
+                                + 'Then \'overdue\' Else `tasks`.`status` End'),
+                        })
+                        .where({
+                            'team_members.user_id': req.body.token.id,
+                            'team_projects.project_id': id,
+                        })
+                        .andWhere('tasks.edited', '>=', since)
+                        .andWhere('tasks.created', '<=', to)
+                        .groupBy('tasks.id')
+                )
+                .select({
+                    status: 'status',
+                })
+                .count({ count: 'id' })
+                .groupBy('status') as any[];
+            res.status(200).json({
+                status: 'success',
+                completion: completion.reduce((object, { status, count }) => ({
+                    ...object,
+                    [status]: count,
+                }), { open: 0, closed: 0, suspended: 0, overdue: 0 }),
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: 'malformed uuid',
+            });
+        }
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: 'failed get completion',
+        });
+    }
+});
+
 interface AddProjectBody {
     teams: Array<string>;
     name: string;
