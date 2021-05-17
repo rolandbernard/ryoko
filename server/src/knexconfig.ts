@@ -1,4 +1,6 @@
 
+import { env } from 'process';
+
 export default {
     development: {
         client: "sqlite3",
@@ -8,7 +10,7 @@ export default {
     },
     staging: {
         client: "postgresql",
-        connection: {
+        connection: env.DATABASE_URL ?? {
             database: "ryoko",
             user: "postgres",
             password: ""
@@ -23,7 +25,7 @@ export default {
     },
     production: {
         client: "postgresql",
-        connection: {
+        connection: env.DATABASE_URL ?? {
             database: "ryoko",
             user: "postgres",
             password: ""
