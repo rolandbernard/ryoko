@@ -1,7 +1,6 @@
 import { Team, TeamMember, TeamRole, updateTeamMember } from 'adapters/team';
 import { FormEvent, useCallback, useState } from 'react';
 import Button from 'components/ui/Button';
-import { useHistory } from 'react-router';
 
 interface Props {
     roles: TeamRole[];
