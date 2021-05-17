@@ -49,7 +49,7 @@ export default function RegisterForm({ onSubmit, setError }: Props) {
         if (await validateUsername(username) === null && validatePassword(password) === null && validateRepeatPassword(repeatedPassword, password) === null) {
             onSubmit?.(username, password, realName, email);
         } else if(setError) {
-            setError('Please fill out the mandatory fields.');
+            setError('Please fill in the mandatory fields.');
         }
     }, [onSubmit, password, username, repeatedPassword, setError, realName, email]);
 

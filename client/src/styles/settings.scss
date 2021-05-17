@@ -20,6 +20,26 @@ $colors: (
    'dark': $dark
 );
 
+$themeDarkMap: (
+    'red': #E31A4A,
+    'orange': #E03333,
+    'yellow': #E09033,
+    'green': #299C50,
+    'lightblue': #0E8BFF,
+    'blue': #1D00D0,
+    'purple': #7B10E7
+);
+
+$themeLightMap: (
+    'red': #FE6442,
+    'orange': #FE8642,
+    'yellow': #FEE042,
+    'green': #8AF194,
+    'lightblue': #70E5ED,
+    'blue': #428DFE,
+    'purple': #CD42FE
+);
+
 $linear-gradient: linear-gradient(to bottom, $primary, #930AFF);
 $linear-gradient-horizontal: linear-gradient(to right, $primary, #930AFF);
 $radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, #930AFF 100%);

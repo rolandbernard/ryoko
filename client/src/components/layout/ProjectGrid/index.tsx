@@ -1,21 +1,23 @@
 import './project-grid.scss';
-import Project, { ProjectProps } from 'components/ui/Project';
+import Project from 'components/ui/Project';
+import { Project as IProject } from 'adapters/project';
+import { Link } from 'react-router-dom';
 
 interface Props {
-    projects: ProjectProps[]
+    projects: IProject[]
 }
 
 export default function ProjectGrid({ projects }: Props) {
     return (
         <div className="project-grid">
             <div className="add-project project">
-                <div className="content">
+                <Link to="/projects/create" className="content">
                     +
-        </div>
+                </Link>
             </div>
             {
                 projects.map(project => (
-                    <Project key={project.project.id} {...project} />
+                    <Project key={project.id} project={project} />
                 ))
             }
         </div >

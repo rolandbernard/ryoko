@@ -245,13 +245,6 @@ project.post('/', async (req, res) => {
                     return;
                 }
             }
-            const color = req.body.color;
-            if (!color.match(/^#[0-9a-fA-F]{6}$/)) {
-                res.status(400).json({
-                    status: 'error',
-                    message: 'malformed color',
-                });
-            } else {
                 const project_id = uuid();
                 const team = await database('team_members')
                     .select({ id: 'team_members.team_id' })
@@ -286,7 +279,6 @@ project.post('/', async (req, res) => {
                         message: 'team not found',
                     });
                 }
-            }
         } catch (e) {
             res.status(400).json({
                 status: 'error',

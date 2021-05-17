@@ -1,32 +1,29 @@
 import ProjectsSlider from 'components/layout/ProjectsSlider';
-import { Status } from 'adapters/project';
 import './projects.scss';
 import ProjectGrid from 'components/layout/ProjectGrid';
 import Filter from 'components/helpers/Filter';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getProjects, Project } from 'adapters/project';
 
 export default function Projects() {
-    const [filter, setFilter] = useState({term: '', items: ['']});
+    const [filter, setFilter] = useState({ term: '', items: [''] });
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
 
-    const project = {
-        project: {
-            id: 'asdf',
-            name: 'Shopping List',
-            text: 'Some text',
-            color: 'color',
-            status: Status.OPEN,
-            teams: ['ryoko']
-        }
-    }
+    useEffect(() => {
+        getProjects().then((projects) => {
+            setAllProjects(projects);
+        })
+    }, [])
+
     return (
         <div className="projects-page">
             <div className="content-container">
                 <h1 className="underlined">Projects</h1>
                 <h2>Recent Projects</h2>
-                <ProjectsSlider projects={[project, project, project, project]} />
+                <ProjectsSlider projects={[]} />
                 <h2>All Projects</h2>
                 <Filter setFilter={setFilter} />
-                <ProjectGrid projects={[project, project, project, project, project, project, project, project, project, project, project, project]} />
+                <ProjectGrid projects={allProjects} />
             </div>
         </div>
     );

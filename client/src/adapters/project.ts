@@ -10,6 +10,16 @@ export enum Status {
     SUSPENDED = 'suspended'
 }
 
+export enum ProjectColors {
+    RED = 'red',
+    ORANGE = 'orange',
+    YELLOW = 'yellow',
+    GREEN = 'green',
+    LIGHTBLUE = 'lightblue',
+    BLUE = 'blue',
+    PURPLE = 'purple',
+}
+
 export interface Project {
     id: string;
     name: string;
@@ -60,7 +70,7 @@ export function getProjectWork(uuid: string): Promise<Work[]> {
     })), "Failed to get project work");
 }
 
-interface NewTeamData {
+interface NewProjectData {
     teams: Array<string>;
     name: string;
     text: string;
@@ -68,11 +78,11 @@ interface NewTeamData {
     deadline?: Date;
 }
 
-export function createProject(project: NewTeamData): Promise<string> {
+export function createProject(project: NewProjectData): Promise<string> {
     return executeApiPost(`project`, project, ({ id }) => id, "Failed to create project");
 }
 
-interface UpdateTeamData {
+interface UpdateProjectData {
     remove_teams?: Array<string>;
     add_teams?: Array<string>;
     name?: string;
@@ -82,7 +92,7 @@ interface UpdateTeamData {
     deadline?: string;
 }
 
-export function updateProject(uuid: string, project: UpdateTeamData) {
+export function updateProject(uuid: string, project: UpdateProjectData) {
     return executeApiPut(`project/${uuid}`, project, () => {}, "Failed to update project");
 }
 

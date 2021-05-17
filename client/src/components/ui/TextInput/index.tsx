@@ -6,10 +6,10 @@ import './text-input.scss';
 interface Props {
     label: string;
     name: string;
-    type?: 'password' | 'textarea' | 'text';
+    type?: 'password' | 'textarea' | 'text' | 'date';
     defaultText?: string;
     compareValue?: string;
-    onChange: Dispatch<string>;
+    onChange: (state: any) => void;
     validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
 }
 
@@ -17,8 +17,12 @@ export default function TextInput({ label, name, type, onChange, validation, com
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        onChange(e.target.value);
-    }, [onChange]);
+        if (type === 'date') {
+            onChange(new Date(e.target.value));
+        } else {
+            onChange(e.target.value);
+        }
+    }, [onChange, type]);
 
     const handleBlur = useCallback(async (e: FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let error = await validation?.(e.target.value, compareValue ?? '');
@@ -31,7 +35,7 @@ export default function TextInput({ label, name, type, onChange, validation, com
                 <label htmlFor={name}>{label}</label>
                 {
                     type === 'textarea' ?
-                        (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} value={name} />)
+                        (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} value={defaultText} />)
                         : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} value={defaultText} autoComplete="off" />)
                 }
             </div >

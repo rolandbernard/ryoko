@@ -9,6 +9,7 @@ const Tasks = lazy(() => import('pages/Tasks'));
 const TaskDetail = lazy(() => import('pages/Tasks/TaskDetail'));
 const TaskStart = lazy(() => import('pages/Tasks/TaskStart'));
 const ProjectDetail = lazy(() => import('pages/Projects/ProjectDetail'));
+const ProjectCreate = lazy(() => import('pages/Projects/ProjectCreate'));
 const Projects = lazy(() => import('pages/Projects'));
 const Stats = lazy(() => import('pages/Stats'));
 const TeamsEdit = lazy(() => import('pages/Teams/TeamsEdit'));
@@ -24,6 +25,7 @@ export default function AppWrapper() {
                     <ProtectedRoute path="/tasks/:uuid/start" component={TaskStart} />
                     <ProtectedRoute path="/tasks/:uuid" component={TaskDetail} />
                     <ProtectedRoute path="/tasks" exact component={Tasks} />
+                    <ProtectedRoute path="/projects/create" component={ProjectCreate} />
                     <ProtectedRoute path="/projects/:uuid" component={ProjectDetail} />
                     <ProtectedRoute path="/projects" component={Projects} />
                     <ProtectedRoute path="/stats" component={Stats} />

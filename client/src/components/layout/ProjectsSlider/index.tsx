@@ -15,19 +15,25 @@ interface Props {
 
 export default function ProjectsSlider({ projects }: Props) {
     return (
-    <div className="project-slider">
-        <Carousel
-            mouseTracking
-            responsive={responsive}
-            disableDotsControls
-            disableButtonsControls
-            touchTracking
-        > 
+        <>
             {
-                projects.map(project => <ProjectSlide {...project} />)
+                projects.length ?
+                    <div className="project-slider">
+                        <Carousel
+                            mouseTracking
+                            responsive={responsive}
+                            disableDotsControls
+                            disableButtonsControls
+                            touchTracking
+                        >
+                            {
+                                projects.map(project => <ProjectSlide {...project} />)
+                            }
+                        </Carousel>
+                    </div> :
+                    <div>No Projects found.</div>
             }
-        </Carousel>
-    </div>
+        </>
 
     );
 }

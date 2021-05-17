@@ -124,3 +124,35 @@ h4 {
     }
 }
 
+
+    
+@each $key,
+$color in s.$themeDarkMap {
+    .bg-dark-#{$key} {
+        background-color: $color;
+    }
+    
+    .text-dark-#{$key} {
+        color: $color
+    }
+} 
+    
+    
+@each $key,
+$color in s.$themeLightMap {
+    .bg-light-#{$key} {
+        background-color: $color;
+    }
+    
+    .text-light-#{$key} {
+        color: $color
+    }
+} 
+
+
+@each $key,
+$color in s.$themeLightMap {
+    .bg-gradient-#{$key} {
+        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+    }
+} 
