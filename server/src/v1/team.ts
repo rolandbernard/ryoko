@@ -203,7 +203,7 @@ team.get('/:uuid/members', async (req, res) => {
                     status: 'success',
                     members: members.map(member => ({
                         id: member.id,
-                        name: member.name,
+                        username: member.name,
                         email: member.email,
                         realname: member.realname,
                         role: {

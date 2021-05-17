@@ -25,7 +25,7 @@ export default function Avatar({ user }: Props) {
             {
                 error && (
                     <div className="standard-image">
-                        {user?.username.charAt(0)}
+                        {user?.username && user.username.charAt(0)}
                     </div>
                 )
             }

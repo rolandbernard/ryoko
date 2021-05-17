@@ -8,10 +8,11 @@
     background: s.$white;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(s.$black, 0.1);
-    .avatar-container {
+    .avatar {
         width: 60px;
         height: 60px;
         transform: translateX(-50%);
+        font-size: 36px;
         img {
             width: 100%;
             border-radius: 50%;

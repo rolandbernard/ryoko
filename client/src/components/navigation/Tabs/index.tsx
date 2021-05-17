@@ -1,9 +1,11 @@
-import { NavLink, RouteProps, Route } from 'react-router-dom';
+import { ReactNode } from 'react';
+import { NavLink, Route } from 'react-router-dom';
 import './tabs.scss';
 
-interface Tab extends RouteProps {
+export interface Tab {
     label: string;
-    routePath?: string;
+    route: string;
+    component: ReactNode
 }
 
 interface Props {
@@ -16,7 +18,7 @@ export default function Tabs({ tabs }: Props) {
         <>
             <nav className="tabs-container">
                 {tabs.map((tab) => (
-                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={{ pathname: tab.path?.toString() }}>
+                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={tab.route}>
                         {tab.label}
                     </NavLink>
                 ))}
@@ -24,7 +26,7 @@ export default function Tabs({ tabs }: Props) {
             </nav>
             {
                 tabs.map((tab) => (
-                    <Route exact key={tab.label} {...tab} path={tab.routePath ?? tab.path} />
+                    <Route exact key={tab.label} path={tab.route} render={() => (tab.component)} />
                 ))
             }
         </>

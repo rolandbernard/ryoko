@@ -15,6 +15,13 @@
             margin-right: 5px;
         }
     }
+    
+    &.inactive {
+        cursor: text;
+        .icon {
+            display: none;
+        }
+    }
 
     &.open {
         .dropdown {

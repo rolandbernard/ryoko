@@ -1,15 +1,15 @@
 import './teams-members.scss';
 import MemberList from 'components/layout/MemberList';
+import { TeamMember } from 'adapters/team';
 
-export default function TeamsMembers() {
-    const member = {
-        uuid: 'asdf',
-        name: 'Roland Bernard',
-        role: 'Backend'
-    }
+interface Props {
+    members: TeamMember[];
+}
+
+export default function TeamsMembers({ members }: Props) {
     return (
         <section className="teams-members-section">
-            <MemberList members={[member]} />
+            <MemberList members={members} />
         </section>
     )
 }

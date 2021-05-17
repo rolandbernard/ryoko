@@ -52,7 +52,7 @@ export default function TaskDetail() {
                 <ButtonLink href={'/tasks/' + uuid + '/edit'} className="dark expanded">
                     Edit
                 </ButtonLink>
-                <Tabs tabs={tabs} />
+                {/*<Tabs tabs={tabs} /> */}
             </div>
         </div>
     );

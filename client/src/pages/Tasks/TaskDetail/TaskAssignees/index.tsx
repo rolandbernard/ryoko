@@ -1,14 +1,14 @@
+import { TeamMember } from 'adapters/team';
 import MemberList from 'components/layout/MemberList';
 
-export default function TaskAssignees() {
-    const member = {
-        uuid: 'asdf',
-        name: 'Roland Bernard',
-        role: 'Backend'
-    }
+interface Props {
+    assignees: TeamMember[] 
+}
+
+export default function TaskAssignees({assignees}: Props) {
     return (
         <section className="teams-assignees-section">
-            <MemberList members={[member]} />
+            <MemberList members={assignees} />
         </section>
     );
 }

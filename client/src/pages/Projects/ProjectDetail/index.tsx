@@ -35,7 +35,7 @@ export default function ProjectDetail() {
                         A basic shopping list app, much like Bring!
                     </p>
                 </div>
-                <Tabs tabs={tabs} />
+                {/*<Tabs tabs={tabs} />*/}
 
             </div>
         </div>

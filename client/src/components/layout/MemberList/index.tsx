@@ -1,14 +1,9 @@
 import './member-list.scss';
 import TeamMember from 'components/ui/TeamMember';
-
-interface TeamMemberInterface {
-    uuid: string;
-    name: string;
-    role: string;
-}
+import { TeamMember as ITeamMember } from 'adapters/team';
 
 interface Props {
-    members: TeamMemberInterface[]
+    members: ITeamMember[]
 }
 
 export default function MemberList({ members }: Props) {
@@ -18,7 +13,7 @@ export default function MemberList({ members }: Props) {
                 +
             </div>
             {members.map((member) => (
-                <TeamMember key={member.uuid} member={member} />
+                <TeamMember key={member.id} member={member} />
             ))}
         </div>
     );
