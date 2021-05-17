@@ -3,6 +3,7 @@ import { executeApiGet, executeApiPost, executeApiPut } from './util';
 import { Task } from './task';
 import { User } from './user';
 import { Work } from './work';
+import { Activity, Completion } from './util';
 
 export interface Project {
     id: string;
@@ -52,6 +53,20 @@ export function getProjectWork(uuid: string): Promise<Work[]> {
         started: new Date(work.started),
         finished: work.finished ? new Date(work.finished) : undefined,
     })), "Failed to get project work");
+}
+
+export function getProjectActivity(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Activity[]> {
+    return executeApiGet(
+        `project/${uuid}/activity?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ activity }) => activity, "Failed to get project activity"
+    );
+}
+
+export function getProjectCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
+    return executeApiGet(
+        `project/${uuid}/completion?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ completion }) => completion, "Failed to get project completion"
+    );
 }
 
 interface NewTeamData {

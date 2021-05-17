@@ -3,6 +3,7 @@ import { executeApiDelete, executeApiGet, executeApiPost, executeApiPut } from '
 import { User } from './user';
 import { ReducedProject } from './project';
 import { Work } from './work';
+import { Activity, Completion } from './util';
 
 export interface Team {
     id: string;
@@ -17,18 +18,6 @@ export interface TeamRole {
 
 export interface TeamMember extends User {
     role: TeamRole;
-}
-
-export interface TeamActivity {
-    day: string;
-    time: number;
-}
-
-export interface TeamCompletion {
-    open: number,
-    closed: number,
-    suspended: number,
-    overdue: number,
 }
 
 export function getTeams(): Promise<Team[]> {
@@ -62,14 +51,14 @@ export function getTeamWork(uuid: string): Promise<Work[]> {
     })), "Failed to get team work");
 }
 
-export function getTeamActivity(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<TeamActivity[]> {
+export function getTeamActivity(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Activity[]> {
     return executeApiGet(
         `team/${uuid}/activity?since=${from.getTime()}&to=${to.getTime()}`,
         ({ activity }) => activity, "Failed to get team activity"
     );
 }
 
-export function getTeamCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<TeamCompletion> {
+export function getTeamCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
     return executeApiGet(
         `team/${uuid}/completion?since=${from.getTime()}&to=${to.getTime()}`,
         ({ completion }) => completion, "Failed to get team completion"
