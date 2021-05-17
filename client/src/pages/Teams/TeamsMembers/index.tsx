@@ -10,7 +10,16 @@ export default function TeamsMembers({ members }: Props) {
     const teamMembers = members.map(member => {
         return {
             user: member,
-            info: member.role.name
+            info: member.role.name,
+            settings: [{
+                label: 'Edit role',
+                popupContent: (
+                    <>
+                        <h2>Change the role of {member.username}</h2>
+                        <select name="" id=""></select>
+                    </>
+                )
+            }]
         }
     })
     return (
