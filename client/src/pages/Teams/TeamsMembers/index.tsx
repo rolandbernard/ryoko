@@ -2,6 +2,7 @@ import './teams-members.scss';
 import MemberList from 'components/layout/MemberList';
 import { getTeamRoles, Team, TeamMember, TeamRole } from 'adapters/team';
 import RoleForm from 'components/forms/RoleForm';
+import MemberForm from 'components/forms/MemberForm';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -15,7 +16,7 @@ export default function TeamsMembers({ members, team }: Props) {
         getTeamRoles(team.id).then((roles) => {
             setRoles(roles);
         })
-    }, [])
+    }, []);
 
     const teamMembers = members.map(member => {
         return {
@@ -25,16 +26,16 @@ export default function TeamsMembers({ members, team }: Props) {
                 label: 'Edit role',
                 popupContent: (
                     <>
-                        <h2>Change the role of {member.username}</h2>
                         <RoleForm roles={roles} team={team} member={member} />
                     </>
                 )
             }]
         }
-    })
+    });
+
     return (
         <section className="teams-members-section">
-            <MemberList members={teamMembers} />
+            <MemberList members={teamMembers} addContent={<MemberForm roles={roles} team={team} />} />
         </section>
     )
 }

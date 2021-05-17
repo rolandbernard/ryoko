@@ -35,6 +35,7 @@ export default function RoleEditForm({ role, team, setEdit }: Props) {
 
     return (
         <form className="role-edit-form" onSubmit={onSubmit}>
+            <h2>{!role?.id ? 'Create a new role' : 'Edit role ' + role.name}</h2>
             <TextInput
                 label="Role name"
                 name="name"
