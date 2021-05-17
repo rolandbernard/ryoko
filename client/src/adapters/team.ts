@@ -58,12 +58,12 @@ export function updateTeam(uuid: string, name: string) {
     return executeApiPut(`team/${uuid}`, { name: name }, () => {}, "Failed to update team");
 }
 
-export function removeTeamMember(team: string, user: string) {
-    return executeApiDelete(`team/${team}/members/${user}`, () => {}, "Failed to remove team member");
-}
-
 export function createTeamRole(team: string, name: string): Promise<TeamRole> {
     return executeApiPost(`team/${team}/roles`, { name: name }, ({ role }) => role, "Failed to create team role");
+}
+
+export function updateTeamRole(team: string, role: string, name: string) {
+    return executeApiPut(`team/${team}/roles/${role}`, { name: name }, () => {}, "Failed to update team role");
 }
 
 export function deleteTeamRole(team: string, role: string) {
@@ -76,6 +76,10 @@ export function addTeamMember(team: string, member: { user: string, role: string
 
 export function updateTeamMember(team: string, member: { user: string, role: string }) {
     return executeApiPut(`team/${team}/members`, member, () => {}, "Failed to update team member");
+}
+
+export function removeTeamMember(team: string, user: string) {
+    return executeApiDelete(`team/${team}/members/${user}`, () => {}, "Failed to remove team member");
 }
 
 export function leaveTeam(team: string) {
