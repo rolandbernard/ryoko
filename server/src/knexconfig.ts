@@ -25,7 +25,7 @@ export default {
     },
     production: {
         client: "postgresql",
-        connection: env.DATABASE_URL ?? {
+        connection: `${env.DATABASE_URL}?ssl=true` ?? {
             database: "ryoko",
             user: "postgres",
             password: ""
