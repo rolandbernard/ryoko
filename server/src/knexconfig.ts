@@ -9,9 +9,9 @@ export default {
     staging: {
         client: "postgresql",
         connection: {
-            database: "my_db",
-            user: "username",
-            password: "password"
+            database: "ryoko",
+            user: "postgres",
+            password: ""
         },
         pool: {
             min: 2,
@@ -24,9 +24,9 @@ export default {
     production: {
         client: "postgresql",
         connection: {
-            database: "my_db",
-            user: "username",
-            password: "password"
+            database: "ryoko",
+            user: "postgres",
+            password: ""
         },
         pool: {
             min: 2,
