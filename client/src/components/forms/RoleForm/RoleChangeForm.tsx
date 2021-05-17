@@ -5,30 +5,38 @@ import Button from 'components/ui/Button';
 interface Props {
     roles: TeamRole[];
     setEdit: Function;
-    member: TeamMember;
+    member?: TeamMember;
+    setResult?: Function
     team: Team;
+    setAllRoles: (state: any) => void
 }
 
-export default function RoleForm({ roles, setEdit, member, team }: Props) {
-    const [currentRole, setRole] = useState(member.role.id);
-    const [allRoles, setRoles] = useState(roles);
+export default function RoleForm({ roles, setEdit, member, team, setResult, setAllRoles }: Props) {
+    const [currentRole, setRole] = useState(member?.role.id);
 
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        await updateTeamMember(team.id, { user: member.id, role: currentRole });
-        window.location.reload();
-    }, [currentRole, member, team]);
+        if (currentRole) {
+            if (setResult) {
+                setResult(currentRole);
+            }
+            if (member) {
+                await updateTeamMember(team.id, { user: member.id, role: currentRole });
+                window.location.reload();
+            }
+        }
+    }, [currentRole, member, team, setResult]);
 
     const onDelete = useCallback(async (id: string) => {
         await deleteTeamRole(team.id, id);
-        setRoles(state => state.filter(role => role.id !== id));
-    }, [team]);
+        setAllRoles((state: any) => state.filter((role: any) => role.id !== id));
+    }, [team, setAllRoles]);
 
     return (
         <form className="role-change-form" onSubmit={onSubmit}>
-            <h2>Change the role of {member.username}</h2>
+            <h2>Update the role</h2>
             {
-                allRoles.map((role) => (
+                roles.map((role) => (
                     <div className="role-item" key={role.id}>
                         <input
                             type="radio"

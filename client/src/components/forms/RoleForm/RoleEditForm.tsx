@@ -8,6 +8,7 @@ interface Props {
     role?: TeamRole;
     team: Team;
     setEdit: Function;
+    setAllRoles: (state: any) => void
 }
 
 export function validateName(name: string): string | null {
@@ -17,21 +18,22 @@ export function validateName(name: string): string | null {
     return 'The name is required';
 }
 
-export default function RoleEditForm({ role, team, setEdit }: Props) {
+export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props) {
     const [name, setName] = useState(role?.name ?? '');
 
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (validateName(name) === null) {
             if (!role?.id) {
-                await createTeamRole(team.id, name);
+                const role = await createTeamRole(team.id, name);
+                setAllRoles((state: any) => [...state, role]);
                 setEdit(null);
             } else {
                 //todo edit team role
                 setEdit(null);
             }
         }
-    }, [name, team, setEdit, role]);
+    }, [name, team, setEdit, role, setAllRoles]);
 
     return (
         <form className="role-edit-form" onSubmit={onSubmit}>
