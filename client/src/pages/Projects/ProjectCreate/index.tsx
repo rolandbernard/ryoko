@@ -12,7 +12,7 @@ export default function ProjectCreate() {
             if (await createProject({ teams, name, text, color, deadline })) {
                 history.push('/projects');
             } else {
-                setError('There was an error with your registration. Please try again!');
+                setError('There was an error with creating your project. Please try again!');
             }
         } catch (e) { }
     }, [history]);

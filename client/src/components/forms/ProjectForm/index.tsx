@@ -36,9 +36,10 @@ function validateColor(color: string): string | null {
 }
 
 export default function ProjectForm({ project, onSubmit }: Props) {
-    const [name, setName] = useState(project?.name ?? '');
-    const [text, setText] = useState(project?.text ?? '');
-    const [color, setColor] = useState(project?.color ?? '');
+
+    const [name, setName] = useState(project?.name);
+    const [text, setText] = useState(project?.text);
+    const [color, setColor] = useState(project?.color);
     const [deadline, setDeadline] = useState(project?.deadline);
     const [error, setError] = useState('');
 
@@ -46,14 +47,19 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [allTeams, setAllTeams] = useState<Team[]>([]);
 
     useEffect(() => {
-        getTeams().then((allTeamsItems) => {
-            teams.forEach((userTeam) => {
-                getTeam(userTeam).then((team) => setAllTeams(state => [...state, team]));
+        teams.forEach((userTeam) => {
+            getTeam(userTeam).then((team) => {
+                setAllTeams(state => [...state, team]);
             });
+        });
+        getTeams().then((allTeamsItems) => {
             allTeamsItems.forEach(allTeamsItem => {
-                if (!allTeams.find(team => team.id === allTeamsItem.id)) {
-                    setAllTeams(state => [...state, allTeamsItem]);
-                }
+                setAllTeams(state => {
+                    if (!state.find((team) => team.id === allTeamsItem.id)) {
+                        return [...state, allTeamsItem];
+                    }
+                    return [...state];
+                });
             })
         });
     }, [])
@@ -63,8 +69,8 @@ export default function ProjectForm({ project, onSubmit }: Props) {
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        if (validateName(name) === null && validateText(text) === null && validateColor(color) === null) {
-            onSubmit?.(teams, name, text, color, deadline);
+        if (validateName(name ?? '') === null && validateText(text ?? '') === null && validateColor(color ?? '') === null) {
+            onSubmit?.(teams, name ?? '', text ?? '', color ?? '', deadline);
         } else {
             setError('Please fill in the mandatory fields.');
         }
@@ -77,12 +83,14 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 label="Name"
                 name="name"
                 onChange={setName}
+                defaultText={name}
                 validation={validateName}
             />
             <TextInput
                 label="Description"
                 name="text"
                 onChange={setText}
+                defaultText={text}
                 validation={validateText}
                 type="textarea"
             />
@@ -104,6 +112,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             <TextInput
                 label="Deadline"
                 name="text"
+                defaultText={project?.deadline?.toString()}
                 onChange={setDeadline}
                 type="date"
             />
@@ -112,13 +121,15 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 {
                     allTeams.map((team) => (
                         <div className="team-item" key={team.id}>
-                            <input type="checkbox" id={team.id} onClick={(e) => {
-                                if (teams.find(id => team.id === id)) {
-                                    setTeams(state => state.filter(id => id !== team.id));
-                                } else {
-                                    setTeams(state => [...state, team.id]);
-                                }
-                            }} />
+                            <input type="checkbox" id={team.id}
+                                checked={teams.indexOf(team.id) >= 0}
+                                onClick={(e) => {
+                                    if (teams.find(id => team.id === id)) {
+                                        setTeams(state => state.filter(id => id !== team.id));
+                                    } else {
+                                        setTeams(state => [...state, team.id]);
+                                    }
+                                }} />
                             <label htmlFor={team.id}>{team.name}</label>
                         </div>
 

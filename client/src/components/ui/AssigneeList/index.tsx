@@ -1,6 +1,5 @@
 import './assignee-list.scss';
 import Tooltip from 'components/ui/Tooltip';
-import avatar from 'images/daniel-planoetscher.jpg';
 import { User } from 'adapters/user';
 import Avatar from '../Avatar';
 

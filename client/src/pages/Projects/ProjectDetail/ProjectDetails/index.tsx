@@ -3,9 +3,8 @@ import DetailGrid from 'components/layout/DetailGrid';
 import BarChart from 'components/graphs/BarChart';
 import ButtonLink from 'components/navigation/ButtonLink';
 import { Project } from 'adapters/project';
-import { DetailProps } from 'components/ui/DetailBox';
 import { useEffect, useState } from 'react';
-import { getTeam, Team } from 'adapters/team';
+import { getTeam } from 'adapters/team';
 
 interface Props {
     project: Project
