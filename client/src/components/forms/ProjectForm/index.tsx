@@ -1,4 +1,4 @@
-import { Project, ProjectColors } from 'adapters/project';
+import { Project, ProjectColors, Status } from 'adapters/project';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Callout from 'components/ui/Callout';
 import Button from 'components/ui/Button';
@@ -8,7 +8,7 @@ import { getTeam, getTeams, Team } from 'adapters/team';
 
 interface Props {
     project?: Project
-    onSubmit: (teams: string[], name: string, text: string, color: string, deadline?: Date) => void;
+    onSubmit: (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: Date) => void;
 }
 
 function validateName(name: string): string | null {
@@ -35,10 +35,19 @@ function validateColor(color: string): string | null {
     }
 }
 
+function validateTeams(teams: string[]): string | null {
+    if (teams.length > 0) {
+        return null;
+    } else {
+        return 'Please choose at least one team';
+    }
+}
+
 export default function ProjectForm({ project, onSubmit }: Props) {
 
     const [name, setName] = useState(project?.name);
     const [text, setText] = useState(project?.text);
+    const [status, setStatus] = useState(project?.status);
     const [color, setColor] = useState(project?.color);
     const [deadline, setDeadline] = useState(project?.deadline);
     const [error, setError] = useState('');
@@ -66,15 +75,22 @@ export default function ProjectForm({ project, onSubmit }: Props) {
 
 
     const colors = Object.values(ProjectColors);
+    const allStatus = Object.values(Status);
+    console.log(allStatus);
+
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        if (validateName(name ?? '') === null && validateText(text ?? '') === null && validateColor(color ?? '') === null) {
-            onSubmit?.(teams, name ?? '', text ?? '', color ?? '', deadline);
+        if (validateName(name ?? '') === null &&
+            validateText(text ?? '') === null &&
+            validateColor(color ?? '') === null &&
+            validateTeams(teams) === null
+        ) {
+            onSubmit?.(teams, name ?? '', text ?? '', color ?? '', status ?? Status.OPEN, deadline);
         } else {
             setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, setError, name, text, color, deadline, teams]);
+    }, [onSubmit, setError, name, text, color, deadline, teams, status]);
 
     return (
         <form onSubmit={handleSubmit} className="project-form">
@@ -137,8 +153,23 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 }
             </div>
 
+            {
+                status &&
+                <select onChange={(e: any) => {
+                    let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? Status.OPEN;
+                    setStatus(currentStatus);
+                }
+                }>
+                    {
+                        allStatus.map((s) => (
+                            <option selected={status === s} value={s} key={s}>{s}</option>
+                        ))
+                    }
+                </select>
+            }
+
             <Button type="submit">
-                Create
+                {project ? 'Update' : 'Create'}
             </Button>
         </form>
     )
