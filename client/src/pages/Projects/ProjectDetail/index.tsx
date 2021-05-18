@@ -1,41 +1,55 @@
 import './project-detail.scss';
 import Tag from 'components/ui/Tag';
-import Tabs from 'components/navigation/Tabs';
-import { useParams } from 'react-router';
+import Tabs, { Tab } from 'components/navigation/Tabs';
+import { useHistory, useParams } from 'react-router';
 import ProjectDetails from './ProjectDetails';
 import ProjectTasks from './ProjectTasks';
+import { useEffect, useState } from 'react';
+import { getProject, Project, ProjectColors, StatusColors } from 'adapters/project';
 
 export interface Params {
-    uuid: string;
+    projectId: string;
 }
 
 export default function ProjectDetail() {
-    const { uuid } = useParams<Params>();
-    const tabs = [
-        {
-            label: 'Details',
-            path: '/projects/' + uuid,
-            routePath: '/projects/:uuid',
-            component: ProjectDetails
-        },
-        {
-            label: 'Tasks',
-            path: '/projects/' + uuid + '/tasks',
-            routePath: '/projects/:uuid/tasks',
-            component: ProjectTasks
-        }
-    ];
+    const { projectId } = useParams<Params>();
+    const [project, setProject] = useState<Project>();
+    const [tabs, setTabs] = useState<Tab[]>([]);
+    const history = useHistory();
+    useEffect(() => {
+        getProject(projectId).then((project) => {
+            setProject(project);
+            setTabs([
+                {
+                    label: 'Details',
+                    route: '/projects/' + projectId,
+                    component: <ProjectDetails project={project}/>
+                },
+                {
+                    label: 'Tasks',
+                    route: '/projects/' + projectId + '/tasks',
+                    component: <ProjectTasks />
+                }
+            ]);
+
+        }).catch(() => {
+            history.push('/projects');
+        });
+    }, [])
+
+
+
     return (
         <div className="project-detail-page">
             <div className="content-container">
-                <Tag label="Done" />
-                <h1>Shopping list</h1>
+                <Tag label={project?.status ?? ''} color={StatusColors.get(project?.status ?? '')} />
+                <h1>{project?.name}</h1>
                 <div className="description-container">
                     <p>
-                        A basic shopping list app, much like Bring!
+                        {project?.text}
                     </p>
                 </div>
-                {/*<Tabs tabs={tabs} />*/}
+                {<Tabs tabs={tabs} />}
 
             </div>
         </div>
