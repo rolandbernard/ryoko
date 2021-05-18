@@ -15,10 +15,11 @@ export default function Project({ project }: ProjectProps) {
     useEffect(() => {
         getProjectAssignees(project.id).then((assignee) => setAssignees(assignee))
     }, []);
+    
     return (
         <Link to={'/projects/' + project.id} className="project">
             <div className="content">
-                <CircularProgress percent={75} />
+                <CircularProgress percent={75} color={project.color} />
                 <div className="title">{project.name}</div>
                 <div className="details">
                     {project.deadline && (

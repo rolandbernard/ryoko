@@ -1,8 +1,33 @@
-@use 'styles/settings.scss' as s;
+@use 'styles/settings.scss'as s;
+@use 'styles/functions.scss'as fn;
 
 .circular-progress {
     position: relative;
     display: flex;
+
+    @each $key,
+    $color in s.$themeLightMap {
+        &.color-#{$key} {
+            svg {
+                path {
+                    stroke: url('#gradient-#{$key}');
+                }
+
+                linearGradient#gradient-#{$key} {
+                    stop {
+                        &:last-child {
+                            stop-color: $color !important;
+                        }
+
+                        &:first-child {
+                            stop-color: fn.getFrom(s.$themeDarkMap, $key) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     svg {
         width: 70px;
