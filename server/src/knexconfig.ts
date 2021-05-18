@@ -1,5 +1,8 @@
 
 import { env } from 'process';
+import { parse } from 'pg-connection-string';
+
+const pgconfig: any = parse(env.DATABASE_URL ?? '');
 
 export default {
     development: {
@@ -10,11 +13,7 @@ export default {
     },
     staging: {
         client: "postgresql",
-        connection: env.DATABASE_URL ?? {
-            database: "ryoko",
-            user: "postgres",
-            password: ""
-        },
+        connection: pgconfig,
         pool: {
             min: 2,
             max: 10
@@ -25,10 +24,11 @@ export default {
     },
     production: {
         client: "postgresql",
-        connection: `${env.DATABASE_URL}?ssl=true` ?? {
-            database: "ryoko",
-            user: "postgres",
-            password: ""
+        connection: {
+            ...pgconfig,
+            ssl: {
+                rejectUnauthorized: false
+            }
         },
         pool: {
             min: 2,
