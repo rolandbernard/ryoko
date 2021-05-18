@@ -2,6 +2,7 @@ import './assignee-list.scss';
 import Tooltip from 'components/ui/Tooltip';
 import avatar from 'images/daniel-planoetscher.jpg';
 import { User } from 'adapters/user';
+import Avatar from '../Avatar';
 
 interface Props {
     assignees: User[],
@@ -27,8 +28,8 @@ export default function AssigneeList({ assignees, max }: Props) {
             }
             {
                 shownAssignees.map(assignee => (
-                    <Tooltip key={assignee.id} text={assignee.realname ?? ''} className="assignee">
-                        <img src={avatar} alt={assignee.username} />
+                    <Tooltip key={assignee.id} text={assignee.realname ?? assignee.username} className="assignee">
+                        <Avatar user={assignee} />
                     </Tooltip>
                 ))
             }

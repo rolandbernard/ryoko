@@ -3,11 +3,12 @@ import './tag.scss';
 interface Props {
     label: string;
     icon?: string;
+    color?: string;
 }
 
-export default function Tag({ label, icon }: Props) {
+export default function Tag({ label, icon, color }: Props) {
     return (
-        <span className="tag">
+        <span className={'tag ' + (color ? 'bg-gradient-' + color : '')}>
             {icon && (
                 <i className="icon material-icons">
                     {icon}

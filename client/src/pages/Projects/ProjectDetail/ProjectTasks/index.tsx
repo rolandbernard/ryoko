@@ -24,7 +24,7 @@ export default function ProjectTasks() {
     }
     return (
         <div className="project-tasks">
-            <Filter setFilter={setFilter} />
+            {/*<Filter setFilter={setFilter} />*/}
             <TaskList tasks={[task, task, task]} />
         </div>
     )

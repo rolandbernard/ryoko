@@ -29,9 +29,13 @@
             flex-wrap: wrap;
             margin: -10px;
         }
-        .tag {
+        .tag-item {
             margin: 10px;
             cursor: pointer;
+            opacity: 0.75;
+            &.active {
+                opacity: 1;
+            }
         }
     }
 }
