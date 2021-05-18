@@ -1,13 +1,14 @@
 import { Project, ProjectColors } from 'adapters/project';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Callout from 'components/ui/Callout';
 import Button from 'components/ui/Button';
 import TextInput from 'components/ui/TextInput';
 import './project-form.scss';
+import { getTeam, getTeams, Team } from 'adapters/team';
 
 interface Props {
     project?: Project
-    onSubmit: (name: string, text: string, color: string, deadline?: Date) => void;
+    onSubmit: (teams: string[], name: string, text: string, color: string, deadline?: Date) => void;
 }
 
 function validateName(name: string): string | null {
@@ -41,17 +42,34 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [deadline, setDeadline] = useState(project?.deadline);
     const [error, setError] = useState('');
 
+    const [teams, setTeams] = useState(project?.teams ?? []);
+    const [allTeams, setAllTeams] = useState<Team[]>([]);
+
+    useEffect(() => {
+        getTeams().then((allTeamsItems) => {
+            teams.forEach((userTeam) => {
+                getTeam(userTeam).then((team) => setAllTeams(state => [...state, team]));
+            });
+            allTeamsItems.forEach(allTeamsItem => {
+                if (!allTeams.find(team => team.id === allTeamsItem.id)) {
+                    setAllTeams(state => [...state, allTeamsItem]);
+                }
+            })
+        });
+    }, [])
+
+
     const colors = Object.values(ProjectColors);
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (validateName(name) === null && validateText(text) === null && validateColor(color) === null) {
-            onSubmit?.(name, text, color, deadline);
+            onSubmit?.(teams, name, text, color, deadline);
         } else {
             setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, setError, name, text, color, deadline]);
-    
+    }, [onSubmit, setError, name, text, color, deadline, teams]);
+
     return (
         <form onSubmit={handleSubmit} className="project-form">
             {error && <Callout message={error} />}
@@ -82,14 +100,32 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                     ))
                 }
             </div>
-            
+
             <TextInput
                 label="Deadline"
                 name="text"
                 onChange={setDeadline}
                 type="date"
             />
-            
+
+            <div className="teams">
+                {
+                    allTeams.map((team) => (
+                        <div className="team-item" key={team.id}>
+                            <input type="checkbox" id={team.id} onClick={(e) => {
+                                if (teams.find(id => team.id === id)) {
+                                    setTeams(state => state.filter(id => id !== team.id));
+                                } else {
+                                    setTeams(state => [...state, team.id]);
+                                }
+                            }} />
+                            <label htmlFor={team.id}>{team.name}</label>
+                        </div>
+
+                    ))
+                }
+            </div>
+
             <Button type="submit">
                 Create
             </Button>

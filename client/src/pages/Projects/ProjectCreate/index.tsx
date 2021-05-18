@@ -7,9 +7,9 @@ import Callout from 'components/ui/Callout';
 export default function ProjectCreate() {
     const history = useHistory();
     const [error, setError] = useState('');
-    const handleSubmit = useCallback(async (name: string, text: string, color: string, deadline?: Date) => {
+    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, deadline?: Date) => {
         try {
-            if (await createProject({ name, text, color, deadline, teams: ['fa68e88a-cee2-43bd-bed2-4d8424f76b51'] })) {
+            if (await createProject({ teams, name, text, color, deadline })) {
                 history.push('/projects');
             } else {
                 setError('There was an error with your registration. Please try again!');
