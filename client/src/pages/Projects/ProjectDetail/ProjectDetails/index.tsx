@@ -17,20 +17,21 @@ export default function ProjectDetails({ project }: Props) {
         project.teams.forEach(teamId => {
             getTeam(teamId).then((team) => setTeams(prev => [...prev, team.name]));
         });
-    }, [])
+    }, []);
 
-
-    const details = [{
+    let details = [{
         icon: 'group',
-        title: 'Team',
-        label: teams.join(', ') ?? ''
-    },
-    {
-        icon: 'warning',
-        title: 'Deadline',
-        label: project.deadline?.getMonth().toString() ?? ''
+        title: 'Teams',
+        label: teams.join(', ')
     }];
 
+    if (project.deadline) {
+        details.push({
+            icon: 'warning',
+            title: 'Deadline',
+            label: project.deadline?.getMonth().toString() ?? ''
+        });
+    }
 
     const data = [
         {
@@ -49,7 +50,6 @@ export default function ProjectDetails({ project }: Props) {
             <BarChart data={data} />
             <ButtonLink routing href={`/projects/${project.id}/edit`} className="expanded">
                 Edit
-
             </ButtonLink>
         </section>
     )

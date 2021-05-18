@@ -1,6 +1,7 @@
 
 // Colors
-$primary: #AC42FF;
+$primary: var(--primary);
+$primary-dark: var(--primary-dark);
 $secondary: #7DEFFF;
 $red: #E51C4A;
 $light: #F1F1F1;
@@ -40,9 +41,9 @@ $themeLightMap: (
     'purple': #CD42FE
 );
 
-$linear-gradient: linear-gradient(to bottom, $primary, #930AFF);
-$linear-gradient-horizontal: linear-gradient(to right, $primary, #930AFF);
-$radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, #930AFF 100%);
+$linear-gradient: linear-gradient(to bottom, $primary, $primary-dark);
+$linear-gradient-horizontal: linear-gradient(to right, $primary, $primary-dark);
+$radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, $primary-dark 100%);
 
 $body-color: #3A5255;
 $body-font: 'Poppins', sans-serif;

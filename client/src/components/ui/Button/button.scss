@@ -32,8 +32,8 @@
     }
 
     &.dark {
-        background: darken(s.$primary, 40%);
-        box-shadow: 0px 5px 15px rgba(darken(s.$primary, 40%), 0.1);
+        background: s.$primary-dark;
+        box-shadow: 0px 5px 15px rgba(s.$primary-dark, 0.1);
     }
     
     &.hollow {

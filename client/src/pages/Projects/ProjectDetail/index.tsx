@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router';
 import ProjectDetails from './ProjectDetails';
 import ProjectTasks from './ProjectTasks';
 import { useEffect, useState } from 'react';
-import { getProject, Project, ProjectColors, StatusColors } from 'adapters/project';
+import { getProject, Project, StatusColors } from 'adapters/project';
 
 export interface Params {
     projectId: string;
@@ -23,12 +23,12 @@ export default function ProjectDetail() {
                 {
                     label: 'Details',
                     route: '/projects/' + projectId,
-                    component: <ProjectDetails project={project}/>
+                    component: <ProjectDetails project={project} />
                 },
                 {
                     label: 'Tasks',
                     route: '/projects/' + projectId + '/tasks',
-                    component: <ProjectTasks />
+                    component: <ProjectTasks project={project} />
                 }
             ]);
 
@@ -40,7 +40,7 @@ export default function ProjectDetail() {
 
 
     return (
-        <div className="project-detail-page">
+        <div className={"project-detail-page theme-" + project?.color}>
             <div className="content-container">
                 <Tag label={project?.status ?? ''} color={StatusColors.get(project?.status ?? '')} />
                 <h1>{project?.name}</h1>
