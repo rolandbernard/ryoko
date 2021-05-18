@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { json as bodyJson } from 'body-parser';
 import fileupload from 'express-fileupload';
 
-import { port, environment, web_serve } from './config';
+import { port, web_serve } from './config';
 import { addDefaultHeaders } from './headers';
 import v1 from './v1';
 
