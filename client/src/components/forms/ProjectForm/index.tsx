@@ -5,6 +5,7 @@ import Button from 'components/ui/Button';
 import TextInput from 'components/ui/TextInput';
 import './project-form.scss';
 import { getTeam, getTeams, Team } from 'adapters/team';
+import CheckboxGroup from 'components/ui/CheckboxGroup';
 
 interface Props {
     project?: Project
@@ -76,7 +77,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
 
     const colors = Object.values(ProjectColors);
     const allStatus = Object.values(Status);
-    console.log(allStatus);
 
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
@@ -134,28 +134,12 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             />
 
             <div className="teams">
-                {
-                    allTeams.map((team) => (
-                        <div className="team-item" key={team.id}>
-                            <input type="checkbox" id={team.id}
-                                checked={teams.indexOf(team.id) >= 0}
-                                onClick={(e) => {
-                                    if (teams.find(id => team.id === id)) {
-                                        setTeams(state => state.filter(id => id !== team.id));
-                                    } else {
-                                        setTeams(state => [...state, team.id]);
-                                    }
-                                }} />
-                            <label htmlFor={team.id}>{team.name}</label>
-                        </div>
-
-                    ))
-                }
+                <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
             </div>
 
             {
                 status &&
-                <select onChange={(e: any) => {
+                <select onChange={(e) => {
                     let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? Status.OPEN;
                     setStatus(currentStatus);
                 }

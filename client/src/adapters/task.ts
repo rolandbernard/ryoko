@@ -95,8 +95,8 @@ interface AddTaskBody {
     name: string;
     text: string;
     icon: string;
-    priority: string;
-    dependentcies: Array<string>;
+    priority: Priority;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
 }
@@ -111,10 +111,10 @@ interface UpdateTaskBody {
     icon?: string;
     priority?: string;
     status?: string;
-    remove_dependentcies?: Array<string>;
+    remove_dependencies?: Array<string>;
     remove_requirements?: Array<string>;
     remove_assigned?: Array<string>;
-    add_dependentcies?: Array<string>;
+    add_dependencies?: Array<string>;
     add_requirements?: Array<TaskRequirement>;
     add_assigned?: Array<TaskAssignment>;
 }

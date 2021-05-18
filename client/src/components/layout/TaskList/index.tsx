@@ -1,6 +1,7 @@
 import './task-list.scss';
 import { Task as ITask } from 'adapters/task';
 import Task from 'components/ui/Task';
+import { Link } from 'react-router-dom';
 
 interface Props {
     tasks: ITask[]
@@ -12,9 +13,9 @@ export default function TaskList({ tasks, addButton }: Props) {
         <div className="task-list">
             {
                 addButton && (
-                    <div className="add-btn">
+                    <Link to="tasks/create" className="add-btn">
                         +
-                    </div>
+                    </Link>
                 )
             }
             {
