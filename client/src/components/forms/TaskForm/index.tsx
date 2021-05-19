@@ -6,8 +6,9 @@ import TextInput from 'components/ui/TextInput';
 import Picker from 'emoji-picker-react';
 import { getProjectTasks, Project } from 'adapters/project';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
-import { getTeam, getTeamRoles } from 'adapters/team';
+import { getTeam, getTeamMembers, getTeamRoles, TeamMember } from 'adapters/team';
 import RequirementsForm from './RequirementsForm';
+import AssgineesForm from './AssigneesForm';
 
 interface Props {
     task?: Task;
@@ -51,6 +52,10 @@ export interface possibleRole {
     id: string;
     label: string;
 }
+export interface possibleMember {
+    id: string;
+    label: string;
+}
 
 export default function TaskForm({ task, onSubmit, project }: Props) {
     const [name, setName] = useState(task?.name);
@@ -60,10 +65,12 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const [error, setError] = useState('');
     const [tasks, setTasks] = useState(task?.dependencies);
     const [requirements, setRequirements] = useState(task?.requirements ?? []);
+    const [assignees, setAssignees] = useState(task?.assigned ?? []);
 
     const allPriorities = Object.values(Priority);
     const [allTasks, setAllTasks] = useState<Task[]>([]);
     const [allRoles, setAllRoles] = useState<possibleRole[]>([]);
+    const [allMembers, setAllMembers] = useState<possibleMember[]>([]);
 
     useEffect(() => {
         getProjectTasks(project.id).then((tasks) => {
@@ -72,12 +79,20 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
         project.teams.forEach((teamId) => {
             getTeam(teamId).then(team => {
                 getTeamRoles(teamId).then((roles) => {
-                    setAllRoles(state => [...state, ...roles.map(role => {
+                    setAllRoles(roles.map(role => {
                         return {
                             id: role.id,
                             label: team.name + ': ' + role.name
                         }
-                    })]);
+                    }));
+                })
+                getTeamMembers(teamId).then((members) => {
+                    setAllMembers(members.map(member => {
+                        return {
+                            id: member.id,
+                            label: team.name + ': ' + (member.realname ?? member.username)
+                        }
+                    }));
                 })
             })
         })
@@ -137,6 +152,11 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             {
                 allRoles.length > 0 && (
                     <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements ?? []} />
+                )
+            }
+            {
+                allMembers.length > 0 && (
+                    <AssgineesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
                 )
             }
 

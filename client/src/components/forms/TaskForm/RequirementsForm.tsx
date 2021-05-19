@@ -1,5 +1,5 @@
 import { TaskRequirement } from 'adapters/task';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { possibleRole } from '.';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
@@ -35,7 +35,7 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
 
 
     const removeRequirement = useCallback((role: string) => {
-            setRequirements((state: any) => state.filter((r: any) => r.id === role));
+            setRequirements((state: any) => state.filter((r: any) => r.role !== role));
     }, [setRequirements])
     
     return (
