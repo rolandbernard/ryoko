@@ -64,7 +64,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const [icon, setIcon] = useState(task?.icon);
     const [priority, setPriority] = useState(task?.priority);
     const [error, setError] = useState('');
-    const [tasks, setTasks] = useState(task?.dependencies);
+    const [tasks, setTasks] = useState(task?.dependencies ?? []);
     const [requirements, setRequirements] = useState(task?.requirements ?? []);
     const [assignees, setAssignees] = useState(task?.assigned ?? []);
 
@@ -80,20 +80,20 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
         project.teams.forEach((teamId) => {
             getTeam(teamId).then(team => {
                 getTeamRoles(teamId).then((roles) => {
-                    setAllRoles(roles.map(role => {
+                    setAllRoles(state => [...state, ...roles.map(role => {
                         return {
                             id: role.id,
                             label: team.name + ': ' + role.name
                         }
-                    }));
+                    })]);
                 })
                 getTeamMembers(teamId).then((members) => {
-                    setAllMembers(members.map(member => {
+                    setAllMembers(state => [...state, ...members.map(member => {
                         return {
                             id: member.id,
                             label: team.name + ': ' + (member.realname ?? member.username)
                         }
-                    }));
+                    })]);
                 })
             })
         })
@@ -134,9 +134,10 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             />
 
             <select onChange={(e) => {
-                let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? Priority.LOW;
+                let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? undefined;
                 setPriority(currentPriority);
             }}>
+                <option value={''}>Please choose a priority</option>
                 {
                     allPriorities.map((prio) => (
                         <option value={prio} key={prio}>{prio}</option>
@@ -148,12 +149,12 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             <h2>Dependencies</h2>
             {
                 allTasks.length > 0 ? (
-                    <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
+                    <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks} />
                 ) : <div>No other tasks in this project</div>
             }
             {
                 allRoles.length > 0 && (
-                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements ?? []} />
+                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
                 )
             }
             {

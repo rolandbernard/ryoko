@@ -24,7 +24,7 @@ export default function Project({ project }: ProjectProps) {
                 <div className="title">{project.name}</div>
                 <div className="details">
                     {project.deadline && (
-                        <div className="range">{project.deadline}</div>
+                        <div className="range">{project.deadline.getDate()}</div>
                     )}
                     <AssigneeList assignees={assignees} max={3} />
                 </div>
