@@ -1,4 +1,4 @@
-@use 'styles/settings.scss' as s;
+@use 'styles/settings.scss'as s;
 
 .assignee-list {
     display: flex;
@@ -10,17 +10,18 @@
     }
 
     .assignee,
-    .overhead {
-
+    .avatar {
         margin-left: -8px;
+        width: 35px;
+        height: 35px;
 
         img {
-            width: 35px;
-            height: 35px;
+            width: 100%;
             border-radius: 50%;
         }
 
     }
+
     .overhead {
         background: s.$primary;
         display: flex;

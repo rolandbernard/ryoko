@@ -2,6 +2,8 @@ import './task.scss';
 import { Link } from 'react-router-dom';
 import AssigneeList from 'components/ui/AssigneeList';
 import { Task as ITask } from 'adapters/task';
+import { useEffect, useState } from 'react';
+import { getUser, User } from 'adapters/user';
 
 interface Props {
     task: ITask,
@@ -12,22 +14,22 @@ function formattedTime(date: Date) {
 }
 
 export default function Task({ task }: Props) {
+    const [assignees, setAssignees] = useState<User[]>([]);
     const start = new Date(200);
     const end = new Date(300);
 
-    const member = {
-        id: 'asdf',
-        username: 'testname',
-        realname: 'Roland Bernard',
-        role: 'Backend'
-    }
+    useEffect(() => {
+        task.assigned.forEach((assign) => {
+            getUser(assign.user).then((user) => setAssignees(state => [...state, user])).catch(() => {})
+        })
+    }, []);
 
     return (
         <Link to={'/tasks/' + task.id} className="task">
             <div className="project-indicator"></div>
             <div className="main-info">
                 <div className="icon-container">
-                    {task.icon}
+                {String.fromCharCode(parseInt(task.icon, 16))}
                 </div>
                 <div className="text-container">
                     <h4>{task.name}</h4>
@@ -37,7 +39,7 @@ export default function Task({ task }: Props) {
             <div className="description-container">
                 {task.text}
             </div>
-            <AssigneeList assignees={[member, member, member, member, member]} max={3} />
+            <AssigneeList assignees={assignees} max={3} />
 
         </Link>
     )

@@ -102,7 +102,6 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        console.log(priority);
         
         if (validateName(name ?? '') === null &&
             validateText(text ?? '') === null &&
@@ -145,7 +144,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 }
             </select>
 
-            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.unified)} />
+            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.originalUnified)} />
             <h2>Dependencies</h2>
             {
                 allTasks.length > 0 ? (
