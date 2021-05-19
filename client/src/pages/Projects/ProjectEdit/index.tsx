@@ -22,7 +22,7 @@ export default function ProjectEdit() {
         });
     }, [history, projectId]);
     
-    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: Date) => {
+    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => {
         try {
 
             if (project) {

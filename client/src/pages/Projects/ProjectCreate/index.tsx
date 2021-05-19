@@ -7,7 +7,7 @@ import Callout from 'components/ui/Callout';
 export default function ProjectCreate() {
     const history = useHistory();
     const [error, setError] = useState('');
-    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: Date) => {
+    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => {
         try {
             if (await createProject({ teams, name, text, color, deadline })) {
                 history.push('/projects');
@@ -16,7 +16,6 @@ export default function ProjectCreate() {
             }
         } catch (e) { }
     }, [history]);
-
 
     return (
         <div className="project-create-page">

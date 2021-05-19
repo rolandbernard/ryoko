@@ -9,7 +9,7 @@ import CheckboxGroup from 'components/ui/CheckboxGroup';
 
 interface Props {
     project?: Project
-    onSubmit: (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: Date) => void;
+    onSubmit: (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => void;
 }
 
 function validateName(name: string): string | null {
@@ -44,22 +44,42 @@ function validateTeams(teams: string[]): string | null {
     }
 }
 
+//TODO add to ryoko-moment something like that
+
+export function getDateString(date?: Date) {
+    if (date) {
+        let month = date.getMonth() + 1;
+        return date.getFullYear() + '-'
+            + (month / 10 < 1 ? '0' + month : month) + '-'
+                + (date.getDate() / 10 < 1 ? '0' + date.getDate() : date.getDate());
+    } else {
+        return undefined;
+    }
+}
+
 export default function ProjectForm({ project, onSubmit }: Props) {
 
     const [name, setName] = useState(project?.name);
     const [text, setText] = useState(project?.text);
     const [status, setStatus] = useState(project?.status);
     const [color, setColor] = useState(project?.color);
-    const [deadline, setDeadline] = useState(project?.deadline);
+    const [deadline, setDeadline] = useState(getDateString(project?.deadline));
     const [error, setError] = useState('');
 
     const [teams, setTeams] = useState(project?.teams ?? []);
     const [allTeams, setAllTeams] = useState<Team[]>([]);
 
     useEffect(() => {
+        //TODO refactor
         teams.forEach((userTeam) => {
             getTeam(userTeam).then((team) => {
-                setAllTeams(state => [...state, team]);
+                setAllTeams(state => {
+                    if (!state.find((t) => t.id === team.id)) {
+                        return [...state, team];
+                    }
+
+                    return [...state];
+                });
             });
         });
         getTeams().then((allTeamsItems) => {
@@ -68,12 +88,12 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                     if (!state.find((team) => team.id === allTeamsItem.id)) {
                         return [...state, allTeamsItem];
                     }
+
                     return [...state];
                 });
             })
         });
     }, [teams])
-
 
     const colors = Object.values(ProjectColors);
     const allStatus = Object.values(Status);
@@ -86,6 +106,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             validateColor(color ?? '') === null &&
             validateTeams(teams) === null
         ) {
+            
             onSubmit?.(teams, name ?? '', text ?? '', color ?? '', status ?? Status.OPEN, deadline);
         } else {
             setError('Please fill in the mandatory fields.');
@@ -128,7 +149,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             <TextInput
                 label="Deadline"
                 name="text"
-                defaultText={project?.deadline?.toString()}
+                defaultText={deadline}
                 onChange={setDeadline}
                 type="date"
             />
@@ -139,14 +160,15 @@ export default function ProjectForm({ project, onSubmit }: Props) {
 
             {
                 status &&
-                <select onChange={(e) => {
-                    let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? Status.OPEN;
+                <select defaultValue={project?.status} onChange={(e) => {
+                    let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
                     setStatus(currentStatus);
                 }
                 }>
+                    <option value="">Please choose a status</option>
                     {
                         allStatus.map((s) => (
-                            <option selected={status === s} value={s} key={s}>{s}</option>
+                            <option value={s} key={s}>{s}</option>
                         ))
                     }
                 </select>

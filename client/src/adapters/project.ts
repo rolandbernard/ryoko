@@ -92,7 +92,7 @@ interface NewProjectData {
     name: string;
     text: string;
     color: string;
-    deadline?: Date;
+    deadline?: string;
 }
 
 export function createProject(project: NewProjectData): Promise<string> {
