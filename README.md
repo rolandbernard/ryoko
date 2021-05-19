@@ -17,6 +17,29 @@ facilitates effective collaboration.
 
 ## Getting Started
 
+You can test out our web application at https://ryoko-planning.herokuapp.com/.
+
+### Simple deployment
+
+If you have [yarn](https://yarnpkg.com/) installed it is possible to build and start the complete
+project the same way it is deployed on our server. For this simply enter the root directory of the
+repository and execute the following three command in order:
+
+1. `yarn install` This will install all the dependencies for both the frontend and backend
+2. `yarn build` This will bundle the source for the frontend and transpile backend
+3. `yarn start` This will start the web server and host the webserver at `localhost:8000`
+
+Note:
+ * The server requires a public and private key pair to sign the authentication web token. They can
+either be placed into the directory `server/keys/` with the name `cert.pem` (public key) and
+`cert.key` (private key), or they can be given using the `JWT_PUBLIC_KEY` and `JWT_PRIVATE_KEY`
+envirenvironment variables. In any case the keys must be suitable for ES384 signatures.
+ * If your `PORT` environment variable is set that will be used as the port to host the webserver in stead of port 8000.
+ * If your `NODE_ENV` environment variable is set to `production` (with SSL) or `staging` (without SSL) the server will try
+to connect to a postgres database using the connection url inside `DATABASE_URL`.
+
+### Details
+
 The source code for the repository is split into two parts. The backend code can be found inside the
 `server` directory while the frontend code can be found inside the `client` directory. Both parts
 are managed using the `yarn` package manager, but can also be used with `npm` if necessary. The
