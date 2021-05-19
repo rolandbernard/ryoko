@@ -1,6 +1,6 @@
 import './project-tasks.scss';
 import TaskList from 'components/layout/TaskList';
-import { Status, StatusColors, Task } from 'adapters/task';
+import { Status, StatusColors } from 'adapters/task';
 import { useEffect, useState } from 'react';
 import Filter from 'components/helpers/Filter';
 import { getProjectTasks, Project } from 'adapters/project';
@@ -25,7 +25,7 @@ export default function ProjectTasks({ project }: Props) {
                 }
             }))
         });
-    }, []);
+    }, [project]);
 
     const allStatus = Object.values(Status).map((status) => {
         return {

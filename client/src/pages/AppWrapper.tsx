@@ -24,8 +24,8 @@ export default function AppWrapper() {
         <Header>
             <Suspense fallback={false}>
                 <Switch>
-                    <ProtectedRoute path="/tasks/:uuid/start" component={TaskStart} />
-                    <ProtectedRoute path="/tasks/:uuid" component={TaskDetail} />
+                    <ProtectedRoute path="/tasks/:taskId/start" component={TaskStart} />
+                    <ProtectedRoute path="/tasks/:taskId" component={TaskDetail} />
                     <ProtectedRoute path="/tasks" exact component={Tasks} />
                     <ProtectedRoute path="/projects/create" component={ProjectCreate} />
                     <ProtectedRoute path="/projects/:projectId/tasks/create" component={TaskCreate} />

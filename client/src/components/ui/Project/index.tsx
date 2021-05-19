@@ -15,7 +15,7 @@ export default function Project({ project }: ProjectProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
     useEffect(() => {
         getProjectAssignees(project.id).then((assignee) => setAssignees(assignee))
-    }, []);
+    }, [project]);
     
     return (
         <Link to={'/projects/' + project.id} className="project">

@@ -1,5 +1,5 @@
 
-import { ChangeEvent, Dispatch, FocusEvent, useCallback, useState } from "react";
+import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
 
 import './text-input.scss';
 

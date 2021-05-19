@@ -97,7 +97,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 })
             })
         })
-    }, []);
+    }, [task, project]);
 
 
     const handleSubmit = useCallback(async (e: FormEvent) => {

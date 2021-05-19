@@ -18,7 +18,7 @@ export default function Task({ task, color, subtitle }: TaskProps) {
         task.assigned.forEach((assign) => {
             getUser(assign.user).then((user) => setAssignees(state => [...state, user])).catch(() => {})
         })
-    }, []);
+    }, [task]);
 
     return (
         <Link to={'/tasks/' + task.id} className="task">

@@ -20,7 +20,7 @@ export default function ProjectEdit() {
         }).catch(() => {
             history.goBack();
         });
-    }, []);
+    }, [history, projectId]);
     
     const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: Date) => {
         try {

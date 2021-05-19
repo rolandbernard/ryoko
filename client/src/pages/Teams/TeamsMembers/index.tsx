@@ -16,7 +16,7 @@ export default function TeamsMembers({ members, team }: Props) {
         getTeamRoles(team.id).then((roles) => {
             setRoles(roles);
         })
-    }, []);
+    }, [team]);
 
     const teamMembers = members.map(member => {
         return {

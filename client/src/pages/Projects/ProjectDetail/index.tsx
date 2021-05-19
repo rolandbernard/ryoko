@@ -35,7 +35,7 @@ export default function ProjectDetail() {
         }).catch(() => {
             history.push('/projects');
         });
-    }, [])
+    }, [history, projectId])
 
 
 

@@ -72,7 +72,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 });
             })
         });
-    }, [])
+    }, [teams])
 
 
     const colors = Object.values(ProjectColors);

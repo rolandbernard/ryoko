@@ -17,7 +17,7 @@ export default function ProjectDetails({ project }: Props) {
         project.teams.forEach(teamId => {
             getTeam(teamId).then((team) => setTeams(prev => [...prev, team.name]));
         });
-    }, []);
+    }, [project]);
 
     let details = [{
         icon: 'group',
