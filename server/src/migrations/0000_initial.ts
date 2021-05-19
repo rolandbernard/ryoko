@@ -15,16 +15,16 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('id').notNullable().primary();
             table.text('name').notNullable();
         })
+        .createTable('roles', table => {
+            table.uuid('id').notNullable().primary();
+            table.uuid('team_id').notNullable().references('teams.id');
+            table.text('name').notNullable();
+        })
         .createTable('team_members', table => {
             table.uuid('user_id').notNullable().references('users.id');
             table.uuid('team_id').notNullable().references('teams.id');
             table.primary(['user_id', 'team_id']);
             table.uuid('role_id').notNullable().references('roles.id');
-        })
-        .createTable('roles', table => {
-            table.uuid('id').notNullable().primary();
-            table.uuid('team_id').notNullable().references('teams.id');
-            table.text('name').notNullable();
         })
         .createTable('projects', table => {
             table.uuid('id').notNullable().primary();

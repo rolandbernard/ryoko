@@ -16,10 +16,10 @@ user.get('/name/:username', async (req, res) => {
         const name = req.params.username.trim().toLowerCase();
         const user = await database('users')
             .select({
-                id: 'id',
-                username: 'user_name',
+                id: 'users.id',
+                username: 'users.user_name',
             })
-            .where({ username: name });
+            .where({ 'users.user_name': name });
         if (user.length >= 1) {
             res.status(200).json({
                 status: 'success',

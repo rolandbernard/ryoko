@@ -1,3 +1,3 @@
 
-export const apiRoot = 'http://localhost:8000/v1';
+export const apiRoot = `${window.location.origin}/v1`;
 

@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { json as bodyJson } from 'body-parser';
 import fileupload from 'express-fileupload';
 
-import { port } from './config';
+import { port, web_serve } from './config';
 import { addDefaultHeaders } from './headers';
 import v1 from './v1';
 
@@ -15,6 +15,9 @@ app.use(fileupload());
 
 app.use('/v1', v1);
 
+if (web_serve) {
+    app.use('/', express.static(web_serve));
+}
 
 app.use((_req, res) => {
     res.status(404).json({
@@ -30,7 +33,5 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`[server] Server is running at http://localhost:${port}`);
-});
+app.listen(port);
 
