@@ -1,6 +1,6 @@
 import { TaskRequirement } from 'adapters/task';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { possibleRole } from '../TaskForm';
+import { possibleRole } from '.';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 
-export default function RequirementsChoice({ roles, requirements, setRequirements }: Props) {
+export default function RequirementsForm({ roles, requirements, setRequirements }: Props) {
 
     const [possibleRoles, setPossibleRoles] = useState<possibleRole[]>([]);
     const [addNew, setAddNew] = useState(false);

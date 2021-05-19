@@ -7,7 +7,7 @@ import Picker from 'emoji-picker-react';
 import { getProjectTasks, Project } from 'adapters/project';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
 import { getTeam, getTeamRoles } from 'adapters/team';
-import RequirementsChoice from './RequirementsChoice';
+import RequirementsForm from './RequirementsForm';
 
 interface Props {
     task?: Task;
@@ -136,7 +136,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             }
             {
                 allRoles.length > 0 && (
-                    <RequirementsChoice setRequirements={setRequirements} roles={allRoles} requirements={requirements ?? []} />
+                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements ?? []} />
                 )
             }
 
