@@ -1,7 +1,7 @@
 import { useHistory, useParams } from "react-router";
 import TaskForm from 'components/forms/TaskForm';
 import { useCallback, useEffect, useState } from "react";
-import { createTask } from "adapters/task";
+import { createTask, Priority, TaskAssignment, TaskRequirement } from "adapters/task";
 import Callout from "components/ui/Callout";
 import { getProject, Project } from "adapters/project";
 
@@ -19,13 +19,13 @@ export default function TaskCreate() {
         getProject(projectId).then((project) => setProject(project));
     }, []);
 
-    const handleSubmit = useCallback(async (name: string, text: string, icon: string, priority: string) => {
+    const handleSubmit = useCallback(async (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[]) => {
         try {
-            //if (await createTask({ project: projectId name, text, icon, priority })) {
+            if (await createTask({ project: projectId, name, text, icon, priority, dependencies, requirements, assigned: assignees  })) {
             history.push('/projects/' + projectId);
-            //} else {
+            } else {
             setError('There was an error with creating your project. Please try again!');
-            //}
+            }
         } catch (e) { }
     }, [history, projectId]);
     return (

@@ -390,7 +390,7 @@ interface AddTaskBody {
     text: string;
     icon: string;
     priority: string;
-    dependentcies: Array<string>;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
     token: Token;
@@ -399,11 +399,11 @@ interface AddTaskBody {
 task.post('/', async (req, res) => {
     if (isOfType<AddTaskBody>(req.body, [
         ['project', 'string'], ['name', 'string'], ['text', 'string'], ['icon', 'string'],
-        ['priority', 'string'], ['dependentcies', 'object'], ['requirements', 'object'],
+        ['priority', 'string'], ['dependencies', 'object'], ['requirements', 'object'],
     ])) {
         try {
             const project_id = req.body.project;
-            const dependentcy_ids = req.body.dependentcies;
+            const dependentcy_ids = req.body.dependencies;
             const assigned = req.body.assigned;
             const assigned_ids = assigned.map(asg => asg.user);
             const requirements = req.body.requirements;
@@ -500,7 +500,7 @@ interface UpdateTaskBody {
     remove_dependentcies?: Array<string>;
     remove_requirements?: Array<string>;
     remove_assigned?: Array<string>;
-    add_dependentcies?: Array<string>;
+    add_dependencies?: Array<string>;
     add_requirements?: Array<TaskRequirement>;
     add_assigned?: Array<TaskAssignment>;
     token: Token;
@@ -513,7 +513,7 @@ task.put('/:uuid', async (req, res) => {
             const remove_dependentcy_ids = req.body.remove_dependentcies ?? [];
             const remove_assigned_ids = req.body.remove_assigned ?? [];
             const remove_requirement_ids = req.body.remove_requirements ?? [];
-            const add_dependentcy_ids = req.body.add_dependentcies ?? [];
+            const add_dependentcy_ids = req.body.add_dependencies ?? [];
             const add_assigned = req.body.add_assigned ?? [];
             const add_assigned_ids = add_assigned.map(asg => asg.user);
             const add_requirements = req.body.add_requirements ?? [];

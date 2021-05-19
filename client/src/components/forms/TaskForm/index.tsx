@@ -1,4 +1,4 @@
-import { Priority, Task } from 'adapters/task';
+import { Priority, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import './task-form.scss';
 import Callout from 'components/ui/Callout';
@@ -6,13 +6,14 @@ import TextInput from 'components/ui/TextInput';
 import Picker from 'emoji-picker-react';
 import { getProjectTasks, Project } from 'adapters/project';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
-import { getTeam, getTeamMembers, getTeamRoles, TeamMember } from 'adapters/team';
+import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
 import RequirementsForm from './RequirementsForm';
 import AssgineesForm from './AssigneesForm';
+import Button from 'components/ui/Button';
 
 interface Props {
     task?: Task;
-    onSubmit: (name: string, text: string, icon: string, priority: string) => void;
+    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[]) => void;
     project: Project;
 }
 
@@ -101,16 +102,18 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
+        console.log(priority);
+        
         if (validateName(name ?? '') === null &&
             validateText(text ?? '') === null &&
             validateIcon(icon ?? '') === null &&
             validatePriority(priority ?? '') === null
         ) {
-            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? '');
+            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees);
         } else {
             setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, setError, name, text, priority, icon]);
+    }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements]);
 
     return (
         <form className="task-form" onSubmit={handleSubmit}>
@@ -159,7 +162,9 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                     <AssgineesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
                 )
             }
-
+            <Button type="submit">
+                Create Task
+            </Button>
         </form>
     )
 
