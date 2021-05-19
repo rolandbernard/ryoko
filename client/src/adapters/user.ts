@@ -27,6 +27,10 @@ export async function exists(username: string) {
     }
 }
 
+export async function getUserByName(username: string): Promise<User> {
+    return executeApiGet(`user/name/${username}`, ({ user }) => user, "Failed to get user");
+}
+
 export function getCurrentUser(): Promise<User> {
     return executeApiGet(`user`, ({ user }) => user, "Failed to get user");
 }

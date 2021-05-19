@@ -21,13 +21,11 @@ export default function RegisterForm({ onSubmit }: Props) {
             <TextInput
                 label="Username"
                 name="username"
-                color="dark"
                 onChange={setUsername}
             />
             <TextInput
                 label="Password"
                 name="password"
-                color="dark"
                 type="password"
                 onChange={setPassword}
             />

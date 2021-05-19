@@ -18,13 +18,13 @@ export default function TaskDetail() {
         {
             label: 'Assignees',
             path: '/tasks/' + uuid,
-            state: { uuid },
+            routePath: '/tasks/:uuid',
             component: TaskAssignees
         },
         {
             label: 'Comments',
             path: '/tasks/' + uuid + '/comments',
-            state: { uuid },
+            routePath: '/tasks/:uuid/comments',
             component: TaskComments
         }
     ];
@@ -52,7 +52,7 @@ export default function TaskDetail() {
                 <ButtonLink href={'/tasks/' + uuid + '/edit'} className="dark expanded">
                     Edit
                 </ButtonLink>
-                <Tabs tabs={tabs} />
+                {/*<Tabs tabs={tabs} /> */}
             </div>
         </div>
     );

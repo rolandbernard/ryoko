@@ -41,14 +41,8 @@
         .avatar {
             width: 130px;
             height: 130px;
-            border-radius: 50%;
-            overflow: hidden;
             margin-bottom: 20px;
-
-            img {
-                width: 100%;
-                height: auto;
-            }
+            font-size: 64px;
         }
 
         .name {
@@ -57,7 +51,7 @@
             display: block;
         }
 
-        .team {
+        .username {
             font-size: fn.toRem(14);
         }
     }

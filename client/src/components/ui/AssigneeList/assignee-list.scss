@@ -1,0 +1,37 @@
+@use 'styles/settings.scss'as s;
+
+.assignee-list {
+    display: flex;
+
+    &:hover {
+        .assignee {
+            margin-left: 0;
+        }
+    }
+
+    .assignee,
+    .avatar {
+        margin-left: -8px;
+        width: 35px;
+        height: 35px;
+
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+
+    }
+
+    .overhead {
+        background: s.$primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        color: s.$white;
+        font-size: 12px;
+        font-weight: s.$weight-semi-bold;
+    }
+}

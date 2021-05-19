@@ -1,0 +1,16 @@
+@use 'styles/settings.scss'as s;
+
+.linear-progress {
+    width: 120px;
+    background: s.$light;
+    position: relative;
+    height: 10px;
+    border-radius: 5px;
+
+    .progress {
+        position: absolute;
+        height: 100%;
+        border-radius: 5px;
+        background: s.$linear-gradient-horizontal;
+    }
+}

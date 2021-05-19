@@ -1,29 +1,32 @@
 import './team-member.scss';
-import avatar from 'images/roland-bernard.jpg';
+import Avatar from 'components/ui/Avatar';
+import { User } from 'adapters/user';
+import Dropdown, { DropDownItem } from 'components/navigation/Dropdown';
 
-interface TeamMemberInterface {
-    name: string;
-    role: string;
+export interface TeamMemberProps {
+    user: User;
+    info: string;
+    settings?: DropDownItem[]
 }
 
-interface Props {
-    member: TeamMemberInterface
-}
-
-export default function TeamMember({ member }: Props) {
+export default function TeamMember({ user, info, settings }: TeamMemberProps) {
     return (
-
         <div className="team-member-item">
-            <div className="avatar-container">
-                <img src={avatar} alt={member.name} />
-            </div>
+            <Avatar user={user} />
             <div className="details">
-                <div className="name">{member.name}</div>
-                <div className="role">{member.role}</div>
+                <div className="name">{user.username}</div>
+                <div className="info">{info}</div>
             </div>
-            <div className="settings">
-                
-            </div>
+            {
+                settings &&
+                <Dropdown items={settings}>
+                    <div className="settings">
+                        <span className="material-icons icon">
+                            expand_more
+                    </span>
+                    </div>
+                </Dropdown>
+            }
         </div>
     );
 }

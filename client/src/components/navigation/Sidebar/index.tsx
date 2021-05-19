@@ -1,9 +1,11 @@
 import Navigation from 'components/navigation/Navigation';
-import avatar from 'images/daniel-planoetscher.jpg';
+import Avatar from 'components/ui/Avatar';
 import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';
 import { clearToken } from 'adapters/auth';
 import './sidebar.scss';
+import { useEffect, useState } from 'react';
+import { getCurrentUser, User } from 'adapters/user';
 
 interface Props {
     mobileShown: boolean;
@@ -11,6 +13,13 @@ interface Props {
 }
 
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
+    const [user, setUser] = useState<User>();
+
+    useEffect(() => {
+        getCurrentUser().then((user) => {
+            setUser(user);
+        }).catch(() => { });
+    }, [])
 
     const history = useHistory();
 
@@ -23,11 +32,9 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         <aside className={'site-aside' + (mobileShown ? ' shown' : '')}>
             <div className="top">
                 <div className="profile">
-                    <div className="avatar">
-                        <img src={avatar} alt="Profile" />
-                    </div>
-                    <span className="name">Daniel Planötscher</span>
-                    <span className="team">ryoko</span>
+                    <Avatar user={user}/>
+                    <span className="name">{user?.realname ?? user?.username}</span>
+                    {user?.realname && <span className="username">{user?.username}</span>}
                 </div>
                 <Navigation />
                 <nav className="secondary-nav">

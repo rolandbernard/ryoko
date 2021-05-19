@@ -33,34 +33,47 @@ function validateRepeatPassword(password: string, password2: string) {
     }
 }
 interface Props {
-    onSubmit?: (username: string, password: string) => void
+    onSubmit?: (username: string, password: string, realname?: string, email?: string) => void;
+    setError?: Function;
 }
 
-export default function RegisterForm({ onSubmit }: Props) {
+export default function RegisterForm({ onSubmit, setError }: Props) {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+    const [realName, setRealName] = useState<string | undefined>();
+    const [email, setEmail] = useState<string | undefined>();
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (await validateUsername(username) === null && validatePassword(password) === null && validateRepeatPassword(repeatedPassword, password) === null) {
-            onSubmit?.(username, password);
+            onSubmit?.(username, password, realName, email);
+        } else if(setError) {
+            setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, password, username, repeatedPassword]);
+    }, [onSubmit, password, username, repeatedPassword, setError, realName, email]);
 
     return (
         <form className="register-form" onSubmit={handleSubmit}>
             <TextInput
                 label="Username"
                 name="username"
-                color="dark"
                 onChange={setUsername}
                 validation={validateUsername}
             />
             <TextInput
+                label="First- and Lastname"
+                name="realname"
+                onChange={setRealName}
+            />
+            <TextInput
+                label="Email"
+                name="email"
+                onChange={setEmail}
+            />
+            <TextInput
                 label="Password"
                 name="password"
-                color="dark"
                 type="password"
                 onChange={setPassword}
                 validation={validatePassword}
@@ -68,7 +81,6 @@ export default function RegisterForm({ onSubmit }: Props) {
             <TextInput
                 label="Repeat password"
                 name="repeat-password"
-                color="dark"
                 type="password"
                 onChange={setRepeatedPassword}
                 compareValue={password}

@@ -1,0 +1,37 @@
+
+@use 'styles/settings.scss'as s;
+@use 'styles/mixins.scss'as mx;
+
+.introduction-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    @include mx.breakpoint(xlarge) {
+        min-height: calc(100vh - 5rem);
+    }
+
+    .introduction-page {
+        max-width: 960px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        @include mx.breakpoint(medium) {
+            min-height: auto;
+            padding: 60px;
+            border-radius: 25px;
+        }
+        
+        .lead-text {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .possibility {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+    }
+}

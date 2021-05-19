@@ -5,12 +5,34 @@ import { AssignedUser } from './user';
 import { Work } from './work';
 import { Activity, Completion } from './util';
 
+export enum Status {
+    OPEN = 'open',
+    CLOSED = 'closed',
+    SUSPENDED = 'suspended'
+}
+
+export const StatusColors = new Map<string, string>([
+    ['open', 'lightblue'],
+    ['closed', 'purple'],
+    ['suspended', 'red']
+]);
+
+export enum ProjectColors {
+    RED = 'red',
+    ORANGE = 'orange',
+    YELLOW = 'yellow',
+    GREEN = 'green',
+    LIGHTBLUE = 'lightblue',
+    BLUE = 'blue',
+    PURPLE = 'purple',
+}
+
 export interface Project {
     id: string;
     name: string;
     text: string;
     color: string;
-    status: 'open' | 'closed' | 'suspended';
+    status: Status;
     deadline?: Date;
     teams: Array<string>;
 }
@@ -65,7 +87,7 @@ export function getProjectCompletion(uuid: string, from: Date = new Date(0), to:
     );
 }
 
-interface NewTeamData {
+interface NewProjectData {
     teams: Array<string>;
     name: string;
     text: string;
@@ -73,11 +95,11 @@ interface NewTeamData {
     deadline?: Date;
 }
 
-export function createProject(project: NewTeamData): Promise<string> {
+export function createProject(project: NewProjectData): Promise<string> {
     return executeApiPost(`project`, project, ({ id }) => id, "Failed to create project");
 }
 
-interface UpdateTeamData {
+interface UpdateProjectData {
     remove_teams?: Array<string>;
     add_teams?: Array<string>;
     name?: string;
@@ -87,7 +109,7 @@ interface UpdateTeamData {
     deadline?: string;
 }
 
-export function updateProject(uuid: string, project: UpdateTeamData) {
+export function updateProject(uuid: string, project: UpdateProjectData) {
     return executeApiPut(`project/${uuid}`, project, () => {}, "Failed to update project");
 }
 

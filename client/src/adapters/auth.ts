@@ -46,7 +46,7 @@ async function extendAccessToken() {
     }
 }
 
-export async function register(username: string, password: string): Promise<boolean> {
+export async function register(username: string, password: string, realname: string | null, email: string | null): Promise<boolean> {
     try {
         const response = await fetch(`${apiRoot}/auth/register`, {
             method: 'POST',
@@ -54,8 +54,10 @@ export async function register(username: string, password: string): Promise<bool
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username,
-                password: password,
+                username,
+                password,
+                realname,
+                email,
             }),
         });
         if (response.ok) {

@@ -1,7 +1,24 @@
 import Task from 'components/ui/Task';
+import { Priority, Status } from 'adapters/task';
 import './tasks.scss';
 
 export default function Tasks() {
+    const task = {
+        id: 'asdf',
+        priority: Priority.HIGH,
+        status: Status.CLOSED,
+        dependencies: ['test'],
+        assigned: [{ user: 'test', time: 30, finished: false }],
+        requirements: [{ role: 'test', time: 20 }],
+        created: new Date(),
+        edited: new Date(),
+
+        project: 'asdf',
+
+        name: 'Create API Routes',
+        icon: '🌎',
+        text: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
+    }
     return (
         <div className="tasks-page">
             <main className="content-container">
@@ -14,22 +31,8 @@ export default function Tasks() {
                     <div className="task-group">
                         <h3>09:00</h3>
                         <div className="tasks-list">
-                            <Task task={{
-                                uuid: 'asdf',
-                                name: 'Create API Routes',
-                                icon: '🌎',
-                                start: 1619074800000,
-                                end: 1619076600000,
-                                description: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
-                            }} />
-                            <Task task={{
-                                uuid: 'asdfds',
-                                name: 'Create API Routes',
-                                icon: '🌎',
-                                start: 1619074800000,
-                                end: 1619076600000,
-                                description: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
-                            }} />
+                            <Task task={task} />
+                            <Task task={task} />
                         </div>
                     </div>
                 </section>

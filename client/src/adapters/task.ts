@@ -9,6 +9,19 @@ export interface TaskRequirement {
     time: number;
 }
 
+export enum Status {
+    OPEN = 'open',
+    CLOSED = 'closed',
+    SUSPENDED = 'suspended'
+}
+
+export enum Priority {
+    LOW = 'low',
+    MEDIUM = 'medium',
+    HIGH = 'high',
+    URGENT = 'urgent'
+}
+
 export interface TaskAssignment {
     user: string;
     time: number;
@@ -21,9 +34,9 @@ export interface Task {
     name: string;
     text: string;
     icon: string;
-    priority: 'low' | 'medium' | 'high' | 'urgent';
-    status: 'open' | 'closed' | 'suspended';
-    dependentcies: Array<string>;
+    priority: Priority;
+    status: Status;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
     created: Date;
@@ -87,8 +100,8 @@ interface AddTaskBody {
     name: string;
     text: string;
     icon: string;
-    priority: string;
-    dependentcies: Array<string>;
+    priority: Priority;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
 }
@@ -103,10 +116,10 @@ interface UpdateTaskBody {
     icon?: string;
     priority?: string;
     status?: string;
-    remove_dependentcies?: Array<string>;
+    remove_dependencies?: Array<string>;
     remove_requirements?: Array<string>;
     remove_assigned?: Array<string>;
-    add_dependentcies?: Array<string>;
+    add_dependencies?: Array<string>;
     add_requirements?: Array<TaskRequirement>;
     add_assigned?: Array<TaskAssignment>;
 }

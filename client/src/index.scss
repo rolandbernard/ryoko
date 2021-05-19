@@ -2,6 +2,11 @@
 @use 'styles/mixins'as mx;
 @use 'styles/functions'as fn;
 
+:root {
+    --primary: #AC42FF;
+    --primary-dark: #930AFF;
+}
+
 * {
     transition: s.$transition;
     font-family: s.$body-font;
@@ -26,7 +31,8 @@ button {
     outline: none;
 }
 
-a, button {
+a,
+button {
     font-weight: s.$weight-semi-bold;
     color: s.$primary;
     text-decoration: none;
@@ -51,6 +57,7 @@ h4,
 h5,
 h6 {
     font-weight: s.$weight-bold;
+    line-height: 1.2;
 }
 
 h1 {
@@ -66,7 +73,7 @@ h1 {
             content: ' ';
             position: absolute;
             right: -7px;
-            bottom: 5px;
+            bottom: 0;
             width: 90px;
             background: rgba(s.$secondary, .5);
             height: 20px;
@@ -75,7 +82,7 @@ h1 {
             @include mx.breakpoint(large) {
                 height: 24px;
                 width: 120px;
-                bottom: 10px;
+                bottom: 5px;
             }
 
         }
@@ -123,3 +130,40 @@ h4 {
     }
 }
 
+
+
+@each $key,
+$color in s.$themeDarkMap {
+    .bg-dark-#{$key} {
+        background-color: $color;
+    }
+
+    .text-dark-#{$key} {
+        color: $color
+    }
+}
+
+
+@each $key,
+$color in s.$themeLightMap {
+    .bg-light-#{$key} {
+        background-color: $color;
+    }
+
+    .text-light-#{$key} {
+        color: $color
+    }
+}
+
+
+@each $key,
+$color in s.$themeLightMap {
+    .bg-gradient-#{$key} {
+        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+    }
+
+    .theme-#{$key} {
+        --primary: #{$color};
+        --primary-dark: #{fn.getFrom(s.$themeDarkMap, $key)};
+    }
+}

@@ -1,0 +1,23 @@
+@use 'styles/settings.scss' as s;
+
+.avatar {
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+    .standard-image {
+        width: 100%;
+        height: 100%;
+        background: s.$secondary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-transform: uppercase;
+        user-select: none;
+        color: s.$black;
+        font-weight: s.$weight-bold;
+    }
+}

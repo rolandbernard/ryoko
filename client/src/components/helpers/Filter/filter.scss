@@ -1,0 +1,41 @@
+@use 'styles/settings.scss' as s;
+
+.filter-container {
+    .search-container {
+        position: relative;
+        margin-bottom: 30px;
+        .icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            opacity: 0.8;
+        }
+        input {
+            width: 100%;
+            padding: 18px;
+            padding-left: 50px;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(s.$black, 0.05);
+        }
+    }
+    .status-filter {
+        margin-bottom: 40px;
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .tag-item {
+            margin: 10px;
+            cursor: pointer;
+            opacity: 0.75;
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,4 +1,3 @@
-import Project from 'components/ui/Project';
 import ButtonLink from 'components/navigation/ButtonLink';
 import ContactForm from 'components/forms/ContactForm';
 import Page from 'components/layout/Page';
@@ -54,17 +53,6 @@ export default function Home() {
                             </p>
                         </div>
                         <div className="preview-container">
-                            <div className="project-overview">
-                                <div className="small-1 project-small">
-                                    <Project status="open" name="Hello world!" percent={5} />
-                                </div>
-                                <div className="small-2 project-small">
-                                    <Project status="suspended" name="FizzBuzz" percent={33} />
-                                </div>
-                                <div className="large project-large">
-                                    <Project status="open" name="Array summation" percent={78} />
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
