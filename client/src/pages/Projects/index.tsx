@@ -19,12 +19,8 @@ export default function Projects() {
 
     useEffect(() => {
         getProjects().then((projects) => {
-            console.log(projects);
-            
-            if (projects) {
-                setAllProjects(projects);
-                setShownProjects(projects);
-            }
+            setAllProjects(projects);
+            setShownProjects(projects);
         })
     }, []);
 

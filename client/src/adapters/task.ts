@@ -15,6 +15,12 @@ export enum Status {
     SUSPENDED = 'suspended'
 }
 
+export const StatusColors = new Map<string, string>([
+    ['open', 'lightblue'],
+    ['closed', 'purple'],
+    ['suspended', 'red']
+]);
+
 export enum Priority {
     LOW = 'low',
     MEDIUM = 'medium',
