@@ -3,6 +3,18 @@ import { apiRoot } from 'config';
 
 import { getAuthHeader } from './auth';
 
+export interface Activity {
+    day: string;
+    time: number;
+}
+
+export interface Completion {
+    open: number,
+    closed: number,
+    suspended: number,
+    overdue: number,
+}
+
 async function executeApiRequest<T>(path: string, method: string, body: any, onSuccess: (data: any) => T, errorMessage: string): Promise<T> {
     try {
         const response = await fetch(`${apiRoot}/${path}`, {

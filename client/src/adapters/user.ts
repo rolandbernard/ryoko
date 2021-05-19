@@ -4,6 +4,7 @@ import { apiRoot } from 'config';
 import { executeApiGet, executeApiPut } from './util';
 import { Task } from './task';
 import { Work } from './work';
+import { Activity, Completion } from './util';
 
 export interface User {
     id: string;
@@ -44,6 +45,20 @@ export function getUserWork(): Promise<Work> {
         started: new Date(work.started),
         finished: work.finished ? new Date(work.finished) : undefined,
     })), "Failed to get user work");
+}
+
+export function getUserActivity(from: Date = new Date(0), to: Date = new Date()): Promise<Activity[]> {
+    return executeApiGet(
+        `user/activity?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ activity }) => activity, "Failed to get user activity"
+    );
+}
+
+export function getUserCompletion(from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
+    return executeApiGet(
+        `user/completion?since=${from.getTime()}&to=${to.getTime()}`,
+        ({ completion }) => completion, "Failed to get user completion"
+    );
 }
 
 export function getUser(uuid: string): Promise<User> {
