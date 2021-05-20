@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import ProjectForm from 'components/forms/ProjectForm';
 import Callout from 'components/ui/Callout';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Params {
     projectId: string;
@@ -21,7 +22,7 @@ export default function ProjectEdit() {
             history.goBack();
         });
     }, [history, projectId]);
-    
+
     const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => {
         try {
 
@@ -37,19 +38,18 @@ export default function ProjectEdit() {
             setError('There was an error with updating your project. Please try again!');
         }
     }, [history, project]);
-
+    if (project) {
+        return (
+            <div className="project-create-page">
+                <div className="content-container">
+                    <h1>Edit the project {project.name}</h1>
+                    {error && <Callout message={error} />}
+                    <ProjectForm onSubmit={handleSubmit} project={project} />
+                </div>
+            </div>
+        )
+    }
     return (
-        <div className="project-create-page">
-            {
-                project ?
-                    <div className="content-container">
-                        <h1>Edit the project {project?.name}</h1>
-                        {error && <Callout message={error} />}
-                        <ProjectForm onSubmit={handleSubmit} project={project} />
-                    </div> :
-                    <h2>Loading...</h2>
-            }
-        </div>
+        <LoadingScreen />
     )
-
 }

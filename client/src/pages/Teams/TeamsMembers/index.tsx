@@ -4,6 +4,7 @@ import { getTeamRoles, Team, TeamMember, TeamRole } from 'adapters/team';
 import RoleForm from 'components/forms/RoleForm';
 import MemberForm from 'components/forms/MemberForm';
 import { useEffect, useState } from 'react';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
     members: TeamMember[];
@@ -11,15 +12,16 @@ interface Props {
 }
 
 export default function TeamsMembers({ members, team }: Props) {
-    const [roles, setRoles] = useState<TeamRole[]>([]);
+    const [roles, setRoles] = useState<TeamRole[]>();
     useEffect(() => {
         getTeamRoles(team.id).then((roles) => {
             setRoles(roles);
         })
     }, [team]);
-
-    const teamMembers = members.map(member => {
-        return {
+    
+    let teamMembers;
+    if (roles) {
+        teamMembers = members.map(member => ({
             user: member,
             info: member.role.name,
             settings: [{
@@ -30,12 +32,17 @@ export default function TeamsMembers({ members, team }: Props) {
                     </>
                 )
             }]
-        }
-    });
-    
+        }));
+    }
+
+
     return (
         <section className="teams-members-section">
-            <MemberList members={teamMembers} addContent={<MemberForm setRoles={setRoles} roles={roles} team={team} />} />
+            {
+                (roles && teamMembers) ?
+                    <MemberList members={teamMembers} addContent={<MemberForm setRoles={setRoles} roles={roles} team={team} />} />
+                    : <LoadingScreen />
+            }
         </section>
     )
 }

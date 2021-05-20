@@ -30,7 +30,7 @@ export default function Tasks() {
                     <h1 className="underlined">Tasks</h1>
                 </section>
                 {
-                    tasks && (
+                    tasks ? (
                         <>
                             <p>Hey Daniel, you have <strong>{tasks.length} tasks</strong> for today.</p>
                             <section className="tasks-container">
@@ -47,6 +47,9 @@ export default function Tasks() {
                                 </div>
                             </section>
                         </>
+                    ) : 
+                    (
+                        <div>No open tasks found</div>
                     )
                 }
             </main>

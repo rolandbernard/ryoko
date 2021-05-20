@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import TeamForm from 'components/forms/TeamForm';
 import './teams-edit.scss';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Params {
    teamId: string;
@@ -39,10 +40,8 @@ export default function TeamsEdit() {
             </div>
          </div>
       );
-   } else {
-      return (
-         <h1>Loading</h1>
-      )
    }
-
+   return (
+      <LoadingScreen />
+   )
 }

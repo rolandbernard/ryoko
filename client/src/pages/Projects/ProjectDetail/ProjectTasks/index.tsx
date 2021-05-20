@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Filter from 'components/helpers/Filter';
 import { getProjectTasks, Project } from 'adapters/project';
 import { TaskProps } from 'components/ui/Task';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
     project: Project
@@ -13,7 +14,7 @@ interface Props {
 export default function ProjectTasks({ project }: Props) {
     const [filter, setFilter] = useState({ term: '', tags: [] });
     const [allTasks, setAllTasks] = useState<TaskProps[]>([]);
-    const [shownTasks, setShownTasks] = useState<TaskProps[]>([]);
+    const [shownTasks, setShownTasks] = useState<TaskProps[]>();
 
     useEffect(() => {
         getProjectTasks(project.id).then((tasks) => {
@@ -46,11 +47,14 @@ export default function ProjectTasks({ project }: Props) {
     }, [filter, allTasks])
 
 
-
     return (
         <div className="project-tasks">
             <Filter setFilter={setFilter} tags={allStatus} filter={filter} />
-            <TaskList tasks={shownTasks} addButton />
+            {
+                shownTasks ?
+                    <TaskList tasks={shownTasks} addButton /> :
+                    <LoadingScreen />
+            }
         </div>
     )
 }

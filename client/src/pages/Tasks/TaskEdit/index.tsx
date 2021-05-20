@@ -1,6 +1,7 @@
 import { getProject, Project } from "adapters/project";
 import { getTask, Priority, Status, Task, TaskAssignment, TaskRequirement, updateTask } from "adapters/task";
 import TaskForm from "components/forms/TaskForm";
+import LoadingScreen from "components/ui/LoadingScreen";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 
@@ -70,7 +71,8 @@ export default function TaskEdit() {
             </div>
         )
 
-    } else {
-        return <>Loading</>
     }
+    return (
+        <LoadingScreen />
+    )
 }

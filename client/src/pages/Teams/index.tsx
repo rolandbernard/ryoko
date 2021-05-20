@@ -132,6 +132,6 @@ export default function Teams() {
     }
 
     return (
-        <DetailGrid details={details} />
+        <LoadingScreen />
     )
 }

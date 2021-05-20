@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { getTask, StatusColors, Task } from 'adapters/task';
 import { getProject, Project } from 'adapters/project';
 import { getTeam } from 'adapters/team';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export interface Params {
     taskId: string;
@@ -21,19 +22,6 @@ export default function TaskDetail() {
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
-
-    const tabs = [
-        {
-            label: 'Assignees',
-            route: '/tasks/' + taskId,
-            component: <TaskAssignees taskId={taskId} />
-        },
-        {
-            label: 'Comments',
-            route: '/tasks/' + taskId + '/comments',
-            component: <TaskComments taskId={taskId} />
-        }
-    ];
 
     useEffect(() => {
         getTask(taskId).then((task) => {
@@ -68,19 +56,29 @@ export default function TaskDetail() {
                     <DetailGrid details={[
                         { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
                         { icon: 'group', title: 'Teams', label: teamNames.join(', ') }]} />
-
                     <ButtonLink href={'/tasks/' + taskId + '/start'} className="expanded">
                         Start
                 </ButtonLink>
                     <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                         Edit
                 </ButtonLink>
-                    <Tabs tabs={tabs} />
+                    <Tabs tabs={[
+                        {
+                            label: 'Assignees',
+                            route: '/tasks/' + taskId,
+                            component: <TaskAssignees taskId={taskId} />
+                        },
+                        {
+                            label: 'Comments',
+                            route: '/tasks/' + taskId + '/comments',
+                            component: <TaskComments taskId={taskId} />
+                        }
+                    ]} />
                 </div>
             </div>
         );
 
     } else {
-        return <>Loading</>;
+        return <LoadingScreen />;
     }
 }
