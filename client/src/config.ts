@@ -1,4 +1,3 @@
-
 export let apiRoot: string;
 
 if (process.env.NODE_ENV === 'production') {
