@@ -30,10 +30,11 @@ repository and execute the following three command in order:
 3. `yarn start` This will start the web server and host the webserver at `localhost:8000`
 
 Note:
- * The server requires a public and private key pair to sign the authentication web token. They can
+ * The server can use a public and private key pair to sign the authentication web token. They can
 either be placed into the directory `server/keys/` with the name `cert.pem` (public key) and
 `cert.key` (private key), or they can be given using the `JWT_PUBLIC_KEY` and `JWT_PRIVATE_KEY`
-envirenvironment variables. In any case the keys must be suitable for ES384 signatures.
+envirenvironment variables. In any case the keys must be suitable for ES384 signatures. If these
+keys are not given it will use a simple password to sign the tokens.
  * If your `PORT` environment variable is set that will be used as the port to host the webserver in stead of port 8000.
  * If your `NODE_ENV` environment variable is set to `production` (with SSL) or `staging` (without SSL) the server will try
 to connect to a postgres database using the connection url inside `DATABASE_URL`.
