@@ -2,6 +2,7 @@ import { deleteTeamRole, Team, TeamMember, TeamRole, updateTeamMember } from 'ad
 import { FormEvent, useCallback, useState } from 'react';
 import Button from 'components/ui/Button';
 import { useHistory } from 'react-router';
+import Callout from 'components/ui/Callout';
 
 interface Props {
     roles: TeamRole[];
@@ -14,6 +15,7 @@ interface Props {
 
 export default function RoleForm({ roles, setEdit, member, team, setResult, setAllRoles }: Props) {
     const [currentRole, setRole] = useState(member?.role.id);
+    const [error, setError] = useState('');
     const history = useHistory();
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
@@ -29,16 +31,24 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
     }, [currentRole, member, team, setResult, history]);
 
     const onDelete = useCallback(async (id: string) => {
-        await deleteTeamRole(team.id, id);
-        setAllRoles((state: any) => state.filter((role: any) => role.id !== id));
+        try {
+            await deleteTeamRole(team.id, id);
+            setAllRoles((state: any) => state.filter((role: any) => role.id !== id));
+        } catch {
+            setError('There are still users assigned to this role.')
+        }
+
     }, [team, setAllRoles]);
 
     return (
         <form className="role-change-form" onSubmit={onSubmit}>
             <h2>Set the role</h2>
             {
+                error && <Callout message={error} />
+            }
+            {
                 roles.map((role) => (
-                    <div className="role-item" key={role.id}>
+                    <label className="role-item" key={role.id} htmlFor={role.id}>{role.name}
                         <input
                             type="radio"
                             name={role.id}
@@ -46,15 +56,25 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
                             onChange={() => setRole(role.id)}
                             checked={currentRole === role.id}
                         />
-                        <label htmlFor={role.id}>{role.name}</label>
-                        <div onClick={() => setEdit(role)}>edit</div>
-                        <div onClick={() => onDelete(role.id)}>delete</div>
-                    </div>
+                        <div className="radio-btn"></div>
+                        <div className="actions">
+                            <div className="action" onClick={() => setEdit(role)}>
+                                <span className="material-icons">
+                                    edit
+                            </span>
+                            </div>
+                            <div className="action delete" onClick={() => onDelete(role.id)}>
+                                <span className="material-icons">
+                                    clear
+                            </span>
+                            </div>
+                        </div>
+                    </label>
                 ))}
             <div className="add-btn role-item" onClick={() => setEdit({})}>
                 +
             </div>
-            <Button type="submit">
+            <Button type="submit" className="expanded">
                 Save
             </Button>
         </form >

@@ -4,14 +4,15 @@ import CircularProgress from 'components/graphs/CircularProgress';
 export interface CompletionProps {
     label: string;
     percent: number;
+    color: string;
 }
 
-export default function Completion({ label, percent }: CompletionProps) {
+export default function Completion({ label, percent, color }: CompletionProps) {
 
     return (
         <div className="completion">
             <div className="inner">
-                <CircularProgress percent={percent} />
+                <CircularProgress percent={Math.floor(percent)} color={color} />
                 <div className="label">{label}</div>
             </div>
         </div>

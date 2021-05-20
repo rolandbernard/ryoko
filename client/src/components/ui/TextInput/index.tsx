@@ -1,6 +1,5 @@
 
-import { ChangeEvent, Dispatch, FocusEvent, useCallback, useState } from "react";
-
+import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
 import './text-input.scss';
 
 interface Props {
@@ -17,12 +16,8 @@ export default function TextInput({ label, name, type, onChange, validation, com
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        if (type === 'date') {
-            onChange(new Date(e.target.value));
-        } else {
-            onChange(e.target.value);
-        }
-    }, [onChange, type]);
+        onChange(e.target.value);
+    }, [onChange]);
 
     const handleBlur = useCallback(async (e: FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let error = await validation?.(e.target.value, compareValue ?? '');

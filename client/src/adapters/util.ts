@@ -13,6 +13,7 @@ export interface Completion {
     closed: number,
     suspended: number,
     overdue: number,
+    sum?: number
 }
 
 async function executeApiRequest<T>(path: string, method: string, body: any, onSuccess: (data: any) => T, errorMessage: string): Promise<T> {

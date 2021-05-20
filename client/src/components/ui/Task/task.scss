@@ -21,15 +21,18 @@
         }
     }
 
-    .project-indicator {
+    .indicator {
         position: absolute;
         left: 0;
         top: 50%;
         transform: translate(-50%, -50%);
-        background: s.$primary;
         width: 6px;
         height: 50%;
         border-radius: 3px;
+
+        &:not([class*=bg-gradient]) {
+            background: s.$primary;
+        }
     }
 
 

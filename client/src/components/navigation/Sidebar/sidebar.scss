@@ -136,9 +136,8 @@
         font-size: fn.toRem(14);
         font-weight: s.$weight-semi-bold;
 
-        .line-graph {
-            width: 100%;
-            margin-bottom: 10px;
+        .bar-chart-container {
+            background: transparent;
         }
     }
 }

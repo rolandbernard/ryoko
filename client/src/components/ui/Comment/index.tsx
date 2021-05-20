@@ -1,31 +1,41 @@
 import './comment.scss';
-import { User } from 'adapters/user';
-import avatar from 'images/roland-bernard.jpg';
+import { getUser, User } from 'adapters/user';
+import { Comment as IComment } from 'adapters/comment';
+import { useEffect, useState } from 'react';
+import Avatar from 'components/ui/Avatar';
+
 
 export interface CommentProps {
-    comment: string;
-    user: User;
+    comment: IComment;
 }
 
-export default function Comment({ comment, user }: CommentProps) {
-    return (
-        <div className="comment-container">
-            <div className="head">
-                <div className="avatar">
-                    <img src={avatar} alt={user.realname} />
+export default function Comment({ comment }: CommentProps) {
+
+    const [user, setUser] = useState<User>();
+    useEffect(() => {
+        getUser(comment.user).then((user) => setUser(user));
+    }, [comment]);
+
+    if (user) {
+        return (
+            <div className="comment-container">
+                <div className="head">
+                    <Avatar user={user} />
+                    <div className="user-info">
+                        <div className="name">
+                            {user.realname ?? user.username}
+                        </div>
+                        <div className="time">
+                            10 years ago
+                    </div>
+                    </div>
                 </div>
-                <div className="user-info">
-                    <div className="name">
-                        {user.realname}
-                    </div>
-                    <div className="time">
-                        10 years ago
-                    </div>
+                <div className="comment">
+                    {comment.text}
                 </div>
             </div>
-            <div className="comment">
-                {comment}
-            </div>
-        </div>
-    )
+        )
+    } else {
+        return <>Loading</>
+    }
 }

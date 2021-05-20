@@ -15,7 +15,7 @@ export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
                     <div className="team-item" key={choice.id}>
                         <input type="checkbox" id={choice.id}
                             checked={chosen.indexOf(choice.id) >= 0}
-                            onClick={(e) => {
+                            onChange={(e) => {
                                 if (chosen.find(id => choice.id === id)) {
                                     setChosen((state: any) => state.filter((id: any) => id !== choice.id));
                                 } else {

@@ -3,57 +3,82 @@ import Tag from 'components/ui/Tag';
 import DetailGrid from 'components/layout/DetailGrid';
 import ButtonLink from 'components/navigation/ButtonLink';
 import Tabs from 'components/navigation/Tabs';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
+import { useEffect, useState } from 'react';
+import { getTask, StatusColors, Task } from 'adapters/task';
+import { getProject, Project } from 'adapters/project';
+import { getTeam } from 'adapters/team';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export interface Params {
-    uuid: string;
+    taskId: string;
 }
 
 export default function TaskDetail() {
-    const { uuid } = useParams<Params>();
+    const { taskId } = useParams<Params>();
+    const history = useHistory();
+    const [task, setTask] = useState<Task>();
+    const [project, setProject] = useState<Project>();
+    const [teamNames, setTeamNames] = useState<string[]>([]);
 
-    const tabs = [
-        {
-            label: 'Assignees',
-            path: '/tasks/' + uuid,
-            routePath: '/tasks/:uuid',
-            component: TaskAssignees
-        },
-        {
-            label: 'Comments',
-            path: '/tasks/' + uuid + '/comments',
-            routePath: '/tasks/:uuid/comments',
-            component: TaskComments
-        }
-    ];
+    useEffect(() => {
+        getTask(taskId).then((task) => {
 
-    return (
-        <div className="tasks-detail-page">
-            <div className="content-container">
-                <Tag label="Done" />
-                <h1>Creating API Routes</h1>
-                <div className="description-container">
-                    <p>
-                        Create the API routes and implement them into the FrontEnd, by adding them into the controls.
-                    </p>
+            setTask(task);
+            getProject(task.project).then((project) => {
+                setProject(project);
+                project.teams.forEach((teamId) =>
+                    getTeam(teamId).then((team) => {
+                        setTeamNames(state => [...state, team.name])
+                    }
+                ));
+            });
+        }).catch(() => history.goBack());
+    }, [taskId, history]);
+
+    if (task) {
+        return (
+            <div className={'tasks-detail-page theme-' + StatusColors.get(task.status)}>
+                <div className="content-container">
+                    <Tag label={task.status} color={StatusColors.get(task.status)} />
+                    <h1>{task.name}</h1>
+                    <div className="description-container">
+                        <p>
+                            {task.text}
+                        </p>
+                    </div>
+                    <h2>
+                        Details
+                    </h2>
+
+                    <DetailGrid details={[
+                        { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
+                        { icon: 'group', title: 'Teams', label: teamNames.join(', ') }]} />
+                    <ButtonLink href={'/tasks/' + taskId + '/start'} className="expanded">
+                        Start
+                </ButtonLink>
+                    <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
+                        Edit
+                </ButtonLink>
+                    <Tabs tabs={[
+                        {
+                            label: 'Assignees',
+                            route: '/tasks/' + taskId,
+                            component: <TaskAssignees taskId={taskId} />
+                        },
+                        {
+                            label: 'Comments',
+                            route: '/tasks/' + taskId + '/comments',
+                            component: <TaskComments taskId={taskId} />
+                        }
+                    ]} />
                 </div>
-                <h2>
-                    Details
-                </h2>
-                <DetailGrid details={[
-                    { icon: 'folder', title: 'Project', label: 'Shopping List' },
-                    { icon: 'group', title: 'Team', label: 'Ryoko' }]} />
-
-                <ButtonLink href={'/tasks/' + uuid + '/start'} className="expanded">
-                    Start
-                </ButtonLink>
-                <ButtonLink href={'/tasks/' + uuid + '/edit'} className="dark expanded">
-                    Edit
-                </ButtonLink>
-                {/*<Tabs tabs={tabs} /> */}
             </div>
-        </div>
-    );
+        );
+
+    } else {
+        return <LoadingScreen />;
+    }
 }
