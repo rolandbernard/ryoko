@@ -31,13 +31,14 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
     if (token) {
         delete req.body.token;
         try {
+            let decoded;
             if (await usePublicAndPrivate()) {
-                const decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
-                if (isOfType<Token>(decoded, [['id', 'string'], ['type', 'string']]) && decoded.type === authTokenType) {
-                    req.body.token = decoded;
-                }
+                decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
             } else {
-                return asyncify(verify, token, getSecret(), { algorithms: ["HS384"] });
+                decoded = await asyncify(verify, token, getSecret(), { algorithms: ["HS384"] });
+            }
+            if (isOfType<Token>(decoded, [['id', 'string'], ['type', 'string']]) && decoded.type === authTokenType) {
+                req.body.token = decoded;
             }
         } catch (err) { /* Token has already been deleted */ }
         next();
