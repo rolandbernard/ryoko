@@ -13,7 +13,7 @@ import Button from 'components/ui/Button';
 
 interface Props {
     task?: Task;
-    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[]) => void;
+    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[], status?: Status) => void;
     project: Project;
 }
 
@@ -111,11 +111,11 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             validateIcon(icon ?? '') === null &&
             validatePriority(priority ?? '') === null
         ) {
-            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees);
+            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees, status);
         } else {
             setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements]);
+    }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements, status]);
 
     return (
         <form className="task-form" onSubmit={handleSubmit}>
@@ -152,7 +152,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 status && (
                     <select defaultValue={status} onChange={(e) => {
                         let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
-                        setStatus(currentStatus);
+                        setStatus(currentStatus); 
                     }}>
                         <option value={''}>Please choose a status</option>
                         {

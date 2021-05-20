@@ -12,7 +12,6 @@ export default function TaskEdit() {
     const { taskId } = useParams<Params>();
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();
-    const [error, setError] = useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -42,7 +41,7 @@ export default function TaskEdit() {
             let removedAssigneesTemp: TaskAssignment[] = task?.assigned ?? [];
             removedAssigneesTemp.filter((assignee) => assignees.indexOf(assignee) === -1);
             let removedAssignees: string[] = removedAssigneesTemp.map((assignee) => assignee.user);
-
+            
             await updateTask(taskId, {
                 name,
                 text,
