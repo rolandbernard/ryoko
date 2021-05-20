@@ -3,7 +3,7 @@ import { env } from 'process';
 import { join } from 'path';
 import { parse } from 'pg-connection-string';
 
-const pgconfig: any = parse(env.DATABASE_URL ?? '');
+const pgconfig: any = parse(env.DATABASE_URL ?? 'postgresql://postgres@localhost/ryoko');
 
 export default {
     development: {

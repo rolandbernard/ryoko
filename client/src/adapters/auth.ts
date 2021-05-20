@@ -37,7 +37,7 @@ async function extendAccessToken() {
             if (response.ok) {
                 const json = await response.json();
                 setToken(json.token);
-            } else if (response.status === 403) {
+            } else {
                 clearToken();
             }
         } catch(e) {
