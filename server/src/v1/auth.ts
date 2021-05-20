@@ -38,7 +38,14 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
                 decoded = await asyncify(verify, token, getSecret(), { algorithms: ["HS384"] });
             }
             if (isOfType<Token>(decoded, [['id', 'string'], ['type', 'string']]) && decoded.type === authTokenType) {
-                req.body.token = decoded;
+                const user = await database('users')
+                    .select({ id: 'users.id' })
+                    .where({
+                        'users.id': decoded.id,
+                    });
+                if (user.length >= 1) {
+                    req.body.token = decoded;
+                }
             }
         } catch (err) { /* Token has already been deleted */ }
         next();
