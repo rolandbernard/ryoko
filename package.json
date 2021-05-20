@@ -8,12 +8,14 @@
     "private": true,
     "main": "server/build.js",
     "scripts": {
-        "install": "cd server && yarn install --production=false && cd ../client && yarn install --production=false", 
+        "install": "cd server && yarn install --production=false && cd ../client && yarn install --production=false",
         "build": "cd server && yarn build && cd ../client && yarn build",
         "start": "cd server && node build/index.js"
     },
-    "keywords": [ ],
-    "dependencies": { },
+    "keywords": [],
+    "dependencies": {
+        "yarn": "^1.22.10"
+    },
     "engines": {
         "node": "16.x"
     }

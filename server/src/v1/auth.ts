@@ -6,7 +6,7 @@ import { sign, verify } from 'jsonwebtoken';
 
 import database from '../database';
 import { isOfType, asyncify } from '../util';
-import { getPublicKey, getPrivateKey } from '../keys';
+import { getPublicKey, getPrivateKey, getSecret, usePublicAndPrivate } from '../keys';
 
 const auth = express();
 
@@ -31,9 +31,21 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
     if (token) {
         delete req.body.token;
         try {
-            const decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
+            let decoded;
+            if (await usePublicAndPrivate()) {
+                decoded = await asyncify(verify, token, await getPublicKey(), { algorithms: ["ES384"] });
+            } else {
+                decoded = await asyncify(verify, token, getSecret(), { algorithms: ["HS384"] });
+            }
             if (isOfType<Token>(decoded, [['id', 'string'], ['type', 'string']]) && decoded.type === authTokenType) {
-                req.body.token = decoded;
+                const user = await database('users')
+                    .select({ id: 'users.id' })
+                    .where({
+                        'users.id': decoded.id,
+                    });
+                if (user.length >= 1) {
+                    req.body.token = decoded;
+                }
             }
         } catch (err) { /* Token has already been deleted */ }
         next();
@@ -58,7 +70,11 @@ async function generateAuthToken(id: string) {
         id: id,
         type: authTokenType,
     };
-    return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
+    if (await usePublicAndPrivate()) {
+        return asyncify(sign, token, await getPrivateKey(), { algorithm: "ES384", expiresIn: 60 * 60 });
+    } else {
+        return asyncify(sign, token, getSecret(), { algorithm: "HS384", expiresIn: 60 * 60 });
+    }
 }
 
 interface RegisterBody {

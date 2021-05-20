@@ -6,6 +6,7 @@ export const port = env.PORT ?? 8000;
 export const keys = {
     private: './keys/cert.key',
     public: './keys/cert.pem',
+    secret: 'SECRET',
 };
 
 export const allowedOrigins = [ "*" ];
