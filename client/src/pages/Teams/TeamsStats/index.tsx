@@ -19,12 +19,10 @@ export default function TeamsStats({ teamId }: Props) {
 
     useEffect(() => {
         getTeamActivity(teamId).then((a) => {
-            setActivity(a.map(item => {
-                return {
-                    label: item.day,
-                    value: item.time
-                }
-            }));
+            setActivity(a.map(item => ({
+                label: item.day,
+                value: item.time
+            })));
         });
         getTeamCompletion(teamId).then((comp) => {
             const allAmount = comp.sum ?? 1;

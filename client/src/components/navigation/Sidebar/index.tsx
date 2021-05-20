@@ -5,7 +5,10 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { clearToken, isLoggedIn } from 'adapters/auth';
 import './sidebar.scss';
 import { useEffect, useState } from 'react';
-import { getCurrentUser, User } from 'adapters/user';
+import { getCurrentUser, getUser, getUserActivity, User } from 'adapters/user';
+import BarChart, { ChartItem } from 'components/graphs/BarChart';
+import { Activity } from 'adapters/util';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
     mobileShown: boolean;
@@ -14,11 +17,18 @@ interface Props {
 
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
+    const [activity, setActivity] = useState<ChartItem[]>();
 
     useEffect(() => {
         if (isLoggedIn()) {
             getCurrentUser().then((user) => {
                 setUser(user);
+                getUserActivity().then((a) => {
+                    setActivity(a.map(item => ({
+                        label: item.day,
+                        value: item.time
+                    })));
+                });
             }).catch(() => { });
         }
     }, [])
@@ -60,10 +70,14 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                     </button>
                 </nav>
             </div>
-            <div className="stats">
-                <LineGraph />
-                <div className="comment">You are doing well!</div>
-            </div>
+            {
+                activity ? (
+                    <div className="stats">
+                        <BarChart data={activity} />
+                        <div className="comment">You are doing well!</div>
+                    </div>
+                ) : <LoadingScreen />
+            }
         </aside>
     );
 }
