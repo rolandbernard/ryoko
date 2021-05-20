@@ -1,13 +1,11 @@
 import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
-import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';
 import { clearToken, isLoggedIn } from 'adapters/auth';
 import './sidebar.scss';
 import { useEffect, useState } from 'react';
-import { getCurrentUser, getUser, getUserActivity, User } from 'adapters/user';
+import { getCurrentUser, getUserActivity, User } from 'adapters/user';
 import BarChart, { ChartItem } from 'components/graphs/BarChart';
-import { Activity } from 'adapters/util';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
