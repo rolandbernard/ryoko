@@ -1,29 +1,34 @@
 import { Route, RouteProps, useHistory } from 'react-router-dom';
 import { isLoggedIn } from 'adapters/auth';
-import { useEffect } from 'react';
-import { getTeams } from 'adapters/team';
+import { useEffect, useState } from 'react';
+import { getTeams, Team } from 'adapters/team';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export default function ProtectedRoute(props: RouteProps) {
     const history = useHistory();
+    const [team, setTeam] = useState<Team[]>();
 
-    useEffect(() => {
-        if (!isLoggedIn()) {
-            history.push('/login');
-        }
-    })
-    
+    if (!isLoggedIn()) {
+        history.push('/login');
+    }
     useEffect(() => {
         getTeams().then((teams) => {
-            if(teams.length <= 0) {
-                history.push('/introduction');
-            }
+            setTeam(teams);
         }).catch(() => {
-            history.push('/introduction');
-        });
-    });
 
+        });
+    }, [])
+
+
+    if (team && isLoggedIn()) {
+        if (team.length === 0) {
+            history.push('/introduction');
+        } else {
+            return <Route {...props} />
+        }
+    }
     return (
-        <Route {...props} />
+        <LoadingScreen />
     );
 }
 

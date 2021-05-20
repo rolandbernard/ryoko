@@ -4,6 +4,7 @@ import { Switch } from 'react-router-dom';
 
 import ProtectedRoute from 'components/helpers/ProtectedRoute';
 import Header from 'components/navigation/Header';
+import { isLoggedIn } from 'adapters/auth';
 
 const Tasks = lazy(() => import('pages/Tasks'));
 const TaskDetail = lazy(() => import('pages/Tasks/TaskDetail'));

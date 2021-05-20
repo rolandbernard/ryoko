@@ -2,7 +2,7 @@ import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
 import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';
-import { clearToken } from 'adapters/auth';
+import { clearToken, isLoggedIn } from 'adapters/auth';
 import './sidebar.scss';
 import { useEffect, useState } from 'react';
 import { getCurrentUser, User } from 'adapters/user';
@@ -16,9 +16,11 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
 
     useEffect(() => {
-        getCurrentUser().then((user) => {
-            setUser(user);
-        }).catch(() => { });
+        if (isLoggedIn()) {
+            getCurrentUser().then((user) => {
+                setUser(user);
+            }).catch(() => { });
+        }
     }, [])
 
     const history = useHistory();
@@ -32,7 +34,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         <aside className={'site-aside' + (mobileShown ? ' shown' : '')}>
             <div className="top">
                 <div className="profile">
-                    <Avatar user={user}/>
+                    <Avatar user={user} />
                     <span className="name">{user?.realname ?? user?.username}</span>
                     {user?.realname && <span className="username">{user?.username}</span>}
                 </div>

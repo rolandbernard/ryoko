@@ -34,7 +34,7 @@ export default function Introduction() {
 
                 <div className="content-container">
                     <h1 className="underlined">Welcome to ryoko</h1>
-                    {!showForm && (
+                    {!showForm ? (
                         <div className="introduction-container">
                             <div className="lead-text">
                                 You are one step away from getting started with ryoko.
@@ -49,15 +49,14 @@ export default function Introduction() {
                                     Create a new Team
                             </Button>
                             </div>
-                        </div>)
-                    }
-                    {
+                        </div>
+                    ) :
                         showForm &&
                         (<>
                             <p className="lead-text">
                                 Create a new team with just one click by giving it a name!
                             </p>
-                            <TeamForm onSubmit={handleCreateTeam} onBack={() => setShowForm(false)} />)
+                            <TeamForm onSubmit={handleCreateTeam} onBack={() => setShowForm(false)} />
                         </>)
                     }
                 </div>
