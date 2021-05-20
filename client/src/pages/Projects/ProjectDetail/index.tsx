@@ -6,6 +6,7 @@ import ProjectDetails from './ProjectDetails';
 import ProjectTasks from './ProjectTasks';
 import { useEffect, useState } from 'react';
 import { getProject, Project, StatusColors } from 'adapters/project';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export interface Params {
     projectId: string;
@@ -16,6 +17,7 @@ export default function ProjectDetail() {
     const [project, setProject] = useState<Project>();
     const [tabs, setTabs] = useState<Tab[]>([]);
     const history = useHistory();
+    
     useEffect(() => {
         getProject(projectId).then((project) => {
             setProject(project);
@@ -38,20 +40,26 @@ export default function ProjectDetail() {
     }, [history, projectId])
 
 
+    if (project) {
+        return (
+            <div className={"project-detail-page theme-" + project.color}>
+                <div className="content-container">
+                    <Tag label={project.status} color={StatusColors.get(project.status)} />
+                    <h1>{project.name}</h1>
+                    <div className="description-container">
+                        <p>
+                            {project.text}
+                        </p>
+                    </div>
+                    {
+                        tabs ?
+                            <Tabs tabs={tabs} /> :
+                            <LoadingScreen />
+                    }
 
-    return (
-        <div className={"project-detail-page theme-" + project?.color}>
-            <div className="content-container">
-                <Tag label={project?.status ?? ''} color={StatusColors.get(project?.status ?? '')} />
-                <h1>{project?.name}</h1>
-                <div className="description-container">
-                    <p>
-                        {project?.text}
-                    </p>
                 </div>
-                {<Tabs tabs={tabs} />}
-
             </div>
-        </div>
-    )
+        )
+    }
+    return <LoadingScreen />
 }

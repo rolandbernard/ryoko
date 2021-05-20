@@ -32,7 +32,7 @@ export default function TeamsMembers({ members, team }: Props) {
             }]
         }
     });
-
+    
     return (
         <section className="teams-members-section">
             <MemberList members={teamMembers} addContent={<MemberForm setRoles={setRoles} roles={roles} team={team} />} />

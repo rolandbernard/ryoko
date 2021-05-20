@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getTeamMembers, getTeamProjects, getTeams, leaveTeam, Team } from 'adapters/team';
 import { DetailProps } from 'components/ui/DetailBox';
 import { useHistory, useParams } from 'react-router';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export interface Params {
     teamId: string;
@@ -64,7 +65,7 @@ export default function Teams() {
                 }, {
                     route: '/teams/' + currentTeam.id + '/stats',
                     label: 'Stats',
-                    component: <TeamsStats />
+                    component: <TeamsStats teamId={currentTeam.id} />
                 }]);
 
             });
@@ -86,32 +87,51 @@ export default function Teams() {
         }
     }, [currentTeam, history])
 
-    return (
-        <div className="teams-page">
-            <div className="content-container">
-                <h1 className="underlined">Teams</h1>
-                {
-                    allTeams && (
-                        <Dropdown items={pageLinks}>
-                            <h2>{currentTeam?.name}</h2>
-                            <span className="material-icons icon">
-                                expand_more
+    if (currentTeam) {
+        return (
+            <div className="teams-page">
+                <div className="content-container">
+                    <h1 className="underlined">Teams</h1>
+                    {
+                        allTeams && (
+                            <Dropdown items={pageLinks}>
+                                <h2>{currentTeam?.name}</h2>
+                                <span className="material-icons icon">
+                                    expand_more
                             </span>
-                        </Dropdown>
-                    )
-                }
-                <DetailGrid details={details} />
-                <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
-                    Edit
+                            </Dropdown>
+                        )
+                    }
+                    {
+                        details ? (
+                            <DetailGrid details={details} />
+                        ) : (
+                            <LoadingScreen />
+                        )
+                    }
+
+                    <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
+                        Edit
                 </ButtonLink>
-                {
-                    allTeams && allTeams.length > 1 &&
-                    <Button className="expanded dark" onClick={leaveCurrentTeam}>
-                        Leave Team
+                    {
+                        allTeams && allTeams.length > 1 &&
+                        <Button className="expanded dark" onClick={leaveCurrentTeam}>
+                            Leave Team
                     </Button>
-                }
-                <Tabs tabs={tabs} />
+                    }
+                    {
+                        tabs ? (
+                            <Tabs tabs={tabs} />
+                        ) : (
+                            <LoadingScreen />
+                        )
+                    }
+                </div>
             </div>
-        </div>
+        )
+    }
+
+    return (
+        <DetailGrid details={details} />
     )
 }

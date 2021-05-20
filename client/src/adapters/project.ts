@@ -83,7 +83,12 @@ export function getProjectActivity(uuid: string, from: Date = new Date(0), to: D
 export function getProjectCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
     return executeApiGet(
         `project/${uuid}/completion?since=${from.getTime()}&to=${to.getTime()}`,
-        ({ completion }) => completion, "Failed to get project completion"
+        ({ completion }) => ({...completion, sum: (
+            completion.open + 
+            completion.closed + 
+            completion.suspended +
+            completion.overdue
+        )}), "Failed to get project completion"
     );
 }
 
