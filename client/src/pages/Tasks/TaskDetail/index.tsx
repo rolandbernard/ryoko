@@ -52,7 +52,7 @@ export default function TaskDetail() {
 
     if (task) {
         return (
-            <div className="tasks-detail-page">
+            <div className={'tasks-detail-page theme-' + StatusColors.get(task.status)}>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
