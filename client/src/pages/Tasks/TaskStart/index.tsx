@@ -1,7 +1,6 @@
 import './task-start.scss';
 import Tag from 'components/ui/Tag';
 import DetailGrid from 'components/layout/DetailGrid';
-import ButtonLink from 'components/navigation/ButtonLink';
 import { useHistory, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getTask, StatusColors, Task } from 'adapters/task';
