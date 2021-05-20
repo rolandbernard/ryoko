@@ -19,7 +19,7 @@ export default function TeamMember({ user, info, settings }: TeamMemberProps) {
             </div>
             {
                 settings &&
-                <Dropdown items={settings}>
+                <Dropdown items={settings} position="right">
                     <div className="settings">
                         <span className="material-icons icon">
                             expand_more

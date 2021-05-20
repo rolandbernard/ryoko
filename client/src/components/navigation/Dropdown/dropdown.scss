@@ -44,6 +44,10 @@
         box-shadow: 0 0 5px rgba(s.$black, 0.05);
         visibility: hidden;
         opacity: 0;
+        &.right {
+            right: 0;
+            left: auto;
+        }
 
 
         .dropdown-item {

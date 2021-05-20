@@ -25,7 +25,7 @@ export default function Task({ task, color, subtitle }: TaskProps) {
             <div className={'indicator' + (color ? ' bg-gradient-' + color : '')}></div>
             <div className="main-info">
                 <div className="icon-container">
-                {String.fromCharCode(parseInt(task.icon, 16))}
+                {task.icon}
                 </div>
                 <div className="text-container">
                     <h4>{task.name}</h4>

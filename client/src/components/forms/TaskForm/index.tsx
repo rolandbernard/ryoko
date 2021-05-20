@@ -66,7 +66,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const [status, setStatus] = useState(task?.status);
     const [error, setError] = useState('');
     const [tasks, setTasks] = useState(task?.dependencies ?? []);
-    
+
     const [requirements, setRequirements] = useState(task?.requirements ?? []);
     const [assignees, setAssignees] = useState(task?.assigned ?? []);
 
@@ -152,7 +152,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 status && (
                     <select defaultValue={status} onChange={(e) => {
                         let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
-                        setStatus(currentStatus); 
+                        setStatus(currentStatus);
                     }}>
                         <option value={''}>Please choose a status</option>
                         {
@@ -163,8 +163,9 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                     </select>
                 )
             }
+            Chosen emoji: {icon}<br />
+            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.emoji)} />
 
-            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.originalUnified)} />
             <h2>Dependencies</h2>
             {
                 allTasks.length > 0 ? (
