@@ -73,6 +73,12 @@ export function updateUser(user: { realname?: string, email?: string }) {
     return executeApiPut(`user`, user, () => {}, "Failed to update user");
 }
 
+export function updateUserImage(image: File) {
+    const data = new FormData();
+    data.append("image", image);
+    return executeApiPut(`user/image`, data, () => {}, "Failed to update user");
+}
+
 export function getUserImageUri(uuid: string): string {
     return `${apiRoot}/user/${uuid}/image`;
 }
