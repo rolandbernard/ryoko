@@ -22,13 +22,15 @@ async function executeApiRequest<T>(path: string, method: string, body: any, onS
             method: method,
             headers: {
                 ...getAuthHeader(),
-                ...(body ? (
-                        body instanceof FormData
-                            ? { 'Content-Type': 'multipart/form-data' }
-                            : { 'Content-Type': 'application/json' })
+                ...(body && !(body instanceof FormData)
+                        ? { 'Content-Type': 'application/json' }
                         : { }),
             },
-            body: body ? JSON.stringify(body) : undefined,
+            body: body
+                    ? (body instanceof FormData
+                            ? body
+                            : JSON.stringify(body))
+                    : undefined,
         });
         if (response.ok) {
             return onSuccess(await response.json());
