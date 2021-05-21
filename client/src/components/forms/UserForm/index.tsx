@@ -68,6 +68,7 @@ export default function UserForm({ user, onSubmit }: Props) {
                                 setAvatar(e.target.files[0])
                             }
                         }} />
+                        {avatar ? 'Selected file: ' + avatar.name : 'Select a file'}
                     </label>
                 </div>
             </div>

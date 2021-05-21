@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Completion } from 'adapters/util';
 import LoadingScreen from '../LoadingScreen';
 import Tag from '../Tag';
-import { StatusColors } from 'adapters/task';
+import { StatusColors } from 'adapters/project';
 
 export interface ProjectProps {
     project: IProject
@@ -19,7 +19,6 @@ export interface ProjectProps {
 export default function Project({ project, large }: ProjectProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
     const [completion, setCompletion] = useState<Completion>();
-    console.log(completion);
     
     useEffect(() => {
         getProjectAssignees(project.id).then((assignee) => setAssignees(assignee))

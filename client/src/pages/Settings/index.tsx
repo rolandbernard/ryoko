@@ -18,14 +18,11 @@ export default function Settings() {
         try {
             if (user && updateUser({realname: name, email })) {
                 if(avatar) {
-                    console.log(avatar);
                     updateUserImage(avatar);
                 }
                 history.push('/tasks');
             }
         } catch (e) {
-            console.log(e);
-            
         }
     }, [history, user]);
 

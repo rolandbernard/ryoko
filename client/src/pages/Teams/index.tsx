@@ -112,16 +112,17 @@ export default function Teams() {
                             <LoadingScreen />
                         )
                     }
-
-                    <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
-                        Edit
-                </ButtonLink>
-                    {
-                        allTeams && allTeams.length > 1 &&
-                        <Button className="expanded dark" onClick={leaveCurrentTeam}>
-                            Leave Team
-                    </Button>
-                    }
+                    <div className="buttons">
+                        <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
+                            Edit
+                            </ButtonLink>
+                        {
+                            allTeams && allTeams.length > 1 && (
+                            <Button className="expanded dark" onClick={leaveCurrentTeam}>
+                                Leave Team
+                            </Button>)
+                        }
+                    </div>
                     {
                         tabs ? (
                             <Tabs tabs={tabs} />

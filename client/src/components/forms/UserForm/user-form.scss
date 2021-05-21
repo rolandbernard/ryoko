@@ -26,6 +26,9 @@
     .avatar-upload {
         width: 100%;
         position: relative;
+        input {
+            display: none;
+        }
         .label {
             position: absolute;
             top: -2px;
@@ -42,6 +45,7 @@
             height: 80px;
             margin-bottom: 20px;
             background: s.$light;
+            font-size: 18px;
         }
     }
 }

@@ -68,14 +68,15 @@ h1 {
     &.underlined {
         position: relative;
         display: inline-block;
+        z-index: 1;
 
-        &:after {
+        &:before {
             content: ' ';
             position: absolute;
             right: -7px;
             bottom: 0;
             width: 90px;
-            background: rgba(s.$secondary, .5);
+            background: rgba(s.$secondary, 0.5);
             height: 20px;
             z-index: -1;
 

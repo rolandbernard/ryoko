@@ -25,10 +25,11 @@
         cursor: pointer;
         color: s.$white;
         transform: translateY(-5%);
+        transform-origin: top center;
     }
 
     &:active {
-        transform: scale(0.9);
+        transform: scale(0.99);
     }
 
     &.dark {
