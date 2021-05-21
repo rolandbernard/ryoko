@@ -1,7 +1,10 @@
+import { CompletionProps } from './../components/ui/Completion/index';
 
+import { ChartItem } from 'components/graphs/BarChart';
 import { apiRoot } from 'config';
 
 import { getAuthHeader } from './auth';
+import { StatusColors } from './task';
 
 export interface Activity {
     day: string;
@@ -58,3 +61,35 @@ export function executeApiPut<T>(path: string, body: any, onSuccess: (data: any)
     return executeApiRequest(path, 'PUT', body, onSuccess, errorMessage);
 }
 
+export function parseCompletion(completion: Completion): CompletionProps[] {
+    const allAmount = completion.sum ?? 1;
+    return [
+        {
+            label: 'Closed',
+            percent: completion.closed / allAmount * 100,
+            color: StatusColors.get('closed') ?? ''
+        },
+        {
+            label: 'Open',
+            percent: completion.open / allAmount * 100,
+            color: StatusColors.get('open') ?? ''
+        },
+        {
+            label: 'Suspended',
+            percent: completion.suspended / allAmount * 100,
+            color: StatusColors.get('suspended') ?? ''
+        },
+        {
+            label: 'Overdue',
+            percent: completion.overdue / allAmount * 100,
+            color: StatusColors.get('overdue') ?? ''
+        },
+    ] 
+}
+
+export function parseActivity(activity: Activity[]): ChartItem[] {
+    return activity.map(item => ({
+        label: item.day,
+        value: item.time
+    }));
+}

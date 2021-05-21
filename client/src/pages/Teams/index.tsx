@@ -92,15 +92,18 @@ export default function Teams() {
             <div className="teams-page">
                 <div className="content-container">
                     <h1 className="underlined">Teams</h1>
+                    <div className="description-container">
+                        <p>Here you can see information about your teams, as well as its stats and members.</p>
+                    </div>
                     {
-                        allTeams && (
+                        allTeams ? (
                             <Dropdown items={pageLinks}>
                                 <h2>{currentTeam?.name}</h2>
                                 <span className="material-icons icon">
                                     expand_more
                             </span>
                             </Dropdown>
-                        )
+                        ) : <LoadingScreen />
                     }
                     {
                         details ? (

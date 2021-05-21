@@ -16,7 +16,7 @@
     }
 
     &:not([class*='bg-gradient']) {
-        background: s.$linear-gradient;
+        background: s.$linear-gradient-horizontal;
     }
 
 }

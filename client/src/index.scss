@@ -162,6 +162,9 @@ $color in s.$themeLightMap {
         background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
     }
 
+    .bg-gradient-horizontal-#{$key} {
+        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+    }
     .theme-#{$key} {
         --primary: #{$color};
         --primary-dark: #{fn.getFrom(s.$themeDarkMap, $key)};

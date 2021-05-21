@@ -8,7 +8,7 @@ interface Props {
 
 export default function Tag({ label, icon, color }: Props) {
     return (
-        <span className={'tag ' + (color ? 'bg-gradient-' + color : '')}>
+        <span className={'tag ' + (color ? 'bg-gradient-horizontal-' + color : '')}>
             {icon && (
                 <i className="icon material-icons">
                     {icon}

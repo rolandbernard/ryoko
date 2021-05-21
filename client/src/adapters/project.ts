@@ -88,7 +88,7 @@ export function getProjectCompletion(uuid: string, from: Date = new Date(0), to:
             completion.closed + 
             completion.suspended +
             completion.overdue
-        )}), "Failed to get project completion"
+        ) || 1}), "Failed to get project completion"
     );
 }
 

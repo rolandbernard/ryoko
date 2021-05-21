@@ -32,7 +32,8 @@ export default function Tasks() {
                 {
                     tasks ? (
                         <>
-                            <p>Hey Daniel, you have <strong>{tasks.length} tasks</strong> for today.</p>
+                            <p>Hey Daniel, you have <strong>{tasks.length} {tasks.length > 1 ? 'tasks' : 'task'}
+                            </strong> for today.</p>
                             <section className="tasks-container">
                                 <h2>Today</h2>
                                 <div className="task-group">
@@ -47,10 +48,10 @@ export default function Tasks() {
                                 </div>
                             </section>
                         </>
-                    ) : 
-                    (
-                        <div>No open tasks found</div>
-                    )
+                    ) :
+                        (
+                            <div>No open tasks found</div>
+                        )
                 }
             </main>
         </div>
