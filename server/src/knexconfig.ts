@@ -4,6 +4,10 @@ import { join } from 'path';
 import { parse } from 'pg-connection-string';
 
 const pgconfig: any = parse(env.DATABASE_URL ?? 'postgresql://postgres@localhost/ryoko');
+const migrations = {
+    tableName: "knex_migrations",
+    directory: join(__dirname, 'migrations'),
+};
 
 export default {
     development: {
@@ -11,9 +15,12 @@ export default {
         connection: {
             filename: "./dev.sqlite3",
         },
-        migrations: {
-            tableName: "knex_migrations",
-            directory: join(__dirname, 'migrations'),
+        migrations: migrations,
+    },
+    testing: {
+        client: "sqlite3",
+        connection: {
+            filename: ":memory:",
         },
     },
     staging: {
@@ -23,10 +30,7 @@ export default {
             min: 2,
             max: 10,
         },
-        migrations: {
-            tableName: "knex_migrations",
-            directory: join(__dirname, 'migrations'),
-        },
+        migrations: migrations,
     },
     production: {
         client: "postgresql",
@@ -40,10 +44,7 @@ export default {
             min: 2,
             max: 10,
         },
-        migrations: {
-            tableName: "knex_migrations",
-            directory: join(__dirname, 'migrations'),
-        },
+        migrations: migrations,
     }
 };
 
