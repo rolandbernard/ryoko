@@ -12,16 +12,19 @@ const migrations = {
 export default {
     development: {
         client: "sqlite3",
+        useNullAsDefault: true,
         connection: {
             filename: "./dev.sqlite3",
         },
         migrations: migrations,
     },
-    testing: {
+    test: {
         client: "sqlite3",
+        useNullAsDefault: true,
         connection: {
             filename: ":memory:",
         },
+        migrations: migrations,
     },
     staging: {
         client: "postgresql",

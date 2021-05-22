@@ -11,7 +11,7 @@ export const keys = {
 
 export const allowedOrigins = [ "*" ];
 
-export const environment = (env.NODE_ENV ?? 'development') as ('development' | 'testing' | 'staging' | 'production');
+export const environment = (env.NODE_ENV ?? 'development') as ('development' | 'test' | 'staging' | 'production');
 
 export const web_serve = '../client/build/';
 
