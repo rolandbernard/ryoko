@@ -1,5 +1,5 @@
 
-import { formatTime, formatDuration, formatRelativeTime } from 'timely';
+import { formatTime, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
 
 test('small durations format as `moments`', () => {
     expect(formatDuration(10 * 1000)).toEqual('moments');
@@ -103,6 +103,91 @@ test('23rd February 2000 is formated as expected', () => {
 
 test('31st July 1500 is formated as expected', () => {
     expect(formatTime(new Date('1500-07-31'))).toEqual('31st July 1500');
+});
+
+test('adding one minute works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 1, 'minute'))
+        .toEqual(new Date('2021-05-22T00:01:00'));
+});
+
+test('adding 15 minute works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 15, 'minute'))
+        .toEqual(new Date('2021-05-22T00:15:00'));
+});
+
+test('adding 45 minute works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 45, 'minute'))
+        .toEqual(new Date('2021-05-22T00:45:00'));
+});
+
+test('adding 4 hours works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 4, 'hour'))
+        .toEqual(new Date('2021-05-22T04:00:00'));
+});
+
+test('adding 24 hours adds one day', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 24, 'hour'))
+        .toEqual(new Date('2021-05-23T00:00:00'));
+});
+
+test('adding one day works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 1, 'day'))
+        .toEqual(new Date('2021-05-23T00:00:00'));
+});
+
+test('adding three day works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 3, 'day'))
+        .toEqual(new Date('2021-05-25T00:00:00'));
+});
+
+test('adding one and a half day works as expected', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 1.5, 'day'))
+        .toEqual(new Date('2021-05-23T12:00:00'));
+});
+
+test('adding negative one day subtracts one day', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), -1, 'day'))
+        .toEqual(new Date('2021-05-21T00:00:00'));
+});
+
+test('subtracting one day works as expected', () => {
+    expect(subtractTime(new Date('2021-05-22T00:00:00'), 1, 'day'))
+        .toEqual(new Date('2021-05-21T00:00:00'));
+});
+
+test('adding one month works on months with 31 days', () => {
+    expect(addTime(new Date('2021-05-22T00:00:00'), 1, 'month'))
+        .toEqual(new Date('2021-06-22T00:00:00'));
+});
+
+test('adding one month works on months with 30 days', () => {
+    expect(addTime(new Date('2021-04-22T00:00:00'), 1, 'month'))
+        .toEqual(new Date('2021-05-22T00:00:00'));
+});
+
+test('adding one month works on months with 28 days', () => {
+    expect(addTime(new Date('2021-02-22T00:00:00'), 1, 'month'))
+        .toEqual(new Date('2021-03-22T00:00:00'));
+});
+
+test('adding one month works on months with 29 days', () => {
+    expect(addTime(new Date('2020-02-22T00:00:00'), 1, 'month'))
+        .toEqual(new Date('2020-03-22T00:00:00'));
+});
+
+test('adding one and half month adds one month and 15 days', () => {
+    expect(addTime(new Date('2020-02-01T00:00:00'), 1.5, 'month'))
+        .toEqual(new Date('2020-03-16T00:00:00'));
+});
+
+test('adding one year works on leap years', () => {
+    expect(addTime(new Date('2020-02-22T00:00:00'), 1, 'year'))
+        .toEqual(new Date('2021-02-22T00:00:00'));
+});
+
+test('adding one year works on non-leap years', () => {
+    expect(addTime(new Date('2021-02-22T00:00:00'), 1, 'year'))
+        .toEqual(new Date('2022-02-22T00:00:00'));
 });
 
 // TODO
