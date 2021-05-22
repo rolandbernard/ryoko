@@ -17,3 +17,7 @@
 # keys
 /keys
 
+# we use yarn
+package-lock.json
+
+
