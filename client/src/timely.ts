@@ -81,6 +81,25 @@ const WEEKDAYS = [
     'Saturday',
 ];
 
+export function formatTime(date: Date, precision: Unit = 'minute'): string {
+    let result = '';
+    if (UNITS[precision] <= UNITS['hour']) {
+        result += formatNumber(date.getHours());
+        if (UNITS[precision] <= UNITS['minute']) {
+            result += ':' + formatNumber(date.getMinutes());
+        } else {
+            result += ':00';
+        }
+        if (UNITS[precision] <= UNITS['second']) {
+            result += ':' + formatNumber(date.getSeconds())
+        }
+        if (UNITS[precision] <= UNITS['millisecond']) {
+            result += '.' + formatNumber(date.getMilliseconds(), 3);
+        }
+    }
+    return result;
+}
+
 export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short' | 'full'): string {
     let result = '';
     if (weekday === 'short') {
@@ -107,18 +126,7 @@ export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short
         result += date.getFullYear().toString();
     }
     if (UNITS[precision] <= UNITS['hour']) {
-        result += ' ' + formatNumber(date.getHours());
-        if (UNITS[precision] <= UNITS['minute']) {
-            result += ':' + formatNumber(date.getMinutes());
-        } else {
-            result += ':00';
-        }
-        if (UNITS[precision] <= UNITS['second']) {
-            result += ':' + formatNumber(date.getSeconds());
-        }
-        if (UNITS[precision] <= UNITS['millisecond']) {
-            result += '.' + formatNumber(date.getMilliseconds(), 3);
-        }
+        result += ' ' + formatTime(date, precision);
     }
     return result;
 }

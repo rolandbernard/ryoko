@@ -1,5 +1,5 @@
 
-import { formatDate, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
+import { formatDate, formatTime, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
 
 test('small durations format as `moments`', () => {
     expect(formatDuration(10 * 1000)).toEqual('moments');
@@ -147,6 +147,26 @@ test('date format can include short weekday', () => {
 
 test('date format can include only the weekday', () => {
     expect(formatDate(new Date('2000-07-26'), 'none', 'full')).toEqual('Wednesday');
+});
+
+test('time format includes only the time', () => {
+    expect(formatTime(new Date('2000-07-31T12:42:02.121'))).toEqual('12:42');
+});
+
+test('time format precision can be hour', () => {
+    expect(formatTime(new Date('2000-07-31T12:42:02.121'), 'hour')).toEqual('12:00');
+});
+
+test('time format precision can be minute', () => {
+    expect(formatTime(new Date('2000-07-31T12:42:02.121'), 'minute')).toEqual('12:42');
+});
+
+test('time format precision can be second', () => {
+    expect(formatTime(new Date('2000-07-31T12:42:02.121'), 'second')).toEqual('12:42:02');
+});
+
+test('time format precision can be millisecond', () => {
+    expect(formatTime(new Date('2000-07-31T12:42:02.121'), 'millisecond')).toEqual('12:42:02.121');
 });
 
 test('adding one minute works as expected', () => {
