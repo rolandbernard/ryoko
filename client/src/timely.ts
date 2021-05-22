@@ -66,9 +66,13 @@ export function formatTime(date: Date): string {
     return formatOrdinal(date.getDate()) + ' ' + MONTHS[date.getMonth()] + ' ' + date.getFullYear().toString();
 }
 
-export function formatRelativeTime(): string {
-    // TODO
-    return '';
+export function formatRelativeTime(target: Date, origin = new Date(), precision?: Unit): string {
+    const delta = target.getTime() - origin.getTime();
+    if (delta > 0) {
+        return 'in ' + formatDuration(delta, precision);
+    } else {
+        return formatDuration(-delta, precision) + ' ago';
+    }
 }
 
 export function addTime(date: Date, time: number, unit: Unit): Date {

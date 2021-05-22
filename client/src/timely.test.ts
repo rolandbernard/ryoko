@@ -21,6 +21,14 @@ test('one second can be formated as expected', () => {
     expect(formatDuration(1000, 'second')).toEqual('one second');
 });
 
+test('one and a quarter second is rounded to one second', () => {
+    expect(formatDuration(1250, 'second')).toEqual('one second');
+});
+
+test('one and a half second is rounded to two seconds', () => {
+    expect(formatDuration(1500, 'second')).toEqual('2 seconds');
+});
+
 test('ten seconds can be formated as expected', () => {
     expect(formatDuration(10 * 1000, 'second')).toEqual('10 seconds');
 });
@@ -190,5 +198,113 @@ test('adding one year works on non-leap years', () => {
         .toEqual(new Date('2022-02-22T00:00:00'));
 });
 
-// TODO
+test('relative time for small time in the past formats as `moments ago`', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:00:50')))
+        .toEqual('moments ago');
+});
+
+test('lowest time precision in the past can be configuring', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:00:50'), 'second'))
+        .toEqual('50 seconds ago');
+});
+
+test('one minute ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:01:00')))
+        .toEqual('one minute ago');
+});
+
+test('one and a quarter minutes ago gets rounded to one minute', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:01:15')))
+        .toEqual('one minute ago');
+});
+
+test('one and a half minutes ago gets rounded to two minutes', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:01:30')))
+        .toEqual('2 minutes ago');
+});
+
+test('one day ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-23T00:00:00')))
+        .toEqual('one day ago');
+});
+
+test('five day ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-27T00:00:00')))
+        .toEqual('5 days ago');
+});
+
+test('one week ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-29T00:00:00')))
+        .toEqual('one week ago');
+});
+
+test('four weeks ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-01T00:00:00'), new Date('2021-04-29T00:00:00')))
+        .toEqual('4 weeks ago');
+});
+
+test('four months ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-01T00:00:00'), new Date('2021-08-01T00:00:00')))
+        .toEqual('4 months ago');
+});
+
+test('four years ago formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-01T00:00:00'), new Date('2025-04-10T00:00:00')))
+        .toEqual('4 years ago');
+});
+
+test('relative time for small time in the future formats as `in moments`', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:50'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in moments');
+});
+
+test('lowest time precision in the future can be configuring', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:00:50'), new Date('2021-04-22T00:00:00'), 'second'))
+        .toEqual('in 50 seconds');
+});
+
+test('in one minute formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:01:00'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in one minute');
+});
+
+test('in one and a quarter minutes gets rounded to one minute', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:01:15'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in one minute');
+});
+
+test('in one and a half minutes gets rounded to two minutes', () => {
+    expect(formatRelativeTime(new Date('2021-04-22T00:01:30'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in 2 minutes');
+});
+
+test('in one day formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-23T00:00:00'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in one day');
+});
+
+test('in five day formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-27T00:00:00'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in 5 days');
+});
+
+test('in one week formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-29T00:00:00'), new Date('2021-04-22T00:00:00')))
+        .toEqual('in one week');
+});
+
+test('in four weeks formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-04-29T00:00:00'), new Date('2021-04-01T00:00:00')))
+        .toEqual('in 4 weeks');
+});
+
+test('in four months formats as expected', () => {
+    expect(formatRelativeTime(new Date('2021-08-01T00:00:00'), new Date('2021-04-01T00:00:00')))
+        .toEqual('in 4 months');
+});
+
+test('in four years formats as expected', () => {
+    expect(formatRelativeTime(new Date('2025-04-10T00:00:00'), new Date('2021-04-01T00:00:00')))
+        .toEqual('in 4 years');
+});
 
