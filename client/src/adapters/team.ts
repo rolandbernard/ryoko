@@ -66,7 +66,7 @@ export function getTeamCompletion(uuid: string, from: Date = new Date(0), to: Da
             completion.closed + 
             completion.suspended + 
             completion.overdue
-        )}), "Failed to get team completion"
+        ) || 1}), "Failed to get team completion"
     );
 }
 

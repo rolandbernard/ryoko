@@ -5,7 +5,7 @@ import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
 
 interface Props {
-    onSubmit?: (name?: string, email?: string,) => void;
+    onSubmit?: (name?: string, email?: string, avatar?: File) => void;
     user: User
 }
 
@@ -21,15 +21,29 @@ function validateEmail(email?: string): string | null {
     }
 }
 
+function validateAvatar(avatar?: File): string | null {
+    const validTypes = ['image/jpg', 'image/png', 'image/gif']
+    if (avatar) {
+        if (validTypes.find((type) => type === avatar.type)) {
+            return null;
+        } else {
+            return 'Only files from type jpg, png or gif are allowed'
+        }
+    } else {
+        return null;
+    }
+}
+
 export default function UserForm({ user, onSubmit }: Props) {
     const [name, setName] = useState(user.realname);
     const [email, setEmail] = useState(user.email);
+    const [avatar, setAvatar] = useState<File>();
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        if (validateEmail(email) === null) {
-            onSubmit?.(name, email);
+        if (validateEmail(email) === null || validateAvatar(avatar) === null) {
+            onSubmit?.(name, email, avatar);
         }
-    }, [onSubmit, name, email]);
+    }, [onSubmit, name, email, avatar]);
     return (
         <form onSubmit={handleSubmit} className="user-form">
             <div className="fields">
@@ -49,7 +63,12 @@ export default function UserForm({ user, onSubmit }: Props) {
                 <div className="avatar-upload">
                     <div className="label">Avatar</div>
                     <label htmlFor="avatar" className="avatar-field">
-                        <input type="file" id="avatar" name="avatar" />
+                        <input type="file" id="avatar" name="avatar" onChange={(e) => {
+                            if (e.target.files && e.target.files.length > 0) {
+                                setAvatar(e.target.files[0])
+                            }
+                        }} />
+                        {avatar ? 'Selected file: ' + avatar.name : 'Select a file'}
                     </label>
                 </div>
             </div>

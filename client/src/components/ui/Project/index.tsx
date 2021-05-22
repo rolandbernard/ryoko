@@ -8,38 +8,47 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Completion } from 'adapters/util';
 import LoadingScreen from '../LoadingScreen';
+import Tag from '../Tag';
+import { StatusColors } from 'adapters/project';
 
 export interface ProjectProps {
     project: IProject
+    large?: boolean
 }
 
-export default function Project({ project }: ProjectProps) {
+export default function Project({ project, large }: ProjectProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
-    const [completion, setCOmpletion] = useState<Completion>();
+    const [completion, setCompletion] = useState<Completion>();
+    
     useEffect(() => {
         getProjectAssignees(project.id).then((assignee) => setAssignees(assignee))
-        getProjectCompletion(project.id).then((completion) => setCOmpletion(completion));
+        getProjectCompletion(project.id).then((completion) => setCompletion(completion));
     }, [project]);
 
     return (
-        <Link to={'/projects/' + project.id} className="project">
+        <Link to={'/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
+            <div className="status">
+                <Tag label={project.status} color={StatusColors.get(project.status)} />
+            </div>
             <div className="content">
                 {
                     completion ? (
-                        <CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100 } color={project.color} />
+                        <CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100} color={project.color} />
                     ) : (
                         <LoadingScreen />
                     )
                 }
                 <div className="title">{project.name}</div>
-                <div className="details">
-                    {project.deadline && (
-                        <div className="range">{project.deadline.getDate()}</div>
-                    )}
-                    <AssigneeList assignees={assignees} max={3} />
-                </div>
+                {
+                    large &&
+                    <div className="details">
+                        {project.deadline && (
+                            <div className="deadline">{project.deadline.toUTCString()}</div>
+                        )}
+                        <AssigneeList assignees={assignees} max={3} />
+                    </div>
+                }
             </div>
-
         </Link>
     );
 }

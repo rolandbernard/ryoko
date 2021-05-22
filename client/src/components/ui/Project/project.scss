@@ -1,4 +1,5 @@
 @use 'styles/settings'as s;
+@use 'styles/mixins'as mx;
 
 .project {
     border-radius: 10px;
@@ -15,6 +16,15 @@
         box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
     }
 
+    .circular-progress {
+        justify-content: center;
+
+        svg {
+            height: auto;
+            width: 50%;
+        }
+    }
+
     .content {
         display: flex;
         padding: 20px;
@@ -29,10 +39,14 @@
     }
 
     .title {
-        margin-top: 10px;
+        margin-top: 15px;
         line-height: 1.4;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: s.$weight-bold;
+
+        @include mx.breakpoint(large) {
+            font-size: 20px;
+        }
     }
 
 
@@ -42,12 +56,25 @@
         line-height: 1.8;
     }
 
-    .details {
-        margin-top: 10px;
-        display: none;
+    .status {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+    }
 
-        .range {
-            margin-bottom: 20px;
+    .details {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        flex-direction: column;
+        text-align: center;
+
+        .deadline {
+            margin-bottom: 10px;
         }
 
         font-size: 14px;

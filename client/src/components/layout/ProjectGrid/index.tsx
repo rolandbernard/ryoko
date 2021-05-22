@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default function ProjectGrid({ projects }: Props) {
+    let counter = 0;
     return (
         <div className="project-grid">
             <div className="add-project project">
@@ -16,10 +17,12 @@ export default function ProjectGrid({ projects }: Props) {
                 </Link>
             </div>
             {
-                projects.map(project => (
-                    <Project key={project.id} project={project} />
-                ))
-            }
+                projects.map(project => {
+                    counter++;
+                    return <Project key={project.id} project={project} large={(counter - 1) % 5 === 0 && projects.length - 3 >= counter} />
+                }
+
+                )}
         </div >
     )
 }

@@ -68,14 +68,15 @@ h1 {
     &.underlined {
         position: relative;
         display: inline-block;
+        z-index: 1;
 
-        &:after {
+        &:before {
             content: ' ';
             position: absolute;
             right: -7px;
             bottom: 0;
             width: 90px;
-            background: rgba(s.$secondary, .5);
+            background: rgba(s.$secondary, 0.5);
             height: 20px;
             z-index: -1;
 
@@ -162,6 +163,9 @@ $color in s.$themeLightMap {
         background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
     }
 
+    .bg-gradient-horizontal-#{$key} {
+        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+    }
     .theme-#{$key} {
         --primary: #{$color};
         --primary-dark: #{fn.getFrom(s.$themeDarkMap, $key)};

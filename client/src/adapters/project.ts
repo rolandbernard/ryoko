@@ -12,7 +12,7 @@ export enum Status {
 }
 
 export const StatusColors = new Map<string, string>([
-    ['open', 'lightblue'],
+    ['open', 'blue'],
     ['closed', 'purple'],
     ['suspended', 'red']
 ]);
@@ -88,7 +88,7 @@ export function getProjectCompletion(uuid: string, from: Date = new Date(0), to:
             completion.closed + 
             completion.suspended +
             completion.overdue
-        )}), "Failed to get project completion"
+        ) || 1}), "Failed to get project completion"
     );
 }
 

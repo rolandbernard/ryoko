@@ -6,6 +6,7 @@ import { getProjectActivity, Project } from 'adapters/project';
 import { useEffect, useState } from 'react';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import { parseActivity } from 'adapters/util';
 
 interface Props {
     project: Project
@@ -19,14 +20,7 @@ export default function ProjectDetails({ project }: Props) {
         project.teams.forEach(teamId => {
             getTeam(teamId).then((team) => setTeams(prev => [...prev, team.name]));
         });
-        getProjectActivity(project.id).then((a) => {
-            setActivity(a.map(item => {
-                return {
-                    label: item.day,
-                    value: item.time
-                }
-            }));
-        })
+        getProjectActivity(project.id).then((a) => setActivity(parseActivity(a)))
     }, [project]);
 
     let details = [{

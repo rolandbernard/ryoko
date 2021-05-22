@@ -3,6 +3,7 @@
 .tooltip-container {
     position: relative;
     z-index: 20000;
+    text-align: center;
 
     &:hover {
         .tooltip {
