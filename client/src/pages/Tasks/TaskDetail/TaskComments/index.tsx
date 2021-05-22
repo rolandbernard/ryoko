@@ -1,14 +1,28 @@
-import { useParams } from "react-router-dom";
-import { Params } from '../../TaskDetail';
+import { getTaskComments } from 'adapters/task';
 import CommentList from 'components/layout/CommentList';
+import { CommentProps } from 'components/ui/Comment';
+import LoadingScreen from 'components/ui/LoadingScreen';
+import { useEffect, useState } from 'react';
 
-export default function TaskComments() {
-    const { uuid } = useParams<Params>();
-    console.log(uuid);
+interface Props {
+    taskId: string;
+}
 
+export default function TaskComments({ taskId }: Props) {
+
+    const [comments, setComments] = useState<CommentProps[]>();
+    useEffect(() => {
+        getTaskComments(taskId).then((comments) => {
+            setComments(comments.map((comment) => { return { comment } }));
+        })
+    }, [taskId])
     return (
         <div className="task-comment-list">
-            <CommentList user={{id: 'testid', realname: 'Current user', username: 'testname'}} comments={[{user: {id: 'test', username: 'test', realname: 'testname'}, comment: 'Comment'}]}/>
+            {
+                comments ?
+                    <CommentList comments={comments} taskId={taskId} />
+                    : <LoadingScreen />
+            }
         </div>
     );
 }

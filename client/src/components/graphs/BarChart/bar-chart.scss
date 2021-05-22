@@ -6,6 +6,14 @@
     padding: 50px;
     background: s.$white;
     border-radius: 10px;
+    
+    .error-screen {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .bar-chart {
         display: flex;

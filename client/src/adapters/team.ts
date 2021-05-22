@@ -61,7 +61,12 @@ export function getTeamActivity(uuid: string, from: Date = new Date(0), to: Date
 export function getTeamCompletion(uuid: string, from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
     return executeApiGet(
         `team/${uuid}/completion?since=${from.getTime()}&to=${to.getTime()}`,
-        ({ completion }) => completion, "Failed to get team completion"
+        ({ completion }) => ({...completion, sum: (
+            completion.open + 
+            completion.closed + 
+            completion.suspended + 
+            completion.overdue
+        )}), "Failed to get team completion"
     );
 }
 

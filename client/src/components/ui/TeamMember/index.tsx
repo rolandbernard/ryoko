@@ -14,12 +14,12 @@ export default function TeamMember({ user, info, settings }: TeamMemberProps) {
         <div className="team-member-item">
             <Avatar user={user} />
             <div className="details">
-                <div className="name">{user.username}</div>
+                <div className="name">{user.realname ?? user.username}</div>
                 <div className="info">{info}</div>
             </div>
             {
                 settings &&
-                <Dropdown items={settings}>
+                <Dropdown items={settings} position="right">
                     <div className="settings">
                         <span className="material-icons icon">
                             expand_more

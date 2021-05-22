@@ -1,10 +1,11 @@
 import './project-details.scss';
 import DetailGrid from 'components/layout/DetailGrid';
-import BarChart from 'components/graphs/BarChart';
+import BarChart, { ChartItem } from 'components/graphs/BarChart';
 import ButtonLink from 'components/navigation/ButtonLink';
-import { Project } from 'adapters/project';
+import { getProjectActivity, Project } from 'adapters/project';
 import { useEffect, useState } from 'react';
 import { getTeam } from 'adapters/team';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
     project: Project
@@ -12,12 +13,21 @@ interface Props {
 
 export default function ProjectDetails({ project }: Props) {
     const [teams, setTeams] = useState<string[]>([]);
+    const [activity, setActivity] = useState<ChartItem[]>([]);
 
     useEffect(() => {
         project.teams.forEach(teamId => {
             getTeam(teamId).then((team) => setTeams(prev => [...prev, team.name]));
         });
-    }, []);
+        getProjectActivity(project.id).then((a) => {
+            setActivity(a.map(item => {
+                return {
+                    label: item.day,
+                    value: item.time
+                }
+            }));
+        })
+    }, [project]);
 
     let details = [{
         icon: 'group',
@@ -33,21 +43,14 @@ export default function ProjectDetails({ project }: Props) {
         });
     }
 
-    const data = [
-        {
-            label: 'Mon',
-            value: 50
-        },
-        {
-            label: 'Tue',
-            value: 20
-        }
-    ]
-
     return (
         <section className="project-details">
             <DetailGrid details={details} />
-            <BarChart data={data} />
+            {
+                activity ?
+                    <BarChart data={activity} /> :
+                    <LoadingScreen />
+            }
             <ButtonLink routing href={`/projects/${project.id}/edit`} className="expanded">
                 Edit
             </ButtonLink>

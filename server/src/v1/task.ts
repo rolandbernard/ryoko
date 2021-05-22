@@ -25,7 +25,7 @@ export interface Task {
     icon: string;
     priority: string;
     status: string;
-    dependentcies: Array<string>;
+    dependencies: Array<string>;
     requirements: Array<TaskRequirement>;
     assigned: Array<TaskAssignment>;
     created: number;
@@ -49,7 +49,7 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 edited: row.edited,
                 requirements: [],
                 assigned: [],
-                dependentcies: [],
+                dependencies: [],
             };
         }
         if (row.requirement_role) {
@@ -73,12 +73,12 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 });
             }
         }
-        if (row.dependentcy) {
-            if (!grouped_tasks[row.id].dependentcies.includes(row.dependentcy)) {
-                grouped_tasks[row.id].dependentcies.push(row.dependentcy);
+        if (row.dependency) {
+            if (!grouped_tasks[row.id].dependencies.includes(row.dependency)) {
+                grouped_tasks[row.id].dependencies.push(row.dependency);
             }
         }
-        if (row.dependentcy_status && row.dependentcy_status !== 'closed') {
+        if (row.dependency_status && row.dependency_status !== 'closed') {
             to_remove.push(row.id);
         }
     }
@@ -115,7 +115,7 @@ task.get('/', async (req, res) => {
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
                 assigned_finished: 'task_assignees.finished', 
-                dependentcy: 'task_dependencies.requires_id', 
+                dependency: 'task_dependencies.requires_id', 
             })
             .where({
                 'team_members.user_id': req.body.token.id,
@@ -155,7 +155,7 @@ task.get('/:status(open|closed|suspended)', async (req, res) => {
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
                 assigned_finished: 'task_assignees.finished', 
-                dependentcy: 'task_dependencies.requires_id', 
+                dependency: 'task_dependencies.requires_id', 
             })
             .where({
                 'team_members.user_id': req.body.token.id,
@@ -197,8 +197,8 @@ task.get('/possible', async (req, res) => {
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
                 assigned_finished: 'task_assignees.finished', 
-                dependentcy: 'task_dependencies.requires_id', 
-                dependentcy_status: 'require.status',
+                dependency: 'task_dependencies.requires_id', 
+                dependency_status: 'require.status',
             })
             .where({
                 'team_members.user_id': req.body.token.id,
@@ -372,7 +372,7 @@ task.get('/:uuid', async (req, res) => {
                     .where({
                         'task_assignees.task_id': id,
                     });
-                const dependentcies = await database('task_dependencies')
+                const dependencies = await database('task_dependencies')
                     .select({
                         id: 'task_dependencies.requires_id',
                     })
@@ -396,7 +396,7 @@ task.get('/:uuid', async (req, res) => {
                             time: row.time,
                             finished: row.finished,
                         })),
-                        dependentcies: dependentcies.map(row => row.id),
+                        dependencies: dependencies.map(row => row.id),
                         requirements: requirements.map(row => ({
                             role: row.role,
                             time: row.time,
@@ -442,12 +442,12 @@ task.post('/', async (req, res) => {
     ])) {
         try {
             const project_id = req.body.project;
-            const dependentcy_ids = req.body.dependencies;
+            const dependency_ids = req.body.dependencies;
             const assigned = req.body.assigned;
             const assigned_ids = assigned.map(asg => asg.user);
             const requirements = req.body.requirements;
             const requirement_ids = requirements.map(req => req.role);
-            for (const team_id of [ ...dependentcy_ids, ...requirement_ids, ...assigned_ids, project_id ]) {
+            for (const team_id of [ ...dependency_ids, ...requirement_ids, ...assigned_ids, project_id ]) {
                 if (!validate(team_id)) {
                     res.status(400).json({
                         status: 'error',
@@ -487,11 +487,11 @@ task.post('/', async (req, res) => {
                             }))
                         );
                     }
-                    if (dependentcy_ids.length !== 0) {
+                    if (dependency_ids.length !== 0) {
                         await transaction('task_dependencies').insert(
-                            dependentcy_ids.map(dependentcy_id => ({
+                            dependency_ids.map(dependency_id => ({
                                 task_id: task_id,
-                                requires_id: dependentcy_id,
+                                requires_id: dependency_id,
                             }))
                         );
                     }
@@ -536,7 +536,7 @@ interface UpdateTaskBody {
     icon?: string;
     priority?: string;
     status?: string;
-    remove_dependentcies?: Array<string>;
+    remove_dependencies?: Array<string>;
     remove_requirements?: Array<string>;
     remove_assigned?: Array<string>;
     add_dependencies?: Array<string>;
@@ -549,10 +549,10 @@ task.put('/:uuid', async (req, res) => {
     if (isOfType<UpdateTaskBody>(req.body, [])) {
         try {
             const task_id = req.params.uuid;
-            const remove_dependentcy_ids = req.body.remove_dependentcies ?? [];
+            const remove_dependency_ids = req.body.remove_dependencies ?? [];
             const remove_assigned_ids = req.body.remove_assigned ?? [];
             const remove_requirement_ids = req.body.remove_requirements ?? [];
-            const add_dependentcy_ids = req.body.add_dependencies ?? [];
+            const add_dependency_ids = req.body.add_dependencies ?? [];
             const add_assigned = req.body.add_assigned ?? [];
             const add_assigned_ids = add_assigned.map(asg => asg.user);
             const add_requirements = req.body.add_requirements ?? [];
@@ -560,10 +560,10 @@ task.put('/:uuid', async (req, res) => {
             const all_ids = [
                 ...remove_requirement_ids,
                 ...remove_assigned_ids,
-                ...remove_dependentcy_ids,
+                ...remove_dependency_ids,
                 ...add_requirement_ids,
                 ...add_assigned_ids,
-                ...add_dependentcy_ids,
+                ...add_dependency_ids,
                 task_id,
             ];
             for (const team_id of all_ids) {
@@ -607,13 +607,13 @@ task.put('/:uuid', async (req, res) => {
                             })
                             .whereIn('role_id', remove_requirement_ids);
                     }
-                    if (remove_dependentcy_ids.length !== 0) {
+                    if (remove_dependency_ids.length !== 0) {
                         await transaction('task_dependencies')
                             .delete()
                             .where({
                                 'task_id': task_id,
                             })
-                            .whereIn('requires_id', remove_dependentcy_ids);
+                            .whereIn('requires_id', remove_dependency_ids);
                     }
                     if (remove_assigned_ids.length !== 0) {
                         await transaction('task_assignees')
@@ -632,11 +632,11 @@ task.put('/:uuid', async (req, res) => {
                             }))
                         );
                     }
-                    if (add_dependentcy_ids.length !== 0) {
+                    if (add_dependency_ids.length !== 0) {
                         await transaction('task_dependencies').insert(
-                            add_dependentcy_ids.map(dependentcy_id => ({
+                            add_dependency_ids.map(dependency_id => ({
                                 task_id: task_id,
-                                requires_id: dependentcy_id,
+                                requires_id: dependency_id,
                             }))
                         );
                     }

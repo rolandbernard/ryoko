@@ -4,6 +4,7 @@ import ProjectGrid from 'components/layout/ProjectGrid';
 import Filter from 'components/helpers/Filter';
 import { useEffect, useState } from 'react';
 import { getProjects, Project, Status, StatusColors } from 'adapters/project';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 export default function Projects() {
     const [filter, setFilter] = useState({ term: '', tags: [] });
@@ -43,7 +44,13 @@ export default function Projects() {
                 <ProjectsSlider projects={[]} />
                 <h2>All Projects</h2>
                 <Filter setFilter={setFilter} filter={filter} tags={allStatus} />
-                <ProjectGrid projects={shownProjects} />
+                {
+                    shownProjects ? (
+                        <ProjectGrid projects={shownProjects} />
+                    ) : (
+                        <LoadingScreen />
+                    )
+                }
             </div>
         </div>
     );

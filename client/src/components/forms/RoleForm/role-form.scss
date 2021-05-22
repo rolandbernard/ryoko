@@ -1,14 +1,113 @@
-@use 'styles/settings.scss' as s;
+@use 'styles/settings.scss'as s;
 
 .role-change-form {
+    display: flex;
+    flex-direction: column;
+
     .role-item {
-        padding: 25px;
         background: s.$light;
         border-radius: 25px;
         font-size: 18px;
-        margin: 10px 0;
-        label {
-            margin-left: 10px;
+        width: 100%;
+        margin: 8px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        display: block;
+        position: relative;
+        padding: 25px 50px;
+        width: 400px;
+
+        input {
+            padding: 25px;
+            display: block;
+            display: none;
+
+            &:checked {
+                & ~ .radio-btn {
+                    &:before {
+                        opacity: 1;
+                    }
+                }
+            }
         }
+
+        .actions {
+            display: flex;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(18px, -18px);
+        }
+
+        .action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: s.$primary;
+            color: s.$white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 2px;
+
+            span {
+                font-size: 18px;
+            }
+
+            &.delete {
+                background-color: s.$red;
+            }
+        }
+
+        .radio-btn {
+            height: 20px;
+            width: 20px;
+            background: s.$primary;
+            border-radius: 50%;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 10px;
+                height: 10px;
+                background: s.$white;
+                border-radius: 50%;
+                opacity: 0;
+                transition: 300ms ease;
+            }
+        }
+    }
+
+    .add-btn {
+        height: 77px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+    }
+    button {
+        margin-bottom: 0;
+    }
+}
+
+.role-edit-form {
+    h2 {
+        margin-bottom: 40px;
+    }
+    .button {
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+    .input-element {
+        margin-bottom: 20px;
     }
 }

@@ -139,7 +139,7 @@ user.get('/tasks', async (req, res) => {
                 assigned_user: 'task_assignees.user_id', 
                 assigned_time: 'task_assignees.time', 
                 assigned_finished: 'task_assignees.finished', 
-                dependentcy: 'task_dependencies.requires_id', 
+                dependency: 'task_dependencies.requires_id', 
             })
             .where({
                 'ut.user_id': req.body.token.id,

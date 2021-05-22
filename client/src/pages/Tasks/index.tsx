@@ -1,41 +1,57 @@
-import Task from 'components/ui/Task';
-import { Priority, Status } from 'adapters/task';
+import Task, { TaskProps } from 'components/ui/Task';
 import './tasks.scss';
+import { useEffect, useState } from 'react';
+import { getProject } from 'adapters/project';
+import { getCurrentUser, getUserTasks } from 'adapters/user';
 
 export default function Tasks() {
-    const task = {
-        id: 'asdf',
-        priority: Priority.HIGH,
-        status: Status.CLOSED,
-        dependencies: ['test'],
-        assigned: [{ user: 'test', time: 30, finished: false }],
-        requirements: [{ role: 'test', time: 20 }],
-        created: new Date(),
-        edited: new Date(),
+    const [tasks, setTasks] = useState<TaskProps[]>([]);
 
-        project: 'asdf',
+    useEffect(() => {
+        getCurrentUser().then((user) => {
+            getUserTasks().then((tasks) => {
+                tasks.forEach(task => {
+                    getProject(task.project).then((project) => {
 
-        name: 'Create API Routes',
-        icon: '🌎',
-        text: 'Create the API routes and implement them into the FrontEnd, by adding them into the controls.'
-    }
+                        setTasks(state => [...state, {
+                            task: task,
+                            subtitle: task.assigned.find(assignee => assignee.user === user.id)?.time.toString() ?? '',
+                            color: project.color
+                        }]);
+                    })
+                })
+            })
+        })
+    }, []);
     return (
         <div className="tasks-page">
             <main className="content-container">
                 <section className="intro-section">
                     <h1 className="underlined">Tasks</h1>
-                    <p>Hey Daniel, you have <strong>10 tasks</strong> for today.</p>
                 </section>
-                <section className="tasks-container">
-                    <h2>Today</h2>
-                    <div className="task-group">
-                        <h3>09:00</h3>
-                        <div className="tasks-list">
-                            <Task task={task} />
-                            <Task task={task} />
-                        </div>
-                    </div>
-                </section>
+                {
+                    tasks ? (
+                        <>
+                            <p>Hey Daniel, you have <strong>{tasks.length} tasks</strong> for today.</p>
+                            <section className="tasks-container">
+                                <h2>Today</h2>
+                                <div className="task-group">
+                                    <h3>09:00</h3>
+                                    <div className="tasks-list">
+                                        {
+                                            tasks.map((task) => (
+                                                <Task key={task.task.id} {...task} />
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </section>
+                        </>
+                    ) : 
+                    (
+                        <div>No open tasks found</div>
+                    )
+                }
             </main>
         </div>
     );

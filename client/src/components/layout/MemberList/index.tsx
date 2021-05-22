@@ -25,9 +25,12 @@ export default function MemberList({ members, addContent }: Props) {
                         +
                     </div>
                 }
-                {members.map((member) => (
+
+                {members.length > 0 ? members.map((member) => (
                     <TeamMember key={member.user.id} {...member} />
-                ))}
+                )) : (
+                    <div>No user found.</div>
+                )}
             </div>
         </>
     );

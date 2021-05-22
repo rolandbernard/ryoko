@@ -9,8 +9,8 @@ export default function CompletionGrid({ items }: Props) {
     return (
         <div className="completion-grid">
             {items.map(item => (
-                <div className="box-container">
-                    <Completion key={item.label} {...item} />
+                <div key={item.label} className="box-container">
+                    <Completion {...item} />
                 </div>
             ))}
         </div>

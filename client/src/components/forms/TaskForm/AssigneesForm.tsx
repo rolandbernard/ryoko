@@ -11,7 +11,7 @@ interface Props {
 }
 
 
-export default function AssgineesForm({ assignees, setAssignees, members }: Props) {
+export default function AssigneesForm({ assignees, setAssignees, members }: Props) {
 
     const [possibleMembers, setPossibleMembers] = useState<possibleMember[]>([]);
     const [addNew, setAddNew] = useState(false);

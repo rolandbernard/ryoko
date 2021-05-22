@@ -15,6 +15,12 @@ export enum Status {
     SUSPENDED = 'suspended'
 }
 
+export const StatusColors = new Map<string, string>([
+    ['open', 'lightblue'],
+    ['closed', 'purple'],
+    ['suspended', 'red']
+]);
+
 export enum Priority {
     LOW = 'low',
     MEDIUM = 'medium',
@@ -114,8 +120,8 @@ interface UpdateTaskBody {
     name?: string;
     text?: string;
     icon?: string;
-    priority?: string;
-    status?: string;
+    priority?: Priority;
+    status?: Status;
     remove_dependencies?: Array<string>;
     remove_requirements?: Array<string>;
     remove_assigned?: Array<string>;

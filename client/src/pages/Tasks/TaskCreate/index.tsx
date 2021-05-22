@@ -17,7 +17,7 @@ export default function TaskCreate() {
 
     useEffect(() => {
         getProject(projectId).then((project) => setProject(project));
-    }, []);
+    }, [projectId]);
 
     const handleSubmit = useCallback(async (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[]) => {
         try {

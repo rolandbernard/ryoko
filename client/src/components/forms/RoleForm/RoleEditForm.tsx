@@ -1,5 +1,5 @@
 
-import { createTeamRole, Team, TeamRole } from 'adapters/team';
+import { createTeamRole, Team, TeamRole, updateTeamRole } from 'adapters/team';
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
 import { FormEvent, useCallback, useState } from 'react';
@@ -25,11 +25,22 @@ export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props
         e.preventDefault();
         if (validateName(name) === null) {
             if (!role?.id) {
-                const role = await createTeamRole(team.id, name);
-                setAllRoles((state: any) => [...state, role]);
+                const newRole = await createTeamRole(team.id, name);
+                setAllRoles((state: any) => [...state, newRole]);
                 setEdit(null);
             } else {
-                //todo edit team role
+                if(updateTeamRole(team.id, role.id, name)) {
+                    setAllRoles((state: any) => {
+                        state = state.filter((r: any) => r.id !== role.id);
+                        return [
+                            ...state,
+                            {
+                                ...role,
+                                name: name
+                            }
+                        ]
+                    });
+                }
                 setEdit(null);
             }
         }
@@ -45,8 +56,11 @@ export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props
                 onChange={setName}
                 validation={validateName}
             />
-            <Button >
+            <Button className="expanded">
                 {!role?.id ? 'Create' : 'Update'}
+            </Button>
+            <Button className="expanded dark" onClick={() => setEdit(null)}>
+                Back
             </Button>
         </form>
     )

@@ -1,11 +1,12 @@
 import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
-import LineGraph from 'components/graphs/LineGraph';
 import { NavLink, useHistory } from 'react-router-dom';
-import { clearToken } from 'adapters/auth';
+import { clearToken, isLoggedIn } from 'adapters/auth';
 import './sidebar.scss';
 import { useEffect, useState } from 'react';
-import { getCurrentUser, User } from 'adapters/user';
+import { getCurrentUser, getUserActivity, User } from 'adapters/user';
+import BarChart, { ChartItem } from 'components/graphs/BarChart';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Props {
     mobileShown: boolean;
@@ -14,11 +15,20 @@ interface Props {
 
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
+    const [activity, setActivity] = useState<ChartItem[]>();
 
     useEffect(() => {
-        getCurrentUser().then((user) => {
-            setUser(user);
-        }).catch(() => { });
+        if (isLoggedIn()) {
+            getCurrentUser().then((user) => {
+                setUser(user);
+                getUserActivity().then((a) => {
+                    setActivity(a.map(item => ({
+                        label: item.day,
+                        value: item.time
+                    })));
+                });
+            }).catch(() => { });
+        }
     }, [])
 
     const history = useHistory();
@@ -32,7 +42,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         <aside className={'site-aside' + (mobileShown ? ' shown' : '')}>
             <div className="top">
                 <div className="profile">
-                    <Avatar user={user}/>
+                    <Avatar user={user} />
                     <span className="name">{user?.realname ?? user?.username}</span>
                     {user?.realname && <span className="username">{user?.username}</span>}
                 </div>
@@ -58,10 +68,14 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                     </button>
                 </nav>
             </div>
-            <div className="stats">
-                <LineGraph />
-                <div className="comment">You are doing well!</div>
-            </div>
+            {
+                activity ? (
+                    <div className="stats">
+                        <BarChart data={activity} />
+                        <div className="comment">You are doing well!</div>
+                    </div>
+                ) : <LoadingScreen />
+            }
         </aside>
     );
 }

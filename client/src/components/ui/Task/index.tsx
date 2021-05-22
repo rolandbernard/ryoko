@@ -5,35 +5,31 @@ import { Task as ITask } from 'adapters/task';
 import { useEffect, useState } from 'react';
 import { getUser, User } from 'adapters/user';
 
-interface Props {
-    task: ITask,
+export interface TaskProps {
+    task: ITask;
+    color?: string;
+    subtitle?: string;
 }
 
-function formattedTime(date: Date) {
-    return date.getHours() + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-}
-
-export default function Task({ task }: Props) {
+export default function Task({ task, color, subtitle }: TaskProps) {
     const [assignees, setAssignees] = useState<User[]>([]);
-    const start = new Date(200);
-    const end = new Date(300);
 
     useEffect(() => {
         task.assigned.forEach((assign) => {
             getUser(assign.user).then((user) => setAssignees(state => [...state, user])).catch(() => {})
         })
-    }, []);
+    }, [task]);
 
     return (
         <Link to={'/tasks/' + task.id} className="task">
-            <div className="project-indicator"></div>
+            <div className={'indicator' + (color ? ' bg-gradient-' + color : '')}></div>
             <div className="main-info">
                 <div className="icon-container">
-                {String.fromCharCode(parseInt(task.icon, 16))}
+                {task.icon}
                 </div>
                 <div className="text-container">
                     <h4>{task.name}</h4>
-                    <div className="time">{formattedTime(start)} - {formattedTime(end)}</div>
+                    <div className="time">{subtitle}</div>
                 </div>
             </div>
             <div className="description-container">

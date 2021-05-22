@@ -1,4 +1,4 @@
-import { Priority, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
+import { Priority, Status, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import './task-form.scss';
 import Callout from 'components/ui/Callout';
@@ -13,7 +13,7 @@ import Button from 'components/ui/Button';
 
 interface Props {
     task?: Task;
-    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[]) => void;
+    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[], status?: Status) => void;
     project: Project;
 }
 
@@ -63,12 +63,15 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const [text, setText] = useState(task?.text);
     const [icon, setIcon] = useState(task?.icon);
     const [priority, setPriority] = useState(task?.priority);
+    const [status, setStatus] = useState(task?.status);
     const [error, setError] = useState('');
-    const [tasks, setTasks] = useState(task?.dependencies);
+    const [tasks, setTasks] = useState(task?.dependencies ?? []);
+
     const [requirements, setRequirements] = useState(task?.requirements ?? []);
     const [assignees, setAssignees] = useState(task?.assigned ?? []);
 
     const allPriorities = Object.values(Priority);
+    const allStatus = Object.values(Status);
     const [allTasks, setAllTasks] = useState<Task[]>([]);
     const [allRoles, setAllRoles] = useState<possibleRole[]>([]);
     const [allMembers, setAllMembers] = useState<possibleMember[]>([]);
@@ -80,39 +83,39 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
         project.teams.forEach((teamId) => {
             getTeam(teamId).then(team => {
                 getTeamRoles(teamId).then((roles) => {
-                    setAllRoles(roles.map(role => {
+                    setAllRoles(state => [...state, ...roles.map(role => {
                         return {
                             id: role.id,
                             label: team.name + ': ' + role.name
                         }
-                    }));
+                    })]);
                 })
                 getTeamMembers(teamId).then((members) => {
-                    setAllMembers(members.map(member => {
+                    setAllMembers(state => [...state, ...members.map(member => {
                         return {
                             id: member.id,
                             label: team.name + ': ' + (member.realname ?? member.username)
                         }
-                    }));
+                    })]);
                 })
             })
         })
-    }, []);
+    }, [task, project]);
 
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        
+
         if (validateName(name ?? '') === null &&
             validateText(text ?? '') === null &&
             validateIcon(icon ?? '') === null &&
             validatePriority(priority ?? '') === null
         ) {
-            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees);
+            onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees, status);
         } else {
             setError('Please fill in the mandatory fields.');
         }
-    }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements]);
+    }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements, status]);
 
     return (
         <form className="task-form" onSubmit={handleSubmit}>
@@ -133,10 +136,11 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 type="textarea"
             />
 
-            <select onChange={(e) => {
-                let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? Priority.LOW;
+            <select defaultValue={priority} onChange={(e) => {
+                let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? undefined;
                 setPriority(currentPriority);
             }}>
+                <option value={''}>Please choose a priority</option>
                 {
                     allPriorities.map((prio) => (
                         <option value={prio} key={prio}>{prio}</option>
@@ -144,7 +148,24 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 }
             </select>
 
-            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.originalUnified)} />
+            {
+                status && (
+                    <select defaultValue={status} onChange={(e) => {
+                        let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
+                        setStatus(currentStatus);
+                    }}>
+                        <option value={''}>Please choose a status</option>
+                        {
+                            allStatus.map((status) => (
+                                <option value={status} key={status}>{status}</option>
+                            ))
+                        }
+                    </select>
+                )
+            }
+            Chosen emoji: {icon}<br />
+            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.emoji)} />
+
             <h2>Dependencies</h2>
             {
                 allTasks.length > 0 ? (
@@ -153,7 +174,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             }
             {
                 allRoles.length > 0 && (
-                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements ?? []} />
+                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
                 )
             }
             {

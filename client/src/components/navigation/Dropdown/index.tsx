@@ -6,15 +6,16 @@ import './dropdown.scss';
 export interface DropDownItem {
     label: string;
     route?: string;
-    popupContent?: ReactNode
+    popupContent?: ReactNode;
 }
 
 interface Props {
     children: ReactNode;
     items: DropDownItem[]
+    position?: 'left'|'right';
 }
 
-export default function Dropdown({ children, items }: Props) {
+export default function Dropdown({ children, items, position }: Props) {
     const [isOpen, setOpen] = useState(false);
     const [openPopup, setOpenPopup] = useState<string | null>(null);
     return (
@@ -24,7 +25,7 @@ export default function Dropdown({ children, items }: Props) {
                     {children}
                 </div>
                 {items.length > 0 && (
-                    <div className="dropdown">
+                    <div className={'dropdown ' + (position ?? '')}>
                         {
                             items.map((item) =>
                                 (item.route && (
