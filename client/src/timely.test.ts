@@ -1,5 +1,5 @@
 
-import { formatTime, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
+import { formatDate, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
 
 test('small durations format as `moments`', () => {
     expect(formatDuration(10 * 1000)).toEqual('moments');
@@ -25,8 +25,8 @@ test('one and a quarter second is rounded to one second', () => {
     expect(formatDuration(1250, 'second')).toEqual('one second');
 });
 
-test('one and a half second is rounded to two seconds', () => {
-    expect(formatDuration(1500, 'second')).toEqual('2 seconds');
+test('one and a half second is rounded to one seconds', () => {
+    expect(formatDuration(1500, 'second')).toEqual('one second');
 });
 
 test('ten seconds can be formated as expected', () => {
@@ -82,35 +82,71 @@ test('ten months can be formated as expected', () => {
 });
 
 test('1st December 2020 is formated as expected', () => {
-    expect(formatTime(new Date('2020-12-01'))).toEqual('1st December 2020');
+    expect(formatDate(new Date('2020-12-01'))).toEqual('1st December 2020');
 });
 
 test('2nd January 1900 is formated as expected', () => {
-    expect(formatTime(new Date('1900-01-02'))).toEqual('2nd January 1900');
+    expect(formatDate(new Date('1900-01-02'))).toEqual('2nd January 1900');
 });
 
 test('3rd April 2001 is formated as expected', () => {
-    expect(formatTime(new Date('2001-04-03'))).toEqual('3rd April 2001');
+    expect(formatDate(new Date('2001-04-03'))).toEqual('3rd April 2001');
 });
 
 test('12th May 2021 is formated as expected', () => {
-    expect(formatTime(new Date('2021-05-12'))).toEqual('12th May 2021');
+    expect(formatDate(new Date('2021-05-12'))).toEqual('12th May 2021');
 });
 
 test('21st September 2015 is formated as expected', () => {
-    expect(formatTime(new Date('2015-09-21'))).toEqual('21st September 2015');
+    expect(formatDate(new Date('2015-09-21'))).toEqual('21st September 2015');
 });
 
 test('22nd October 1800 is formated as expected', () => {
-    expect(formatTime(new Date('1800-10-22'))).toEqual('22nd October 1800');
+    expect(formatDate(new Date('1800-10-22'))).toEqual('22nd October 1800');
 });
 
 test('23rd February 2000 is formated as expected', () => {
-    expect(formatTime(new Date('2000-02-23'))).toEqual('23rd February 2000');
+    expect(formatDate(new Date('2000-02-23'))).toEqual('23rd February 2000');
 });
 
 test('31st July 1500 is formated as expected', () => {
-    expect(formatTime(new Date('1500-07-31'))).toEqual('31st July 1500');
+    expect(formatDate(new Date('1500-07-31'))).toEqual('31st July 1500');
+});
+
+test('date format precision can be month', () => {
+    expect(formatDate(new Date('2000-07-31'), 'month')).toEqual('July 2000');
+});
+
+test('date format precision can be year', () => {
+    expect(formatDate(new Date('2000-07-31'), 'year')).toEqual('2000');
+});
+
+test('date format precision can be hour', () => {
+    expect(formatDate(new Date('2000-07-31T12:42:02.121'), 'hour')).toEqual('31st July 2000 12:00');
+});
+
+test('date format precision can be minute', () => {
+    expect(formatDate(new Date('2000-07-31T12:42:02.121'), 'minute')).toEqual('31st July 2000 12:42');
+});
+
+test('date format precision can be second', () => {
+    expect(formatDate(new Date('2000-07-31T12:42:02.121'), 'second')).toEqual('31st July 2000 12:42:02');
+});
+
+test('date format precision can be millisecond', () => {
+    expect(formatDate(new Date('2000-07-31T12:42:02.121'), 'millisecond')).toEqual('31st July 2000 12:42:02.121');
+});
+
+test('date format can include full weekday', () => {
+    expect(formatDate(new Date('2000-07-30'), 'day', 'full')).toEqual('Sunday, 30th July 2000');
+});
+
+test('date format can include short weekday', () => {
+    expect(formatDate(new Date('2000-07-22'), 'day', 'short')).toEqual('Sat, 22nd July 2000');
+});
+
+test('date format can include only the weekday', () => {
+    expect(formatDate(new Date('2000-07-26'), 'none', 'full')).toEqual('Wednesday');
 });
 
 test('adding one minute works as expected', () => {
@@ -218,9 +254,9 @@ test('one and a quarter minutes ago gets rounded to one minute', () => {
         .toEqual('one minute ago');
 });
 
-test('one and a half minutes ago gets rounded to two minutes', () => {
+test('one and a half minutes ago gets rounded to one minute', () => {
     expect(formatRelativeTime(new Date('2021-04-22T00:00:00'), new Date('2021-04-22T00:01:30')))
-        .toEqual('2 minutes ago');
+        .toEqual('one minute ago');
 });
 
 test('one day ago formats as expected', () => {
@@ -273,9 +309,9 @@ test('in one and a quarter minutes gets rounded to one minute', () => {
         .toEqual('in one minute');
 });
 
-test('in one and a half minutes gets rounded to two minutes', () => {
+test('in one and a half minutes gets rounded to one minute', () => {
     expect(formatRelativeTime(new Date('2021-04-22T00:01:30'), new Date('2021-04-22T00:00:00')))
-        .toEqual('in 2 minutes');
+        .toEqual('in one minute');
 });
 
 test('in one day formats as expected', () => {
