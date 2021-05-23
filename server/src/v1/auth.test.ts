@@ -109,7 +109,7 @@ describe('password can be changed', () => {
     beforeAll(async () => {
         response = await request
             .put('/v1/auth/password')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
             .send({
                 password: 'testtest2',
             });
@@ -146,7 +146,7 @@ describe('password can be changed', () => {
     afterAll(async () => {
         response = await request
             .put('/v1/auth/password')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
             .send({
                 password: 'testtest',
             });
@@ -156,7 +156,7 @@ describe('password can be changed', () => {
 test('changing username to an existing one fails', async () => {
     const response = await request
         .put('/v1/auth/username')
-        .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`)
+        .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
         .send({
             username: 'User1',
         });
@@ -170,7 +170,7 @@ describe('username can be changed', () => {
     beforeAll(async () => {
         response = await request
             .put('/v1/auth/username')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
             .send({
                 username: 'User00',
             });
@@ -207,7 +207,7 @@ describe('username can be changed', () => {
     afterAll(async () => {
         response = await request
             .put('/v1/auth/username')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
             .send({
                 username: 'User0',
             });
@@ -217,7 +217,7 @@ describe('username can be changed', () => {
 test('valid tokens can be extended', async () => {
     const response = await request
         .get('/v1/auth/extend')
-        .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-0000-0000-000000000000')}`);
+        .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
     expect(response.status).toEqual(200);
     expect(response.body.status).toEqual('success');
 });
