@@ -65,7 +65,7 @@ export function requireVerification(req: Request, res: Response, next: NextFunct
     }
 }
 
-async function generateAuthToken(id: string) {
+export async function generateAuthToken(id: string) {
     const token: Token = {
         id: id,
         type: authTokenType,
@@ -90,31 +90,24 @@ auth.post('/register', async (req, res) => {
         const id = uuid();
         const passwdHash = await hash(body.password, 10);
         const name = body.username.trim().toLowerCase();
-        if (name.length >= 4) {
-            try {
-                const token = await generateAuthToken(id);
-                await database('users').insert({
-                    id: id,
-                    user_name: name,
-                    passwd_hash: passwdHash,
-                    email: body.email ?? null,
-                    real_name: body.realname ?? null,
-                });
-                res.status(200).json({
-                    status: 'success',
-                    token: token,
-                });
-            } catch (e) {
-                // Fails if unique constraint for username is not met
-                res.status(400).json({
-                    status: 'error',
-                    message: 'failed to create user',
-                });
-            }
-        } else {
+        try {
+            const token = await generateAuthToken(id);
+            await database('users').insert({
+                id: id,
+                user_name: name,
+                passwd_hash: passwdHash,
+                email: body.email ?? null,
+                real_name: body.realname ?? null,
+            });
+            res.status(200).json({
+                status: 'success',
+                token: token,
+            });
+        } catch (e) {
+            // Fails if unique constraint for username is not met
             res.status(400).json({
                 status: 'error',
-                message: 'usernames must be four letters or longer',
+                message: 'failed to create user',
             });
         }
     } else {

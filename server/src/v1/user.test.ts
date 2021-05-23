@@ -6,11 +6,8 @@ import { api } from '../api';
 const request = supertest(api);
 
 test('non existant username returns 404 for /v1/user/name/', async () => {
-    const response = await request.get('/v1/user/name/__NO_REAL_NAME__');
+    const response = await request.get('/v1/user/name/User3');
     expect(response.status).toEqual(404);
-    expect(response.body).toEqual({
-        status: 'error',
-        message: 'user not found',
-    });
+    expect(response.body.status).toEqual('error');
 });
 

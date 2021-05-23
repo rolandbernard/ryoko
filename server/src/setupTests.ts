@@ -8,14 +8,14 @@ async function loadTestData() {
         .insert([
             {
                 id: '00000000-0000-0000-0000-000000000000',
-                user_name: 'User0',
+                user_name: 'user0',
                 passwd_hash: '$2b$10$sjHhJNz4sLNclKEwWISZRe4cVju6jn4QjMVs4wdZ6wug2SKG774pq',
                 email: 'test0@example.com',
                 real_name: 'Testing Tester',
                 image: null,
             }, {
                 id: '00000000-0000-0000-0000-000000000001',
-                user_name: 'User1',
+                user_name: 'user1',
                 passwd_hash: '$2b$10$sjHhJNz4sLNclKEwWISZRe4cVju6jn4QjMVs4wdZ6wug2SKG774pq',
                 email: 'test1@example.com',
                 real_name: 'Tester Testing',

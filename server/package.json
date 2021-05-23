@@ -23,7 +23,7 @@
     "scripts": {
         "start": "nodemon src/index.ts",
         "build": "tsc --project .",
-        "test": "jest --passWithNoTests --config ./jest.config.json"
+        "test": "jest --passWithNoTests --verbose --config ./jest.config.json"
     },
     "devDependencies": {
         "@types/bcrypt": "^3.0.1",
