@@ -164,7 +164,7 @@ export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short
 }
 
 export function formatRelativeTime(target: Date, origin = new Date(), precision?: Unit): string {
-    const delta = target.getTime() - origin.getTime();
+    const delta = durationBetween(origin, target);
     if (delta > 0) {
         return 'in ' + formatDuration(delta, precision);
     } else {
@@ -193,5 +193,13 @@ export function addTime(date: Date, time: number, unit: Unit): Date {
 
 export function subtractTime(date: Date, time: number, unit: Unit): Date {
     return addTime(date, -time, unit);
+}
+
+export function durationBetween(from: Date, to: Date): number {
+    return to.getTime() - from.getTime();
+}
+
+export function currentTime(): Date {
+    return new Date();
 }
 
