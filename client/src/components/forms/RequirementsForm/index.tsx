@@ -24,7 +24,8 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
     }, [roles, requirements, setSelectedRole])
 
 
-    const addRequirement = useCallback(() => {
+    const addRequirement = useCallback((e) => {
+        e.preventDefault();
         if (selectedTime && selectedRole) {
             setRequirements((state: any) => [...state, { role: selectedRole, time: selectedTime }]);
             setAddNew(false);
@@ -47,7 +48,7 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
                     requirements.map((requirement) => (
                         <div className="requirement" key={requirement.role}>
                             <div>{roles.find(role => role.id === requirement.role)?.label}</div>
-                            <div>{requirement.time}</div>
+                            <div>{requirement.time} min</div>
                             <div className="delete" onClick={() => removeRequirement(requirement.role)}>
                                 <span className="material-icons">
                                     clear

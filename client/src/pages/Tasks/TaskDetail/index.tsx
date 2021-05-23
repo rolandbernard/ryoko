@@ -57,7 +57,7 @@ export default function TaskDetail() {
                         { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
                         { icon: 'group', title: 'Teams', label: teamNames.join(', ') }]} />
                     <ButtonLink href={'/tasks/' + taskId + '/start'} className="expanded">
-                        Start
+                        Start working
                 </ButtonLink>
                     <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                         Edit

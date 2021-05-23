@@ -24,7 +24,8 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
     }, [members, assignees, setAssignees])
 
 
-    const addAssignee = useCallback(() => {
+    const addAssignee = useCallback((e) => {
+        e.preventDefault();
         if (selectedTime && selectedMember) {
             setAssignees((state: any) => [...state, { user: selectedMember, time: selectedTime }]);
             setAddNew(false);
@@ -49,7 +50,7 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
                             <div className="person">
                                 {members.find(member => member.id === assignee.user)?.label}
                             </div>
-                            <div className="time">{assignee.time}</div>
+                            <div className="time">{assignee.time} min</div>
                             <div className="delete" onClick={() => removeAssignee(assignee.user)}>
                                 <span className="material-icons">
                                     clear

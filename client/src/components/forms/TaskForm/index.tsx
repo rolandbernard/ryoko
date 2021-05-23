@@ -227,7 +227,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             </div>
             <div className="button-container">
                 <Button type="submit" className="expanded">
-                    Create Task
+                    {task ? 'Update task' : 'Create task' }
                 </Button>
             </div>
         </form>
