@@ -5,7 +5,7 @@ $primary-dark: var(--primary-dark);
 $secondary: #7DEFFF;
 $red: #E51C4A;
 $light: #F9F9F9;
-$dark: #180923;
+$dark: #11061A;
 
 $light-gray: #F8F8F8;
 
@@ -22,23 +22,23 @@ $colors: (
 );
 
 $themeDarkMap: (
-    'red': #E31A4A,
-    'orange': #E03333,
-    'yellow': #E09033,
-    'green': #299C50,
+    'red': #FF3465,
+    'orange': #FF4242,
+    'yellow': #FF9D29,
+    'green': #5ABF2B,
     'lightblue': #0E8BFF,
-    'blue': #1D00D0,
-    'purple': #7B10E7
+    'blue': #1768FF,
+    'purple': #8A24DA
 );
 
 $themeLightMap: (
-    'red': #FE6442,
-    'orange': #FE8642,
-    'yellow': #FEE042,
-    'green': #8AF194,
-    'lightblue': #70E5ED,
+    'red': #FF5A5A,
+    'orange': #FF9A61,
+    'yellow': #FFDC24,
+    'green': #7CF144,
+    'lightblue': #72BFFF,
     'blue': #428DFE,
-    'purple': #CD42FE
+    'purple': #AC42FF
 );
 
 $linear-gradient: linear-gradient(to bottom, $primary, $primary-dark);

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import { parseActivity } from 'adapters/util';
+import { formatDate } from 'timely';
 
 interface Props {
     project: Project
@@ -33,7 +34,7 @@ export default function ProjectDetails({ project }: Props) {
         details.push({
             icon: 'warning',
             title: 'Deadline',
-            label: project.deadline?.getMonth().toString() ?? ''
+            label: formatDate(project.deadline, 'month')
         });
     }
 

@@ -12,7 +12,7 @@ export enum Status {
 }
 
 export const StatusColors = new Map<string, string>([
-    ['open', 'blue'],
+    ['open', 'lightblue'],
     ['closed', 'purple'],
     ['suspended', 'red']
 ]);
