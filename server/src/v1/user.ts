@@ -32,6 +32,7 @@ user.get('/name/:username', async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get user',
