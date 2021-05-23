@@ -1,3 +1,4 @@
+import './checkbox-group.scss';
 interface Props {
     choices: {
         id: string;
@@ -7,12 +8,13 @@ interface Props {
     setChosen: Function
 }
 
+
 export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
     return (
         <div className="checkbox-group">
             {
                 choices.map((choice) => (
-                    <div className="team-item" key={choice.id}>
+                    <label htmlFor={choice.id} className="checkbox-item" key={choice.id}>
                         <input type="checkbox" id={choice.id}
                             checked={chosen.indexOf(choice.id) >= 0}
                             onChange={(e) => {
@@ -22,8 +24,10 @@ export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
                                     setChosen((state: any) => [...state, choice.id]);
                                 }
                             }} />
-                        <label htmlFor={choice.id}>{choice.name}</label>
-                    </div>
+                        <span className="checkbox">
+                        </span>
+                        {choice.name}
+                    </label>
 
                 ))
             }

@@ -10,9 +10,10 @@ interface Props {
     compareValue?: string;
     onChange: (state: any) => void;
     validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
+    note?: string;
 }
 
-export default function TextInput({ label, name, type, onChange, validation, compareValue, defaultText }: Props) {
+export default function TextInput({ label, name, type, onChange, validation, compareValue, defaultText, note }: Props) {
     const [error, setError] = useState('');
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -35,6 +36,12 @@ export default function TextInput({ label, name, type, onChange, validation, com
                 }
             </div >
             {error && (<div className="error">{error}</div>)}
+            {note && (<div className="note">
+                <span className="material-icons">
+                    help_outline
+                </span>
+                {note}
+            </div>)}
         </div>
     );
 }

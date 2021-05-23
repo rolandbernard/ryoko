@@ -1,14 +1,15 @@
+import './task-form.scss';
+import '../form.scss';
 import { Priority, Status, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import './task-form.scss';
 import Callout from 'components/ui/Callout';
 import TextInput from 'components/ui/TextInput';
 import Picker from 'emoji-picker-react';
 import { getProjectTasks, Project } from 'adapters/project';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
 import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
-import RequirementsForm from './RequirementsForm';
-import AssgineesForm from './AssigneesForm';
+import RequirementsForm from 'components/forms/RequirementsForm';
+import AssgineesForm from 'components/forms/AssigneesForm';
 import Button from 'components/ui/Button';
 
 interface Props {
@@ -120,71 +121,115 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     return (
         <form className="task-form" onSubmit={handleSubmit}>
             {error && <Callout message={error} />}
-            <TextInput
-                label="Name"
-                name="name"
-                onChange={setName}
-                defaultText={name}
-                validation={validateName}
-            />
-            <TextInput
-                label="Description"
-                name="text"
-                onChange={setText}
-                defaultText={text}
-                validation={validateText}
-                type="textarea"
-            />
-
-            <select defaultValue={priority} onChange={(e) => {
-                let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? undefined;
-                setPriority(currentPriority);
-            }}>
-                <option value={''}>Please choose a priority</option>
-                {
-                    allPriorities.map((prio) => (
-                        <option value={prio} key={prio}>{prio}</option>
-                    ))
-                }
-            </select>
-
-            {
-                status && (
-                    <select defaultValue={status} onChange={(e) => {
-                        let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
-                        setStatus(currentStatus);
-                    }}>
-                        <option value={''}>Please choose a status</option>
-                        {
-                            allStatus.map((status) => (
-                                <option value={status} key={status}>{status}</option>
-                            ))
-                        }
-                    </select>
-                )
-            }
-            Chosen emoji: {icon}<br />
-            <Picker onEmojiClick={(e, emoji) => setIcon(emoji.emoji)} />
+            <h2>General</h2>
+            <div className="fields-row">
+                <div className="col">
+                    <TextInput
+                        label="Name"
+                        name="name"
+                        onChange={setName}
+                        defaultText={name}
+                        validation={validateName}
+                    />
+                    <TextInput
+                        label="Description"
+                        name="text"
+                        onChange={setText}
+                        defaultText={text}
+                        validation={validateText}
+                        type="textarea"
+                        note="A brief description what to do"
+                    />
+                </div>
+                <div className="col">
+                    <strong>Icon</strong>
+                    <div className="current-icon">
+                        Current icon: {icon}
+                    </div>
+                    <Picker disableSkinTonePicker onEmojiClick={(e, emoji) => setIcon(emoji.emoji)} />
+                    <div className="note">
+                        <span className="material-icons">
+                            help_outline
+                        </span>
+                        An icon that is shown next to the task
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="field">
+                        <label className="field-label"  htmlFor="status">
+                            Priority
+                    </label>
+                        <select defaultValue={priority} onChange={(e) => {
+                            let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? undefined;
+                            setPriority(currentPriority);
+                        }}>
+                            <option value={''}>Please choose a priority</option>
+                            {
+                                allPriorities.map((prio) => (
+                                    <option value={prio} key={prio}>{prio}</option>
+                                ))
+                            }
+                        </select>
+                        <div className="note">
+                            <span className="material-icons">
+                                help_outline
+                            </span>
+                            How important the task is
+                        </div>
+                    </div>
+                </div>
+                <div className="col">
+                    {
+                        status && (
+                            <div className="field">
+                                <label className="field-label"  htmlFor="status">
+                                    Status
+                                </label>
+                                <select defaultValue={status} id="status" onChange={(e) => {
+                                    let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
+                                    setStatus(currentStatus);
+                                }}>
+                                    <option value={''}>Please choose a status</option>
+                                    {
+                                        allStatus.map((status) => (
+                                            <option value={status} key={status}>{status}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
 
             <h2>Dependencies</h2>
+            <p>Pick tasks of this project that have to be done before this one.</p>
             {
                 allTasks.length > 0 ? (
                     <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
-                ) : <div>No other tasks in this project</div>
+                ) : <div className="error">No other tasks in this project</div>
             }
-            {
-                allRoles.length > 0 && (
-                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
-                )
-            }
-            {
-                allMembers.length > 0 && (
-                    <AssgineesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
-                )
-            }
-            <Button type="submit">
-                Create Task
-            </Button>
+            <div className="fields-row">
+                <div className="col">
+                    {
+                        allRoles.length > 0 && (
+                            <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
+                        )
+                    }
+                </div>
+                <div className="col">
+                    {
+                        allMembers.length > 0 && (
+                            <AssgineesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
+                        )
+                    }
+                </div>
+            </div>
+            <div className="button-container">
+                <Button type="submit" className="expanded">
+                    Create Task
+                </Button>
+            </div>
         </form>
     )
 

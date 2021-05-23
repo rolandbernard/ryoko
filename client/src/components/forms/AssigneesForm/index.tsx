@@ -1,6 +1,7 @@
+import './assignees-form.scss';
 import { TaskAssignment } from "adapters/task";
 import { useCallback, useEffect, useState } from "react";
-import { possibleMember } from ".";
+import { possibleMember } from "../TaskForm";
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
 
@@ -35,25 +36,32 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
 
 
     const removeAssignee = useCallback((member: string) => {
-            setAssignees((state: any) => state.filter((r: any) => r.user !== member));
+        setAssignees((state: any) => state.filter((r: any) => r.user !== member));
     }, [setAssignees])
-    
+
     return (
         <>
-            <div className="requirements-field">
+            <div className="assignees-field">
+                <h2>Assignees</h2>
                 {
                     assignees.map((assignee) => (
-                        <div className="requirement" key={assignee.user}>
-                            <h2>{members.find(member => member.id === assignee.user)?.label}</h2>
-                            <div>{assignee.time}</div>
-                            <div onClick={() => removeAssignee(assignee.user)}>delete</div>
+                        <div className="assignee" key={assignee.user}>
+                            <div className="person">
+                                {members.find(member => member.id === assignee.user)?.label}
+                            </div>
+                            <div className="time">{assignee.time}</div>
+                            <div className="delete" onClick={() => removeAssignee(assignee.user)}>
+                                <span className="material-icons">
+                                    clear
+                                </span>
+                            </div>
                         </div>
                     ))
                 }
                 {
                     possibleMembers.length > 0 && (
-                        <div className="add-btn" onClick={() => setAddNew(true)}>
-                            new
+                        <div className="add-btn assignee" onClick={() => setAddNew(true)}>
+                            +
                         </div>
                     )
                 }
@@ -69,8 +77,10 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
                                 ))
                             }
                         </select>
-                        <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
-                        <Button type="submit" onClick={addAssignee}>
+                        <div className="time-field">
+                            <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
+                        </div>
+                        <Button type="submit" onClick={addAssignee} className="Expanded">
                             Add the assignee
                         </Button>
                     </Popup>
