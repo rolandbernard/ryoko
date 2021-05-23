@@ -160,7 +160,8 @@ user.get('/tasks', async (req, res) => {
 
 user.get('/work', async (req, res) => {
     try {
-        const since = (req.query.since ?? 0) as number;
+        const since = parseInt(req.query.since as string ?? 0);
+        const to = parseInt(req.query.to as string ?? Date.now());
         const work = await database('workhours')
             .select({
                 id: 'workhours.id',
@@ -173,6 +174,7 @@ user.get('/work', async (req, res) => {
                 'workhours.user_id': req.body.token.id,
             })
             .andWhere('workhours.started', '>=', since)
+            .andWhere('workhours.started', '<=', to)
             .groupBy('workhours.id');
         res.status(200).json({
             status: 'success',
@@ -188,8 +190,8 @@ user.get('/work', async (req, res) => {
 
 user.get('/activity', async (req, res) => {
     try {
-        const since = (req.query.since ?? 0) as number;
-        const to = (req.query.to ?? Date.now()) as number;
+        const since = parseInt(req.query.since as string ?? 0);
+        const to = parseInt(req.query.to as string ?? Date.now());
         const activity = await database('workhours')
             .select({
                 day: database.raw('Date(`started` / 1000, \'unixepoch\')'),
