@@ -221,14 +221,17 @@ user.get('/completion', async (req, res) => {
         const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const completion = await database(
                 database('task_assignees')
-                    .leftJoin('tasks', 'task_assignees.task_id', 'tasks.id')
-                    .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
-                    .leftJoin('workhours', 'tasks.id', 'workhours.task_id')
+                    .innerJoin('tasks', 'task_assignees.task_id', 'tasks.id')
                     .select({
                         id: 'tasks.id',
                         status: database.raw(
                             'Case When `tasks`.`status` = \'open\' '
-                            + 'And Sum(`task_requirements`.`time` * 60 * 1000) < Sum(`workhours`.`finished` - `workhours`.`started`) '
+                            + 'And (Select '
+                                    + 'Sum(`task_requirements`.`time` * 60 * 1000) '
+                                    + 'from `task_requirements` where `task_requirements`.`task_id` = `tasks`.`id`) '
+                                + '< (Select '
+                                    + 'Sum(`workhours`.`finished` - `workhours`.`started`) '
+                                    + 'from `workhours` where `workhours`.`task_id` = `tasks`.`id`) '
                             + 'Then \'overdue\' Else `tasks`.`status` End'),
                     })
                     .where({

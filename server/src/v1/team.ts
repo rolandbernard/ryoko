@@ -400,13 +400,16 @@ team.get('/:uuid/completion', async (req, res) => {
                     database('team_members')
                         .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                         .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
-                        .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
-                        .leftJoin('workhours', 'tasks.id', 'workhours.task_id')
                         .select({
                             id: 'tasks.id',
                             status: database.raw(
                                 'Case When `tasks`.`status` = \'open\' '
-                                + 'And Sum(`task_requirements`.`time` * 60 * 1000) < Sum(`workhours`.`finished` - `workhours`.`started`) '
+                                + 'And (Select '
+                                        + 'Sum(`task_requirements`.`time` * 60 * 1000) '
+                                        + 'from `task_requirements` where `task_requirements`.`task_id` = `tasks`.`id`) '
+                                    + '< (Select '
+                                        + 'Sum(`workhours`.`finished` - `workhours`.`started`) '
+                                        + 'from `workhours` where `workhours`.`task_id` = `tasks`.`id`) '
                                 + 'Then \'overdue\' Else `tasks`.`status` End'),
                         })
                         .where({
