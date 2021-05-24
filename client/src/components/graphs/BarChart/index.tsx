@@ -7,9 +7,11 @@ export interface ChartItem {
 
 interface Props {
     data: ChartItem[];
+    unit?: string;
+    multiplicator?: number;
 }
 
-export default function BarChart({ data }: Props) {
+export default function BarChart({ data, unit, multiplicator }: Props) {
     let maxValue = data.map(e => e.value).sort((a, b) => b - a)[0];
     return (
         <div className="bar-chart-container">
@@ -24,6 +26,9 @@ export default function BarChart({ data }: Props) {
                                 }}>
                                     <div className="label">
                                         {item.label}
+                                    </div>
+                                    <div className="tooltip">
+                                        {(item.value * (multiplicator ?? 1)).toFixed(2) + (unit ?? '')} 
                                     </div>
                                 </div>
                             ))

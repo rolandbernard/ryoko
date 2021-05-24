@@ -17,7 +17,7 @@ export function validateName(name: string): string | null {
     return 'The name is required';
 }
 
-export default function TeamCreateForm({ onSubmit, onBack, team }: Props) {
+export default function TeamForm({ onSubmit, onBack, team }: Props) {
     const [name, setName] = useState(team?.name ?? '');
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
