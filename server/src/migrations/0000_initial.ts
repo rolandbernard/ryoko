@@ -47,8 +47,8 @@ export async function up(database: Knex): Promise<void> {
             table.string('icon').notNullable();
             table.enum('status', [ 'open', 'closed', 'suspended' ]).notNullable();
             table.enum('priority', [ 'low', 'medium', 'high', 'urgent' ]).notNullable();
-            table.timestamp('created').notNullable();
-            table.timestamp('edited').notNullable();
+            table.bigInteger('created').notNullable();
+            table.bigInteger('edited').notNullable();
         })
         .createTable('task_dependencies', table => {
             table.uuid('task_id').notNullable().references('tasks.id');
@@ -73,15 +73,15 @@ export async function up(database: Knex): Promise<void> {
             table.uuid('task_id').notNullable().references('tasks.id');
             table.uuid('user_id').notNullable().references('users.id');
             table.text('text').notNullable();
-            table.timestamp('created').notNullable();
-            table.timestamp('edited').notNullable();
+            table.bigInteger('created').notNullable();
+            table.bigInteger('edited').notNullable();
         })
         .createTable('workhours', table => {
             table.uuid('id').notNullable().primary();
             table.uuid('user_id').notNullable().references('users.id');
             table.uuid('task_id').notNullable().references('tasks.id');
-            table.timestamp('started').notNullable();
-            table.timestamp('finished');
+            table.bigInteger('started').notNullable();
+            table.bigInteger('finished');
         });
 }
 

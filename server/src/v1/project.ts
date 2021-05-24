@@ -245,18 +245,20 @@ project.get('/:uuid/activity', async (req, res) => {
                         'team_projects.project_id': id,
                     })
                     .andWhereNot({ 'workhours.finished': null })
-                    .andWhere('workhours.started', '>=', since.getTime())
-                    .andWhere('workhours.started', '<=', to.getTime())
+                    .andWhereBetween('workhours.started', [since.getTime(), to.getTime()])
                     .groupBy('workhours.id')
                 )
                 .select({
-                    day: database.raw('Date(`started` / 1000, \'unixepoch\')'), // TODO: does not work in prostgres
+                    day: database.raw('`started` / 1000 / 60 / 60 / 24'),
                 })
                 .sum({ time: database.raw('`finished` - `started`') })
                 .groupBy('day');
             res.status(200).json({
                 status: 'success',
-                activity: activity,
+                activity: activity.map((act: any) => ({
+                    ...act,
+                    day: (new Date(act.day * 24 * 60 * 60 * 1000)).toISOString().substring(0, 10),
+                })),
             });
         } else {
             res.status(400).json({
@@ -278,7 +280,7 @@ project.get('/:uuid/completion', async (req, res) => {
         if (validate(id)) {
             const since = new Date(parseInt(req.query.since as string ?? 0));
             const to = new Date(parseInt(req.query.to as string ?? Date.now()));
-            const completion = await database(
+            const completion: any[] = await database(
                     database('team_members')
                         .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                         .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
@@ -306,7 +308,7 @@ project.get('/:uuid/completion', async (req, res) => {
                     status: 'status',
                 })
                 .count({ count: 'id' })
-                .groupBy('status') as any[];
+                .groupBy('status');
             res.status(200).json({
                 status: 'success',
                 completion: completion.reduce((object, { status, count }) => ({

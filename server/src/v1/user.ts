@@ -193,21 +193,24 @@ user.get('/activity', async (req, res) => {
         const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const activity = await database('workhours')
             .select({
-                day: database.raw('Date(`started` / 1000, \'unixepoch\')'), // TODO: This does not work in postgres
+                day: database.raw('`started` / 1000 / 60 / 60 / 24'),
             })
             .sum({ time: database.raw('`finished` - `started`') })
             .where({
                 'workhours.user_id': req.body.token.id,
             })
             .andWhereNot({ 'workhours.finished': null })
-            .andWhere('workhours.started', '>=', since.getTime())
-            .andWhere('workhours.started', '<=', to.getTime())
+            .andWhereBetween('workhours.started', [since.getTime(), to.getTime()])
             .groupBy('day');
         res.status(200).json({
             status: 'success',
-            activity: activity,
+            activity: activity.map((act: any) => ({
+                ...act,
+                day: (new Date(act.day * 24 * 60 * 60 * 1000)).toISOString().substring(0, 10),
+            })),
         });
     } catch (e) {
+        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get activity',

@@ -361,7 +361,7 @@ team.get('/:uuid/activity', async (req, res) => {
                 .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
                 .innerJoin('workhours', 'team_members.user_id', 'workhours.user_id')
                 .select({
-                    day: database.raw('Date(`workhours`.`started` / 1000, \'unixepoch\')'), // TODO: does not work in postgres
+                    day: database.raw('`started` / 1000 / 60 / 60 / 24'),
                 })
                 .sum({ time: database.raw('`workhours`.`finished` - `workhours`.`started`') })
                 .where({
@@ -369,12 +369,14 @@ team.get('/:uuid/activity', async (req, res) => {
                     'ut.team_id': id,
                 })
                 .andWhereNot({ 'workhours.finished': null })
-                .andWhere('workhours.started', '>=', since.getTime())
-                .andWhere('workhours.started', '<=', to.getTime())
+                .andWhereBetween('workhours.started', [since.getTime(), to.getTime()])
                 .groupBy('day');
             res.status(200).json({
                 status: 'success',
-                activity: activity,
+                activity: activity.map((act: any) => ({
+                    ...act,
+                    day: (new Date(act.day * 24 * 60 * 60 * 1000)).toISOString().substring(0, 10),
+                })),
             });
         } else {
             res.status(400).json({
