@@ -5,6 +5,7 @@ import { apiRoot } from 'config';
 
 import { getAuthHeader } from './auth';
 import { StatusColors } from './task';
+import { formatDate } from 'timely';
 
 export interface Activity {
     day: string;
@@ -89,7 +90,7 @@ export function parseCompletion(completion: Completion): CompletionProps[] {
 
 export function parseActivity(activity: Activity[]): ChartItem[] {
     return activity.map(item => ({
-        label: item.day,
+        label: formatDate(new Date(item.day), 'none', 'short'),
         value: item.time
     }));
 }

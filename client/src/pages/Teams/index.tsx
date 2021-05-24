@@ -19,6 +19,7 @@ export interface Params {
 
 export default function Teams() {
     const { teamId } = useParams<Params>();
+    
     const history = useHistory();
     const [allTeams, setTeams] = useState<Team[]>();
     const [currentTeam, setCurrentTeam] = useState<Team>();
@@ -63,7 +64,8 @@ export default function Teams() {
                     label: 'Members',
                     component: (<TeamsMembers members={members} team={currentTeam} />)
                 }, {
-                    route: '/teams/' + currentTeam.id + '/stats',
+                    route: '/teams/' + currentTeam.id + '/stats/:time',
+                    link: '/teams/' + currentTeam.id + '/stats/week',
                     label: 'Stats',
                     component: <TeamsStats teamId={currentTeam.id} />
                 }]);

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import { parseActivity } from 'adapters/util';
+import { formatDate, subtractTime } from 'timely';
 
 interface Props {
     project: Project
@@ -20,7 +21,7 @@ export default function ProjectDetails({ project }: Props) {
         project.teams.forEach(teamId => {
             getTeam(teamId).then((team) => setTeams(prev => [...prev, team.name]));
         });
-        getProjectActivity(project.id).then((a) => setActivity(parseActivity(a)))
+        getProjectActivity(project.id, subtractTime(new Date(), 1, 'week'), new Date()).then((a) => setActivity(parseActivity(a)))
     }, [project]);
 
     let details = [{
@@ -33,7 +34,7 @@ export default function ProjectDetails({ project }: Props) {
         details.push({
             icon: 'warning',
             title: 'Deadline',
-            label: project.deadline?.getMonth().toString() ?? ''
+            label: formatDate(project.deadline, 'month')
         });
     }
 

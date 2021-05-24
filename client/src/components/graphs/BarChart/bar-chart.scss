@@ -17,7 +17,7 @@
 
     .bar-chart {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: flex-end;
         height: 100%;
         position: relative;
@@ -33,7 +33,7 @@
             border-radius: 5px;
         }
         &:after {
-            bottom: calc(48px);
+            bottom: 48px;
         }
 
         .bar {

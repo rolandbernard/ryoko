@@ -7,10 +7,12 @@ import { useHistory, useParams } from 'react-router';
 import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
 import { useEffect, useState } from 'react';
-import { getTask, StatusColors, Task } from 'adapters/task';
+import { getTask, getTaskAssignees, StatusColors, Task, TaskAssignment } from 'adapters/task';
 import { getProject, Project } from 'adapters/project';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import { TeamMemberProps } from 'components/ui/TeamMember';
+import { getCurrentUser } from 'adapters/user';
 
 export interface Params {
     taskId: string;
@@ -22,6 +24,8 @@ export default function TaskDetail() {
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
+    const [assignees, setAssignees] = useState<TeamMemberProps[]>([]);
+    const [assignment, setAssignment] = useState<TaskAssignment>();
 
     useEffect(() => {
         getTask(taskId).then((task) => {
@@ -33,8 +37,16 @@ export default function TaskDetail() {
                     getTeam(teamId).then((team) => {
                         setTeamNames(state => [...state, team.name])
                     }
-                ));
+                    ));
             });
+            getTaskAssignees(taskId).then(assignees =>
+                setAssignees(assignees.map(assignee => ({
+                    user: assignee,
+                    info: assignee.time.toString() + ' min'
+                }
+                ))))
+            getCurrentUser().then((user) => setAssignment(task.assigned.find(a => a.user === user.id)))
+
         }).catch(() => history.goBack());
     }, [taskId, history]);
 
@@ -56,17 +68,21 @@ export default function TaskDetail() {
                     <DetailGrid details={[
                         { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
                         { icon: 'group', title: 'Teams', label: teamNames.join(', ') }]} />
-                    <ButtonLink href={'/tasks/' + taskId + '/start'} className="expanded">
-                        Start
-                </ButtonLink>
+                    {
+                        assignment && !assignment.finished && (
+                            <ButtonLink href={'/tasks/' + taskId + '/start'} className="expanded">
+                                Start working
+                            </ButtonLink>
+                        )
+                    }
                     <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                         Edit
-                </ButtonLink>
+                    </ButtonLink>
                     <Tabs tabs={[
                         {
                             label: 'Assignees',
                             route: '/tasks/' + taskId,
-                            component: <TaskAssignees taskId={taskId} />
+                            component: <TaskAssignees taskId={taskId} assignees={assignees} />
                         },
                         {
                             label: 'Comments',

@@ -10,6 +10,7 @@ import { Completion } from 'adapters/util';
 import LoadingScreen from '../LoadingScreen';
 import Tag from '../Tag';
 import { StatusColors } from 'adapters/project';
+import { formatDate } from 'timely';
 
 export interface ProjectProps {
     project: IProject
@@ -43,7 +44,7 @@ export default function Project({ project, large }: ProjectProps) {
                     large &&
                     <div className="details">
                         {project.deadline && (
-                            <div className="deadline">{project.deadline.toUTCString()}</div>
+                            <div className="deadline">{formatDate(project.deadline, 'month')}</div>
                         )}
                         <AssigneeList assignees={assignees} max={3} />
                     </div>

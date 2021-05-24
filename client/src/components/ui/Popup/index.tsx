@@ -7,6 +7,11 @@ interface Props {
 }
 
 export default function Popup({ children, onClose }: Props) {
+    document.addEventListener('keydown', (e) => {
+        if(e.keyCode === 27) {
+            onClose();
+        }
+    });
     return (
         <div className="popup-container">
             <div className="popup">

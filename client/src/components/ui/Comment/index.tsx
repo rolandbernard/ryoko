@@ -3,6 +3,7 @@ import { getUser, User } from 'adapters/user';
 import { Comment as IComment } from 'adapters/comment';
 import { useEffect, useState } from 'react';
 import Avatar from 'components/ui/Avatar';
+import { formatRelativeTime } from 'timely';
 
 
 export interface CommentProps {
@@ -26,8 +27,8 @@ export default function Comment({ comment }: CommentProps) {
                             {user.realname ?? user.username}
                         </div>
                         <div className="time">
-                            10 years ago
-                    </div>
+                            {formatRelativeTime(comment.created)}    
+                        </div>
                     </div>
                 </div>
                 <div className="comment">

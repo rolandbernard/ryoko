@@ -1,0 +1,41 @@
+@use 'styles/settings.scss'as s;
+
+.assignees-field {
+    .assignee {
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        background: s.$gray;
+        position: relative;
+        margin: 10px 0;
+
+        .delete {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            color: s.$white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: s.$red;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+            cursor: pointer;
+
+            span {
+                font-size: 18px;
+            }
+        }
+
+        &.add-btn {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: s.$weight-bold;
+        }
+    }
+}

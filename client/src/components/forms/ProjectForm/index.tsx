@@ -6,6 +6,7 @@ import TextInput from 'components/ui/TextInput';
 import './project-form.scss';
 import { getTeam, getTeams, Team } from 'adapters/team';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
+import '../form.scss';
 
 interface Props {
     project?: Project
@@ -51,7 +52,7 @@ export function getDateString(date?: Date) {
         let month = date.getMonth() + 1;
         return date.getFullYear() + '-'
             + (month / 10 < 1 ? '0' + month : month) + '-'
-                + (date.getDate() / 10 < 1 ? '0' + date.getDate() : date.getDate());
+            + (date.getDate() / 10 < 1 ? '0' + date.getDate() : date.getDate());
     } else {
         return undefined;
     }
@@ -106,7 +107,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             validateColor(color ?? '') === null &&
             validateTeams(teams) === null
         ) {
-            
+
             onSubmit?.(teams, name ?? '', text ?? '', color ?? '', status ?? Status.OPEN, deadline);
         } else {
             setError('Please fill in the mandatory fields.');
@@ -116,6 +117,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     return (
         <form onSubmit={handleSubmit} className="project-form">
             {error && <Callout message={error} />}
+            <h2>General</h2>
             <TextInput
                 label="Name"
                 name="name"
@@ -130,8 +132,47 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 defaultText={text}
                 validation={validateText}
                 type="textarea"
+                note="A short description of the project."
             />
+            <div className="fields-row">
+                <div className="col">
+                    <TextInput
+                        label="Deadline"
+                        name="text"
+                        defaultText={deadline}
+                        onChange={setDeadline}
+                        type="date"
+                        note="Until when the project is due."
+                    />
+
+                </div>
+                <div className="col">
+                    {
+                        status &&
+                        <div className="field">
+                            <label className="field-label" htmlFor="status">Status</label>
+                            <select id="status" defaultValue={project?.status} onChange={(e) => {
+                                let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
+                                setStatus(currentStatus);
+                            }
+                            }>
+                                <option value="">Please choose a status</option>
+                                {
+                                    allStatus.map((s) => (
+                                        <option value={s} key={s}>{s}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+
             <h2>Color</h2>
+            <p>Choose a color, to identify to project later more easily.</p>
             <div className="color-list">
                 {
                     colors.map(colorItem => (
@@ -145,38 +186,17 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                     ))
                 }
             </div>
-
-            <TextInput
-                label="Deadline"
-                name="text"
-                defaultText={deadline}
-                onChange={setDeadline}
-                type="date"
-            />
-
             <div className="teams">
+                <h2>Teams</h2>
+                <p>Which ones of your teams are working on this project</p>
                 <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
             </div>
 
-            {
-                status &&
-                <select defaultValue={project?.status} onChange={(e) => {
-                    let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
-                    setStatus(currentStatus);
-                }
-                }>
-                    <option value="">Please choose a status</option>
-                    {
-                        allStatus.map((s) => (
-                            <option value={s} key={s}>{s}</option>
-                        ))
-                    }
-                </select>
-            }
-
-            <Button type="submit">
-                {project ? 'Update' : 'Create'}
-            </Button>
+            <div className="button-container">
+                <Button type="submit" className="expanded">
+                    {project ? 'Update' : 'Create'}
+                </Button>
+            </div>
         </form>
     )
 }

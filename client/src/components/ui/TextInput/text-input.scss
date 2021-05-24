@@ -54,4 +54,14 @@
             background: rgba(0, 0, 0, 0.025);
         }
     }
+    .note {
+        margin-top: 5px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        span {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+    }
 }

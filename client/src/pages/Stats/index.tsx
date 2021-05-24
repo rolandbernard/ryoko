@@ -6,6 +6,7 @@ import { CompletionProps } from 'components/ui/Completion';
 import { parseActivity, parseCompletion } from 'adapters/util';
 import CompletionGrid from 'components/layout/CompletionGrid';
 import BarChart, { ChartItem } from 'components/graphs/BarChart';
+import { subtractTime } from 'timely';
 
 export default function Tasks() {
     const [completions, setCompletions] = useState<CompletionProps[]>();
@@ -13,7 +14,7 @@ export default function Tasks() {
 
     useEffect(() => {
         getUserCompletion().then((completion) => setCompletions(parseCompletion(completion)));
-        getUserActivity().then((a) => setActivity(parseActivity(a)))
+        getUserActivity(subtractTime(new Date(), 1, 'week'), new Date()).then((a) => setActivity(parseActivity(a)))
     }, []);
 
 
@@ -23,6 +24,9 @@ export default function Tasks() {
             <div className="stats-page">
                 <div className="content-container">
                     <h1 className="underlined">Stats</h1>
+                    <div className="description-container">
+                        Here are some of your recent statistics.
+                    </div>
                     <h2>Activity</h2>
                     <BarChart data={activity} />
                     <h2>Completion</h2>

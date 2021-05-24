@@ -3,30 +3,23 @@
 @use 'styles/functions'as fn;
 
 .tasks-page {
+    h2 {
+        margin-top: 40px;
+    }
+
     .intro-section {
         font-size: fn.toRem(18);
+
+        @include mx.breakpoint(large) {
+            font-size: fn.toRem(24);
+        }
     }
 
     .tasks-container {
         margin-top: 50px;
 
-        .task-group {
-            @include mx.breakpoint(medium) {
-                display: flex;
-                width: 100%;
-
-                h3 {
-                    width: 30%;
-                }
-
-                .tasks-list {
-                    flex-grow: 1;
-                }
-            }
-
-            .task {
-                margin-bottom: 30px;
-            }
+        .task {
+            margin-bottom: 30px;
         }
 
     }

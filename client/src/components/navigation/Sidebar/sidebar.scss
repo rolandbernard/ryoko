@@ -138,6 +138,18 @@
 
         .bar-chart-container {
             background: transparent;
+            padding: 30px;
+
+            .bar-chart {
+                &:before,
+                &:after {
+                    opacity: 0.15;
+                }
+            }
+
+            .bar {
+                background: s.$white;
+            }
         }
     }
 }

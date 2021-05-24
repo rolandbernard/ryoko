@@ -31,6 +31,9 @@ export default function Settings() {
             <div className="settings-page">
                 <div className="content-container">
                     <h1 className="underlined">Settings</h1>
+                    <div className="description-container">
+                        Here you can edit your personal information.
+                    </div>
                     <UserForm user={user} onSubmit={handleSubmit} />
                 </div>
             </div>

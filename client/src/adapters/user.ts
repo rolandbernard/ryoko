@@ -61,7 +61,12 @@ export function getUserActivity(from: Date = new Date(0), to: Date = new Date())
 export function getUserCompletion(from: Date = new Date(0), to: Date = new Date()): Promise<Completion> {
     return executeApiGet(
         `user/completion?since=${from.getTime()}&to=${to.getTime()}`,
-        ({ completion }) => completion, "Failed to get user completion"
+        ({ completion }) => ({...completion, sum: (
+            completion.open + 
+            completion.closed + 
+            completion.suspended + 
+            completion.overdue
+        ) || 1}), "Failed to get user completion"
     );
 }
 

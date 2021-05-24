@@ -1,6 +1,7 @@
 import { TaskRequirement } from 'adapters/task';
+import './requirements-form.scss';
 import { useCallback, useEffect, useState } from 'react';
-import { possibleRole } from '.';
+import { possibleRole } from '../TaskForm';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
 
@@ -23,7 +24,8 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
     }, [roles, requirements, setSelectedRole])
 
 
-    const addRequirement = useCallback(() => {
+    const addRequirement = useCallback((e) => {
+        e.preventDefault();
         if (selectedTime && selectedRole) {
             setRequirements((state: any) => [...state, { role: selectedRole, time: selectedTime }]);
             setAddNew(false);
@@ -35,25 +37,30 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
 
 
     const removeRequirement = useCallback((role: string) => {
-            setRequirements((state: any) => state.filter((r: any) => r.role !== role));
+        setRequirements((state: any) => state.filter((r: any) => r.role !== role));
     }, [setRequirements])
-    
+
     return (
         <>
             <div className="requirements-field">
+                <h2>Requirements</h2>
                 {
                     requirements.map((requirement) => (
                         <div className="requirement" key={requirement.role}>
-                            <h2>{roles.find(role => role.id === requirement.role)?.label}</h2>
-                            <div>{requirement.time}</div>
-                            <div onClick={() => removeRequirement(requirement.role)}>delete</div>
+                            <div>{roles.find(role => role.id === requirement.role)?.label}</div>
+                            <div>{requirement.time} min</div>
+                            <div className="delete" onClick={() => removeRequirement(requirement.role)}>
+                                <span className="material-icons">
+                                    clear
+                                </span>
+                            </div>
                         </div>
                     ))
                 }
                 {
                     possibleRoles.length > 0 && (
-                        <div className="add-btn" onClick={() => setAddNew(true)}>
-                            new
+                        <div className="add-btn requirement" onClick={() => setAddNew(true)}>
+                            +
                         </div>
                     )
                 }
@@ -69,8 +76,10 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
                                 ))
                             }
                         </select>
-                        <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
-                        <Button type="submit" onClick={addRequirement}>
+                        <div className="time-field">
+                            <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
+                        </div>
+                        <Button type="submit" onClick={addRequirement} className="expanded">
                             Create new requirement
                         </Button>
                     </Popup>

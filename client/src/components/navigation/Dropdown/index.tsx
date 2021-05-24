@@ -18,6 +18,11 @@ interface Props {
 export default function Dropdown({ children, items, position }: Props) {
     const [isOpen, setOpen] = useState(false);
     const [openPopup, setOpenPopup] = useState<string | null>(null);
+    document.addEventListener('keydown', (e) => {
+        if(e.keyCode === 27) {
+            setOpen(false);
+        }
+    });
     return (
         <>
             <div className={'dropdown-container' + (isOpen ? ' open' : '') + (items.length === 0 ? ' inactive' : '')} onClick={() => setOpen(state => !state)}>
