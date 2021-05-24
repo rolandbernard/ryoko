@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import './tabs.scss';
 
 export interface Tab {

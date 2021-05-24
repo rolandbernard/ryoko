@@ -5,6 +5,7 @@ import { getProject } from 'adapters/project';
 import { getCurrentUser, getUserTasks, User } from 'adapters/user';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import { getPossibleTasks } from 'adapters/task';
+import { getTeams } from 'adapters/team';
 
 export default function Tasks() {
     const [tasks, setTasks] = useState<TaskProps[]>([]);
@@ -26,14 +27,20 @@ export default function Tasks() {
                 })
             })
             getPossibleTasks().then(tasks => {
-                tasks.filter(task => !task.assigned.find(a => a.user === user.id)).forEach(task => {
-                    getProject(task.project).then((project) => {
-                        setPossibleTasks(state => [...state, {
-                            task: task,
-                            subtitle: 'Suggested task - add yourself as assignee to do it.',
-                            color: project.color
-                        }]);
+                getTeams().then((teams) => {
+                    let roles = teams.map(t => t.role);
+                    tasks.filter(task =>  
+                        task.requirements.find(r => roles.indexOf(r.role) >= 0)
+                    ).forEach(task => {
+                        getProject(task.project).then((project) => {
+                            setPossibleTasks(state => [...state, {
+                                task: task,
+                                subtitle: 'Suggested task - add yourself as assignee to do it.',
+                                color: project.color
+                            }]);
+                        })
                     })
+
                 })
             })
 

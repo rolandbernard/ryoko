@@ -17,6 +17,10 @@ export interface Params {
     taskId: string;
 }
 
+function handleTimer(state: number) {
+    return state - 1000;
+}
+
 export default function TaskDetail() {
     const { taskId } = useParams<Params>();
     const history = useHistory();
@@ -30,6 +34,7 @@ export default function TaskDetail() {
     const [paused, setPaused] = useState(true);
     const [timer, setTimer] = useState<NodeJS.Timeout>();
 
+
     useEffect(() => {
         getTask(taskId).then((task) => {
             setTask(task);
@@ -40,19 +45,22 @@ export default function TaskDetail() {
                     const minutes = assignee.time * 60 * 1000;
                     getTaskWork(task.id).then(work => {
                         const workedItems = work.filter(w => w.user = user.id);
+                        let lastSessionFinished = true;
                         let workedTime = 0;
                         workedItems.forEach(w => {
                             if (!w.finished) {
-                                setPaused(false);
-                                setTimer(setInterval(() => {
-                                    setTime(state => state - 1000);
-                                }, 1000))
+                                lastSessionFinished = false;
                             }
                             workedTime += durationBetween(w.started, w.finished ?? new Date())
-                        })
-
+                        });
 
                         setTime(minutes - workedTime);
+                        if (!lastSessionFinished) {
+                            setPaused(false);
+                            setTimer(setInterval(() => {
+                                setTime(handleTimer);
+                            }, 1000))
+                        }
                     })
                     setInitialTime(minutes);
                 }
@@ -69,13 +77,14 @@ export default function TaskDetail() {
     }, [taskId, history]);
 
 
+
     const handleTaskStart = useCallback(() => {
         if (task) {
             if (paused) {
                 setPaused(false)
                 startWork(task.id);
                 setTimer(setInterval(() => {
-                    setTime(state => state - 1000);
+                    setTime(handleTimer);
                 }, 1000))
             } else {
                 setPaused(true);
@@ -94,11 +103,11 @@ export default function TaskDetail() {
             }
             finishWork();
 
-            const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({...assignee, finished: true});
+            const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({ ...assignee, finished: true });
             updateTask(task.id, {
                 add_assigned: assignees,
                 remove_assigned: [assignee.user]
-                
+
             })
             history.go(0);
         }
@@ -110,7 +119,8 @@ export default function TaskDetail() {
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
-                    <CircularProgress percent={time * 100 / initialTime} label={formatSimpleDuration(time)} color={StatusColors.get(task.status)} />
+                    <CircularProgress percent={time * 100 / initialTime} label={(time < 0 ? '-' : '') + formatSimpleDuration(Math.abs(time))}
+                        color={StatusColors.get(task.status)} />
                     <div className="button-container">
                         {
                             !assignee.finished && (<> {

@@ -42,7 +42,7 @@ export default function TaskDetail() {
             getTaskAssignees(taskId).then(assignees =>
                 setAssignees(assignees.map(assignee => ({
                     user: assignee,
-                    info: assignee.time.toString()
+                    info: assignee.time.toString() + ' min'
                 }
                 ))))
             getCurrentUser().then((user) => setAssignment(task.assigned.find(a => a.user === user.id)))

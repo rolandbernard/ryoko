@@ -9,7 +9,6 @@ import { CompletionProps } from 'components/ui/Completion';
 import { parseActivity, parseCompletion } from 'adapters/util';
 import { subtractTime } from 'timely';
 import { useHistory, useParams } from 'react-router';
-import { time } from 'node:console';
 
 interface Props {
     teamId: string;
@@ -36,7 +35,7 @@ export default function TeamsStats({ teamId }: Props) {
 
     const [activity, setActivity] = useState<ChartItem[]>([]);
     const [completions, setCompletions] = useState<CompletionProps[]>([]);
-    const [dropdowns, setDropdowns] = useState<FilterDropdownItem[]>([{
+    const [dropdowns] = useState<FilterDropdownItem[]>([{
         time: 'week',
         label: 'Last week',
         route: '/teams/' + teamId + '/stats/week'
