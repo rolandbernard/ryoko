@@ -11,13 +11,14 @@ interface Props {
 }
 
 export default function CommentList({ comments, taskId }: Props) {
-
     const [user, setUser] = useState<User>();
     const [comment, setComment] = useState<string>('');
-    const [allComments, setComments] = useState<CommentProps[]>(comments);
+    const [allComments, setComments] = useState<CommentProps[]>([]);
+    
     useEffect(() => {
         getCurrentUser().then((user) => setUser(user));
-    }, []);
+        setComments(comments);
+    }, [comments]);
 
     const handleSubmit = useCallback((e: FormEvent) => {
         e.preventDefault();

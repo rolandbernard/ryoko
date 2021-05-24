@@ -13,7 +13,7 @@ export default function TaskComments({ taskId }: Props) {
     const [comments, setComments] = useState<CommentProps[]>();
     useEffect(() => {
         getTaskComments(taskId).then((comments) => {
-            setComments(comments.map((comment) => { return { comment } }));
+            setComments(comments.map((comment) => ({ comment })));
         })
     }, [taskId])
     return (
