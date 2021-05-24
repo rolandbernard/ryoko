@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
-import { NavLink, Route } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import './tabs.scss';
 
 export interface Tab {
     label: string;
     route: string;
+    link?: string;
     component: ReactNode
 }
 
@@ -18,7 +19,7 @@ export default function Tabs({ tabs }: Props) {
         <>
             <nav className="tabs-container">
                 {tabs.map((tab) => (
-                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={tab.route}>
+                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={tab.link ?? tab.route}>
                         {tab.label}
                     </NavLink>
                 ))}

@@ -3,7 +3,7 @@ import Tag from 'components/ui/Tag';
 import DetailGrid from 'components/layout/DetailGrid';
 import { useHistory, useParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
-import { getTask, getTaskAssignees, getTaskWork, StatusColors, Task, TaskAssignment, TaskRequirement, updateTask } from 'adapters/task';
+import { getTask, getTaskWork, StatusColors, Task, TaskAssignment, updateTask } from 'adapters/task';
 import { getProject, Project } from 'adapters/project';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';

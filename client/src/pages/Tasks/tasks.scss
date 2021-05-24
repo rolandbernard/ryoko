@@ -3,6 +3,9 @@
 @use 'styles/functions'as fn;
 
 .tasks-page {
+    h2 {
+        margin-top: 40px;
+    }
     .intro-section {
         font-size: fn.toRem(18);
     }

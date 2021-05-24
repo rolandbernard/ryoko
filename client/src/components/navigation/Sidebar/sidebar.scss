@@ -139,6 +139,17 @@
         .bar-chart-container {
             background: transparent;
             padding: 30px;
+
+            .bar-chart {
+                &:before,
+                &:after {
+                    opacity: 0.5;
+                }
+            }
+
+            .bar {
+                background: s.$white;
+            }
         }
     }
 }
