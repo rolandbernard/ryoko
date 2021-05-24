@@ -1,12 +1,12 @@
 
-import supertest from 'supertest';
+import supertest, { Response } from 'supertest';
 
 import { api } from '../api';
 import { generateAuthToken } from './auth';
 
 const request = supertest(api);
 
-describe('/user/name', () => {
+describe('GET /user/name', () => {
     test('non existant username returns', async () => {
         const response = await request.get('/v1/user/name/User3');
         expect(response.status).toEqual(404);
@@ -28,7 +28,7 @@ describe('/user/name', () => {
     });
 })
 
-describe('/user/:uuid/image', () => {
+describe('GET /user/:uuid/image', () => {
     test('returns 404 without body if no image is set', async () => {
         const response = await request.get('/v1/user/00000000-0000-4000-8000-000000000000/image');
         expect(response.status).toEqual(404);
@@ -48,7 +48,7 @@ describe('/user/:uuid/image', () => {
     });
 })
 
-describe('/user', () => {
+describe('GET /user', () => {
     test('returns the user that is authorized', async () => {
         const response = await request
             .get('/v1/user')
@@ -62,7 +62,7 @@ describe('/user', () => {
     });
 });
 
-describe('/user/tasks', () => {
+describe('GET /user/tasks', () => {
     test('returns the tasks the user is assigned to', async () => {
         const response = await request
             .get('/v1/user/tasks')
@@ -74,7 +74,7 @@ describe('/user/tasks', () => {
     });
 });
 
-describe('/user/work', () => {
+describe('GET /user/work', () => {
     test('returns all the users work items', async () => {
         const response = await request
             .get('/v1/user/work')
@@ -83,6 +83,7 @@ describe('/user/work', () => {
         expect(response.body.status).toEqual('success');
         expect(response.body.work.length).toEqual(3);
     });
+
     test('returns all finished work items', async () => {
         const response = await request
             .get('/v1/user/work')
@@ -93,17 +94,18 @@ describe('/user/work', () => {
             id: '00000000-0000-4000-8000-000000000000',
             task: '00000000-0000-4000-8000-000000000005',
             user: '00000000-0000-4000-8000-000000000000',
-            started: (new Date('2020-10-10T00:00:00')).toString(),
-            finished: (new Date('2020-10-10T01:00:00')).toString(),
+            started: Date.parse('2020-10-10T12:00:00'),
+            finished: Date.parse('2020-10-10T13:00:00'),
         });
         expect(response.body.work).toContainEqual({
             id: '00000000-0000-4000-8000-000000000001',
             task: '00000000-0000-4000-8000-000000000005',
             user: '00000000-0000-4000-8000-000000000000',
-            started: (new Date('2020-10-10T03:00:00')).toString(),
-            finished: (new Date('2020-10-10T04:00:00')).toString(),
+            started: Date.parse('2020-10-10T13:00:00'),
+            finished: Date.parse('2020-10-10T14:00:00'),
         });
     });
+
     test('returns unfinished work items', async () => {
         const response = await request
             .get('/v1/user/work')
@@ -114,10 +116,11 @@ describe('/user/work', () => {
             id: '00000000-0000-4000-8000-000000000002',
             task: '00000000-0000-4000-8000-000000000005',
             user: '00000000-0000-4000-8000-000000000000',
-            started: (new Date('2020-10-11T05:00:00')).toString(),
+            started: Date.parse('2020-10-11T12:00:00'),
             finished: null,
         });
     });
+
     test('can be limited in time with from date', async () => {
         const response = await request
             .get(`/v1/user/work?since=${Date.parse('2020-10-10T20:00:00')}`)
@@ -126,9 +129,18 @@ describe('/user/work', () => {
         expect(response.body.status).toEqual('success');
         expect(response.body.work.length).toEqual(1);
     });
+
+    test('can be limited in time with to date', async () => {
+        const response = await request
+            .get(`/v1/user/work?to=${Date.parse('2020-10-10T20:00:00')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.work.length).toEqual(2);
+    });
 });
 
-describe('/user/activity', () => {
+describe('GET /user/activity', () => {
     test('returns time worked for all days', async () => {
         const response = await request
             .get('/v1/user/activity')
@@ -138,13 +150,116 @@ describe('/user/activity', () => {
         expect(response.body.activity.length).toEqual(1);
     });
 
-    test('returns time worked for all days', async () => {
+    test('returns the total amount of work for each day', async () => {
         const response = await request
-            .get(`/v1/user/activity?to=${Date.parse("2020-10-20")}`)
+            .get('/v1/user/activity')
             .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
         expect(response.status).toEqual(200);
         expect(response.body.status).toEqual('success');
-        expect(response.body.activity.length).toEqual(1);
+        expect(response.body.activity[0].day).toEqual('2020-10-10');
+        expect(response.body.activity[0].time).toEqual(120 * 60 * 1000);
+    });
+
+    test('can be limited in time with from date', async () => {
+        const response = await request
+            .get(`/v1/user/activity?since=${Date.parse('2020-10-10T20:00:00')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.activity.length).toEqual(0);
+    });
+});
+
+describe('GET /user/completion', () => {
+    test('returns completion for assigned tasks', async () => {
+        const response = await request
+            .get('/v1/user/completion')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.completion).toEqual({
+            open: 0,
+            closed: 0,
+            suspended: 0,
+            overdue: 1,
+        });
+    });
+
+    test('can be limited in time with from date', async () => {
+        const response = await request
+            .get(`/v1/user/completion?since=${Date.parse('2020-10-30T20:00:00')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.completion).toEqual({
+            open: 0,
+            closed: 0,
+            suspended: 0,
+            overdue: 0,
+        });
+    });
+});
+
+describe('PUT /user', () => {
+    let response: Response;
+
+    beforeAll(async () => {
+        response = await request
+            .put('/v1/user')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
+            .send({
+                realname: 'Testing',
+                email: 'test2@example.com',
+            });
+    });
+
+    test('successfully returns', async () => {
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+    });
+
+    test('the current user now contains the new information', async () => {
+        const response = await request
+            .get('/v1/user')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.user.email).toEqual('test2@example.com');
+        expect(response.body.user.realname).toEqual('Testing');
+    });
+
+    test('the current user still contains the same username and id', async () => {
+        const response = await request
+            .get('/v1/user')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.user.id).toEqual('00000000-0000-4000-8000-000000000000');
+        expect(response.body.user.username).toEqual('user0');
+    });
+
+    afterAll(async () => {
+        await request
+            .put('/v1/user')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
+            .send({
+                realname: 'Testing Tester',
+                email: 'test0@example.com',
+            });
+    })
+});
+
+describe('GET /user/:uuid', () => {
+    test('returns the user that is requested', async () => {
+        const response = await request
+            .get('/v1/user/00000000-0000-4000-8000-000000000001')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.user.id).toEqual('00000000-0000-4000-8000-000000000001');
+        expect(response.body.user.username).toEqual('user1');
+        expect(response.body.user.email).toEqual('test1@example.com');
+        expect(response.body.user.realname).toEqual('Tester Testing');
     });
 });
 
