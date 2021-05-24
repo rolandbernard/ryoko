@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getCurrentUser, getUserActivity, User } from 'adapters/user';
 import BarChart, { ChartItem } from 'components/graphs/BarChart';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import { formatDate, subtractTime } from 'timely';
 
 interface Props {
     mobileShown: boolean;
@@ -21,9 +22,9 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         if (isLoggedIn()) {
             getCurrentUser().then((user) => {
                 setUser(user);
-                getUserActivity().then((a) => {
+                getUserActivity(subtractTime(new Date(), 1, 'week'), new Date()).then((a) => {
                     setActivity(a.map(item => ({
-                        label: item.day,
+                        label: formatDate(new Date(item.day), 'none', 'short'),
                         value: item.time
                     })));
                 });

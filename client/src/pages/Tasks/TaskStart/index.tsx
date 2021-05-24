@@ -2,14 +2,16 @@ import './task-start.scss';
 import Tag from 'components/ui/Tag';
 import DetailGrid from 'components/layout/DetailGrid';
 import { useHistory, useParams } from 'react-router';
-import { useEffect, useState } from 'react';
-import { getTask, StatusColors, Task } from 'adapters/task';
+import { useCallback, useEffect, useState } from 'react';
+import { getTask, getTaskAssignees, getTaskWork, StatusColors, Task, TaskAssignment, TaskRequirement, updateTask } from 'adapters/task';
 import { getProject, Project } from 'adapters/project';
 import { getTeam } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import CircularProgress from 'components/graphs/CircularProgress';
 import Button from 'components/ui/Button';
-import { getCurrentUser, User } from 'adapters/user';
+import { getCurrentUser } from 'adapters/user';
+import { durationBetween, formatSimpleDuration } from 'timely';
+import { finishWork, startWork } from 'adapters/work';
 
 export interface Params {
     taskId: string;
@@ -18,19 +20,42 @@ export interface Params {
 export default function TaskDetail() {
     const { taskId } = useParams<Params>();
     const history = useHistory();
+
     const [task, setTask] = useState<Task>();
-    const [time, setTime] = useState<number>();
-    const [user, setUser] = useState<User>();
+    const [time, setTime] = useState<number>(0);
+    const [initialTime, setInitialTime] = useState<number>(0);
+    const [assignee, setAssignee] = useState<TaskAssignment>();
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
     const [paused, setPaused] = useState(true);
+    const [timer, setTimer] = useState<NodeJS.Timeout>();
 
     useEffect(() => {
         getTask(taskId).then((task) => {
             setTask(task);
             getCurrentUser().then((user) => {
-                setUser(user);
-                setTime(task.assigned.find(a => a.user === user.id)?.time);
+                const assignee = task.assigned.find(a => a.user = user.id);
+                setAssignee(assignee);
+                if (assignee) {
+                    const minutes = assignee.time * 60 * 1000;
+                    getTaskWork(task.id).then(work => {
+                        const workedItems = work.filter(w => w.user = user.id);
+                        let workedTime = 0;
+                        workedItems.forEach(w => {
+                            if (!w.finished) {
+                                setPaused(false);
+                                setTimer(setInterval(() => {
+                                    setTime(state => state - 1000);
+                                }, 1000))
+                            }
+                            workedTime += durationBetween(w.started, w.finished ?? new Date())
+                        })
+
+
+                        setTime(minutes - workedTime);
+                    })
+                    setInitialTime(minutes);
+                }
             })
             getProject(task.project).then((project) => {
                 setProject(project);
@@ -43,28 +68,67 @@ export default function TaskDetail() {
         }).catch(() => history.goBack());
     }, [taskId, history]);
 
-    if (task) {
+
+    const handleTaskStart = useCallback(() => {
+        if (task) {
+            if (paused) {
+                setPaused(false)
+                startWork(task.id);
+                setTimer(setInterval(() => {
+                    setTime(state => state - 1000);
+                }, 1000))
+            } else {
+                setPaused(true);
+                if (timer) {
+                    finishWork();
+                    clearInterval(timer);
+                }
+            }
+        }
+    }, [paused, task, timer])
+
+    const finishTask = useCallback(() => {
+        if (task && assignee) {
+            if (timer) {
+                clearInterval(timer);
+            }
+            finishWork();
+
+            const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({...assignee, finished: true});
+            updateTask(task.id, {
+                add_assigned: assignees,
+                remove_assigned: [assignee.user]
+                
+            })
+            history.go(0);
+        }
+    }, [task, history, timer, assignee])
+
+    if (task && assignee) {
         return (
             <div className={'tasks-start-page theme-' + StatusColors.get(task.status)}>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
-                    <CircularProgress percent={100} label={time?.toString()} color={StatusColors.get(task.status)} />
+                    <CircularProgress percent={time * 100 / initialTime} label={formatSimpleDuration(time)} color={StatusColors.get(task.status)} />
                     <div className="button-container">
                         {
-                            paused ? (
-                                <Button className="expanded" onClick={e => setPaused(false)}>
-                                    Go!
+                            !assignee.finished && (<> {
+                                paused ? (
+                                    <Button className="expanded" onClick={handleTaskStart}>
+                                        Go!
+                                    </Button>
+                                ) : (
+                                    <Button className="expanded" onClick={handleTaskStart}>
+                                        Make a break
+                                    </Button>
+                                )
+                            }
+                                <Button className="expanded dark" onClick={finishTask}>
+                                    Finish task
                                 </Button>
-                            ) : (
-                                <Button className="expanded" onClick={e => setPaused(true)}>
-                                    Make a break
-                                </Button>
-                            )
+                            </>)
                         }
-                        <Button className="expanded dark">
-                            Finish task
-                    </Button>
                     </div>
 
                     <div className="description-container">
