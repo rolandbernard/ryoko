@@ -64,13 +64,6 @@
 
     .description-container {
         margin-top: 20px;
-        display: none;
-    }
-
-    &:first-child {
-        .description-container {
-            display: block;
-        }
     }
 
     .assignee-list {
