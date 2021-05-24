@@ -235,7 +235,8 @@ task.get('/:uuid/comments', async (req, res) => {
                 .where({
                     'team_members.user_id': req.body.token.id,
                     'tasks.id': id,
-                });
+                })
+                .groupBy('comments.id');
             if (task.length >= 1) {
                 res.status(200).json({
                     status: 'success',
