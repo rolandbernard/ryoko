@@ -1,7 +1,7 @@
 
 import { env } from 'process';
 
-import { database, ready, close } from './database';
+import { database, migrate, close } from './database';
 
 async function loadTestData() {
     await database('users')
@@ -83,7 +83,7 @@ async function loadTestData() {
                 text: 'Project0 Text',
                 color: '#00f',
                 status: 'open',
-                deadline: Date.parse('2020-10-10'),
+                deadline: '2020-10-10',
             }, {
                 id: '00000000-0000-4000-8000-000000000001',
                 name: 'Project1',
@@ -270,21 +270,41 @@ async function deleteTestData() {
         await database('comments')
             .delete()
             .whereIn('comments.task_id', [
+                '00000000-0000-4000-8000-000000000000',
+                '00000000-0000-4000-8000-000000000001',
+                '00000000-0000-4000-8000-000000000002',
+                '00000000-0000-4000-8000-000000000003',
+                '00000000-0000-4000-8000-000000000004',
                 '00000000-0000-4000-8000-000000000005',
             ]);
         await database('workhours')
             .delete()
             .whereIn('workhours.task_id', [
+                '00000000-0000-4000-8000-000000000000',
+                '00000000-0000-4000-8000-000000000001',
+                '00000000-0000-4000-8000-000000000002',
+                '00000000-0000-4000-8000-000000000003',
+                '00000000-0000-4000-8000-000000000004',
                 '00000000-0000-4000-8000-000000000005',
             ]);
         await database('task_assignees')
             .delete()
             .whereIn('task_assignees.task_id', [
+                '00000000-0000-4000-8000-000000000000',
+                '00000000-0000-4000-8000-000000000001',
+                '00000000-0000-4000-8000-000000000002',
+                '00000000-0000-4000-8000-000000000003',
+                '00000000-0000-4000-8000-000000000004',
                 '00000000-0000-4000-8000-000000000005',
             ]);
         await database('task_dependencies')
             .delete()
             .whereIn('task_dependencies.task_id', [
+                '00000000-0000-4000-8000-000000000000',
+                '00000000-0000-4000-8000-000000000001',
+                '00000000-0000-4000-8000-000000000002',
+                '00000000-0000-4000-8000-000000000003',
+                '00000000-0000-4000-8000-000000000004',
                 '00000000-0000-4000-8000-000000000005',
             ]);
         await database('task_requirements')
@@ -292,6 +312,9 @@ async function deleteTestData() {
             .whereIn('task_requirements.task_id', [
                 '00000000-0000-4000-8000-000000000000',
                 '00000000-0000-4000-8000-000000000001',
+                '00000000-0000-4000-8000-000000000002',
+                '00000000-0000-4000-8000-000000000003',
+                '00000000-0000-4000-8000-000000000004',
                 '00000000-0000-4000-8000-000000000005',
             ]);
         await database('tasks')
@@ -351,7 +374,7 @@ async function deleteTestData() {
 }
 
 beforeAll(async () => {
-    await ready;
+    await migrate();
     await loadTestData();
 });
 

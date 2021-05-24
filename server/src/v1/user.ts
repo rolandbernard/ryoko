@@ -193,14 +193,15 @@ user.get('/activity', async (req, res) => {
         const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const activity = await database('workhours')
             .select({
-                day: database.raw('`started` / 1000 / 60 / 60 / 24'),
+                day: database.raw('(workhours.started / 1000 / 60 / 60 / 24)'),
             })
-            .sum({ time: database.raw('`finished` - `started`') })
+            .sum({ time: database.raw('(workhours.finished - workhours.started)') })
             .where({
                 'workhours.user_id': req.body.token.id,
             })
             .andWhereNot({ 'workhours.finished': null })
-            .andWhereBetween('workhours.started', [since.getTime(), to.getTime()])
+            .andWhere('workhours.started', '>=', since.getTime())
+            .andWhere('workhours.started', '<=', to.getTime())
             .groupBy('day');
         res.status(200).json({
             status: 'success',
@@ -210,7 +211,6 @@ user.get('/activity', async (req, res) => {
             })),
         });
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get activity',
@@ -222,20 +222,20 @@ user.get('/completion', async (req, res) => {
     try {
         const since = new Date(parseInt(req.query.since as string ?? 0));
         const to = new Date(parseInt(req.query.to as string ?? Date.now()));
-        const completion = await database(
+        const completion: any[] = await database(
                 database('task_assignees')
                     .innerJoin('tasks', 'task_assignees.task_id', 'tasks.id')
                     .select({
                         id: 'tasks.id',
                         status: database.raw(
-                            'Case When `tasks`.`status` = \'open\' '
-                            + 'And (Select '
-                                    + 'Sum(`task_requirements`.`time` * 60 * 1000) '
-                                    + 'from `task_requirements` where `task_requirements`.`task_id` = `tasks`.`id`) '
-                                + '< (Select '
-                                    + 'Sum(`workhours`.`finished` - `workhours`.`started`) '
-                                    + 'from `workhours` where `workhours`.`task_id` = `tasks`.`id`) '
-                            + 'Then \'overdue\' Else `tasks`.`status` End'),
+                            `Case When tasks.status = 'open'
+                                And (Select
+                                        Sum(task_requirements.time * 60 * 1000)
+                                        from task_requirements where task_requirements.task_id = tasks.id)
+                                    < (Select
+                                        Sum(workhours.finished - workhours.started)
+                                        from workhours where workhours.task_id = tasks.id)
+                                Then 'overdue' Else tasks.status End`),
                     })
                     .where({
                         'task_assignees.user_id': req.body.token.id,
@@ -243,12 +243,13 @@ user.get('/completion', async (req, res) => {
                     .andWhere('tasks.edited', '>=', since.getTime())
                     .andWhere('tasks.created', '<=', to.getTime())
                     .groupBy('tasks.id')
+                    .as('task_status')
             )
             .select({
-                status: 'status',
+                status: 'task_status.status',
             })
-            .count({ count: 'id' })
-            .groupBy('status') as any[];
+            .count({ count: 'task_status.id' })
+            .groupBy('task_status.status');
         res.status(200).json({
             status: 'success',
             completion: completion.reduce((object, { status, count }) => ({

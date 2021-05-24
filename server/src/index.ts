@@ -1,7 +1,11 @@
 
 import express from 'express';
+
+import { migrate } from './database';
 import { api } from './api';
 import { port, web_serve } from './config';
+
+migrate();
 
 const app = express();
 

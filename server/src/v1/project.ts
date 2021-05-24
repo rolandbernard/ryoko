@@ -245,13 +245,14 @@ project.get('/:uuid/activity', async (req, res) => {
                         'team_projects.project_id': id,
                     })
                     .andWhereNot({ 'workhours.finished': null })
-                    .andWhereBetween('workhours.started', [since.getTime(), to.getTime()])
+                    .andWhere('workhours.started', '>=', since.getTime())
+                    .andWhere('workhours.started', '<=', to.getTime())
                     .groupBy('workhours.id')
                 )
                 .select({
-                    day: database.raw('`started` / 1000 / 60 / 60 / 24'),
+                    day: database.raw('(workhours.started / 1000 / 60 / 60 / 24)'),
                 })
-                .sum({ time: database.raw('`finished` - `started`') })
+                .sum({ time: database.raw('(workhours.finished - workhours.started)') })
                 .groupBy('day');
             res.status(200).json({
                 status: 'success',
@@ -287,14 +288,14 @@ project.get('/:uuid/completion', async (req, res) => {
                         .select({
                             id: 'tasks.id',
                             status: database.raw(
-                                'Case When `tasks`.`status` = \'open\' '
-                                + 'And (Select '
-                                        + 'Sum(`task_requirements`.`time` * 60 * 1000) '
-                                        + 'from `task_requirements` where `task_requirements`.`task_id` = `tasks`.`id`) '
-                                    + '< (Select '
-                                        + 'Sum(`workhours`.`finished` - `workhours`.`started`) '
-                                        + 'from `workhours` where `workhours`.`task_id` = `tasks`.`id`) '
-                                + 'Then \'overdue\' Else `tasks`.`status` End'),
+                                `Case When tasks.status = 'open'
+                                    And (Select
+                                            Sum(task_requirements.time * 60 * 1000)
+                                            from task_requirements where task_requirements.task_id = tasks.id)
+                                        < (Select
+                                            Sum(workhours.finished - workhours.started)
+                                            from workhours where workhours.task_id = tasks.id)
+                                    Then 'overdue' Else tasks.status End`),
                         })
                         .where({
                             'team_members.user_id': req.body.token.id,
@@ -303,12 +304,13 @@ project.get('/:uuid/completion', async (req, res) => {
                         .andWhere('tasks.edited', '>=', since.getTime())
                         .andWhere('tasks.created', '<=', to.getTime())
                         .groupBy('tasks.id')
+                        .as('task_status')
                 )
                 .select({
-                    status: 'status',
+                    status: 'task_status.status',
                 })
-                .count({ count: 'id' })
-                .groupBy('status');
+                .count({ count: 'task_status.id' })
+                .groupBy('task_status.status');
             res.status(200).json({
                 status: 'success',
                 completion: completion.reduce((object, { status, count }) => ({
@@ -323,6 +325,7 @@ project.get('/:uuid/completion', async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get completion',
@@ -366,7 +369,7 @@ project.post('/', async (req, res) => {
                             name: req.body.name,
                             text: req.body.text,
                             color: req.body.color,
-                            deadline: req.body.deadline ? Date.parse(req.body.deadline) : null,
+                            deadline: req.body.deadline ? (new Date(req.body.deadline)).toISOString().substr(0, 10) : null,
                             status: 'open',
                         })
                         await transaction('team_projects').insert(

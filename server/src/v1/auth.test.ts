@@ -1,7 +1,7 @@
 
 import supertest, { Response } from 'supertest';
 
-import { database } from '../database';
+import database from '../database';
 import { api } from '../api';
 import { generateAuthToken } from './auth';
 
