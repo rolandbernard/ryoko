@@ -35,6 +35,46 @@ export function formatDuration(millis: number, precision: Unit = 'minute'): stri
     return 'moments';
 }
 
+function formatNumber(value: number, places = 2, padding = '0'): string {
+    let result = Math.floor(value).toString();
+    while (result.length < places) {
+        result = padding + result;
+    }
+    return result;
+}
+
+export function formatSimpleDuration(millis: number, hours = false, minutes = true, seconds = true, milliseconds = false): string {
+    let result = '';
+    if (hours) {
+        const hour = Math.floor(millis / UNITS['hour']);
+        millis -= hour * UNITS['hour'];
+        result += formatNumber(hour);
+    }
+    if (minutes) {
+        if (result.length !== 0) {
+            result += ':';
+        }
+        const min = Math.floor(millis / UNITS['minute']);
+        millis -= min * UNITS['minute'];
+        result += formatNumber(min);
+    }
+    if (seconds) {
+        if (result.length !== 0) {
+            result += ':';
+        }
+        const sec = Math.floor(millis / UNITS['second']);
+        millis -= sec * UNITS['second'];
+        result += formatNumber(sec);
+    }
+    if (milliseconds) {
+        if (result.length !== 0) {
+            result += '.';
+        }
+        result += formatNumber(millis, 3);
+    }
+    return result;
+}
+
 function formatOrdinal(value: number): string {
     value = Math.floor(value);
     if (value === 1 || (value % 10 === 1 && value > 20)) {
@@ -46,14 +86,6 @@ function formatOrdinal(value: number): string {
     } else {
         return value.toString() + 'th';
     }
-}
-
-function formatNumber(value: number, places = 2, padding = '0'): string {
-    let result = Math.floor(value).toString();
-    while (result.length < places) {
-        result = padding + result;
-    }
-    return result;
 }
 
 const MONTHS = [
@@ -132,7 +164,7 @@ export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short
 }
 
 export function formatRelativeTime(target: Date, origin = new Date(), precision?: Unit): string {
-    const delta = target.getTime() - origin.getTime();
+    const delta = durationBetween(origin, target);
     if (delta > 0) {
         return 'in ' + formatDuration(delta, precision);
     } else {
@@ -161,5 +193,13 @@ export function addTime(date: Date, time: number, unit: Unit): Date {
 
 export function subtractTime(date: Date, time: number, unit: Unit): Date {
     return addTime(date, -time, unit);
+}
+
+export function durationBetween(from: Date, to: Date): number {
+    return to.getTime() - from.getTime();
+}
+
+export function currentTime(): Date {
+    return new Date();
 }
 

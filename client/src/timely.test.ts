@@ -1,5 +1,25 @@
 
-import { formatDate, formatTime, formatDuration, formatRelativeTime, addTime, subtractTime } from 'timely';
+import {
+    formatDate,
+    formatTime,
+    formatDuration,
+    formatRelativeTime,
+    formatSimpleDuration,
+    addTime,
+    subtractTime,
+} from 'timely';
+
+test('simple duration format works as expected', () => {
+    expect(formatSimpleDuration(1.5 * 60 * 1000)).toEqual('01:30');
+});
+
+test('simple duration format can include hours', () => {
+    expect(formatSimpleDuration(5 * 60 * 60 * 1000 + 42.5 * 60 * 1000, true)).toEqual('05:42:30');
+});
+
+test('simple duration format can include milliseconds', () => {
+    expect(formatSimpleDuration(12345, false, false, true, true)).toEqual('12.345');
+});
 
 test('small durations format as `moments`', () => {
     expect(formatDuration(10 * 1000)).toEqual('moments');
