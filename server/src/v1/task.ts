@@ -265,7 +265,8 @@ task.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const work = await database({ ut: 'team_members' })
                 .innerJoin('team_projects', 'ut.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
@@ -281,7 +282,8 @@ task.get('/:uuid/work', async (req, res) => {
                     'ut.user_id': req.body.token.id,
                     'tasks.id': id,
                 })
-                .andWhere('workhours.started', '>=', since)
+                .andWhere('workhours.started', '>=', since.getTime())
+                .andWhere('workhours.started', '<=', to.getTime())
                 .groupBy('workhours.id');
             res.status(200).json({
                 status: 'success',
@@ -475,8 +477,8 @@ task.post('/', async (req, res) => {
                         icon: req.body.icon,
                         priority: req.body.priority,
                         status: 'open',
-                        created: new Date(),
-                        edited: new Date(),
+                        created: Date.now(),
+                        edited: Date.now(),
                     });
                     if (requirements.length !== 0) {
                         await transaction('task_requirements').insert(
@@ -593,7 +595,7 @@ task.put('/:uuid', async (req, res) => {
                                 icon: req.body.icon,
                                 priority: req.body.priority,
                                 status: req.body.status,
-                                edited: new Date(),
+                                edited: Date.now(),
                             })
                             .where({
                                 'tasks.id': task_id,

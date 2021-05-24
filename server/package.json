@@ -8,10 +8,8 @@
     "private": true,
     "main": "src/index.ts",
     "dependencies": {
-        "@types/cors": "^2.8.10",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.0",
-        "cors": "^2.8.5",
         "express": "^4.17.1",
         "express-fileupload": "^1.2.1",
         "jsonwebtoken": "^8.5.1",
@@ -23,7 +21,7 @@
     "scripts": {
         "start": "nodemon src/index.ts",
         "build": "tsc --project .",
-        "test": "jest --passWithNoTests --config ./jest.config.json"
+        "test": "jest --passWithNoTests --verbose --config ./jest.config.json"
     },
     "devDependencies": {
         "@types/bcrypt": "^3.0.1",
@@ -33,11 +31,14 @@
         "@types/jest": "^26.0.22",
         "@types/jsonwebtoken": "^8.5.1",
         "@types/node": "^14.14.37",
+        "@types/pg": "^8.6.0",
         "@types/sharp": "^0.28.0",
+        "@types/supertest": "^2.0.11",
         "@types/uuid": "^8.3.0",
         "jest": "^26.6.3",
         "nodemon": "^2.0.7",
         "sqlite3": "^5.0.2",
+        "supertest": "^6.1.3",
         "ts-jest": "^26.5.4",
         "ts-node": "^9.1.1",
         "tsc": "^2.0.3",

@@ -33,7 +33,7 @@ work.post('/start', async (req, res) => {
                     await database.transaction(async transaction => {
                         await transaction('workhours')
                             .update({
-                                finished: new Date(),
+                                finished: Date.now(),
                             })
                             .where({
                                 user_id: req.body.token.id,
@@ -44,7 +44,7 @@ work.post('/start', async (req, res) => {
                                 id: work_id,
                                 task_id: task_id,
                                 user_id: req.body.token.id,
-                                started: new Date(),
+                                started: Date.now(),
                                 finished: null,
                             });
                     });
@@ -82,7 +82,7 @@ work.put('/finish', async (req, res) => {
     try {
         const work = await database('workhours')
             .update({
-                finished: new Date(),
+                finished: Date.now(),
             })
             .where({
                 user_id: req.body.token.id,
