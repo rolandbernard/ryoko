@@ -36,8 +36,8 @@ comment.post('/', async (req, res) => {
                         task_id: task_id,
                         user_id: req.body.token.id,
                         text: req.body.text,
-                        created: new Date(),
-                        edited: new Date(),
+                        created: Date.now(),
+                        edited: Date.now(),
                     });
                     res.status(200).json({
                         status: 'success',
@@ -82,7 +82,7 @@ comment.put('/:uuid', async (req, res) => {
                 const comment = await database('comments')
                         .update({
                             text: req.body.text,
-                            edited: new Date(),
+                            edited: Date.now(),
                         })
                         .where({
                             'comments.user_id': req.body.token.id,
