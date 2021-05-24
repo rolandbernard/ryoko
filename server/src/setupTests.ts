@@ -83,7 +83,7 @@ async function loadTestData() {
                 text: 'Project0 Text',
                 color: '#00f',
                 status: 'open',
-                deadline: new Date('2020-10-10'),
+                deadline: Date.parse('2020-10-10'),
             }, {
                 id: '00000000-0000-4000-8000-000000000001',
                 name: 'Project1',
@@ -126,8 +126,8 @@ async function loadTestData() {
                 icon: '0',
                 status: 'open',
                 priority: 'medium',
-                created: new Date('2020-10-05'),
-                edited: new Date('2020-10-10'),
+                created: Date.parse('2020-10-05'),
+                edited: Date.parse('2020-10-10'),
             }, {
                 id: '00000000-0000-4000-8000-000000000001',
                 project_id: '00000000-0000-4000-8000-000000000001',
@@ -136,8 +136,8 @@ async function loadTestData() {
                 icon: '1',
                 status: 'closed',
                 priority: 'high',
-                created: new Date('2020-10-10'),
-                edited: new Date('2020-10-15'),
+                created: Date.parse('2020-10-10'),
+                edited: Date.parse('2020-10-15'),
             }, {
                 id: '00000000-0000-4000-8000-000000000002',
                 project_id: '00000000-0000-4000-8000-000000000002',
@@ -146,8 +146,8 @@ async function loadTestData() {
                 icon: '2',
                 status: 'open',
                 priority: 'low',
-                created: new Date('2020-10-15'),
-                edited: new Date('2020-10-20'),
+                created: Date.parse('2020-10-15'),
+                edited: Date.parse('2020-10-20'),
             }, {
                 id: '00000000-0000-4000-8000-000000000003',
                 project_id: '00000000-0000-4000-8000-000000000002',
@@ -156,8 +156,8 @@ async function loadTestData() {
                 icon: '3',
                 status: 'closed',
                 priority: 'urgent',
-                created: new Date('2020-10-15'),
-                edited: new Date('2020-10-20'),
+                created: Date.parse('2020-10-15'),
+                edited: Date.parse('2020-10-20'),
             }, {
                 id: '00000000-0000-4000-8000-000000000004',
                 project_id: '00000000-0000-4000-8000-000000000002',
@@ -166,8 +166,8 @@ async function loadTestData() {
                 icon: '4',
                 status: 'suspended',
                 priority: 'urgent',
-                created: new Date('2020-10-15'),
-                edited: new Date('2020-10-20'),
+                created: Date.parse('2020-10-15'),
+                edited: Date.parse('2020-10-20'),
             }, {
                 id: '00000000-0000-4000-8000-000000000005',
                 project_id: '00000000-0000-4000-8000-000000000002',
@@ -176,8 +176,8 @@ async function loadTestData() {
                 icon: '5',
                 status: 'open',
                 priority: 'urgent',
-                created: new Date('2020-10-15'),
-                edited: new Date('2020-10-20'),
+                created: Date.parse('2020-10-15'),
+                edited: Date.parse('2020-10-20'),
             }
         ]);
     await database('task_requirements')
@@ -222,19 +222,19 @@ async function loadTestData() {
                 id: '00000000-0000-4000-8000-000000000000',
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000000',
-                started: new Date('2020-10-10T00:00:00'),
-                finished: new Date('2020-10-10T01:00:00'),
+                started: Date.parse('2020-10-10T12:00:00'),
+                finished: Date.parse('2020-10-10T13:00:00'),
             }, {
                 id: '00000000-0000-4000-8000-000000000001',
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000000',
-                started: new Date('2020-10-10T03:00:00'),
-                finished: new Date('2020-10-10T04:00:00'),
+                started: Date.parse('2020-10-10T13:00:00'),
+                finished: Date.parse('2020-10-10T14:00:00'),
             }, {
                 id: '00000000-0000-4000-8000-000000000002',
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000000',
-                started: new Date('2020-10-11T05:00:00'),
+                started: Date.parse('2020-10-11T12:00:00'),
                 finished: null,
             }
         ]);
@@ -245,22 +245,22 @@ async function loadTestData() {
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000000',
                 text: 'Comment0',
-                created: new Date('2020-10-10T00:00:00'),
-                edited: new Date('2020-10-10T01:00:00'),
+                created: Date.parse('2020-10-10T00:00:00'),
+                edited: Date.parse('2020-10-10T01:00:00'),
             }, {
                 id: '00000000-0000-4000-8000-000000000001',
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000001',
                 text: 'Comment1',
-                created: new Date('2020-10-10T03:00:00'),
-                edited: new Date('2020-10-10T04:00:00'),
+                created: Date.parse('2020-10-10T03:00:00'),
+                edited: Date.parse('2020-10-10T04:00:00'),
             }, {
                 id: '00000000-0000-4000-8000-000000000002',
                 task_id: '00000000-0000-4000-8000-000000000005',
                 user_id: '00000000-0000-4000-8000-000000000001',
                 text: 'Comment2',
-                created: new Date('2020-10-10T05:00:00'),
-                edited: new Date('2020-10-10T05:00:00'),
+                created: Date.parse('2020-10-10T05:00:00'),
+                edited: Date.parse('2020-10-10T05:00:00'),
             }
         ]);
 }

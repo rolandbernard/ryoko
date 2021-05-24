@@ -187,7 +187,8 @@ project.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const work = await database({ ut: 'team_members' })
                 .innerJoin('team_projects', 'ut.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
@@ -203,7 +204,8 @@ project.get('/:uuid/work', async (req, res) => {
                     'ut.user_id': req.body.token.id,
                     'team_projects.project_id': id,
                 })
-                .andWhere('workhours.started', '>=', since)
+                .andWhere('workhours.started', '>=', since.getTime())
+                .andWhere('workhours.started', '<=', to.getTime())
                 .groupBy('workhours.id');
             res.status(200).json({
                 status: 'success',
@@ -227,8 +229,8 @@ project.get('/:uuid/activity', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
-            const to = (req.query.to ?? Date.now()) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const activity = await database(
                     database('team_members')
                     .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
@@ -243,12 +245,12 @@ project.get('/:uuid/activity', async (req, res) => {
                         'team_projects.project_id': id,
                     })
                     .andWhereNot({ 'workhours.finished': null })
-                    .andWhere('workhours.started', '>=', since)
-                    .andWhere('workhours.started', '<=', to)
+                    .andWhere('workhours.started', '>=', since.getTime())
+                    .andWhere('workhours.started', '<=', to.getTime())
                     .groupBy('workhours.id')
                 )
                 .select({
-                    day: database.raw('Date(`started` / 1000, \'unixepoch\')'),
+                    day: database.raw('Date(`started` / 1000, \'unixepoch\')'), // TODO: does not work in prostgres
                 })
                 .sum({ time: database.raw('`finished` - `started`') })
                 .groupBy('day');
@@ -263,7 +265,6 @@ project.get('/:uuid/activity', async (req, res) => {
             });
         }
     } catch (e) {
-        console.error(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get activity',
@@ -275,8 +276,8 @@ project.get('/:uuid/completion', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
-            const to = (req.query.to ?? Date.now()) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const completion = await database(
                     database('team_members')
                         .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
@@ -294,8 +295,8 @@ project.get('/:uuid/completion', async (req, res) => {
                             'team_members.user_id': req.body.token.id,
                             'team_projects.project_id': id,
                         })
-                        .andWhere('tasks.edited', '>=', since)
-                        .andWhere('tasks.created', '<=', to)
+                        .andWhere('tasks.edited', '>=', since.getTime())
+                        .andWhere('tasks.created', '<=', to.getTime())
                         .groupBy('tasks.id')
                 )
                 .select({
@@ -360,7 +361,7 @@ project.post('/', async (req, res) => {
                             name: req.body.name,
                             text: req.body.text,
                             color: req.body.color,
-                            deadline: req.body.deadline ? new Date(req.body.deadline) : null,
+                            deadline: req.body.deadline ? Date.parse(req.body.deadline) : null,
                             status: 'open',
                         })
                         await transaction('team_projects').insert(

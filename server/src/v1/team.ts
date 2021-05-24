@@ -314,7 +314,8 @@ team.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const work = await database({ ut: 'team_members' })
                 .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
                 .innerJoin('workhours', 'team_members.user_id', 'workhours.user_id')
@@ -329,7 +330,8 @@ team.get('/:uuid/work', async (req, res) => {
                     'ut.user_id': req.body.token.id,
                     'ut.team_id': id,
                 })
-                .andWhere('workhours.started', '>=', since)
+                .andWhere('workhours.started', '>=', since.getTime())
+                .andWhere('workhours.started', '<=', to.getTime())
                 .groupBy('workhours.id');
             res.status(200).json({
                 status: 'success',
@@ -353,13 +355,13 @@ team.get('/:uuid/activity', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
-            const to = (req.query.to ?? Date.now()) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const activity = await database({ ut: 'team_members' })
                 .innerJoin('team_members', 'ut.team_id', 'team_members.team_id')
                 .innerJoin('workhours', 'team_members.user_id', 'workhours.user_id')
                 .select({
-                    day: database.raw('Date(`workhours`.`started` / 1000, \'unixepoch\')'),
+                    day: database.raw('Date(`workhours`.`started` / 1000, \'unixepoch\')'), // TODO: does not work in postgres
                 })
                 .sum({ time: database.raw('`workhours`.`finished` - `workhours`.`started`') })
                 .where({
@@ -367,8 +369,8 @@ team.get('/:uuid/activity', async (req, res) => {
                     'ut.team_id': id,
                 })
                 .andWhereNot({ 'workhours.finished': null })
-                .andWhere('workhours.started', '>=', since)
-                .andWhere('workhours.started', '<=', to)
+                .andWhere('workhours.started', '>=', since.getTime())
+                .andWhere('workhours.started', '<=', to.getTime())
                 .groupBy('day');
             res.status(200).json({
                 status: 'success',
@@ -392,8 +394,8 @@ team.get('/:uuid/completion', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const since = (req.query.since ?? 0) as number;
-            const to = (req.query.to ?? Date.now()) as number;
+            const since = new Date(parseInt(req.query.since as string ?? 0));
+            const to = new Date(parseInt(req.query.to as string ?? Date.now()));
             const completion = await database(
                     database('team_members')
                         .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
@@ -411,8 +413,8 @@ team.get('/:uuid/completion', async (req, res) => {
                             'team_members.user_id': req.body.token.id,
                             'team_members.team_id': id,
                         })
-                        .andWhere('tasks.edited', '>=', since)
-                        .andWhere('tasks.created', '<=', to)
+                        .andWhere('tasks.edited', '>=', since.getTime())
+                        .andWhere('tasks.created', '<=', to.getTime())
                         .groupBy('tasks.id')
                 )
                 .select({

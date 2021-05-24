@@ -32,7 +32,6 @@ user.get('/name/:username', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get user',
@@ -160,8 +159,8 @@ user.get('/tasks', async (req, res) => {
 
 user.get('/work', async (req, res) => {
     try {
-        const since = parseInt(req.query.since as string ?? 0);
-        const to = parseInt(req.query.to as string ?? Date.now());
+        const since = new Date(parseInt(req.query.since as string ?? 0));
+        const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const work = await database('workhours')
             .select({
                 id: 'workhours.id',
@@ -173,8 +172,8 @@ user.get('/work', async (req, res) => {
             .where({
                 'workhours.user_id': req.body.token.id,
             })
-            .andWhere('workhours.started', '>=', since)
-            .andWhere('workhours.started', '<=', to)
+            .andWhere('workhours.started', '>=', since.getTime())
+            .andWhere('workhours.started', '<=', to.getTime())
             .groupBy('workhours.id');
         res.status(200).json({
             status: 'success',
@@ -190,26 +189,25 @@ user.get('/work', async (req, res) => {
 
 user.get('/activity', async (req, res) => {
     try {
-        const since = parseInt(req.query.since as string ?? 0);
-        const to = parseInt(req.query.to as string ?? Date.now());
+        const since = new Date(parseInt(req.query.since as string ?? 0));
+        const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const activity = await database('workhours')
             .select({
-                day: database.raw('Date(`started` / 1000, \'unixepoch\')'),
+                day: database.raw('Date(`started` / 1000, \'unixepoch\')'), // TODO: This does not work in postgres
             })
             .sum({ time: database.raw('`finished` - `started`') })
             .where({
                 'workhours.user_id': req.body.token.id,
             })
             .andWhereNot({ 'workhours.finished': null })
-            .andWhere('workhours.started', '>=', since)
-            .andWhere('workhours.started', '<=', to)
+            .andWhere('workhours.started', '>=', since.getTime())
+            .andWhere('workhours.started', '<=', to.getTime())
             .groupBy('day');
         res.status(200).json({
             status: 'success',
             activity: activity,
         });
     } catch (e) {
-        console.error(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get activity',
@@ -219,8 +217,8 @@ user.get('/activity', async (req, res) => {
 
 user.get('/completion', async (req, res) => {
     try {
-        const since = (req.query.since ?? 0) as number;
-        const to = (req.query.to ?? Date.now()) as number;
+        const since = new Date(parseInt(req.query.since as string ?? 0));
+        const to = new Date(parseInt(req.query.to as string ?? Date.now()));
         const completion = await database(
                 database('task_assignees')
                     .leftJoin('tasks', 'task_assignees.task_id', 'tasks.id')
@@ -236,8 +234,8 @@ user.get('/completion', async (req, res) => {
                     .where({
                         'task_assignees.user_id': req.body.token.id,
                     })
-                    .andWhere('tasks.edited', '>=', since)
-                    .andWhere('tasks.created', '<=', to)
+                    .andWhere('tasks.edited', '>=', since.getTime())
+                    .andWhere('tasks.created', '<=', to.getTime())
                     .groupBy('tasks.id')
             )
             .select({
