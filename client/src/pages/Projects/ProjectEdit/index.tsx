@@ -41,6 +41,9 @@ export default function ProjectEdit() {
     if (project) {
         return (
             <div className="project-create-page">
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <h1>Edit the project {project.name}</h1>
                     {error && <Callout message={error} />}

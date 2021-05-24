@@ -32,6 +32,9 @@ export default function TaskCreate() {
     if (project) {
         return (
             <div className="task-create-page">
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <h1>Create a new task</h1>
                     {error && <Callout message={error} />}

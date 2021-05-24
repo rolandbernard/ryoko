@@ -38,6 +38,9 @@ export default function TeamsEdit() {
    if (team) {
       return (
          <div className="team-edit-page">
+            <span className="material-icons back-btn" onClick={history.goBack} >
+               arrow_back
+            </span>
             <div className="content-container">
                <h1>Edit {team.name}</h1>
                {error && <Callout message={error} />}

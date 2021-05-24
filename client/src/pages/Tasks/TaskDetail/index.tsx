@@ -53,6 +53,9 @@ export default function TaskDetail() {
     if (task) {
         return (
             <div className={'tasks-detail-page theme-' + StatusColors.get(task.status)}>
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>

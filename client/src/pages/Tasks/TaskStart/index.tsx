@@ -96,26 +96,27 @@ export default function TaskDetail() {
         }
     }, [paused, task, timer])
 
-    const finishTask = useCallback(() => {
+    const finishTask = useCallback(async () => {
         if (task && assignee) {
             if (timer) {
                 clearInterval(timer);
+                await finishWork();
             }
-            finishWork();
-
             const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({ ...assignee, finished: true });
             updateTask(task.id, {
                 add_assigned: assignees,
                 remove_assigned: [assignee.user]
-
-            })
-            history.go(0);
+            });
+            setAssignee({ ...assignee, finished: true })
         }
-    }, [task, history, timer, assignee])
+    }, [task, timer, assignee])
 
     if (task && assignee) {
         return (
             <div className={'tasks-start-page theme-' + StatusColors.get(task.status)}>
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>

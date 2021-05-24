@@ -43,6 +43,9 @@ export default function ProjectDetail() {
     if (project) {
         return (
             <div className={"project-detail-page theme-" + project.color}>
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <Tag label={project.status} color={StatusColors.get(project.status)} />
                     <h1>{project.name}</h1>
