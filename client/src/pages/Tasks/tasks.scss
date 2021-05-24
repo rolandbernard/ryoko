@@ -6,8 +6,13 @@
     h2 {
         margin-top: 40px;
     }
+
     .intro-section {
         font-size: fn.toRem(18);
+
+        @include mx.breakpoint(large) {
+            font-size: fn.toRem(24);
+        }
     }
 
     .tasks-container {

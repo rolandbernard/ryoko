@@ -3,6 +3,7 @@ import { FormEvent, useCallback, useState } from 'react';
 import './user-form.scss';
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+import '../form.scss';
 
 interface Props {
     onSubmit?: (name?: string, email?: string, avatar?: File) => void;
@@ -47,19 +48,26 @@ export default function UserForm({ user, onSubmit }: Props) {
     return (
         <form onSubmit={handleSubmit} className="user-form">
             <div className="fields">
-                <TextInput
-                    label="Real Name"
-                    name="name"
-                    onChange={setName}
-                    defaultText={name}
-                />
-                <TextInput
-                    label="Email address"
-                    name="name"
-                    validation={validateEmail}
-                    onChange={setEmail}
-                    defaultText={email}
-                />
+                <div className="fields-row">
+                    <div className="col">
+                        <TextInput
+                            label="Real Name"
+                            name="name"
+                            onChange={setName}
+                            defaultText={name}
+                        />
+
+                    </div>
+                    <div className="col">
+                        <TextInput
+                            label="Email address"
+                            name="name"
+                            validation={validateEmail}
+                            onChange={setEmail}
+                            defaultText={email}
+                        />
+                    </div>
+                </div>
                 <div className="avatar-upload">
                     <div className="label">Avatar</div>
                     <label htmlFor="avatar" className="avatar-field">

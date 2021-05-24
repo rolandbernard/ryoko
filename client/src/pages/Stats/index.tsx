@@ -24,6 +24,9 @@ export default function Tasks() {
             <div className="stats-page">
                 <div className="content-container">
                     <h1 className="underlined">Stats</h1>
+                    <div className="description-container">
+                        Here are some of your recent statistics.
+                    </div>
                     <h2>Activity</h2>
                     <BarChart data={activity} />
                     <h2>Completion</h2>

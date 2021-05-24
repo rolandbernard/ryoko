@@ -2,27 +2,6 @@
 @use 'styles/mixins.scss'as mx;
 
 .user-form {
-    .fields {
-        display: flex;
-        flex-wrap: wrap;
-        margin: -10px;
-
-        @include mx.breakpoint(medium) {
-            margin: -10px;
-        }
-
-        &>* {
-            @include mx.breakpoint(medium) {
-                padding: 10px;
-            }
-        }
-    }
-
-    .input-element {
-        width: 50%;
-        margin-bottom: 20px;
-    }
-
     .avatar-upload {
         width: 100%;
         position: relative;
@@ -51,6 +30,9 @@
             font-size: 18px;
             &:hover {    
             background: rgba(0, 0, 0, 0.04);
+            }
+            @include mx.breakpoint(large) {
+                margin-top: 30px;
             }
         }
     }

@@ -11,7 +11,7 @@ interface Props {
 
 export default function Header({ children }: Props) {
     const history = useHistory();
-    const hasBack = history.location.pathname.split('/').length > 2;
+    const hasBack = history.location.pathname.split('/').length > 3;
 
     const [showSidebar, setShowSidebar] = useState<boolean>(false);
     return (

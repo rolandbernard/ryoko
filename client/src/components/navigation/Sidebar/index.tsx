@@ -71,7 +71,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                 activity ? (
                     <div className="stats">
                         <BarChart data={activity} />
-                        <div className="comment">You are doing well!</div>
+                        <div className="comment">Recent activity</div>
                     </div>
                 ) : <LoadingScreen />
             }
