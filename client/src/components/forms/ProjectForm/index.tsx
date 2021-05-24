@@ -107,9 +107,9 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             validateColor(color ?? '') === null &&
             validateTeams(teams) === null
         ) {
-
             onSubmit?.(teams, name ?? '', text ?? '', color ?? '', status ?? Status.OPEN, deadline);
         } else {
+            window.scrollTo(0, 0);
             setError('Please fill in the mandatory fields.');
         }
     }, [onSubmit, setError, name, text, color, deadline, teams, status]);

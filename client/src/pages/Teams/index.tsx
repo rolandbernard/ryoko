@@ -124,6 +124,9 @@ export default function Teams() {
                                 Leave Team
                             </Button>)
                         }
+                        <ButtonLink href={'/teams/create'} className="expanded dark">
+                            Create a new team
+                            </ButtonLink>
                     </div>
                     {
                         tabs ? (

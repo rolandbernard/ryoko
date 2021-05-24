@@ -114,6 +114,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
         ) {
             onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees, status);
         } else {
+            window.scrollTo(0, 0);
             setError('Please fill in the mandatory fields.');
         }
     }, [onSubmit, setError, name, text, priority, icon, tasks, assignees, requirements, status]);

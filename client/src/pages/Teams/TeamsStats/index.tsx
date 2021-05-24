@@ -68,7 +68,7 @@ export default function TeamsStats({ teamId }: Props) {
             <h3>Activities</h3>
             {
                 activity ?
-                    <BarChart data={activity} />
+                    <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
                     : <LoadingScreen />
             }
             <h3>Completion</h3>
