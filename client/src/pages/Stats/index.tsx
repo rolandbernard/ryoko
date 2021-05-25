@@ -28,7 +28,7 @@ export default function Tasks() {
                         Here are some of your recent statistics.
                     </div>
                     <h2>Activity</h2>
-                    <BarChart data={activity} />
+                    <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
                     <h2>Completion</h2>
                     <CompletionGrid items={completions} />
                 </div>

@@ -23,7 +23,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         if (isLoggedIn()) {
             getCurrentUser().then((user) => {
                 setUser(user);
-                getUserActivity(subtractTime(new Date(), 1, 'week'), new Date()).then((a) => 
+                getUserActivity(subtractTime(new Date(), 1, 'week'), new Date()).then((a) =>
                     setActivity(parseActivity(a))
                 );
             }).catch(() => { });
@@ -70,7 +70,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
             {
                 activity ? (
                     <div className="stats">
-                        <BarChart data={activity} />
+                        <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
                         <div className="comment">Recent activity</div>
                     </div>
                 ) : <LoadingScreen />

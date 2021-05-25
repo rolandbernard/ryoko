@@ -9,11 +9,15 @@ migrate();
 
 const app = express();
 
+app.use('/api', api);
+
 if (web_serve) {
     app.use('/', express.static(web_serve));
-}
 
-app.use(api);
+    app.get('/', (_, res) => {
+        res.sendFile('index.html', { root: web_serve });
+    });
+}
 
 app.listen(port);
 

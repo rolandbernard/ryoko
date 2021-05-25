@@ -61,7 +61,8 @@ project.get('/:uuid', async (req, res) => {
                     'team_members.user_id': req.body.token.id,
                     'projects.id': id,
                 })
-                .groupBy('tms.team_id');
+                .groupBy('tms.team_id')
+                .groupBy('projects.id');
             if (projects.length >= 1) {
                 res.status(200).json({
                     status: 'success',
@@ -248,11 +249,12 @@ project.get('/:uuid/activity', async (req, res) => {
                     .andWhere('workhours.started', '>=', since.getTime())
                     .andWhere('workhours.started', '<=', to.getTime())
                     .groupBy('workhours.id')
+                    .as('activity')
                 )
                 .select({
-                    day: database.raw('(workhours.started / 1000 / 60 / 60 / 24)'),
+                    day: database.raw('(activity.started / 1000 / 60 / 60 / 24)'),
                 })
-                .sum({ time: database.raw('(workhours.finished - workhours.started)') })
+                .sum({ time: database.raw('(activity.finished - activity.started)') })
                 .groupBy('day');
             res.status(200).json({
                 status: 'success',
@@ -325,7 +327,6 @@ project.get('/:uuid/completion', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get completion',

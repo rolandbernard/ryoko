@@ -43,8 +43,8 @@ export default function ProjectDetails({ project }: Props) {
             <DetailGrid details={details} />
             {
                 activity ?
-                    <BarChart data={activity} /> :
-                    <LoadingScreen />
+                    <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
+                    : <LoadingScreen />
             }
             <ButtonLink routing href={`/projects/${project.id}/edit`} className="expanded">
                 Edit
