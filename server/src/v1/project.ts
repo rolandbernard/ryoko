@@ -72,7 +72,7 @@ project.get('/:uuid', async (req, res) => {
                         text: projects[0].text,
                         status: projects[0].status,
                         color: projects[0].color,
-                        deadline: projects[0].deadline,
+                        deadline: projects[0].deadline && (new Date(projects[0].deadline)).toISOString().substr(0, 10),
                         teams: projects.map(task => task.team_id),
                     }
                 });
@@ -448,7 +448,7 @@ project.put('/:uuid', async (req, res) => {
                                     text: req.body.text,
                                     color: req.body.color,
                                     status: req.body.status,
-                                    deadline: req.body.deadline,
+                                    deadline: req.body.deadline ? (new Date(req.body.deadline)).toISOString().substr(0, 10) : null,
                                 }).where({
                                     id: id,
                                 });

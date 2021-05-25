@@ -292,7 +292,10 @@ team.get('/:uuid/projects', async (req, res) => {
                 });
             res.status(200).json({
                 status: 'success',
-                projects: projects,
+                projects: projects.map(project => ({
+                    ...project,
+                    deadline: project.deadline && (new Date(project.deadline)).toISOString().substr(0, 10),
+                })),
             });
         } else {
             res.status(400).json({
