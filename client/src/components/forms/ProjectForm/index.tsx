@@ -71,7 +71,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [allTeams, setAllTeams] = useState<Team[]>([]);
 
     useEffect(() => {
-        //TODO refactor
         teams.forEach((userTeam) => {
             getTeam(userTeam).then((team) => {
                 setAllTeams(state => {

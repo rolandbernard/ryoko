@@ -27,7 +27,7 @@ export default function ProjectsSlider({ projects }: Props) {
                             touchTracking
                         >
                             {
-                                projects.map(project => <ProjectSlide {...project} />)
+                                projects.map(project => <ProjectSlide key={project.project.id} {...project} />)
                             }
                         </Carousel>
                     </div> :
