@@ -30,7 +30,10 @@ project.get('/', async (req, res) => {
             .groupBy('projects.id');
         res.status(200).json({
             status: 'success',
-            projects: projects,
+            projects: projects.map(project => ({
+                ...project,
+                deadline: project.deadline && (new Date(project.deadline)).toISOString().substr(0, 10),
+            })),
         });
     } catch (e) {
         res.status(400).json({

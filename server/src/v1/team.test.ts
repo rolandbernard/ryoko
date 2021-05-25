@@ -7,80 +7,6 @@ import { generateAuthToken } from './auth';
 
 const request = supertest(api);
 
-describe('POST /team', () => {
-    let response: Response;
-
-    beforeAll(async () => {
-        response = await request
-            .post('/v1/team')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
-            .send({
-                name: 'Team20',
-            });
-    });
-
-    test('returns the id of the new team', async () => {
-        expect(response.status).toEqual(200);
-        expect(response.body.status).toEqual('success');
-        expect(response.body.id).toBeTruthy();
-    });
-
-    test('team can be requested afterwards', async () => {
-        const resp = await request
-            .get(`/v1/team/${response.body.id}`)
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
-        expect(resp.status).toEqual(200);
-        expect(resp.body.status).toEqual('success');
-        expect(resp.body.team.id).toEqual(response.body.id);
-        expect(resp.body.team.name).toEqual('Team20');
-        expect(resp.body.team.role).toBeTruthy();
-    });
-
-    afterAll(async () => {
-        await database('teams')
-            .delete()
-            .where({ 'teams.name': 'Team20' });
-    });
-});
-
-describe('PUT /team/:uuid', () => {
-    let response: Response;
-
-    beforeAll(async () => {
-        response = await request
-            .put('/v1/team/00000000-0000-4000-8000-000000000000')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
-            .send({
-                name: 'Team20',
-            });
-    });
-
-    test('returns successfully', async () => {
-        expect(response.status).toEqual(200);
-        expect(response.body.status).toEqual('success');
-    });
-
-    test('team has now the new name', async () => {
-        const resp = await request
-            .get('/v1/team/00000000-0000-4000-8000-000000000000')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
-        expect(resp.status).toEqual(200);
-        expect(resp.body.status).toEqual('success');
-        expect(resp.body.team.id).toEqual('00000000-0000-4000-8000-000000000000');
-        expect(resp.body.team.name).toEqual('Team20');
-        expect(resp.body.team.role).toEqual('00000000-0000-4000-8000-000000000000');
-    });
-
-    afterAll(async () => {
-        await request
-            .put('/v1/team/00000000-0000-4000-8000-000000000000')
-            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
-            .send({
-                name: 'Team0',
-            });
-    });
-});
-
 describe('GET /team', () => {
     test('returns all teams the user is a member of', async () => {
         const resp = await request
@@ -400,6 +326,80 @@ describe('GET /team/:uuid/completion', () => {
             suspended: 0,
             overdue: 1,
         });
+    });
+});
+
+describe('POST /team', () => {
+    let response: Response;
+
+    beforeAll(async () => {
+        response = await request
+            .post('/v1/team')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
+            .send({
+                name: 'Team20',
+            });
+    });
+
+    test('returns the id of the new team', async () => {
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.id).toBeTruthy();
+    });
+
+    test('team can be requested afterwards', async () => {
+        const resp = await request
+            .get(`/v1/team/${response.body.id}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(resp.status).toEqual(200);
+        expect(resp.body.status).toEqual('success');
+        expect(resp.body.team.id).toEqual(response.body.id);
+        expect(resp.body.team.name).toEqual('Team20');
+        expect(resp.body.team.role).toBeTruthy();
+    });
+
+    afterAll(async () => {
+        await database('teams')
+            .delete()
+            .where({ 'teams.name': 'Team20' });
+    });
+});
+
+describe('PUT /team/:uuid', () => {
+    let response: Response;
+
+    beforeAll(async () => {
+        response = await request
+            .put('/v1/team/00000000-0000-4000-8000-000000000000')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
+            .send({
+                name: 'Team20',
+            });
+    });
+
+    test('returns successfully', async () => {
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+    });
+
+    test('team has now the new name', async () => {
+        const resp = await request
+            .get('/v1/team/00000000-0000-4000-8000-000000000000')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(resp.status).toEqual(200);
+        expect(resp.body.status).toEqual('success');
+        expect(resp.body.team.id).toEqual('00000000-0000-4000-8000-000000000000');
+        expect(resp.body.team.name).toEqual('Team20');
+        expect(resp.body.team.role).toEqual('00000000-0000-4000-8000-000000000000');
+    });
+
+    afterAll(async () => {
+        await request
+            .put('/v1/team/00000000-0000-4000-8000-000000000000')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`)
+            .send({
+                name: 'Team0',
+            });
     });
 });
 
