@@ -262,3 +262,63 @@ describe('GET /project/:uuid/work', () => {
     });
 });
 
+describe('GET /project/:uuid/activity', () => {
+    test('returns time worked for all days', async () => {
+        const response = await request
+            .get('/v1/project/00000000-0000-4000-8000-000000000002/activity')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.activity.length).toEqual(1);
+    });
+
+    test('returns the total amount of work for each day', async () => {
+        const response = await request
+            .get('/v1/project/00000000-0000-4000-8000-000000000002/activity')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.activity[0].day).toEqual('2020-10-10');
+        expect(response.body.activity[0].time).toEqual(120 * 60 * 1000);
+    });
+
+    test('can be limited in time with from date', async () => {
+        const response = await request
+            .get(`/v1/project/00000000-0000-4000-8000-000000000002/activity?since=${Date.parse('2020-10-10T20:00:00')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.activity.length).toEqual(0);
+    });
+});
+
+describe('GET /project/:uuid/completion', () => {
+    test('returns completion for all tasks of the project', async () => {
+        const response = await request
+            .get('/v1/project/00000000-0000-4000-8000-000000000002/completion')
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.completion).toEqual({
+            open: 1,
+            closed: 1,
+            suspended: 1,
+            overdue: 1,
+        });
+    });
+
+    test('can be limited in time with from date', async () => {
+        const response = await request
+            .get(`/v1/project/00000000-0000-4000-8000-000000000002/completion?since=${Date.parse('2020-10-30T20:00:00')}`)
+            .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
+        expect(response.status).toEqual(200);
+        expect(response.body.status).toEqual('success');
+        expect(response.body.completion).toEqual({
+            open: 0,
+            closed: 0,
+            suspended: 0,
+            overdue: 1,
+        });
+    });
+});
+
