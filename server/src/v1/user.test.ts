@@ -195,7 +195,7 @@ describe('GET /user/completion', () => {
             open: 0,
             closed: 0,
             suspended: 0,
-            overdue: 0,
+            overdue: 1,
         });
     });
 });
