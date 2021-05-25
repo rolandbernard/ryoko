@@ -98,18 +98,18 @@ export default function TaskDetail() {
 
     const finishTask = useCallback(async () => {
         if (task && assignee) {
-            if (timer) {
+            if (!paused && timer) {
                 clearInterval(timer);
                 await finishWork();
             }
             const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({ ...assignee, finished: true });
-            updateTask(task.id, {
+            await updateTask(task.id, {
                 add_assigned: assignees,
                 remove_assigned: [assignee.user]
             });
             setAssignee({ ...assignee, finished: true })
         }
-    }, [task, timer, assignee])
+    }, [task, timer, assignee, paused])
 
     if (task && assignee) {
         return (

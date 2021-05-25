@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import TeamForm from 'components/forms/TeamForm';
 import { createTeam } from 'adapters/team';
 import { useHistory } from 'react-router';
+import { clearToken } from 'adapters/auth';
 
 export default function Introduction() {
     const [username, setUsername] = useState('');
@@ -19,6 +20,11 @@ export default function Introduction() {
             history.push('/login');
         });
     });
+
+    const logout = useCallback(() => {
+        clearToken();
+        history.push('/login');
+    }, [history]);
 
     const handleCreateTeam = useCallback(async (name: string) => {
         try {
@@ -59,6 +65,9 @@ export default function Introduction() {
                             <TeamForm onSubmit={handleCreateTeam} onBack={() => setShowForm(false)} />
                         </>)
                     }
+                    <div className="logout-btn" onClick={logout}>
+                        Logout
+                    </div>
                 </div>
             </Page>
         </div >

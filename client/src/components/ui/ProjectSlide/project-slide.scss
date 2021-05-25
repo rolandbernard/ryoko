@@ -5,8 +5,11 @@
     background: s.$white;
     border-radius: 25px;
     box-shadow: 0 0 25px rgba(s.$black, 0.05);
-    display: block;
+    min-height: 180px;
     color: s.$body-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &:hover {
         color: s.$body-color;

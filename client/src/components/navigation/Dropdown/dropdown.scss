@@ -55,6 +55,7 @@
             display: block;
             color: s.$body-color;
             border-radius: 5px;
+            min-width: 100px;
 
             &:hover {
                 box-shadow: 0 0 10px rgba(s.$black, 0.1);

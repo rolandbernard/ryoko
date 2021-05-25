@@ -16,11 +16,18 @@
     }
 
     .tasks-container {
-        margin-top: 50px;
+        margin-bottom: 60px;
 
         .task {
             margin-bottom: 30px;
         }
 
+    }
+    
+    .task-error {
+        margin-top: 20px;
+        border-radius: 5px;
+        padding: 20px;
+        background: s.$white;
     }
 }

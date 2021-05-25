@@ -8,9 +8,9 @@ export default function Navigation() {
         <nav className="site-nav">
             <NavLink to="/tasks" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">
-                    home
+                    task
                 </span>
-                <span className="label">Home</span>
+                <span className="label">Tasks</span>
             </NavLink>
             <NavLink to="/projects" activeClassName="active" className="nav-link">
                 <span className="icon material-icons-outlined">

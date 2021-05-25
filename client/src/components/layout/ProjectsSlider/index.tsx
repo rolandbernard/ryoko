@@ -5,8 +5,8 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
     0: { items: 1 },
-    568: { items: 2 },
-    1024: { items: 3 },
+    560: { items: 2 },
+    1200: { items: 3 },
 };
 
 interface Props {
