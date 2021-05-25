@@ -69,7 +69,7 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 grouped_tasks[row.id].assigned.push({
                     user: row.assigned_user,
                     time: row.assigned_time,
-                    finished: row.assigned_finished,
+                    finished: row.assigned_finished ? true : false,
                 });
             }
         }

@@ -41,7 +41,7 @@ describe('POST /team', () => {
             .delete()
             .where({ 'teams.name': 'Team20' });
     });
-})
+});
 
 describe('PUT /team/:uuid', () => {
     let response: Response;
@@ -79,7 +79,7 @@ describe('PUT /team/:uuid', () => {
                 name: 'Team0',
             });
     });
-})
+});
 
 describe('GET /team', () => {
     test('returns all teams the user is a member of', async () => {
@@ -116,7 +116,7 @@ describe('GET /team', () => {
             role: '00000000-0000-4000-8000-000000000002',
         });
     });
-})
+});
 
 describe('GET /team/:uuid', () => {
     test('returns the requested teams', async () => {
@@ -140,7 +140,7 @@ describe('GET /team/:uuid', () => {
         expect(resp.body.team.name).toEqual('Team1');
         expect(resp.body.team.role).toBeNull();
     });
-})
+});
 
 describe('GET /team/:uuid', () => {
     test('returns the requested teams', async () => {
@@ -164,7 +164,7 @@ describe('GET /team/:uuid', () => {
         expect(resp.body.team.name).toEqual('Team1');
         expect(resp.body.team.role).toBeNull();
     });
-})
+});
 
 describe('GET /team/:uuid/members', () => {
     test('returns all the members of the team', async () => {
@@ -205,7 +205,7 @@ describe('GET /team/:uuid/members', () => {
             role: { id: '00000000-0000-4000-8000-000000000003', name: 'Role3' },
         });
     });
-})
+});
 
 describe('GET /team/:uuid/roles', () => {
     test('returns all the roles of the team', async () => {
@@ -240,7 +240,7 @@ describe('GET /team/:uuid/roles', () => {
             name: 'Role3',
         });
     });
-})
+});
 
 describe('GET /team/:uuid/projects', () => {
     test('returns all the projects of the team', async () => {
@@ -275,7 +275,7 @@ describe('GET /team/:uuid/projects', () => {
             deadline: null,
         });
     });
-})
+});
 
 describe('GET /team/:uuid/work', () => {
     test('returns all the work items done by teams members', async () => {
@@ -341,7 +341,7 @@ describe('GET /team/:uuid/work', () => {
         expect(resp.body.status).toEqual('success');
         expect(resp.body.work.length).toEqual(2);
     });
-})
+});
 
 describe('GET /team/:uuid/activity', () => {
     test('returns time worked for all days', async () => {
@@ -371,7 +371,7 @@ describe('GET /team/:uuid/activity', () => {
         expect(response.body.status).toEqual('success');
         expect(response.body.activity.length).toEqual(0);
     });
-})
+});
 
 describe('GET /team/:uuid/completion', () => {
     test('returns completion for all tasks of all projects', async () => {
@@ -401,5 +401,5 @@ describe('GET /team/:uuid/completion', () => {
             overdue: 1,
         });
     });
-})
+});
 
