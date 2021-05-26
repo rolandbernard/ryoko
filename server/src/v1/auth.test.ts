@@ -101,7 +101,7 @@ describe('successful user registration', () => {
             .delete()
             .where({ 'users.user_name': 'user2' });
     });
-})
+});
 
 describe('password can be changed', () => {
     let response: Response;

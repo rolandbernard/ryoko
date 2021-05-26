@@ -138,25 +138,23 @@ team.get('/:uuid/', async (req, res) => {
     try {
         const id = req.params.uuid;
         if (validate(id)) {
-            const team = await database('teams')
+            const teams = await database('teams')
                 .leftJoin('team_members', 'teams.id', 'team_members.team_id')
                 .select({
                     id: 'teams.id',
                     name: 'teams.name',
                     role: 'team_members.role_id',
+                    user: 'team_members.user_id',
                 })
                 .where({
-                    'team_members.user_id': req.body.token.id,
                     'teams.id': id,
                 })
-                .orWhere({
-                    'team_members.user_id': null,
-                    'teams.id': id,
-                })
-            if (team.length >= 1) {
+            if (teams.length >= 1) {
+                const team = teams.find(team => team.user === req.body.token.id) ?? { ...teams[0], role: null };
+                delete team.user;
                 res.status(200).json({
                     status: 'success',
-                    team: team[0],
+                    team: team,
                 });
             } else {
                 res.status(404).json({
@@ -294,7 +292,10 @@ team.get('/:uuid/projects', async (req, res) => {
                 });
             res.status(200).json({
                 status: 'success',
-                projects: projects,
+                projects: projects.map(project => ({
+                    ...project,
+                    deadline: project.deadline && (new Date(project.deadline)).toISOString().substr(0, 10),
+                })),
             });
         } else {
             res.status(400).json({

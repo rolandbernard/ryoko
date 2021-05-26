@@ -26,7 +26,7 @@ describe('GET /user/name', () => {
         expect(response.body.status).toEqual('success');
         expect(response.body.user.username).toEqual('user0');
     });
-})
+});
 
 describe('GET /user/:uuid/image', () => {
     test('returns 404 without body if no image is set', async () => {
@@ -46,7 +46,7 @@ describe('GET /user/:uuid/image', () => {
         expect(response.status).toEqual(200);
         expect(response.body).toBeTruthy();
     });
-})
+});
 
 describe('GET /user', () => {
     test('returns the user that is authorized', async () => {
@@ -195,7 +195,7 @@ describe('GET /user/completion', () => {
             open: 0,
             closed: 0,
             suspended: 0,
-            overdue: 0,
+            overdue: 1,
         });
     });
 });

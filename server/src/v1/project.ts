@@ -30,7 +30,10 @@ project.get('/', async (req, res) => {
             .groupBy('projects.id');
         res.status(200).json({
             status: 'success',
-            projects: projects,
+            projects: projects.map(project => ({
+                ...project,
+                deadline: project.deadline && (new Date(project.deadline)).toISOString().substr(0, 10),
+            })),
         });
     } catch (e) {
         res.status(400).json({
@@ -72,7 +75,7 @@ project.get('/:uuid', async (req, res) => {
                         text: projects[0].text,
                         status: projects[0].status,
                         color: projects[0].color,
-                        deadline: projects[0].deadline,
+                        deadline: projects[0].deadline && (new Date(projects[0].deadline)).toISOString().substr(0, 10),
                         teams: projects.map(task => task.team_id),
                     }
                 });
@@ -448,7 +451,7 @@ project.put('/:uuid', async (req, res) => {
                                     text: req.body.text,
                                     color: req.body.color,
                                     status: req.body.status,
-                                    deadline: req.body.deadline,
+                                    deadline: req.body.deadline ? (new Date(req.body.deadline)).toISOString().substr(0, 10) : null,
                                 }).where({
                                     id: id,
                                 });

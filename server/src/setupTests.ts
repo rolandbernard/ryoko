@@ -177,7 +177,7 @@ async function loadTestData() {
                 status: 'open',
                 priority: 'urgent',
                 created: Date.parse('2020-10-15'),
-                edited: Date.parse('2020-10-20'),
+                edited: Date.parse('2020-11-20'),
             }
         ]);
     await database('task_requirements')
