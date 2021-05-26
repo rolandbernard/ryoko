@@ -270,7 +270,6 @@ project.get('/:uuid/activity', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get activity',
@@ -328,7 +327,6 @@ project.get('/:uuid/completion', async (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(400).json({
             status: 'error',
             message: 'failed get completion',
