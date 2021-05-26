@@ -4,9 +4,11 @@ import { getCurrentUser, updateUser, updateUserImage, User } from 'adapters/user
 import LoadingScreen from 'components/ui/LoadingScreen';
 import UserForm from 'components/forms/UserForm';
 import { useHistory } from 'react-router';
+import Callout from 'components/ui/Callout';
 
 export default function Settings() {
     const [user, setUser] = useState<User>();
+    const [error, setError] = useState('');
     const history = useHistory();
 
     useEffect(() => {
@@ -16,13 +18,14 @@ export default function Settings() {
 
     const handleSubmit = useCallback(async (name?: string, email?: string, avatar?: File) => {
         try {
-            if (user && updateUser({realname: name, email })) {
-                if(avatar) {
+            if (user && updateUser({ realname: name, email })) {
+                if (avatar) {
                     updateUserImage(avatar);
                 }
                 history.push('/tasks');
             }
         } catch (e) {
+            setError('There was an issue with saving your settings. Please try again!')
         }
     }, [history, user]);
 
@@ -34,6 +37,7 @@ export default function Settings() {
                     <div className="description-container">
                         Here you can edit your personal information.
                     </div>
+                    {error && <Callout message={error} />}
                     <UserForm user={user} onSubmit={handleSubmit} />
                 </div>
             </div>

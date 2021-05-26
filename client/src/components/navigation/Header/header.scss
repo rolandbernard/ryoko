@@ -75,12 +75,9 @@
 
 .site-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    &.right {
-        justify-content: flex-end;
-    }
+    justify-content: flex-end;
 
     @include mx.breakpoint(large) {
         display: none;

@@ -19,7 +19,7 @@ export interface Params {
 
 export default function Teams() {
     const { teamId } = useParams<Params>();
-    
+
     const history = useHistory();
     const [allTeams, setTeams] = useState<Team[]>();
     const [currentTeam, setCurrentTeam] = useState<Team>();
@@ -115,14 +115,20 @@ export default function Teams() {
                         )
                     }
                     <div className="buttons">
-                        <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
-                            Edit
+                        <div className="button-row">
+                            <ButtonLink href={'/teams/' + currentTeam?.id + '/edit'} className="expanded">
+                                Edit
                             </ButtonLink>
+                            <ButtonLink href={'/teams/create'} className="expanded">
+                                Create a new team
+                            </ButtonLink>
+
+                        </div>
                         {
                             allTeams && allTeams.length > 1 && (
-                            <Button className="expanded dark" onClick={leaveCurrentTeam}>
-                                Leave Team
-                            </Button>)
+                                <Button className="expanded dark" onClick={leaveCurrentTeam}>
+                                    Leave Team
+                                </Button>)
                         }
                     </div>
                     {

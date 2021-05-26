@@ -17,6 +17,7 @@ const Projects = lazy(() => import('pages/Projects'));
 const Stats = lazy(() => import('pages/Stats'));
 const TeamsEdit = lazy(() => import('pages/Teams/TeamsEdit'));
 const Teams = lazy(() => import('pages/Teams'));
+const TeamsCreate = lazy(() => import('pages/Teams/TeamsCreate'));
 const Settings = lazy(() => import('pages/Settings'));
 
 
@@ -36,6 +37,7 @@ export default function AppWrapper() {
                     <ProtectedRoute path="/projects" component={Projects} />
                     <ProtectedRoute path="/stats" component={Stats} />
                     <ProtectedRoute path="/settings" component={Settings} />
+                    <ProtectedRoute path="/teams/create" exact component={TeamsCreate} />
                     <ProtectedRoute path="/teams/:teamId/edit" exact component={TeamsEdit} />
                     <ProtectedRoute path={['/teams/:teamId', '/teams']} component={Teams} />
                 </Switch>

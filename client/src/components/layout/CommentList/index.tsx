@@ -3,8 +3,7 @@ import { getCurrentUser, User } from 'adapters/user';
 import Avatar from 'components/ui/Avatar';
 import './comment-list.scss';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { createComment } from 'adapters/comment';
-import { useHistory } from 'react-router';
+import { createComment, getComment } from 'adapters/comment';
 
 interface Props {
     comments: CommentProps[]
@@ -12,22 +11,28 @@ interface Props {
 }
 
 export default function CommentList({ comments, taskId }: Props) {
-
     const [user, setUser] = useState<User>();
     const [comment, setComment] = useState<string>('');
-    const history = useHistory();
+    const [allComments, setComments] = useState<CommentProps[]>([]);
+    
     useEffect(() => {
         getCurrentUser().then((user) => setUser(user));
-    }, []);
+        setComments(comments);
+    }, [comments]);
 
     const handleSubmit = useCallback((e: FormEvent) => {
         e.preventDefault();
-        if(comment.length > 0) {
-            if(createComment({task: taskId, text: comment})) {
-                history.go(0);
-            }
+        if (comment.length > 0) {
+            createComment({ task: taskId, text: comment }).then(id => {
+                getComment(id).then(comment => {
+                    setComments(state => [...state, {
+                        comment: comment
+                    }])
+                })
+            });
+            setComment('');
         }
-    }, [comment, taskId, history])
+    }, [comment, taskId]);
 
     return (
         <div className="comment-list">
@@ -43,14 +48,14 @@ export default function CommentList({ comments, taskId }: Props) {
                             </div>
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <textarea placeholder="Write a comment..." onChange={(e) => setComment(e.target.value)}></textarea>
+                            <textarea value={comment} placeholder="Write a comment..." onChange={(e) => setComment(e.target.value)}></textarea>
                             <button type="submit">Send</button>
                         </form>
                     </div>
                 )
             }
 
-            {comments.map(comment => (
+            {allComments.map(comment => (
                 <Comment key={comment.comment.id} {...comment} />
             ))}
 

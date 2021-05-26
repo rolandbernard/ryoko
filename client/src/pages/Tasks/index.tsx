@@ -65,7 +65,7 @@ export default function Tasks() {
                                     }
                                 </div>
                             ) : (
-                                <div>No open tasks found</div>
+                                <div className="task-error">No open tasks found</div>
                             )
                         }
                         <h2>Other tasks you could do</h2>
@@ -79,7 +79,7 @@ export default function Tasks() {
                                     }
                                 </div>
                             ) : (
-                                <div>You don't fit the requirements for any other tasks</div>
+                                <div className="task-error">You don't fit the requirements for any other tasks</div>
                             )
                         }
                     </section>

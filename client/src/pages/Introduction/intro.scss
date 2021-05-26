@@ -34,4 +34,12 @@
             font-size: 18px;
         }
     }
+    .logout-btn {
+        color: s.$primary;
+        font-weight: s.$weight-bold;
+        cursor: pointer;
+        &:hover {
+            color: s.$primary-dark;
+        }
+    }
 }

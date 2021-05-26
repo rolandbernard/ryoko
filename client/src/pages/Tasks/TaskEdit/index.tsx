@@ -64,6 +64,9 @@ export default function TaskEdit() {
     if (task && project) {
         return (
             <div className="task-edit-page">
+                <span className="material-icons back-btn" onClick={history.goBack} >
+                    arrow_back
+                </span>
                 <div className="content-container">
                     <h1>Edit your task</h1>
                     <TaskForm project={project} task={task} onSubmit={handleSubmit} />

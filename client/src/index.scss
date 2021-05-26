@@ -22,7 +22,7 @@ html {
 body {
     color: s.$body-color;
     position: relative;
-    background: s.$light;
+    background: #EEF5F5;
 }
 
 button {
@@ -166,8 +166,19 @@ $color in s.$themeLightMap {
     .bg-gradient-horizontal-#{$key} {
         background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
     }
+
     .theme-#{$key} {
         --primary: #{$color};
         --primary-dark: #{fn.getFrom(s.$themeDarkMap, $key)};
     }
+}
+
+.back-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 35px 30px 20px 30px;
+    font-size: 30px;
+    height: 84px;
+    cursor: pointer;
 }

@@ -5,11 +5,13 @@ import Filter from 'components/helpers/Filter';
 import { useEffect, useState } from 'react';
 import { getProjects, Project, Status, StatusColors } from 'adapters/project';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import { ProjectSlideProps } from 'components/ui/ProjectSlide';
 
 export default function Projects() {
     const [filter, setFilter] = useState({ term: '', tags: [] });
     const [allProjects, setAllProjects] = useState<Project[]>([]);
     const [shownProjects, setShownProjects] = useState<Project[]>([]);
+    const [slideProjects, setSlideProjects] = useState<ProjectSlideProps[]>([]);
 
     const allStatus = Object.values(Status).map((status) => {
         return {
@@ -22,6 +24,7 @@ export default function Projects() {
         getProjects().then((projects) => {
             setAllProjects(projects);
             setShownProjects(projects);
+            setSlideProjects(projects.slice(0, 6).map((project) => ({project})))
         })
     }, []);
 
@@ -41,7 +44,7 @@ export default function Projects() {
             <div className="content-container">
                 <h1 className="underlined">Projects</h1>
                 <h2>Recent Projects</h2>
-                <ProjectsSlider projects={[]} />
+                <ProjectsSlider projects={slideProjects} />
                 <h2>All Projects</h2>
                 <Filter setFilter={setFilter} filter={filter} tags={allStatus} />
                 {

@@ -19,6 +19,9 @@ export default function ProjectCreate() {
 
     return (
         <div className="project-create-page">
+            <span className="material-icons back-btn" onClick={history.goBack} >
+                arrow_back
+            </span>
             <div className="content-container">
                 <h1>Create a new Project</h1>
                 {error && <Callout message={error} />}
