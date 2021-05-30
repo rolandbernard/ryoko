@@ -9,6 +9,7 @@
     "main": "server/build.js",
     "scripts": {
         "install": "cd server && yarn install --production=false && cd ../client && yarn install --production=false",
+        "test": "cd server && yarn test && cd ../client && yarn test",
         "build": "cd server && yarn build && cd ../client && yarn build",
         "start": "cd server && node build/index.js"
     },
