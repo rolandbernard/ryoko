@@ -1,8 +1,12 @@
-import { getProject, Project, Status, updateProject } from 'adapters/project';
-import { useCallback, useEffect, useState } from 'react';
+
 import { useHistory, useParams } from 'react-router';
-import ProjectForm from 'components/forms/ProjectForm';
+import { useCallback, useEffect, useState } from 'react';
+
+import { Status } from 'adapters/common';
+import { getProject, Project, updateProject } from 'adapters/project';
+
 import Callout from 'components/ui/Callout';
+import ProjectForm from 'components/forms/ProjectForm';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 interface Params {
@@ -10,10 +14,11 @@ interface Params {
 }
 
 export default function ProjectEdit() {
-    const { projectId } = useParams<Params>();
     const [project, setProject] = useState<Project>();
     const [error, setError] = useState('');
     const history = useHistory();
+
+    const { projectId } = useParams<Params>();
 
     useEffect(() => {
         getProject(projectId).then((project) => {
@@ -25,34 +30,40 @@ export default function ProjectEdit() {
 
     const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => {
         try {
-
             if (project) {
                 let removedTeams = project.teams, addedTeams = teams;
                 removedTeams.filter((teamId) => teams.indexOf(teamId) === -1);
                 addedTeams.filter((teamId) => project.teams.indexOf(teamId) === -1);
-
-                await updateProject(project.id, { remove_teams: removedTeams, add_teams: addedTeams, name, text, color, status, deadline: deadline?.toString() });
+                await updateProject(project.id, {
+                    remove_teams: removedTeams,
+                    add_teams: addedTeams,
+                    name: name,
+                    text, color,
+                    status: status,
+                    deadline: deadline?.toString()
+                });
                 history.push('/projects');
             }
         } catch (e) {
             setError('There was an error with updating your project. Please try again!');
         }
     }, [history, project]);
-    if (project) {
-        return (
-            <div className="project-create-page">
-                <span className="material-icons back-btn" onClick={history.goBack} >
-                    arrow_back
-                </span>
-                <div className="content-container">
-                    <h1>Edit the project {project.name}</h1>
-                    {error && <Callout message={error} />}
-                    <ProjectForm onSubmit={handleSubmit} project={project} />
-                </div>
-            </div>
-        )
-    }
+
     return (
-        <LoadingScreen />
-    )
+        project
+            ? (
+                <div className="project-create-page">
+                    <span className="material-icons back-btn" onClick={history.goBack} >
+                        arrow_back
+                    </span>
+                    <div className="content-container">
+                        <h1>Edit the project {project.name}</h1>
+                        {error && <Callout message={error} />}
+                        <ProjectForm onSubmit={handleSubmit} project={project} />
+                    </div>
+                </div>
+            )
+            : <LoadingScreen />
+    );
 }
+

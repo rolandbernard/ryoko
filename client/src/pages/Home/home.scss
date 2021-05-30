@@ -1,20 +1,18 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
-@use 'styles/functions.scss'as fn;
 
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
+@use 'styles/functions.scss' as fn;
 
 .landing-page {
-    //General
+    // General
 
     h2 {
-
         @include mx.breakpoint(large) {
             margin: 0 auto fn.toRem(24) auto;
             max-width: 560px;
             text-align: center;
         }
     }
-
 
     section {
         margin-bottom: 70px;
@@ -179,7 +177,6 @@
                 }
             }
         }
-
     }
 
     // Intro Section
@@ -215,7 +212,6 @@
             }
         }
 
-
         .project-overview {
             display: grid;
             grid-gap: 20px;
@@ -241,7 +237,6 @@
                 }
             }
 
-
             .small-1 {
                 grid-area: small-1;
             }
@@ -253,7 +248,6 @@
                     animation-delay: 3s;
                 }
             }
-
 
             .large {
                 grid-area: large;
@@ -273,15 +267,11 @@
                 }
 
                 @keyframes move-up {
-
-                    5%,
-                    35% {
+                    5%, 35% {
                         transform: translateY(0);
                         box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
                     }
-
-                    10%,
-                    30% {
+                    10%, 30% {
                         transform: translateY(-10px);
                         box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.15);
                     }
@@ -437,3 +427,4 @@
         }
     }
 }
+

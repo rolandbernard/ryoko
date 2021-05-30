@@ -1,3 +1,4 @@
+
 import './detail-box.scss';
 
 export interface DetailProps {
@@ -25,3 +26,4 @@ export default function DetailBox({ number, icon, title, label }: DetailProps) {
         </div>
     );
 }
+

@@ -1,5 +1,6 @@
 
 import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
+
 import './text-input.scss';
 
 interface Props {
@@ -9,7 +10,10 @@ interface Props {
     defaultText?: string;
     compareValue?: string;
     onChange: (state: any) => void;
-    validation?: ((text: string) => Promise<string | null> | string | null) | ((value1: string, value2: string) => Promise<string | null> | string | null);
+    validation?: (
+        ((text: string) => Promise<string | null> | string | null)
+        | ((value1: string, value2: string) => Promise<string | null> | string | null)
+    );
     note?: string;
 }
 
@@ -30,18 +34,32 @@ export default function TextInput({ label, name, type, onChange, validation, com
             <div className={'input-field' + (validation ? ' mandatory' : '')}>
                 <label htmlFor={name}>{label}</label>
                 {
-                    type === 'textarea' ?
-                        (<textarea onChange={handleChange} name={name} id={name} onBlur={handleBlur} value={defaultText} />)
-                        : (<input onChange={handleChange} type={type} name={name} id={name} onBlur={handleBlur} value={defaultText} autoComplete="off" />)
+                    type === 'textarea'
+                        ? (<textarea
+                                onChange={handleChange}
+                                name={name}
+                                id={name}
+                                onBlur={handleBlur}
+                                value={defaultText}
+                            />)
+                        : (<input
+                                onChange={handleChange}
+                                type={type} name={name}
+                                id={name} onBlur={handleBlur}
+                                value={defaultText}
+                                autoComplete="off"
+                            />)
                 }
             </div >
             {error && (<div className="error">{error}</div>)}
-            {note && (<div className="note">
-                <span className="material-icons">
-                    help_outline
-                </span>
-                {note}
-            </div>)}
+            {note && (
+                <div className="note">
+                    <span className="material-icons">
+                        help_outline
+                    </span>
+                    {note}
+                </div>
+            )}
         </div>
     );
 }

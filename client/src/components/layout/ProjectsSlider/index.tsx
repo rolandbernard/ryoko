@@ -1,6 +1,9 @@
-import './projects-slider.scss';
-import ProjectSlide, { ProjectSlideProps } from 'components/ui/ProjectSlide';
+
 import Carousel from 'react-alice-carousel';
+
+import ProjectSlide, { ProjectSlideProps } from 'components/ui/ProjectSlide';
+
+import './projects-slider.scss';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 const responsive = {
@@ -34,6 +37,6 @@ export default function ProjectsSlider({ projects }: Props) {
                     <div>No Projects found.</div>
             }
         </>
-
     );
 }
+

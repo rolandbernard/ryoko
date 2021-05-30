@@ -1,8 +1,12 @@
+
 import { FormEvent, MouseEventHandler, useCallback, useState } from 'react';
+
+import { Team } from 'adapters/team';
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+
 import './team-create.scss';
-import { Team } from 'adapters/team';
 
 interface Props {
     onSubmit?: (name: string) => void;
@@ -19,12 +23,14 @@ export function validateName(name: string): string | null {
 
 export default function TeamForm({ onSubmit, onBack, team }: Props) {
     const [name, setName] = useState(team?.name ?? '');
+
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (validateName(name) === null) {
             onSubmit?.(name);
         }
     }, [onSubmit, name]);
+
     return (
         <form className="team-form" onSubmit={handleSubmit}>
             <TextInput

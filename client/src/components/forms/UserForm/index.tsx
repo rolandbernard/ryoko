@@ -1,13 +1,21 @@
-import { User } from 'adapters/user';
+
 import { FormEvent, useCallback, useState } from 'react';
-import './user-form.scss';
+
+import { User } from 'adapters/user';
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
-import '../form.scss';
 import Callout from 'components/ui/Callout';
 
+import './user-form.scss';
+import '../form.scss';
+
 interface Props {
-    onSubmit?: (name?: string, email?: string, avatar?: File) => void;
+    onSubmit?: (
+        name?: string,
+        email?: string,
+        avatar?: File
+    ) => void;
     user: User
 }
 
@@ -44,6 +52,7 @@ export default function UserForm({ user, onSubmit }: Props) {
     const [error, setError] = useState('');
     const [avatarError, setAvatarError] = useState('');
     const [avatar, setAvatar] = useState<File>();
+
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (validateEmail(email) === null && validateAvatar(avatar) === null) {
@@ -52,6 +61,7 @@ export default function UserForm({ user, onSubmit }: Props) {
             setError('Please fill in the mandatory fields.');
         }
     }, [onSubmit, name, email, avatar]);
+
     return (
         <form onSubmit={handleSubmit} className="user-form">
             {error && <Callout message={error} />}
@@ -64,7 +74,6 @@ export default function UserForm({ user, onSubmit }: Props) {
                             onChange={setName}
                             defaultText={name}
                         />
-
                     </div>
                     <div className="col">
                         <TextInput

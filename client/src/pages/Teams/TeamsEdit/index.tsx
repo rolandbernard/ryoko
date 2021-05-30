@@ -1,10 +1,14 @@
-import { getTeam, Team, updateTeam } from 'adapters/team';
-import { useCallback, useEffect, useState } from 'react';
+
 import { useHistory, useParams } from 'react-router';
-import TeamForm from 'components/forms/TeamForm';
-import './teams-edit.scss';
-import LoadingScreen from 'components/ui/LoadingScreen';
+import { useCallback, useEffect, useState } from 'react';
+
+import { getTeam, Team, updateTeam } from 'adapters/team';
+
 import Callout from 'components/ui/Callout';
+import TeamForm from 'components/forms/TeamForm';
+import LoadingScreen from 'components/ui/LoadingScreen';
+
+import './teams-edit.scss';
 
 interface Params {
    teamId: string;
@@ -12,9 +16,10 @@ interface Params {
 
 export default function TeamsEdit() {
    const [team, setTeam] = useState<Team>();
-   const { teamId } = useParams<Params>();
    const [error, setError] = useState('');
    const history = useHistory();
+
+   const { teamId } = useParams<Params>();
 
    useEffect(() => {
       getTeam(teamId).then((team) => {
@@ -35,21 +40,21 @@ export default function TeamsEdit() {
       }
    }, [team, history]);
 
-   if (team) {
-      return (
-         <div className="team-edit-page">
-            <span className="material-icons back-btn" onClick={history.goBack} >
-               arrow_back
-            </span>
-            <div className="content-container">
-               <h1>Edit {team.name}</h1>
-               {error && <Callout message={error} />}
-               <TeamForm team={team} onSubmit={handleEditTeam} />
-            </div>
-         </div>
-      );
-   }
    return (
-      <LoadingScreen />
-   )
+      team
+         ? (
+            <div className="team-edit-page">
+               <span className="material-icons back-btn" onClick={history.goBack} >
+                  arrow_back
+               </span>
+               <div className="content-container">
+                  <h1>Edit {team.name}</h1>
+                  {error && <Callout message={error} />}
+                  <TeamForm team={team} onSubmit={handleEditTeam} />
+               </div>
+            </div>
+         )
+         : <LoadingScreen />
+   );
 }
+

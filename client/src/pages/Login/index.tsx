@@ -1,14 +1,19 @@
-import Page from 'components/layout/Page';
-import { Link, useHistory } from 'react-router-dom';
-import LoginForm from 'components/forms/LoginForm';
-import Callout from 'components/ui/Callout';
-import './login.scss';
+
 import { useCallback, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 import { login } from 'adapters/auth';
 
+import Page from 'components/layout/Page';
+import Callout from 'components/ui/Callout';
+import LoginForm from 'components/forms/LoginForm';
+
+import './login.scss';
+
 export default function Login() {
-    const history = useHistory();
     const [error, setError] = useState<string>('');
+    const history = useHistory();
+
     const handleSubmit = useCallback(async (username: string, password: string) => {
         try {
             if (await login(username, password)) {
@@ -23,7 +28,6 @@ export default function Login() {
     return (
         <div className="login-page-container">
             <Page className="login-page">
-
                 <div className="content-container">
                     <h1 className="underlined">Login</h1>
                     {error && <Callout message={error} />}

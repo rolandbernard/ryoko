@@ -1,7 +1,10 @@
+
+import { FormEvent, useCallback, useState } from 'react';
+
+import { getUserByName } from 'adapters/user';
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
-import { FormEvent, useCallback, useState } from 'react';
-import { getUserByName } from 'adapters/user';
 import Callout from 'components/ui/Callout';
 
 interface Props {
@@ -31,7 +34,6 @@ export default function UsernameForm({ setResult }: Props) {
             <Button type="submit">
                 Add user
             </Button>
-
         </form >
     )
 }

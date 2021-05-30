@@ -1,21 +1,9 @@
 
-import { executeApiGet, executeApiPost, executeApiPut } from './util';
+import { executeApiGet, executeApiPost, executeApiPut } from './request';
 import { Task } from './task';
 import { AssignedUser } from './user';
 import { Work } from './work';
-import { Activity, Completion } from './util';
-
-export enum Status {
-    OPEN = 'open',
-    CLOSED = 'closed',
-    SUSPENDED = 'suspended'
-}
-
-export const StatusColors = new Map<string, string>([
-    ['open', 'lightblue'],
-    ['closed', 'purple'],
-    ['suspended', 'red']
-]);
+import { Activity, Completion, Status } from './common';
 
 export enum ProjectColors {
     RED = 'red',

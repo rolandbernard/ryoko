@@ -1,13 +1,16 @@
-import './project-details.scss';
+
+import { useEffect, useState } from 'react';
+
+import { getTeam } from 'adapters/team';
+import { formatDate, subtractTime } from 'timely';
+
 import DetailGrid from 'components/layout/DetailGrid';
-import BarChart, { ChartItem } from 'components/graphs/BarChart';
+import LoadingScreen from 'components/ui/LoadingScreen';
 import ButtonLink from 'components/navigation/ButtonLink';
 import { getProjectActivity, Project } from 'adapters/project';
-import { useEffect, useState } from 'react';
-import { getTeam } from 'adapters/team';
-import LoadingScreen from 'components/ui/LoadingScreen';
-import { parseActivity } from 'adapters/util';
-import { formatDate, subtractTime } from 'timely';
+import BarChart, { ChartItem, parseActivity } from 'components/graphs/BarChart';
+
+import './project-details.scss';
 
 interface Props {
     project: Project
@@ -42,8 +45,8 @@ export default function ProjectDetails({ project }: Props) {
         <section className="project-details">
             <DetailGrid details={details} />
             {
-                activity ?
-                    <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
+                activity
+                    ? <BarChart unit="h" multiplier={1 / 60 / 60 / 1000} data={activity} />
                     : <LoadingScreen />
             }
             <ButtonLink routing href={`/projects/${project.id}/edit`} className="expanded">
@@ -52,3 +55,4 @@ export default function ProjectDetails({ project }: Props) {
         </section>
     )
 }
+

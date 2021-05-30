@@ -1,7 +1,10 @@
-import { deleteTeamRole, Team, TeamMember, TeamRole, updateTeamMember } from 'adapters/team';
+
 import { FormEvent, useCallback, useState } from 'react';
-import Button from 'components/ui/Button';
 import { useHistory } from 'react-router';
+
+import { deleteTeamRole, Team, TeamMember, TeamRole, updateTeamMember } from 'adapters/team';
+
+import Button from 'components/ui/Button';
 import Callout from 'components/ui/Callout';
 
 interface Props {
@@ -17,6 +20,7 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
     const [currentRole, setRole] = useState(member?.role.id);
     const [error, setError] = useState('');
     const history = useHistory();
+
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (currentRole) {

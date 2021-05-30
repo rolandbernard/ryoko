@@ -1,5 +1,7 @@
+
 import { ReactNode } from 'react';
 import { NavLink, Route } from 'react-router-dom';
+
 import './tabs.scss';
 
 export interface Tab {
@@ -14,7 +16,6 @@ interface Props {
 }
 
 export default function Tabs({ tabs }: Props) {
-
     return (
         <>
             <nav className="tabs-container">
@@ -33,3 +34,4 @@ export default function Tabs({ tabs }: Props) {
         </>
     );
 }
+

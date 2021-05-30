@@ -1,13 +1,16 @@
-@use 'styles/settings.scss'as s;
+
+@use 'styles/settings.scss' as s;
 
 .assignee-list {
     display: flex;
     margin-left: 16px;
+
     &:hover {
         .assignee {
             margin-left: 0;
         }
     }
+
     .tooltip {
         margin-left: -8px;
     }
@@ -22,7 +25,6 @@
             width: 100%;
             border-radius: 50%;
         }
-
     }
 
     .overhead {
@@ -38,3 +40,4 @@
         font-weight: s.$weight-semi-bold;
     }
 }
+

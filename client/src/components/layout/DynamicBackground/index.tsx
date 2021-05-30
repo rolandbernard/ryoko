@@ -1,4 +1,6 @@
+
 import { useState, useEffect } from 'react';
+
 import './background.scss';
 
 function getWindowHeight(): number {    
@@ -7,6 +9,7 @@ function getWindowHeight(): number {
 
 export default function DynamicBackground() {
     const [height, setHeight] = useState(0);
+
     useEffect(() => {
         setHeight(getWindowHeight());
     }, [])
@@ -32,3 +35,4 @@ export default function DynamicBackground() {
         </div>
     )
 }
+

@@ -1,13 +1,15 @@
-import ButtonLink from 'components/navigation/ButtonLink';
-import ContactForm from 'components/forms/ContactForm';
+
 import Page from 'components/layout/Page';
-import './home.scss';
+import ContactForm from 'components/forms/ContactForm';
+import ButtonLink from 'components/navigation/ButtonLink';
 
 import Logo from 'images/logo.svg';
 import ImageRoland from 'images/roland-bernard.jpg';
 import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
-export default function Home() {
+import './home.scss';
+
+export default function Home(): JSX.Element {
     return (
         <Page className="landing-page">
             <section className="hero-section" id="hero">
@@ -47,9 +49,9 @@ export default function Home() {
                             <p>
                                 Do you want to boost your productivity and agility of your
                                 development? <br />
-                                            With ryoko you are able to effectively plan your tasks
-                                            and manage your projects. It is build with developers in mind and
-                                            facilitates effective collaboration.
+                                With ryoko you are able to effectively plan your tasks
+                                and manage your projects. It is build with developers in mind and
+                                facilitates effective collaboration.
                             </p>
                         </div>
                         <div className="preview-container">
@@ -72,13 +74,13 @@ export default function Home() {
                             <span className="feature-icon material-icons">event</span>
                             <h3 className="feature-title">Automatic timetables</h3>
                             <div className="feature-description">
-                                Generate your automatic timetables based on <strong>priorities and depencies</strong> of
+                                Generate your automatic timetables based on <strong>priorities and decencies</strong> of
                                 your tasks
                             </div>
                         </div>
                         <div className="feature-item">
                             <span className="feature-icon material-icons">group</span>
-                            <h3 className="feature-title">Teambased</h3>
+                            <h3 className="feature-title">Team-based</h3>
                             <div className="feature-description">
                                 Distribute task within your Teams based on <strong>profession and difficulty</strong>
                             </div>
@@ -114,7 +116,7 @@ export default function Home() {
                             <img className="team-member-image" src={ImageRoland} width="200" height="200"
                                 alt="Roland Bernard" />
                             <div className="team-member-info">
-                                <h4 className="team-member-title">Software Engineer</h4>
+                                <div className="team-member-title">Software Engineer</div>
                                 <h3 className="team-member-name">Roland Bernard</h3>
                                 <div className="team-member-description">
                                     Studying Computer Science and participating in Competitive Programming
@@ -142,12 +144,12 @@ export default function Home() {
             <footer>
                 <div className="content-container footer-container">
                     <div className="footer-copyright">
-                        <img src={Logo} className="logo" alt="Logo" width="70" height="24" />
-                        <p>
-                            &copy; <a href="index.html">ryoko</a>, 2021
+                    <img src={Logo} className="logo" alt="Logo" width="70" height="24" />
+                    <p>
+                        &copy; <a href="index.html">ryoko</a>, 2021
                     </p>
-                        <p>
-                            All rights reserved.
+                    <p>
+                        All rights reserved.
                     </p>
                     </div>
                     <div className="footer-nav">
@@ -160,4 +162,5 @@ export default function Home() {
         </Page>
     );
 }
+
 

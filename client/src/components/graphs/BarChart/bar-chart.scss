@@ -1,4 +1,5 @@
-@use 'styles/settings.scss'as s;
+
+@use 'styles/settings.scss' as s;
 
 .bar-chart-container {
     height: 180px;
@@ -97,3 +98,4 @@
         }
     }
 }
+

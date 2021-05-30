@@ -1,6 +1,6 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
 
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
 
 .project-slider {
     overflow: hidden;
@@ -14,7 +14,6 @@
     }
 
     .project-slide {
-        user-drag: none;
         user-select: none;
         -moz-user-select: none;
         -webkit-user-drag: none;
@@ -23,3 +22,4 @@
         margin: 10px;
     }
 }
+

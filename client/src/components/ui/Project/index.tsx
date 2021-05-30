@@ -1,16 +1,18 @@
 
-import CircularProgress from 'components/graphs/CircularProgress';
-import AssigneeList from 'components/ui/AssigneeList';
-import { AssignedUser } from 'adapters/user';
-import { getProjectAssignees, getProjectCompletion, Project as IProject } from 'adapters/project';
-import './project.scss';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Completion } from 'adapters/util';
-import LoadingScreen from '../LoadingScreen';
-import Tag from '../Tag';
-import { StatusColors } from 'adapters/project';
+
 import { formatDate } from 'timely';
+import { AssignedUser } from 'adapters/user';
+import { Completion, StatusColors } from 'adapters/common';
+import { getProjectAssignees, getProjectCompletion, Project as IProject } from 'adapters/project';
+
+import Tag from 'components/ui/Tag';
+import AssigneeList from 'components/ui/AssigneeList';
+import LoadingScreen from 'components/ui/LoadingScreen';
+import CircularProgress from 'components/graphs/CircularProgress';
+
+import './project.scss';
 
 export interface ProjectProps {
     project: IProject
@@ -33,19 +35,18 @@ export default function Project({ project, large }: ProjectProps) {
             </div>
             <div className="content">
                 {
-                    completion ? (
-                        <CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100} color={project.color} />
-                    ) : (
-                        <LoadingScreen />
-                    )
+                    completion
+                        ? (<CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100} color={project.color} />)
+                        : (<LoadingScreen />)
                 }
                 <div className="title">{project.name}</div>
                 {
                     large &&
                     <div className="details">
-                        {project.deadline && (
-                            <div className="deadline">{formatDate(project.deadline, 'month')}</div>
-                        )}
+                        {
+                            project.deadline
+                                && (<div className="deadline">{formatDate(project.deadline, 'month')}</div>)
+                        }
                         <AssigneeList assignees={assignees} max={3} />
                     </div>
                 }
@@ -53,4 +54,5 @@ export default function Project({ project, large }: ProjectProps) {
         </Link>
     );
 }
+
 

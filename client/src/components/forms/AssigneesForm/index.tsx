@@ -1,9 +1,13 @@
-import './assignees-form.scss';
-import { TaskAssignment } from "adapters/task";
+
 import { useCallback, useEffect, useState } from "react";
-import { possibleMember } from "../TaskForm";
+
+import { TaskAssignment } from "adapters/task";
+
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
+import { possibleMember } from "components/forms/TaskForm";
+
+import './assignees-form.scss';
 
 interface Props {
     assignees: TaskAssignment[];
@@ -11,18 +15,15 @@ interface Props {
     members: possibleMember[]
 }
 
-
 export default function AssigneesForm({ assignees, setAssignees, members }: Props) {
-
     const [possibleMembers, setPossibleMembers] = useState<possibleMember[]>([]);
     const [addNew, setAddNew] = useState(false);
-    const [selectedMember, setSelectedMember] = useState<string>('');
-    const [selectedTime, setSelectedTime] = useState<string>('');
+    const [selectedMember, setSelectedMember] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
 
     useEffect(() => {
         setPossibleMembers(members.filter(member => !assignees.find(r => r.user === member.id)));
     }, [members, assignees, setAssignees])
-
 
     const addAssignee = useCallback((e) => {
         e.preventDefault();
@@ -34,7 +35,6 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
 
         }
     }, [setAssignees, selectedMember, selectedTime])
-
 
     const removeAssignee = useCallback((member: string) => {
         setAssignees((state: any) => state.filter((r: any) => r.user !== member));
@@ -85,10 +85,8 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
                             Add the assignee
                         </Button>
                     </Popup>
-
                 )
             }
         </>
     )
-
 }

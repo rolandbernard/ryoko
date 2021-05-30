@@ -1,4 +1,6 @@
+
 import './callout.scss';
+
 interface Props {
     message: string;
 }
@@ -10,3 +12,4 @@ export default function Callout({ message }: Props) {
         </div>
     );
 }
+

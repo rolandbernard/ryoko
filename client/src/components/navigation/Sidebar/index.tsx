@@ -1,14 +1,17 @@
+
+import { NavLink, useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { clearToken, isLoggedIn } from 'adapters/auth';
+import { getCurrentUser, getUserActivity, User } from 'adapters/user';
+import { subtractTime } from 'timely';
+
 import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
-import { NavLink, useHistory } from 'react-router-dom';
-import { clearToken, isLoggedIn } from 'adapters/auth';
-import './sidebar.scss';
-import { useEffect, useState } from 'react';
-import { getCurrentUser, getUserActivity, User } from 'adapters/user';
-import BarChart, { ChartItem } from 'components/graphs/BarChart';
+import BarChart, { ChartItem, parseActivity } from 'components/graphs/BarChart';
 import LoadingScreen from 'components/ui/LoadingScreen';
-import { subtractTime } from 'timely';
-import { parseActivity } from 'adapters/util';
+
+import './sidebar.scss';
 
 interface Props {
     mobileShown: boolean;
@@ -68,13 +71,16 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                 </nav>
             </div>
             {
-                activity ? (
-                    <div className="stats">
-                        <BarChart unit="h" multiplicator={1 / 60 / 60 / 1000} data={activity} />
-                        <div className="comment">Recent activity</div>
-                    </div>
-                ) : <LoadingScreen />
+                activity
+                    ? (
+                        <div className="stats">
+                            <BarChart unit="h" multiplier={1 / 60 / 60 / 1000} data={activity} />
+                            <div className="comment">Recent activity</div>
+                        </div>
+                    )
+                    : <LoadingScreen />
             }
         </aside>
     );
 }
+

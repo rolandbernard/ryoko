@@ -1,16 +1,28 @@
-import { Project, ProjectColors, Status } from 'adapters/project';
+
 import { FormEvent, useCallback, useEffect, useState } from 'react';
+
+import { Project, ProjectColors } from 'adapters/project';
+import { getTeam, getTeams, Team } from 'adapters/team';
+import { Status } from 'adapters/common';
+
 import Callout from 'components/ui/Callout';
 import Button from 'components/ui/Button';
 import TextInput from 'components/ui/TextInput';
-import './project-form.scss';
-import { getTeam, getTeams, Team } from 'adapters/team';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
+
 import '../form.scss';
+import './project-form.scss';
 
 interface Props {
     project?: Project
-    onSubmit: (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => void;
+    onSubmit: (
+        teams: string[],
+        name: string,
+        text: string,
+        color: string,
+        status?: Status,
+        deadline?: string
+    ) => void;
 }
 
 function validateName(name: string): string | null {
@@ -45,26 +57,12 @@ function validateTeams(teams: string[]): string | null {
     }
 }
 
-//TODO add to ryoko-moment something like that
-
-export function getDateString(date?: Date) {
-    if (date) {
-        let month = date.getMonth() + 1;
-        return date.getFullYear() + '-'
-            + (month / 10 < 1 ? '0' + month : month) + '-'
-            + (date.getDate() / 10 < 1 ? '0' + date.getDate() : date.getDate());
-    } else {
-        return undefined;
-    }
-}
-
 export default function ProjectForm({ project, onSubmit }: Props) {
-
     const [name, setName] = useState(project?.name);
     const [text, setText] = useState(project?.text);
     const [status, setStatus] = useState(project?.status);
     const [color, setColor] = useState(project?.color);
-    const [deadline, setDeadline] = useState(getDateString(project?.deadline));
+    const [deadline, setDeadline] = useState(project?.deadline?.toISOString());
     const [error, setError] = useState('');
 
     const [teams, setTeams] = useState(project?.teams ?? []);
@@ -77,7 +75,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                     if (!state.find((t) => t.id === team.id)) {
                         return [...state, team];
                     }
-
                     return [...state];
                 });
             });
@@ -88,7 +85,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                     if (!state.find((team) => team.id === allTeamsItem.id)) {
                         return [...state, allTeamsItem];
                     }
-
                     return [...state];
                 });
             })
@@ -97,7 +93,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
 
     const colors = Object.values(ProjectColors);
     const allStatus = Object.values(Status);
-
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
@@ -143,7 +138,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                         type="date"
                         note="Until when the project is due."
                     />
-
                 </div>
                 <div className="col">
                     {
@@ -164,12 +158,8 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                             </select>
                         </div>
                     }
-
                 </div>
-
             </div>
-
-
             <h2>Color</h2>
             <p>Choose a color, to identify to project later more easily.</p>
             <div className="color-list">
@@ -180,7 +170,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                             key={colorItem}
                             onClick={() => setColor(colorItem)}
                         >
-
                         </div>
                     ))
                 }
@@ -190,7 +179,6 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                 <p>Which ones of your teams are working on this project</p>
                 <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
             </div>
-
             <div className="button-container">
                 <Button type="submit" className="expanded">
                     {project ? 'Update' : 'Create'}

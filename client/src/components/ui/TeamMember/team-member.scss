@@ -1,4 +1,6 @@
+
 @use 'styles/settings.scss' as s;
+
 .team-member-item {
     display: flex;
     align-items: center;
@@ -8,27 +10,33 @@
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(s.$black, 0.1);
     position: relative;
+
     .avatar {
         width: 60px;
         height: 60px;
         transform: translateX(-50%);
         font-size: 36px;
+
         img {
             width: 100%;
             border-radius: 50%;
         }
     }
+
     .details {
         margin-left: -10px;
     }
+
     .name {
         font-weight: s.$weight-bold;
         font-size: 18px;
     }
+
     .info {
         font-size: 14px;
         line-height: 1.2;
     }
+
     .dropdown-container {
         position: absolute;
         right: 0;
@@ -47,8 +55,10 @@
         color: s.$white;
         border-radius: 50%;
         cursor: pointer;
+
         .icon {
             margin-right: 0;
         }
     }
 }
+

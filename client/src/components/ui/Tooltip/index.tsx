@@ -1,4 +1,6 @@
+
 import { ReactNode } from 'react';
+
 import './tooltip.scss';
 
 interface Props {
@@ -17,3 +19,4 @@ export default function Tooltip({children, text, className}: Props) {
         </div>
     ); 
 }
+

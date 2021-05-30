@@ -1,11 +1,16 @@
-import './project-tasks.scss';
-import TaskList from 'components/layout/TaskList';
-import { Status, StatusColors } from 'adapters/task';
+
+
 import { useEffect, useState } from 'react';
-import Filter from 'components/helpers/Filter';
+
+import { Status, StatusColors } from 'adapters/common';
 import { getProjectTasks, Project } from 'adapters/project';
+
+import Filter from 'components/helpers/Filter';
 import { TaskProps } from 'components/ui/Task';
+import TaskList from 'components/layout/TaskList';
 import LoadingScreen from 'components/ui/LoadingScreen';
+
+import './project-tasks.scss';
 
 interface Props {
     project: Project
@@ -42,19 +47,18 @@ export default function ProjectTasks({ project }: Props) {
             } else {
                 return task.task.name.indexOf(filter.term) >= 0 && filter.tags.find(tag => tag === task.task.status);
             }
-        }
-        ));
+        }));
     }, [filter, allTasks])
-
 
     return (
         <div className="project-tasks">
             <Filter setFilter={setFilter} tags={allStatus} filter={filter} />
             {
-                shownTasks ?
-                    <TaskList tasks={shownTasks} addButton /> :
-                    <LoadingScreen />
+                shownTasks
+                    ? <TaskList tasks={shownTasks} addButton />
+                    : <LoadingScreen />
             }
         </div>
     )
 }
+

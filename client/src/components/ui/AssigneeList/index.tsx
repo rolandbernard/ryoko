@@ -1,7 +1,10 @@
-import './assignee-list.scss';
-import Tooltip from 'components/ui/Tooltip';
+
 import { User } from 'adapters/user';
-import Avatar from '../Avatar';
+
+import Tooltip from 'components/ui/Tooltip';
+import Avatar from 'components/ui/Avatar';
+
+import './assignee-list.scss';
 
 interface Props {
     assignees: User[],
@@ -9,13 +12,11 @@ interface Props {
 }
 
 export default function AssigneeList({ assignees, max }: Props) {
-
     let shownAssignees = assignees, overhead = 0;
     if (assignees.length > max) {
         shownAssignees = assignees.slice(0, max - 1);
         overhead = assignees.length - max;
     }
-
     return (
         <div className="assignee-list">
             {
@@ -34,5 +35,5 @@ export default function AssigneeList({ assignees, max }: Props) {
             }
         </div>
     )
-
 }
+

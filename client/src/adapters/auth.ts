@@ -4,7 +4,7 @@ import { apiRoot } from 'config';
 export function getAuthHeader(): HeadersInit {
     if (isLoggedIn()) {
         return {
-            'Authorization': `Brearer ${getToken()}`,
+            'Authorization': `Bearer ${getToken()}`,
         };
     } else {
         return {};
@@ -66,7 +66,7 @@ export async function register(username: string, password: string, realname: str
         }
         return response.ok;
     } catch (e) {
-        // Probably a network errlor
+        // Probably a network error
         throw e;
     }
 }

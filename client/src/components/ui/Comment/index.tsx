@@ -1,18 +1,21 @@
-import './comment.scss';
+
+import { useEffect, useState } from 'react';
+
+import { formatRelativeTime } from 'timely';
 import { getUser, User } from 'adapters/user';
 import { Comment as IComment } from 'adapters/comment';
-import { useEffect, useState } from 'react';
-import Avatar from 'components/ui/Avatar';
-import { formatRelativeTime } from 'timely';
 
+import Avatar from 'components/ui/Avatar';
+
+import './comment.scss';
 
 export interface CommentProps {
     comment: IComment;
 }
 
 export default function Comment({ comment }: CommentProps) {
-
     const [user, setUser] = useState<User>();
+
     useEffect(() => {
         getUser(comment.user).then((user) => setUser(user));
     }, [comment]);
@@ -40,3 +43,4 @@ export default function Comment({ comment }: CommentProps) {
         return <>Loading</>
     }
 }
+

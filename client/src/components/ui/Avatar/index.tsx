@@ -1,5 +1,8 @@
-import { getUserImageUri, User } from 'adapters/user';
+
 import { useCallback, useState } from 'react';
+
+import { getUserImageUri, User } from 'adapters/user';
+
 import './avatar.scss';
 
 interface Props {
@@ -13,15 +16,14 @@ export default function Avatar({ user }: Props) {
     const onError = useCallback(() => {
         setError(true);
     }, [setError]);
+
     return (
         <div className="avatar">
-
             {
                 !error && (
                     <img src={avatarSrc} alt={user?.username} onError={onError} />
                 )
             }
-
             {
                 error && (
                     <div className="standard-image">
@@ -32,3 +34,4 @@ export default function Avatar({ user }: Props) {
         </div>
     )
 }
+

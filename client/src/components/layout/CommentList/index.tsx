@@ -1,9 +1,13 @@
-import Comment, { CommentProps } from 'components/ui/Comment';
-import { getCurrentUser, User } from 'adapters/user';
-import Avatar from 'components/ui/Avatar';
-import './comment-list.scss';
+
 import { FormEvent, useCallback, useEffect, useState } from 'react';
+
+import { getCurrentUser, User } from 'adapters/user';
 import { createComment, getComment } from 'adapters/comment';
+
+import Avatar from 'components/ui/Avatar';
+import Comment, { CommentProps } from 'components/ui/Comment';
+
+import './comment-list.scss';
 
 interface Props {
     comments: CommentProps[]
@@ -54,11 +58,10 @@ export default function CommentList({ comments, taskId }: Props) {
                     </div>
                 )
             }
-
             {allComments.map(comment => (
                 <Comment key={comment.comment.id} {...comment} />
             ))}
-
         </div>
     )
 }
+

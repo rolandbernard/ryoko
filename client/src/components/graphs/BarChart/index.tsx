@@ -1,3 +1,8 @@
+
+import { formatDate } from 'timely';
+
+import { Activity } from 'adapters/common';
+
 import './bar-chart.scss';
 
 export interface ChartItem {
@@ -5,13 +10,20 @@ export interface ChartItem {
     value: number;
 }
 
+export function parseActivity(activity: Activity[]): ChartItem[] {
+    return activity.map(item => ({
+        label: formatDate(new Date(item.day), 'none', 'short'),
+        value: item.time
+    }));
+}
+
 interface Props {
     data: ChartItem[];
     unit?: string;
-    multiplicator?: number;
+    multiplier?: number;
 }
 
-export default function BarChart({ data, unit, multiplicator }: Props) {
+export default function BarChart({ data, unit, multiplier }: Props) {
     let maxValue = data.map(e => e.value).sort((a, b) => b - a)[0];
     return (
         <div className="bar-chart-container">
@@ -28,7 +40,7 @@ export default function BarChart({ data, unit, multiplicator }: Props) {
                                         {item.label}
                                     </div>
                                     <div className="tooltip">
-                                        {(item.value * (multiplicator ?? 1)).toFixed(2) + (unit ?? '')} 
+                                        {(item.value * (multiplier ?? 1)).toFixed(2) + (unit ?? '')} 
                                     </div>
                                 </div>
                             ))
@@ -40,5 +52,5 @@ export default function BarChart({ data, unit, multiplicator }: Props) {
             }
         </div>
     );
-
 }
+
