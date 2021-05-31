@@ -24,7 +24,12 @@
         top: 50%;
         transform: translateY(-50%);
         justify-content: center;
-        align-items: center;;
+        align-items: center;
+
+        &.disabled {
+            opacity: 0.1;
+            cursor: auto;
+        }
     }
 
     .prev-button {

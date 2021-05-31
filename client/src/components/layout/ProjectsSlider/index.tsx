@@ -1,5 +1,5 @@
 
-import { useCallback, useRef } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 
 import ProjectSlide, { ProjectSlideProps } from 'components/ui/ProjectSlide';
 
@@ -10,24 +10,25 @@ interface Props {
 }
 
 export default function ProjectsSlider({ projects }: Props) {
-    const slider = useRef<HTMLDivElement | null>(null);
+    const [position, setPosition] = useState(0);
 
     const onChange = useCallback(amount => {
-        const current = parseFloat(slider.current?.style.getPropertyValue('--position') ?? '0') || 0;
-        const next = Math.min(Math.max(current + amount, 0), projects.length - 1);
-        slider.current?.style.setProperty('--position', next.toString());
-    }, [slider, projects]);
+        const nextPosition = Math.min(Math.max(position + amount, 0), projects.length - 1);
+        setPosition(nextPosition);
+    }, [position, setPosition, projects]);
 
     return (
         projects.length
             ? (
-                <div className="project-slider" ref={slider}>
-                    <div className="prev-button" onClick={() => onChange(-1)}>
-                        &lt;
-                    </div>
-                    <div className = "next-button" onClick={() => onChange(1)}>
-                        &gt;
-                    </div>
+                <div className="project-slider" style={{ '--position': position } as CSSProperties}>
+                    <div
+                        className={'prev-button' + (position > 0 ? '' : ' disabled' )}
+                        onClick={() => onChange(-1)}
+                    >&lt;</div>
+                    <div
+                        className={'next-button' + (position < projects.length - 1 ? '' : ' disabled')}
+                        onClick={() => onChange(1)}
+                    >&gt;</div>
                     {
                         projects.map(project =>
                             <div
