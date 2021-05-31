@@ -64,6 +64,8 @@
 
     .description-container {
         margin-top: 20px;
+        max-height: 3rem;
+        overflow: hidden;
     }
 
     .assignee-list {

@@ -1,17 +1,22 @@
 
 import { ReactNode, useState } from 'react';
 
+import { User } from 'adapters/user';
+
 import Popup from 'components/ui/Popup';
-import TeamMember, { TeamMemberProps } from 'components/ui/TeamMember';
+import UserComponent from 'components/ui/User';
+import { DropDownItem } from 'components/navigation/Dropdown';
 
-import './member-list.scss';
+import './user-list.scss';
 
-interface Props {
-    members: TeamMemberProps[];
+interface Props<T extends User> {
+    users: T[];
     addContent?: ReactNode
+    info?: (user: T) => string;
+    settings?: (user: T) => DropDownItem[];
 }
 
-export default function MemberList({ members, addContent }: Props) {
+export default function UserList<T extends User>({ users, addContent, info, settings }: Props<T>) {
     const [showAdd, setShowAdd] = useState(false);
     return (
         <>
@@ -29,8 +34,13 @@ export default function MemberList({ members, addContent }: Props) {
                     </div>
                 }
 
-                {members.length > 0 ? members.map((member) => (
-                    <TeamMember key={member.user.id} {...member} />
+                {users.length > 0 ? users.map((user) => (
+                    <UserComponent
+                        key={user.id}
+                        user={user}
+                        info={info}
+                        settings={settings}
+                    />
                 )) : (
                     <div>No user found.</div>
                 )}

@@ -1,10 +1,11 @@
 
-import MemberList from 'components/layout/MemberList';
+import { AssignedUser } from 'adapters/user';
+
+import UserList from 'components/layout/UserList';
 import LoadingScreen from 'components/ui/LoadingScreen';
-import { TeamMemberProps } from 'components/ui/TeamMember';
 
 interface Props {
-    assignees: TeamMemberProps[]
+    assignees: AssignedUser[]
 }
 
 export default function TaskAssignees({ assignees }: Props) {
@@ -12,7 +13,12 @@ export default function TaskAssignees({ assignees }: Props) {
         <section className="task-assignees-section">
             {
                 assignees
-                    ? <MemberList members={assignees} />
+                    ? (
+                        <UserList
+                            users={assignees}
+                            info={user => user.time + " min"}
+                        />
+                    )
                     : <LoadingScreen />
             }
         </section>

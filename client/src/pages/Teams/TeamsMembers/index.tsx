@@ -5,7 +5,7 @@ import { getTeamRoles, Team, TeamMember, TeamRole } from 'adapters/team';
 
 import RoleForm from 'components/forms/RoleForm';
 import MemberForm from 'components/forms/MemberForm';
-import MemberList from 'components/layout/MemberList';
+import UserList from 'components/layout/UserList';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './teams-members.scss';
@@ -27,22 +27,9 @@ export default function TeamsMembers({ members, team }: Props) {
             {
                 roles
                     ? (
-                        <MemberList
-                            members={members.map(member => ({
-                                user: member,
-                                info: member.role.name,
-                                settings: [{
-                                    label: 'Edit role',
-                                    popupContent: (
-                                        <RoleForm
-                                            setRoles={setRoles}
-                                            roles={roles}
-                                            team={team}
-                                            member={member}
-                                        />
-                                    )
-                                }]
-                            }))}
+                        <UserList
+                            users={members}
+                            info={member => member.role.name}
                             addContent={
                                 <MemberForm
                                     setRoles={setRoles}
@@ -50,6 +37,17 @@ export default function TeamsMembers({ members, team }: Props) {
                                     team={team}
                                 />
                             }
+                            settings={member => [{
+                                label: 'Edit role',
+                                popupContent: (
+                                    <RoleForm
+                                        setRoles={setRoles}
+                                        roles={roles}
+                                        team={team}
+                                        member={member}
+                                    />
+                                )
+                            }]}
                         />
                     )
                     : <LoadingScreen />
