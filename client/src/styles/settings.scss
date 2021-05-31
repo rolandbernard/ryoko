@@ -19,7 +19,7 @@ $colors: (
    'primary': $primary,
    'secondary': $secondary,
    'light': $light,
-   'dark': $dark
+   'dark': $dark,
 );
 
 $themeDarkMap: (
@@ -29,7 +29,7 @@ $themeDarkMap: (
     'green': #5ABF2B,
     'lightblue': #0E8BFF,
     'blue': #1768FF,
-    'purple': #8A24DA
+    'purple': #8A24DA,
 );
 
 $themeLightMap: (
@@ -39,7 +39,7 @@ $themeLightMap: (
     'green': #7CF144,
     'lightblue': #72BFFF,
     'blue': #428DFE,
-    'purple': #AC42FF
+    'purple': #AC42FF,
 );
 
 $linear-gradient: linear-gradient(to bottom, $primary, $primary-dark);

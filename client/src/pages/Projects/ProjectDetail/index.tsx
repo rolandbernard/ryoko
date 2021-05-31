@@ -1,22 +1,29 @@
-import './project-detail.scss';
+
+import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
+
+import { StatusColors } from 'adapters/common';
+import { getProject, Project } from 'adapters/project';
+
 import Tag from 'components/ui/Tag';
 import Tabs, { Tab } from 'components/navigation/Tabs';
-import { useHistory, useParams } from 'react-router';
-import ProjectDetails from './ProjectDetails';
-import ProjectTasks from './ProjectTasks';
-import { useEffect, useState } from 'react';
-import { getProject, Project, StatusColors } from 'adapters/project';
 import LoadingScreen from 'components/ui/LoadingScreen';
+
+import ProjectTasks from './ProjectTasks';
+import ProjectDetails from './ProjectDetails';
+
+import './project-detail.scss';
 
 export interface Params {
     projectId: string;
 }
 
 export default function ProjectDetail() {
-    const { projectId } = useParams<Params>();
     const [project, setProject] = useState<Project>();
     const [tabs, setTabs] = useState<Tab[]>([]);
     const history = useHistory();
+
+    const { projectId } = useParams<Params>();
     
     useEffect(() => {
         getProject(projectId).then((project) => {
@@ -33,12 +40,10 @@ export default function ProjectDetail() {
                     component: <ProjectTasks project={project} />
                 }
             ]);
-
         }).catch(() => {
             history.push('/projects');
         });
     }, [history, projectId])
-
 
     if (project) {
         return (
@@ -55,14 +60,14 @@ export default function ProjectDetail() {
                         </p>
                     </div>
                     {
-                        tabs ?
-                            <Tabs tabs={tabs} /> :
-                            <LoadingScreen />
+                        tabs
+                            ? <Tabs tabs={tabs} />
+                            : <LoadingScreen />
                     }
-
                 </div>
             </div>
         )
     }
     return <LoadingScreen />
 }
+

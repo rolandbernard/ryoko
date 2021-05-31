@@ -32,21 +32,26 @@ function validateRepeatPassword(password: string, password2: string) {
         return null;
     }
 }
+
 interface Props {
     onSubmit?: (username: string, password: string, realname?: string, email?: string) => void;
     setError?: Function;
 }
 
 export default function RegisterForm({ onSubmit, setError }: Props) {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [repeatedPassword, setRepeatedPassword] = useState<string>('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatedPassword, setRepeatedPassword] = useState('');
     const [realName, setRealName] = useState<string | undefined>();
     const [email, setEmail] = useState<string | undefined>();
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        if (await validateUsername(username) === null && validatePassword(password) === null && validateRepeatPassword(repeatedPassword, password) === null) {
+        if (
+            await validateUsername(username) === null
+            && validatePassword(password) === null
+            && validateRepeatPassword(repeatedPassword, password) === null
+        ) {
             onSubmit?.(username, password, realName, email);
         } else if(setError) {
             setError('Please fill in the mandatory fields.');

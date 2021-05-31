@@ -1,6 +1,9 @@
-import './task-list.scss';
-import Task, { TaskProps } from 'components/ui/Task';
+
 import { Link } from 'react-router-dom';
+
+import Task, { TaskProps } from 'components/ui/Task';
+
+import './task-list.scss';
 
 interface Props {
     tasks: TaskProps[]
@@ -25,3 +28,4 @@ export default function TaskList({ tasks, addButton }: Props) {
         </div>
     )
 }
+

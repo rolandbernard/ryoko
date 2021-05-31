@@ -1,9 +1,13 @@
-import './task.scss';
+
 import { Link } from 'react-router-dom';
-import AssigneeList from 'components/ui/AssigneeList';
-import { Task as ITask } from 'adapters/task';
 import { useEffect, useState } from 'react';
+
+import { Task as ITask } from 'adapters/task';
 import { getUser, User } from 'adapters/user';
+
+import AssigneeList from 'components/ui/AssigneeList';
+
+import './task.scss';
 
 export interface TaskProps {
     task: ITask;
@@ -25,7 +29,7 @@ export default function Task({ task, color, subtitle }: TaskProps) {
             <div className={'indicator' + (color ? ' bg-gradient-' + color : '')}></div>
             <div className="main-info">
                 <div className="icon-container">
-                {task.icon}
+                    {task.icon}
                 </div>
                 <div className="text-container">
                     <h4>{task.name}</h4>
@@ -36,7 +40,7 @@ export default function Task({ task, color, subtitle }: TaskProps) {
                 {task.text}
             </div>
             <AssigneeList assignees={assignees} max={3} />
-
         </Link>
     )
 }
+

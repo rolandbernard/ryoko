@@ -1,4 +1,5 @@
-@use 'styles/settings.scss'as s;
+
+@use 'styles/settings.scss' as s;
 
 .tag {
     font-weight: s.$weight-bold;
@@ -18,5 +19,5 @@
     &:not([class*='bg-gradient']) {
         background: s.$linear-gradient-horizontal;
     }
-
 }
+

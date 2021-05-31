@@ -2,8 +2,9 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-import './button-link.scss';
 import Button from 'components/ui/Button';
+
+import './button-link.scss';
 
 interface Props {
     children: ReactNode;

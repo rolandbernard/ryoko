@@ -1,14 +1,18 @@
-import './header.scss';
+
+import { ReactNode, useState } from 'react';
+
 import Navigation from 'components/navigation/Navigation';
 import Sidebar from 'components/navigation/Sidebar';
 import Page from 'components/layout/Page'
-import { ReactNode, useState } from 'react';
+
+import './header.scss';
 
 interface Props {
     children?: ReactNode
 }
 export default function Header({ children }: Props) {
-    const [showSidebar, setShowSidebar] = useState<boolean>(false);
+    const [showSidebar, setShowSidebar] = useState(false);
+
     return (
         <div className="full-width">
             <Sidebar setMobileShown={setShowSidebar} mobileShown={showSidebar} />
@@ -28,3 +32,4 @@ export default function Header({ children }: Props) {
         </div>
     );
 }
+

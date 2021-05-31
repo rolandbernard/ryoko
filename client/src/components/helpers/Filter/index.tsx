@@ -1,5 +1,7 @@
-import './filter.scss';
+
 import Tag from 'components/ui/Tag';
+
+import './filter.scss';
 
 interface Props {
     setFilter: Function;
@@ -10,9 +12,8 @@ interface Props {
     tags: {
         label: string;
         color?: string;
-    }[]
+    }[];
 }
-
 
 export default function Filter({ setFilter, tags, filter }: Props) {
     return (
@@ -55,3 +56,4 @@ export default function Filter({ setFilter, tags, filter }: Props) {
         </div>
     )
 }
+

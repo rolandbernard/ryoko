@@ -1,9 +1,13 @@
-import { TaskRequirement } from 'adapters/task';
-import './requirements-form.scss';
+
 import { useCallback, useEffect, useState } from 'react';
-import { possibleRole } from '../TaskForm';
+
+import { TaskRequirement } from 'adapters/task';
+
+import { possibleRole } from 'components/forms/TaskForm';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
+
+import './requirements-form.scss';
 
 interface Props {
     roles: possibleRole[],
@@ -11,18 +15,15 @@ interface Props {
     setRequirements: Function
 }
 
-
 export default function RequirementsForm({ roles, requirements, setRequirements }: Props) {
-
     const [possibleRoles, setPossibleRoles] = useState<possibleRole[]>([]);
     const [addNew, setAddNew] = useState(false);
-    const [selectedRole, setSelectedRole] = useState<string>('');
-    const [selectedTime, setSelectedTime] = useState<string>('');
+    const [selectedRole, setSelectedRole] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
 
     useEffect(() => {
         setPossibleRoles(roles.filter(role => !requirements.find(r => r.role === role.id)));
     }, [roles, requirements, setSelectedRole])
-
 
     const addRequirement = useCallback((e) => {
         e.preventDefault();
@@ -31,10 +32,8 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
             setAddNew(false);
             setSelectedRole('');
             setSelectedTime('');
-
         }
     }, [selectedRole, selectedTime, setRequirements])
-
 
     const removeRequirement = useCallback((role: string) => {
         setRequirements((state: any) => state.filter((r: any) => r.role !== role));

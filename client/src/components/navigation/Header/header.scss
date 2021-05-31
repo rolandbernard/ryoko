@@ -1,6 +1,6 @@
-@use 'styles/settings'as s;
-@use 'styles/mixins'as mx;
 
+@use 'styles/settings' as s;
+@use 'styles/mixins' as mx;
 
 .full-width {
     width: 100%;
@@ -91,3 +91,4 @@
         cursor: pointer;
     }
 }
+

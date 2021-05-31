@@ -1,6 +1,6 @@
 
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
 
 .introduction-page-container {
     display: flex;
@@ -19,6 +19,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
+
         @include mx.breakpoint(medium) {
             min-height: auto;
             padding: 60px;
@@ -38,8 +39,10 @@
         color: s.$primary;
         font-weight: s.$weight-bold;
         cursor: pointer;
+
         &:hover {
             color: s.$primary-dark;
         }
     }
 }
+

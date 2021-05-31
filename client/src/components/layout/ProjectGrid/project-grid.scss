@@ -1,6 +1,7 @@
-@use 'styles/mixins.scss'as mx;
-@use 'styles/settings.scss'as s;
-@use 'styles/functions.scss'as fn;
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
+@use 'styles/functions.scss' as fn;
 
 .project-grid {
     display: grid;
@@ -13,7 +14,6 @@
         grid-template-columns: repeat(4, 1fr);
         gap: 30px;
     }
-
 
     .add-project {
         font-size: 64px;
@@ -33,6 +33,6 @@
             grid-row: span 2;
             height: 100%;
         }
-
     }
 }
+

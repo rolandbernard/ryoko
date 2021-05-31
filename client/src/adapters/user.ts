@@ -1,10 +1,10 @@
 
 import { apiRoot } from 'config';
 
-import { executeApiGet, executeApiPut } from './util';
+import { executeApiGet, executeApiPut } from './request';
 import { Task } from './task';
 import { Work } from './work';
-import { Activity, Completion } from './util';
+import { Activity, Completion } from './common';
 
 export interface User {
     id: string;

@@ -1,12 +1,16 @@
-import { createTeam } from "adapters/team";
-import TeamForm from "components/forms/TeamForm";
-import Callout from "components/ui/Callout";
-import { useCallback, useState } from "react";
+
 import { useHistory } from "react-router";
+import { useCallback, useState } from "react";
+
+import { createTeam } from "adapters/team";
+
+import Callout from "components/ui/Callout";
+import TeamForm from "components/forms/TeamForm";
 
 export default function TeamsCreate() {
     const [error, setError] = useState('');
     const history = useHistory();
+
     const handleCreateTeam = useCallback(async (name: string) => {
         try {
             const team = await createTeam(name);
@@ -29,3 +33,4 @@ export default function TeamsCreate() {
         </div>
     );
 }
+

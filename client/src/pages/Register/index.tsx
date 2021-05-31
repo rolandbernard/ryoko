@@ -2,16 +2,17 @@
 import { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import Page from 'components/layout/Page';
-import RegisterForm from 'components/forms/RegisterForm';
 import { register } from 'adapters/auth';
+
+import Page from 'components/layout/Page';
 import Callout from 'components/ui/Callout';
+import RegisterForm from 'components/forms/RegisterForm';
 
 import './register.scss';
 
 export default function Register() {
-    const history = useHistory();
     const [error, setError] = useState('');
+    const history = useHistory();
 
     const handleSubmit = useCallback(async (username: string, password: string, realname?: string, email?: string) => {
         try {

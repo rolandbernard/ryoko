@@ -1,20 +1,34 @@
-import './task-form.scss';
-import '../form.scss';
-import { Priority, Status, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
+
 import { FormEvent, useCallback, useEffect, useState } from 'react';
+import Picker from 'emoji-picker-react';
+
+import { getProjectTasks, Project } from 'adapters/project';
+import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
+import { Priority, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
+import { Status } from 'adapters/common';
+
 import Callout from 'components/ui/Callout';
 import TextInput from 'components/ui/TextInput';
-import Picker from 'emoji-picker-react';
-import { getProjectTasks, Project } from 'adapters/project';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
-import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
 import RequirementsForm from 'components/forms/RequirementsForm';
-import AssgineesForm from 'components/forms/AssigneesForm';
+import AssigneesForm from 'components/forms/AssigneesForm';
 import Button from 'components/ui/Button';
+
+import './task-form.scss';
+import '../form.scss';
 
 interface Props {
     task?: Task;
-    onSubmit: (name: string, text: string, icon: string, priority: Priority, dependencies: string[], requirements: TaskRequirement[], assignees: TaskAssignment[], status?: Status) => void;
+    onSubmit: (
+        name: string,
+        text: string,
+        icon: string,
+        priority: Priority,
+        dependencies: string[],
+        requirements: TaskRequirement[],
+        assignees: TaskAssignment[],
+        status?: Status
+    ) => void;
     project: Project;
 }
 
@@ -106,11 +120,11 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-
-        if (validateName(name ?? '') === null &&
-            validateText(text ?? '') === null &&
-            validateIcon(icon ?? '') === null &&
-            validatePriority(priority ?? '') === null
+        if (
+            validateName(name ?? '') === null
+            && validateText(text ?? '') === null
+            && validateIcon(icon ?? '') === null
+            && validatePriority(priority ?? '') === null
         ) {
             onSubmit?.(name ?? '', text ?? '', icon ?? '', priority ?? Priority.LOW, tasks ?? [], requirements, assignees, status);
         } else {
@@ -147,7 +161,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                     <div className="current-icon">
                         Current icon: {icon}
                     </div>
-                    <Picker disableSkinTonePicker onEmojiClick={(e, emoji) => setIcon(emoji.emoji)} />
+                    <Picker disableSkinTonePicker onEmojiClick={(_e, emoji) => setIcon(emoji.emoji)} />
                     <div className="note">
                         <span className="material-icons">
                             help_outline
@@ -166,8 +180,8 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                         }}>
                             <option value={''}>Please choose a priority</option>
                             {
-                                allPriorities.map((prio) => (
-                                    <option value={prio} key={prio}>{prio}</option>
+                                allPriorities.map((priority) => (
+                                    <option value={priority} key={priority}>{priority}</option>
                                 ))
                             }
                         </select>
@@ -202,7 +216,6 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                     }
                 </div>
             </div>
-
             <h2>Dependencies</h2>
             <p>Pick tasks of this project that have to be done before this one.</p>
             {
@@ -221,7 +234,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 <div className="col">
                     {
                         allMembers.length > 0 && (
-                            <AssgineesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
+                            <AssigneesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
                         )
                     }
                 </div>
@@ -233,5 +246,4 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             </div>
         </form>
     )
-
 }

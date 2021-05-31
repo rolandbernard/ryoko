@@ -1,6 +1,7 @@
-@use 'styles/settings'as s;
-@use 'styles/mixins'as mx;
-@use 'styles/functions'as fn;
+
+@use 'styles/settings' as s;
+@use 'styles/mixins' as mx;
+@use 'styles/functions' as fn;
 
 .tasks-page {
     h2 {
@@ -21,7 +22,6 @@
         .task {
             margin-bottom: 30px;
         }
-
     }
     
     .task-error {
@@ -31,3 +31,4 @@
         background: s.$white;
     }
 }
+

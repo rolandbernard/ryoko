@@ -1,11 +1,16 @@
-import ProjectsSlider from 'components/layout/ProjectsSlider';
-import './projects.scss';
-import ProjectGrid from 'components/layout/ProjectGrid';
-import Filter from 'components/helpers/Filter';
+
 import { useEffect, useState } from 'react';
-import { getProjects, Project, Status, StatusColors } from 'adapters/project';
+
+import { Status, StatusColors } from 'adapters/common';
+import { getProjects, Project } from 'adapters/project';
+
+import Filter from 'components/helpers/Filter';
+import ProjectGrid from 'components/layout/ProjectGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import ProjectsSlider from 'components/layout/ProjectsSlider';
 import { ProjectSlideProps } from 'components/ui/ProjectSlide';
+
+import './projects.scss';
 
 export default function Projects() {
     const [filter, setFilter] = useState({ term: '', tags: [] });
@@ -35,8 +40,7 @@ export default function Projects() {
             } else {
                 return project.name.indexOf(filter.term) >= 0 && filter.tags.find(tag => tag === project.status);
             }
-        }
-        ));
+        }));
     }, [filter, allProjects])
 
     return (
@@ -48,13 +52,12 @@ export default function Projects() {
                 <h2>All Projects</h2>
                 <Filter setFilter={setFilter} filter={filter} tags={allStatus} />
                 {
-                    shownProjects ? (
-                        <ProjectGrid projects={shownProjects} />
-                    ) : (
-                        <LoadingScreen />
-                    )
+                    shownProjects
+                        ? (<ProjectGrid projects={shownProjects} />)
+                        : (<LoadingScreen />)
                 }
             </div>
         </div>
     );
 }
+

@@ -1,4 +1,6 @@
+
 import { ReactNode } from 'react';
+
 import './popup.scss';
 
 interface Props {
@@ -8,7 +10,7 @@ interface Props {
 
 export default function Popup({ children, onClose }: Props) {
     document.addEventListener('keydown', (e) => {
-        if(e.keyCode === 27) {
+        if(e.key === "Escape") {
             onClose();
         }
     });
@@ -21,3 +23,4 @@ export default function Popup({ children, onClose }: Props) {
         </div>
     )
 }
+

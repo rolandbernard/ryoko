@@ -1,18 +1,27 @@
+
 import { FormEvent, useCallback, useState } from "react";
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+
 import './contact-form.scss';
 
 interface Props {
-    onSubmit?: (firstname: string, lastname: string, email: string, subject: string, message: string) => void
+    onSubmit?: (
+        firstname: string,
+        basename: string,
+        email: string,
+        subject: string,
+        message: string
+    ) => void
 }
 
 export default function RegisterForm({ onSubmit }: Props) {
-    const [firstname, setFirstname] = useState<string>('');
-    const [lastname, setLastname] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [subject, setSubject] = useState<string>('');
-    const [message, setMessage] = useState<string>('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [subject, setSubject] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();

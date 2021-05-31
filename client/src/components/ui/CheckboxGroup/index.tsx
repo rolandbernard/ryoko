@@ -1,4 +1,6 @@
+
 import './checkbox-group.scss';
+
 interface Props {
     choices: {
         id: string;
@@ -8,7 +10,6 @@ interface Props {
     setChosen: Function
 }
 
-
 export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
     return (
         <div className="checkbox-group">
@@ -17,7 +18,7 @@ export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
                     <label htmlFor={choice.id} className="checkbox-item" key={choice.id}>
                         <input type="checkbox" id={choice.id}
                             checked={chosen.indexOf(choice.id) >= 0}
-                            onChange={(e) => {
+                            onChange={(_e) => {
                                 if (chosen.find(id => choice.id === id)) {
                                     setChosen((state: any) => state.filter((id: any) => id !== choice.id));
                                 } else {
@@ -28,9 +29,9 @@ export default function CheckboxGroup({ choices, chosen, setChosen }: Props) {
                         </span>
                         {choice.name}
                     </label>
-
                 ))
             }
         </div>
     )
 }
+

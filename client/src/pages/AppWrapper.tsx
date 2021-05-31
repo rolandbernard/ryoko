@@ -2,8 +2,8 @@
 import { Suspense, lazy } from 'react';
 import { Switch } from 'react-router-dom';
 
-import ProtectedRoute from 'components/helpers/ProtectedRoute';
 import Header from 'components/navigation/Header';
+import ProtectedRoute from 'components/helpers/ProtectedRoute';
 
 const Tasks = lazy(() => import('pages/Tasks'));
 const TaskDetail = lazy(() => import('pages/Tasks/TaskDetail'));
@@ -19,7 +19,6 @@ const TeamsEdit = lazy(() => import('pages/Teams/TeamsEdit'));
 const Teams = lazy(() => import('pages/Teams'));
 const TeamsCreate = lazy(() => import('pages/Teams/TeamsCreate'));
 const Settings = lazy(() => import('pages/Settings'));
-
 
 export default function AppWrapper() {
     return (

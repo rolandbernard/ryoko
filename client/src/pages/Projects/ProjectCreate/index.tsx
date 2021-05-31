@@ -1,20 +1,24 @@
-import { createProject, Status } from "adapters/project";
-import ProjectForm from "components/forms/ProjectForm";
-import { useCallback, useState } from "react";
+
 import { useHistory } from "react-router";
+import { useCallback, useState } from "react";
+
+import { createProject } from "adapters/project";
+import { Status } from "adapters/common";
+
 import Callout from 'components/ui/Callout';
+import ProjectForm from "components/forms/ProjectForm";
 
 export default function ProjectCreate() {
-    const history = useHistory();
     const [error, setError] = useState('');
-    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, status?: Status, deadline?: string) => {
+    const history = useHistory();
+
+    const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, _status?: Status, deadline?: string) => {
         try {
-            if (await createProject({ teams, name, text, color, deadline })) {
-                history.push('/projects');
-            } else {
-                setError('There was an error with creating your project. Please try again!');
-            }
-        } catch (e) { }
+            await createProject({ teams, name, text, color, deadline });
+            history.push('/projects');
+        } catch (e) {
+            setError('There was an error with creating your project. Please try again!');
+        }
     }, [history]);
 
     return (
@@ -30,3 +34,4 @@ export default function ProjectCreate() {
         </div>
     )
 }
+

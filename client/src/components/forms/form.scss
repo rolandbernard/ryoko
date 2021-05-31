@@ -1,5 +1,6 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
 
 form {
     .fields-row {
@@ -10,7 +11,6 @@ form {
         }
 
         .col {
-
             @include mx.breakpoint(large) {
                 margin: -20px 0;
                 width: 50%;
@@ -22,8 +22,6 @@ form {
                 margin: 20px 0;
             }
         }
-
-
     }
 
     .field {
@@ -41,7 +39,6 @@ form {
             font-size: 12px;
         }
     }
-
 
     .field-label {
         font-size: 16px;
@@ -91,5 +88,5 @@ form {
     .button-container {
         margin-top: 30px;
     }
-
 }
+

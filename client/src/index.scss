@@ -1,6 +1,7 @@
-@use 'styles/settings'as s;
-@use 'styles/mixins'as mx;
-@use 'styles/functions'as fn;
+
+@use 'styles/settings' as s;
+@use 'styles/mixins' as mx;
+@use 'styles/functions' as fn;
 
 :root {
     --primary: #AC42FF;
@@ -31,8 +32,7 @@ button {
     outline: none;
 }
 
-a,
-button {
+a, button {
     font-weight: s.$weight-semi-bold;
     color: s.$primary;
     text-decoration: none;
@@ -50,12 +50,8 @@ button {
     padding: 0 30px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3,
+h4, h5, h6 {
     font-weight: s.$weight-bold;
     line-height: 1.2;
 }
@@ -85,7 +81,6 @@ h1 {
                 width: 120px;
                 bottom: 5px;
             }
-
         }
     }
 
@@ -131,8 +126,6 @@ h4 {
     }
 }
 
-
-
 @each $key,
 $color in s.$themeDarkMap {
     .bg-dark-#{$key} {
@@ -144,7 +137,6 @@ $color in s.$themeDarkMap {
     }
 }
 
-
 @each $key,
 $color in s.$themeLightMap {
     .bg-light-#{$key} {
@@ -155,7 +147,6 @@ $color in s.$themeLightMap {
         color: $color
     }
 }
-
 
 @each $key,
 $color in s.$themeLightMap {
@@ -182,3 +173,4 @@ $color in s.$themeLightMap {
     height: 84px;
     cursor: pointer;
 }
+

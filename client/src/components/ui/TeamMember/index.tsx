@@ -1,7 +1,10 @@
-import './team-member.scss';
-import Avatar from 'components/ui/Avatar';
+
 import { User } from 'adapters/user';
+
+import Avatar from 'components/ui/Avatar';
 import Dropdown, { DropDownItem } from 'components/navigation/Dropdown';
+
+import './team-member.scss';
 
 export interface TeamMemberProps {
     user: User;
@@ -23,10 +26,11 @@ export default function TeamMember({ user, info, settings }: TeamMemberProps) {
                     <div className="settings">
                         <span className="material-icons icon">
                             expand_more
-                    </span>
+                        </span>
                     </div>
                 </Dropdown>
             }
         </div>
     );
 }
+

@@ -1,7 +1,10 @@
-import './member-list.scss';
-import TeamMember, { TeamMemberProps } from 'components/ui/TeamMember';
+
 import { ReactNode, useState } from 'react';
+
 import Popup from 'components/ui/Popup';
+import TeamMember, { TeamMemberProps } from 'components/ui/TeamMember';
+
+import './member-list.scss';
 
 interface Props {
     members: TeamMemberProps[];
@@ -35,3 +38,4 @@ export default function MemberList({ members, addContent }: Props) {
         </>
     );
 }
+

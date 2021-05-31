@@ -1,5 +1,7 @@
-import './completion-grid.scss';
+
 import Completion, { CompletionProps } from 'components/ui/Completion';
+
+import './completion-grid.scss';
 
 interface Props {
     items: CompletionProps[];
@@ -16,3 +18,4 @@ export default function CompletionGrid({ items }: Props) {
         </div>
     )
 }
+

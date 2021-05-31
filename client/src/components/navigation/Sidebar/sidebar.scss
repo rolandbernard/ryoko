@@ -1,6 +1,7 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
-@use 'styles/functions.scss'as fn;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
+@use 'styles/functions.scss' as fn;
 
 .site-aside {
     position: fixed;
@@ -33,7 +34,6 @@
         transform: translateX(0);
         visibility: visible;
     }
-
 
     .profile {
         margin-bottom: 50px;
@@ -153,3 +153,4 @@
         }
     }
 }
+

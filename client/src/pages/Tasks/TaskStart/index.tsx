@@ -1,17 +1,22 @@
-import './task-start.scss';
-import Tag from 'components/ui/Tag';
-import DetailGrid from 'components/layout/DetailGrid';
+
 import { useHistory, useParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
-import { getTask, getTaskWork, StatusColors, Task, TaskAssignment, updateTask } from 'adapters/task';
-import { getProject, Project } from 'adapters/project';
+
 import { getTeam } from 'adapters/team';
+import { getCurrentUser } from 'adapters/user';
+import { StatusColors, } from 'adapters/common';
+import { finishWork, startWork } from 'adapters/work';
+import { getProject, Project } from 'adapters/project';
+import { durationBetween, formatSimpleDuration } from 'timely';
+import { getTask, getTaskWork, Task, TaskAssignment, updateTask } from 'adapters/task';
+
+import Tag from 'components/ui/Tag';
+import Button from 'components/ui/Button';
+import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import CircularProgress from 'components/graphs/CircularProgress';
-import Button from 'components/ui/Button';
-import { getCurrentUser } from 'adapters/user';
-import { durationBetween, formatSimpleDuration } from 'timely';
-import { finishWork, startWork } from 'adapters/work';
+
+import './task-start.scss';
 
 export interface Params {
     taskId: string;
@@ -22,18 +27,17 @@ function handleTimer(state: number) {
 }
 
 export default function TaskDetail() {
-    const { taskId } = useParams<Params>();
-    const history = useHistory();
-
     const [task, setTask] = useState<Task>();
-    const [time, setTime] = useState<number>(0);
-    const [initialTime, setInitialTime] = useState<number>(0);
+    const [time, setTime] = useState(0);
+    const [initialTime, setInitialTime] = useState(0);
     const [assignee, setAssignee] = useState<TaskAssignment>();
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
     const [paused, setPaused] = useState(true);
     const [timer, setTimer] = useState<NodeJS.Timeout>();
+    const history = useHistory();
 
+    const { taskId } = useParams<Params>();
 
     useEffect(() => {
         getTask(taskId).then((task) => {
@@ -53,7 +57,6 @@ export default function TaskDetail() {
                             }
                             workedTime += durationBetween(w.started, w.finished ?? new Date())
                         });
-
                         setTime(minutes - workedTime);
                         if (!lastSessionFinished) {
                             setPaused(false);
@@ -75,8 +78,6 @@ export default function TaskDetail() {
             });
         }).catch(() => history.goBack());
     }, [taskId, history]);
-
-
 
     const handleTaskStart = useCallback(() => {
         if (task) {
@@ -102,7 +103,9 @@ export default function TaskDetail() {
                 clearInterval(timer);
                 await finishWork();
             }
-            const assignees = task.assigned.filter(a => a.user !== assignee.user).concat({ ...assignee, finished: true });
+            const assignees = task.assigned
+                .filter(a => a.user !== assignee.user)
+                .concat({ ...assignee, finished: true });
             await updateTask(task.id, {
                 add_assigned: assignees,
                 remove_assigned: [assignee.user]
@@ -120,28 +123,32 @@ export default function TaskDetail() {
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
-                    <CircularProgress percent={time * 100 / initialTime} label={(time < 0 ? '-' : '') + formatSimpleDuration(Math.abs(time))}
-                        color={StatusColors.get(task.status)} />
+                    <CircularProgress
+                        percent={time * 100 / initialTime}
+                        label={(time < 0 ? '-' : '') + formatSimpleDuration(Math.abs(time))}
+                        color={StatusColors.get(task.status)}
+                    />
                     <div className="button-container">
                         {
-                            !assignee.finished && (<> {
-                                paused ? (
-                                    <Button className="expanded" onClick={handleTaskStart}>
-                                        Go!
+                            !assignee.finished
+                                && (<>
+                                    {
+                                        paused ? (
+                                            <Button className="expanded" onClick={handleTaskStart}>
+                                                Go!
+                                            </Button>
+                                        ) : (
+                                            <Button className="expanded" onClick={handleTaskStart}>
+                                                Make a break
+                                            </Button>
+                                        )
+                                    }
+                                    <Button className="expanded dark" onClick={finishTask}>
+                                        Finish task
                                     </Button>
-                                ) : (
-                                    <Button className="expanded" onClick={handleTaskStart}>
-                                        Make a break
-                                    </Button>
-                                )
-                            }
-                                <Button className="expanded dark" onClick={finishTask}>
-                                    Finish task
-                                </Button>
-                            </>)
+                                </>)
                         }
                     </div>
-
                     <div className="description-container">
                         <h2>
                             Description
@@ -150,14 +157,16 @@ export default function TaskDetail() {
                             {task.text}
                         </p>
                     </div>
-
-                    <DetailGrid details={[
-                        { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
-                        { icon: 'group', title: 'Teams', label: teamNames.join(', ') }]} />
+                    <DetailGrid
+                        details={[
+                            { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
+                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') }
+                        ]}
+                    />
                 </div>
             </div>
         );
-
     }
     return <LoadingScreen />;
 }
+

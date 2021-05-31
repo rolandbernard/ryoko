@@ -1,7 +1,11 @@
-import { Team, TeamMember, TeamRole } from 'adapters/team';
+
 import { useState } from 'react';
+
+import { Team, TeamMember, TeamRole } from 'adapters/team';
+
 import RoleChangeForm from 'components/forms/RoleForm/RoleChangeForm';
 import RoleEditForm from 'components/forms/RoleForm/RoleEditForm';
+
 import './role-form.scss';
 
 interface Props {
@@ -24,3 +28,4 @@ export default function RoleForm({ roles, team, member, setResult, setRoles }: P
         </>
     )
 }
+

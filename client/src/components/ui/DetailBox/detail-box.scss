@@ -1,5 +1,6 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
 
 .detail-box {
     width: 100%;
@@ -60,3 +61,4 @@
         }
     }
 }
+

@@ -1,6 +1,9 @@
+
 import { FormEvent, useCallback, useState } from "react";
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+
 import './login-form.scss';
 
 interface Props {
@@ -8,8 +11,8 @@ interface Props {
 }
 
 export default function RegisterForm({ onSubmit }: Props) {
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();

@@ -1,5 +1,6 @@
-@use 'styles/settings'as s;
-@use 'styles/mixins'as mx;
+
+@use 'styles/settings' as s;
+@use 'styles/mixins' as mx;
 
 .project {
     border-radius: 10px;
@@ -49,7 +50,6 @@
         }
     }
 
-
     .info {
         font-size: 12px;
         margin-top: 16px;
@@ -72,11 +72,11 @@
         padding: 10px;
         flex-direction: column;
         text-align: center;
+        font-size: 14px;
 
         .deadline {
             margin-bottom: 10px;
         }
-
-        font-size: 14px;
     }
 }
+

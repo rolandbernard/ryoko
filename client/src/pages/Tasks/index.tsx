@@ -1,16 +1,20 @@
-import Task, { TaskProps } from 'components/ui/Task';
-import './tasks.scss';
+
 import { useEffect, useState } from 'react';
-import { getProject } from 'adapters/project';
-import { getCurrentUser, getUserTasks, User } from 'adapters/user';
-import LoadingScreen from 'components/ui/LoadingScreen';
-import { getPossibleTasks } from 'adapters/task';
+
 import { getTeams } from 'adapters/team';
+import { getProject } from 'adapters/project';
+import { getPossibleTasks } from 'adapters/task';
+import { getCurrentUser, getUserTasks, User } from 'adapters/user';
+
+import Task, { TaskProps } from 'components/ui/Task';
+import LoadingScreen from 'components/ui/LoadingScreen';
+
+import './tasks.scss';
 
 export default function Tasks() {
+    const [user, setUser] = useState<User>();
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [possibleTasks, setPossibleTasks] = useState<TaskProps[]>([]);
-    const [user, setUser] = useState<User>();
 
     useEffect(() => {
         getCurrentUser().then((user) => {
@@ -40,12 +44,11 @@ export default function Tasks() {
                             }]);
                         })
                     })
-
                 })
             })
-
         })
     }, []);
+
     if (user) {
         return (
             <div className="tasks-page">
@@ -56,37 +59,38 @@ export default function Tasks() {
                     <p>Hey {user.realname ?? user.username}, you have <strong>{tasks.length} {tasks.length > 1 ? 'tasks' : 'task'}</strong>.</p>
                     <section className="tasks-container">
                         {
-                            tasks.length > 0 ? (
-                                <div className="tasks-list">
-                                    {
-                                        tasks.map((task) => (
-                                            <Task key={task.task.id} {...task} />
-                                        ))
-                                    }
-                                </div>
-                            ) : (
-                                <div className="task-error">No open tasks found</div>
-                            )
+                            tasks.length > 0
+                                ? (
+                                    <div className="tasks-list">
+                                        {
+                                            tasks.map((task) => (
+                                                <Task key={task.task.id} {...task} />
+                                            ))
+                                        }
+                                    </div>
+                                )
+                                : (<div className="task-error">No open tasks found</div>)
                         }
                         <h2>Other tasks you could do</h2>
                         {
-                            possibleTasks.length > 0 ? (
-                                <div className="tasks-list">
-                                    {
-                                        possibleTasks.map((task) => (
-                                            <Task key={task.task.id} {...task} />
-                                        ))
-                                    }
-                                </div>
-                            ) : (
-                                <div className="task-error">You don't fit the requirements for any other tasks</div>
-                            )
+                            possibleTasks.length > 0
+                                ? (
+                                    <div className="tasks-list">
+                                        {
+                                            possibleTasks.map((task) => (
+                                                <Task key={task.task.id} {...task} />
+                                            ))
+                                        }
+                                    </div>
+                                )
+                                : (<div className="task-error">You don't fit the requirements for any other tasks</div>)
                         }
                     </section>
                 </div>
             </div >
         );
+    } else {
+        return <LoadingScreen />
     }
-    return <LoadingScreen />
 }
 

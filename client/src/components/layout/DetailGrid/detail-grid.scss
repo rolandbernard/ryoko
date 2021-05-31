@@ -1,21 +1,27 @@
+
 @use 'styles/mixins.scss' as mx;
 
 .detail-grid {
     display: flex;
     flex-wrap: wrap;
     margin: -12px;
+
     @include mx.breakpoint(medium) {
         margin: -10px;
     }
+
     .box-container {
         margin: 12px;
         width: calc(50% - 24px);
+
         @include mx.breakpoint(medium) {
             width: calc(33.33% - 20px);
             margin: 10px;
         }
+
         @include mx.breakpoint(large) {
             width: calc(20% - 20px);
         }
     }
 }
+

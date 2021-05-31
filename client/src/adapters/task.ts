@@ -1,25 +1,14 @@
 
-import { executeApiGet, executeApiPost, executeApiPut } from './util';
+import { executeApiGet, executeApiPost, executeApiPut } from './request';
 import { Comment } from './comment';
 import { Work } from './work';
 import { AssignedUser } from './user';
+import { Status } from './common';
 
 export interface TaskRequirement {
     role: string;
     time: number;
 }
-
-export enum Status {
-    OPEN = 'open',
-    CLOSED = 'closed',
-    SUSPENDED = 'suspended'
-}
-
-export const StatusColors = new Map<string, string>([
-    ['open', 'blue'],
-    ['closed', 'purple'],
-    ['suspended', 'red']
-]);
 
 export enum Priority {
     LOW = 'low',

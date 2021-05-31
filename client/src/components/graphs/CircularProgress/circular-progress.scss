@@ -1,5 +1,6 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/functions.scss'as fn;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/functions.scss' as fn;
 
 .circular-progress {
     position: relative;
@@ -30,7 +31,6 @@
         }
     }
 
-
     svg {
         width: 70px;
         height: 70px;
@@ -60,3 +60,4 @@
         margin: 0 !important;
     }
 }
+

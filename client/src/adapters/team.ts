@@ -1,9 +1,9 @@
 
-import { executeApiDelete, executeApiGet, executeApiPost, executeApiPut } from './util';
+import { executeApiDelete, executeApiGet, executeApiPost, executeApiPut } from './request';
 import { User } from './user';
 import { ReducedProject } from './project';
 import { Work } from './work';
-import { Activity, Completion } from './util';
+import { Activity, Completion } from './common';
 
 export interface Team {
     id: string;

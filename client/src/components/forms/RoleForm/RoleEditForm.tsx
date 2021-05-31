@@ -1,8 +1,10 @@
 
+import { FormEvent, useCallback, useState } from 'react';
+
 import { createTeamRole, Team, TeamRole, updateTeamRole } from 'adapters/team';
+
 import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
-import { FormEvent, useCallback, useState } from 'react';
 
 interface Props {
     role?: TeamRole;

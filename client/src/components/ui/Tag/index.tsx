@@ -1,3 +1,4 @@
+
 import './tag.scss';
 
 interface Props {
@@ -18,4 +19,5 @@ export default function Tag({ label, icon, color }: Props) {
         </span>
 
     );
+
 }

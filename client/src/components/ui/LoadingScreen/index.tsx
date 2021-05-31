@@ -1,4 +1,6 @@
+
 import './loading-screen.scss';
+
 export default function LoadingScreen() {
     return (
         <div className="loading-screen">
@@ -21,3 +23,4 @@ export default function LoadingScreen() {
         </div>
     )
 }
+
