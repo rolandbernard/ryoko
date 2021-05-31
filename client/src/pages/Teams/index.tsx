@@ -1,16 +1,16 @@
 
 import { useHistory, useParams } from 'react-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getTeamMembers, getTeamProjects, getTeams, leaveTeam, Team } from 'adapters/team';
+import { getTeamMembers, getTeamProjects, getTeams, leaveTeam, Team, TeamMember } from 'adapters/team';
+import { Project } from 'adapters/project';
 
 import Button from 'components/ui/Button';
-import { DetailProps } from 'components/ui/DetailBox';
 import DetailGrid from 'components/layout/DetailGrid';
-import Tabs, { Tab } from 'components/navigation/Tabs';
+import Tabs from 'components/navigation/Tabs';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import ButtonLink from 'components/navigation/ButtonLink';
-import Dropdown, { DropDownItem } from 'components/navigation/Dropdown';
+import Dropdown from 'components/navigation/Dropdown';
 
 import TeamsMembers from './TeamsMembers';
 import TeamsStats from './TeamsStats';
@@ -22,81 +22,84 @@ export interface Params {
 }
 
 export default function Teams() {
-    const [tabs, setTabs] = useState<Tab[]>([]);
-    const [allTeams, setTeams] = useState<Team[]>();
-    const [currentTeam, setCurrentTeam] = useState<Team>();
-    const [details, setDetails] = useState<DetailProps[]>([]);
-    const [pageLinks, setPageLinks] = useState<DropDownItem[]>([]);
+    const [teams, setTeams] = useState<Team[]>();
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [members, setMembers] = useState<TeamMember[]>([]);
     const history = useHistory();
 
-    const { teamId } = useParams<Params>();
+    const { teamId: teamParamId } = useParams<Params>();
+    const teamId = teamParamId ?? teams?.[0]?.id
+
+    let currentTeam = teams?.find(team => team.id === teamId);
 
     useEffect(() => {
-        getTeams()
-            .then((teams) => {
-                //if no team is defined, take the first one
-                if ((!teamId && teams[0]) || !teams.find(team => team.id === teamId)) {
-                    history.push('/teams/' + teams[0].id);
-                }
-                setTeams(teams);
-                setCurrentTeam(teams.find(team => team.id === teamId));
-            })
-            .catch(() => { });
-    }, [teamId, history]);
-
-    useEffect(() => {
-        if (currentTeam && allTeams) {
-            getTeamProjects(currentTeam.id).then((projects) => {
-                setDetails((state) => state
-                    .filter(detail => detail.title !== 'Projects')
-                    .concat({
-                        icon: 'folder',
-                        title: 'Projects',
-                        number: projects.length
-                    })
-                );
-            });
-            getTeamMembers(currentTeam.id).then((members) => {
-                setDetails((state) =>
-                    state
-                        .filter(detail => detail.title !== 'Members')
-                        .concat({
-                            icon: 'group',
-                            title: 'Members',
-                            number: members.length
-                        })
-                );
-                setTabs([
-                    {
-                        route: '/teams/' + currentTeam.id,
-                        label: 'Members',
-                        component: (<TeamsMembers members={members} team={currentTeam} />)
-                    }, {
-                        route: '/teams/' + currentTeam.id + '/stats/:time',
-                        link: '/teams/' + currentTeam.id + '/stats/week',
-                        label: 'Stats',
-                        component: <TeamsStats teamId={currentTeam.id} />
-                    }
-                ]);
-            });
-            //update Tabs link
-            setPageLinks(allTeams.filter(team => currentTeam.id !== team.id).map(team => {
-                return {
-                    route: '/teams/' + team.id,
-                    label: team.name,
-                }
-            }));
+        if (teams && (!currentTeam || !teamParamId)) {
+            if (teams.length > 0) {
+                // if no team is defined, take the first one
+                history.replace('/teams/' + teams[0].id);
+            } else {
+                history.push('/introduction');
+            }
         }
-    }, [currentTeam, allTeams]);
+    });
+
+    useEffect(() => {
+        getTeams().then(setTeams);
+    }, []);
+
+    useEffect(() => {
+        if (teamId) {
+            getTeamProjects(teamId).then(setProjects);
+        }
+    }, [teamId]);
+
+    useEffect(() => {
+        if (teamId) {
+            getTeamMembers(teamId).then(setMembers);
+        }
+    }, [teamId]);
 
     const leaveCurrentTeam = useCallback(async () => {
-        if (currentTeam) {
-            await leaveTeam(currentTeam.id);
-            history.go(0);
+        if (teamId && teams) {
+            await leaveTeam(teamId);
+            setTeams(teams.filter(team => team.id !== teamId));
         }
-    }, [currentTeam, history])
+    }, [teams, teamId])
 
-    if (currentTeam) {
+    const tabs = useMemo(() => currentTeam && members && [
+        {
+            route: '/teams/' + currentTeam.id,
+            label: 'Members',
+            component: (<TeamsMembers members={members} team={currentTeam} />)
+        }, {
+            route: '/teams/' + currentTeam.id + '/stats/:time',
+            link: '/teams/' + currentTeam.id + '/stats/week',
+            label: 'Stats',
+            component: <TeamsStats teamId={currentTeam.id} />
+        }
+    ], [currentTeam, members]);
+
+    const dropdownList = useMemo(() => teamId && teams && (
+        teams.filter(team => team.id !== teamId).map(team => ({
+            route: '/teams/' + team.id,
+            label: team.name,
+        }))
+    ), [teams, teamId]);
+
+    const details = useMemo(() => members && projects && [
+        {
+            icon: 'folder',
+            title: 'Projects',
+            number: projects.length
+        },
+        {
+            icon: 'group',
+            title: 'Members',
+            number: members.length
+        }
+    ], [members, projects]);
+
+    if (teamId) {
         return (
             <div className="teams-page">
                 <div className="content-container">
@@ -105,9 +108,9 @@ export default function Teams() {
                         <p>Here you can see information about your teams, as well as its stats and members.</p>
                     </div>
                     {
-                        allTeams
+                        dropdownList
                             ? (
-                                <Dropdown items={pageLinks}>
+                                <Dropdown items={dropdownList}>
                                     <h2>{currentTeam?.name}</h2>
                                     <span className="material-icons icon">
                                         expand_more
@@ -118,7 +121,7 @@ export default function Teams() {
                     }
                     {
                         details
-                            ? (<DetailGrid details={details} />)
+                            ? <DetailGrid details={details} />
                             : (<LoadingScreen />)
                     }
                     <div className="buttons">
@@ -131,7 +134,7 @@ export default function Teams() {
                             </ButtonLink>
                         </div>
                         {
-                            allTeams && allTeams.length > 1 && (
+                            teams && teams.length > 1 && (
                                 <Button className="expanded dark" onClick={leaveCurrentTeam}>
                                     Leave Team
                                 </Button>
@@ -140,8 +143,8 @@ export default function Teams() {
                     </div>
                     {
                         tabs
-                            ? (<Tabs tabs={tabs} />)
-                            : (<LoadingScreen />)
+                            ? <Tabs tabs={tabs} />
+                            : <LoadingScreen />
                     }
                 </div>
             </div>

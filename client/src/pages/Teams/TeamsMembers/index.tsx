@@ -19,32 +19,39 @@ export default function TeamsMembers({ members, team }: Props) {
     const [roles, setRoles] = useState<TeamRole[]>();
 
     useEffect(() => {
-        getTeamRoles(team.id).then((roles) => {
-            setRoles(roles);
-        })
+        getTeamRoles(team.id).then(setRoles);
     }, [team]);
     
-    let teamMembers;
-    if (roles) {
-        teamMembers = members.map(member => ({
-            user: member,
-            info: member.role.name,
-            settings: [{
-                label: 'Edit role',
-                popupContent: (
-                    <>
-                        <RoleForm setRoles={setRoles} roles={roles} team={team} member={member} />
-                    </>
-                )
-            }]
-        }));
-    }
-
     return (
         <section className="teams-members-section">
             {
-                (roles && teamMembers)
-                    ? <MemberList members={teamMembers} addContent={<MemberForm setRoles={setRoles} roles={roles} team={team} />} />
+                roles
+                    ? (
+                        <MemberList
+                            members={members.map(member => ({
+                                user: member,
+                                info: member.role.name,
+                                settings: [{
+                                    label: 'Edit role',
+                                    popupContent: (
+                                        <RoleForm
+                                            setRoles={setRoles}
+                                            roles={roles}
+                                            team={team}
+                                            member={member}
+                                        />
+                                    )
+                                }]
+                            }))}
+                            addContent={
+                                <MemberForm
+                                    setRoles={setRoles}
+                                    roles={roles}
+                                    team={team}
+                                />
+                            }
+                        />
+                    )
                     : <LoadingScreen />
             }
         </section>
