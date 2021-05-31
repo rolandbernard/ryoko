@@ -2,22 +2,22 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 
 import { getCurrentUser, User } from 'adapters/user';
-import { createComment, getComment } from 'adapters/comment';
+import { createComment, getComment, Comment } from 'adapters/comment';
 
 import Avatar from 'components/ui/Avatar';
-import Comment, { CommentProps } from 'components/ui/Comment';
+import CommentComponent from 'components/ui/Comment';
 
 import './comment-list.scss';
 
 interface Props {
-    comments: CommentProps[]
+    comments: Comment[]
     taskId: string;
 }
 
 export default function CommentList({ comments, taskId }: Props) {
     const [user, setUser] = useState<User>();
     const [comment, setComment] = useState<string>('');
-    const [allComments, setComments] = useState<CommentProps[]>([]);
+    const [allComments, setComments] = useState<Comment[]>([]);
     
     useEffect(() => {
         getCurrentUser().then((user) => setUser(user));
@@ -29,9 +29,7 @@ export default function CommentList({ comments, taskId }: Props) {
         if (comment.length > 0) {
             createComment({ task: taskId, text: comment }).then(id => {
                 getComment(id).then(comment => {
-                    setComments(state => [...state, {
-                        comment: comment
-                    }])
+                    setComments(state => [comment, ...state, ])
                 })
             });
             setComment('');
@@ -59,7 +57,7 @@ export default function CommentList({ comments, taskId }: Props) {
                 )
             }
             {allComments.map(comment => (
-                <Comment key={comment.comment.id} {...comment} />
+                <CommentComponent key={comment.id} comment={comment} />
             ))}
         </div>
     )
