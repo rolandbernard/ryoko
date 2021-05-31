@@ -21,16 +21,19 @@ export default function MemberForm({ roles, team, setRoles }: Props) {
 
     const history = useHistory();
     useEffect(() => {
-        if (role && user && addTeamMember(team.id, { user: user, role: role })) {
-            history.go(0);
+        if (role && user) {
+            addTeamMember(team.id, { user: user, role: role }).then(() => {
+                history.go(0);
+            });
         }
     }, [role, user, team, history])
 
     return (
         <div className="member-form">
             {
-                !user ? <UsernameForm setResult={setUser} /> :
-                    <RoleForm roles={roles} team={team} setResult={setRole} setRoles={setRoles} />
+                !user
+                    ? <UsernameForm setResult={setUser} />
+                    : <RoleForm roles={roles} team={team} setResult={setRole} setRoles={setRoles} />
             }
         </div>
     )
