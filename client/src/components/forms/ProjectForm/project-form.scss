@@ -1,4 +1,5 @@
 
+@use 'styles/settings.scss' as s;
 @use 'styles/mixins.scss' as mx;
 
 .project-form {
@@ -16,9 +17,11 @@
             opacity: 0.5;
             margin-right: 10px;
             margin-bottom: 10px;
-
             width: calc(100% / 2 - 10px);
             padding-bottom: calc(100% / 2 - 10px);
+            position: relative;
+            filter: saturate(50%);
+            transform: scale(90%);
 
             @include mx.breakpoint(medium) {
                 width: calc(100% / 5 - 10px);
@@ -35,6 +38,8 @@
 
             &.active {
                 opacity: 1;
+                filter: saturate(100%);
+                transform: scale(100%);
             }
         }
     }

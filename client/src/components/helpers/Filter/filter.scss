@@ -39,12 +39,16 @@
             margin: 10px;
             cursor: pointer;
             opacity: 0.5;
+            transform: scale(90%);
+            user-select: none;
+
             .tag {
                 margin: 0;
             }
 
             &.active {
                 opacity: 1;
+                transform: scale(100%);
             }
         }
     }
