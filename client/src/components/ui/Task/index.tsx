@@ -2,34 +2,31 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { Task as ITask } from 'adapters/task';
-import { getUser, User } from 'adapters/user';
+import { getTaskAssignees, Task } from 'adapters/task';
+import { User } from 'adapters/user';
 
 import AssigneeList from 'components/ui/AssigneeList';
 
 import './task.scss';
 
 export interface TaskProps {
-    task: ITask;
-    color?: string;
+    task: Task;
     subtitle?: string;
 }
 
-export default function Task({ task, color, subtitle }: TaskProps) {
+export default function TaskComponent({ task, subtitle }: TaskProps) {
     const [assignees, setAssignees] = useState<User[]>([]);
 
     useEffect(() => {
-        task.assigned.forEach((assign) => {
-            getUser(assign.user).then((user) => setAssignees(state => [...state, user])).catch(() => {})
-        })
+        getTaskAssignees(task.id).then(setAssignees);
     }, [task]);
 
     return (
         <Link to={'/tasks/' + task.id} className="task">
-            <div className={'indicator' + (color ? ' bg-gradient-' + color : '')}></div>
+            <div className={'indicator' + (task.color ? ' bg-gradient-' + task.color : '')}></div>
             <div className="main-info">
                 <div className="icon-container">
-                    {task.icon}
+                {task.icon}
                 </div>
                 <div className="text-container">
                     <h4>{task.name}</h4>

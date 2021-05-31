@@ -1,53 +1,35 @@
 
 import { useEffect, useState } from 'react';
 
-import { getTeams } from 'adapters/team';
-import { getProject } from 'adapters/project';
-import { getPossibleTasks } from 'adapters/task';
+import { getTeams, Team } from 'adapters/team';
+import { getPossibleTasks, Task } from 'adapters/task';
 import { getCurrentUser, getUserTasks, User } from 'adapters/user';
 
-import Task, { TaskProps } from 'components/ui/Task';
+import TaskComponent from 'components/ui/Task';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './tasks.scss';
 
 export default function Tasks() {
     const [user, setUser] = useState<User>();
-    const [tasks, setTasks] = useState<TaskProps[]>([]);
-    const [possibleTasks, setPossibleTasks] = useState<TaskProps[]>([]);
+    const [teams, setTeams] = useState<Team[]>();
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [possibleTasks, setPossibleTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        getCurrentUser().then((user) => {
-            setUser(user);
-            getUserTasks().then((tasks) => {
-                tasks.forEach(task => {
-                    getProject(task.project).then((project) => {
-                        setTasks(state => [...state, {
-                            task: task,
-                            subtitle: task.assigned.find(assignee => assignee.user === user.id)?.time + ' min',
-                            color: project.color
-                        }]);
-                    })
-                })
-            })
-            getPossibleTasks().then(tasks => {
-                getTeams().then((teams) => {
-                    let roles = teams.map(t => t.role);
-                    tasks.filter(task =>  
-                        task.requirements.find(r => roles.indexOf(r.role) >= 0)
-                    ).forEach(task => {
-                        getProject(task.project).then((project) => {
-                            setPossibleTasks(state => [...state, {
-                                task: task,
-                                subtitle: 'Suggested task - add yourself as assignee to do it.',
-                                color: project.color
-                            }]);
-                        })
-                    })
-                })
-            })
-        })
+        getCurrentUser().then(setUser);
+        getUserTasks().then(setTasks);
+        getTeams().then(setTeams);
+        getPossibleTasks().then(setPossibleTasks);
     }, []);
+
+    const acceptableTasks = possibleTasks
+        .filter(task =>
+            !task.assigned.some(ass => ass.user === user?.id)
+            && task.requirements.some(
+               req => teams?.some(team => team.role === req.role)
+            )
+        );
 
     if (user) {
         return (
@@ -63,9 +45,18 @@ export default function Tasks() {
                                 ? (
                                     <div className="tasks-list">
                                         {
-                                            tasks.map((task) => (
-                                                <Task key={task.task.id} {...task} />
-                                            ))
+                                            tasks
+                                                .map((task) => (
+                                                    <TaskComponent
+                                                        key={task.id}
+                                                        task={task}
+                                                        subtitle={
+                                                            task.assigned
+                                                                .find(assignee => assignee.user === user.id)?.time
+                                                            + ' min'
+                                                        }
+                                                    />
+                                                ))
                                         }
                                     </div>
                                 )
@@ -73,12 +64,16 @@ export default function Tasks() {
                         }
                         <h2>Other tasks you could do</h2>
                         {
-                            possibleTasks.length > 0
+                            acceptableTasks.length > 0
                                 ? (
                                     <div className="tasks-list">
                                         {
-                                            possibleTasks.map((task) => (
-                                                <Task key={task.task.id} {...task} />
+                                            acceptableTasks.map((task) => (
+                                                <TaskComponent
+                                                    key={task.id}
+                                                    task={task}
+                                                    subtitle={'Suggested task - add yourself as assignee to do it.'}
+                                                />
                                             ))
                                         }
                                     </div>

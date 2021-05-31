@@ -47,6 +47,10 @@
             font-weight: s.$weight-regular;
             border-radius: 10px;
 
+            &:disabled {
+                opacity: 0;
+                pointer-events: none;
+            }
         }
     }
 }

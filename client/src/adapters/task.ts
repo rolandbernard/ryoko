@@ -3,6 +3,7 @@ import { executeApiGet, executeApiPost, executeApiPut } from './request';
 import { Comment } from './comment';
 import { Work } from './work';
 import { AssignedUser } from './user';
+import { ProjectColors } from './project';
 import { Status } from './common';
 
 export interface TaskRequirement {
@@ -36,30 +37,51 @@ export interface Task {
     assigned: Array<TaskAssignment>;
     created: Date;
     edited: Date;
+    color: ProjectColors;
+}
+
+export function sortTasks(tasks: Task[]): Task[] {
+    const PRIORITY: Record<Priority, number> = {
+        'low': 4,
+        'medium': 3,
+        'high': 2,
+        'urgent': 1,
+    };
+    return tasks.sort((a, b) => {
+        if (a.priority !== b.priority) {
+            return PRIORITY[a.priority] - PRIORITY[b.priority];
+        } else if (a.dependencies.length !== b.dependencies.length) {
+            return a.dependencies.length - b.dependencies.length;
+        } else if (a.created.getTime() !== b.created.getTime()) {
+            return a.created.getTime() - b.created.getTime();
+        } else {
+            return a.edited.getTime() - b.edited.getTime();
+        }
+    });
 }
 
 export function getTasks(): Promise<Task[]> {
-    return executeApiGet(`task`, ({ tasks }) => tasks.map((task: any) => ({
+    return executeApiGet(`task`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
         edited: new Date(task.edited),
         created: new Date(task.created),
-    })), "Failed to get tasks");
+    }))), "Failed to get tasks");
 }
 
 export function getTasksWithStatus(status: 'open' | 'closed' | 'suspended'): Promise<Task[]> {
-    return executeApiGet(`task/${status}`, ({ tasks }) => tasks.map((task: any) => ({
+    return executeApiGet(`task/${status}`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
         edited: new Date(task.edited),
         created: new Date(task.created),
-    })), "Failed to get tasks with status");
+    }))), "Failed to get tasks with status");
 }
 
 export function getPossibleTasks(): Promise<Task[]> {
-    return executeApiGet(`task/possible`, ({ tasks }) => tasks.map((task: any) => ({
+    return executeApiGet(`task/possible`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
         edited: new Date(task.edited),
         created: new Date(task.created),
-    })), "Failed to get possible tasks");
+    }))), "Failed to get possible tasks");
 }
 
 export function getTask(uuid: string): Promise<Task> {

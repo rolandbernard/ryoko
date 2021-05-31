@@ -1,12 +1,14 @@
 
 import { Link } from 'react-router-dom';
 
-import Task, { TaskProps } from 'components/ui/Task';
+import { Task } from 'adapters/task';
+
+import TaskComponent from 'components/ui/Task';
 
 import './task-list.scss';
 
 interface Props {
-    tasks: TaskProps[]
+    tasks: Task[]
     addButton?: boolean
 }
 
@@ -22,7 +24,11 @@ export default function TaskList({ tasks, addButton }: Props) {
             }
             {
                 tasks.map(task => (
-                    <Task key={task.task.id} {...task} />
+                    <TaskComponent
+                        key={task.id}
+                        task={task}
+                        subtitle={task.status}
+                    />
                 ))
             }
         </div>

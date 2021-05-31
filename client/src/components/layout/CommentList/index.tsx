@@ -20,7 +20,7 @@ export default function CommentList({ comments, taskId }: Props) {
     const [allComments, setComments] = useState<Comment[]>([]);
     
     useEffect(() => {
-        getCurrentUser().then((user) => setUser(user));
+        getCurrentUser().then(setUser);
         setComments(comments);
     }, [comments]);
 
@@ -51,7 +51,7 @@ export default function CommentList({ comments, taskId }: Props) {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <textarea value={comment} placeholder="Write a comment..." onChange={(e) => setComment(e.target.value)}></textarea>
-                            <button type="submit">Send</button>
+                            <button type="submit" disabled={comment.length <= 0}>Send</button>
                         </form>
                     </div>
                 )

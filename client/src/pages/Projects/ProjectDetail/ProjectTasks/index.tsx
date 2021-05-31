@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 
 import { Status, StatusColors } from 'adapters/common';
 import { getProjectTasks, Project } from 'adapters/project';
+import { Task } from 'adapters/task';
 
 import Filter from 'components/helpers/Filter';
-import { TaskProps } from 'components/ui/Task';
 import TaskList from 'components/layout/TaskList';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
@@ -17,42 +17,33 @@ interface Props {
 }
 
 export default function ProjectTasks({ project }: Props) {
-    const [filter, setFilter] = useState({ term: '', tags: [] });
-    const [allTasks, setAllTasks] = useState<TaskProps[]>([]);
-    const [shownTasks, setShownTasks] = useState<TaskProps[]>();
+    const [filter, setFilter] = useState({ term: '', tags: Object.values(Status) });
+    const [allTasks, setAllTasks] = useState<Task[]>([]);
+    const [shownTasks, setShownTasks] = useState<Task[]>();
 
     useEffect(() => {
-        getProjectTasks(project.id).then((tasks) => {
-            setAllTasks(tasks.map((task) => {
-                return {
-                    task: task,
-                    color: StatusColors.get(task.status),
-                    subtitle: task.status
-                }
-            }))
-        });
+        getProjectTasks(project.id).then(setAllTasks);
     }, [project]);
 
-    const allStatus = Object.values(Status).map((status) => {
-        return {
-            label: status.toString(),
-            color: StatusColors.get(status.toString())
-        }
-    });
-
     useEffect(() => {
-        setShownTasks(allTasks.filter(task => {
-            if (!filter.tags.length) {
-                return task.task.name.indexOf(filter.term) >= 0;
-            } else {
-                return task.task.name.indexOf(filter.term) >= 0 && filter.tags.find(tag => tag === task.task.status);
-            }
-        }));
+        setShownTasks(allTasks.filter(task => (
+            task.name.indexOf(filter.term) >= 0
+            && filter.tags.includes(task.status)
+        )));
     }, [filter, allTasks])
 
     return (
         <div className="project-tasks">
-            <Filter setFilter={setFilter} tags={allStatus} filter={filter} />
+            <Filter
+                setFilter={setFilter}
+                tags={
+                    Object.values(Status).map(status => ({
+                        label: status.toString(),
+                        color: StatusColors.get(status.toString()),
+                    }))
+                }
+                filter={filter}
+            />
             {
                 shownTasks
                     ? <TaskList tasks={shownTasks} addButton />

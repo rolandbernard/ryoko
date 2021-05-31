@@ -27,6 +27,14 @@ export function clearToken() {
     localStorage.removeItem('access-token');
 }
 
+export function getLoggedInUser() {
+    const token = getToken();
+    if (token) {
+        const data = token.split('.')[1];
+        return JSON.parse(atob(data)).id;
+    }
+}
+
 extendAccessToken();
 setInterval(extendAccessToken, 1000 * 60 * 30);
 
@@ -93,3 +101,4 @@ export async function login(username: string, password: string): Promise<boolean
         throw e;
     }
 }
+

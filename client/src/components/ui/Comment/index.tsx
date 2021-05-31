@@ -30,7 +30,11 @@ export default function Comment({ comment }: CommentProps) {
                             {user.realname ?? user.username}
                         </div>
                         <div className="time">
-                            {formatRelativeTime(comment.created)}    
+                            {
+                                (comment.edited.getTime() !== comment.created.getTime())
+                                    ? 'edited ' + formatRelativeTime(comment.edited)
+                                    : formatRelativeTime(comment.created)
+                            }
                         </div>
                     </div>
                 </div>
