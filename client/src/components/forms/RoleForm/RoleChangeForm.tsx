@@ -1,7 +1,7 @@
 
 import { FormEvent, useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
 
+import { reload } from 'index';
 import { deleteTeamRole, Team, TeamMember, TeamRole, updateTeamMember } from 'adapters/team';
 
 import Button from 'components/ui/Button';
@@ -19,7 +19,6 @@ interface Props {
 export default function RoleForm({ roles, setEdit, member, team, setResult, setAllRoles }: Props) {
     const [currentRole, setRole] = useState(member?.role.id);
     const [error, setError] = useState('');
-    const history = useHistory();
 
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
@@ -29,10 +28,10 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
             }
             if (member) {
                 await updateTeamMember(team.id, { user: member.id, role: currentRole });
-                history.go(0);
+                reload();
             }
         }
-    }, [currentRole, member, team, setResult, history]);
+    }, [currentRole, member, team, setResult]);
 
     const onDelete = useCallback(async (id: string) => {
         try {

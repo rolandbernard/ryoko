@@ -8,12 +8,24 @@ import reportWebVitals from './reportWebVitals';
 
 import 'index.scss';
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById('root')
-);
+function render() {
+    ReactDOM.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
+
+export function reload() {
+    const root = document.getElementById('root');
+    if (root) {
+        ReactDOM.unmountComponentAtNode(root);
+        render();
+    }
+}
+
+render();
 
 serviceWorkerRegistration.register();
 reportWebVitals();

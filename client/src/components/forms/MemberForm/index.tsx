@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 
+import { reload } from 'index';
 import { addTeamMember, Team, TeamRole } from 'adapters/team';
 
 import UsernameForm from 'components/forms/MemberForm/UsernameForm';
@@ -19,14 +19,13 @@ export default function MemberForm({ roles, team, setRoles }: Props) {
     const [role, setRole] = useState<string>();
     const [user, setUser] = useState('');
 
-    const history = useHistory();
     useEffect(() => {
         if (role && user) {
             addTeamMember(team.id, { user: user, role: role }).then(() => {
-                history.go(0);
+                reload()
             });
         }
-    }, [role, user, team, history])
+    }, [role, user, team])
 
     return (
         <div className="member-form">
