@@ -32,6 +32,7 @@ describe('GET /task', () => {
             priority: 'medium',
             created: Date.parse('2020-10-05'),
             edited: Date.parse('2020-10-10'),
+            color: '#00f',
             assigned: [ ],
             dependencies: [ ],
             requirements: [
@@ -56,6 +57,7 @@ describe('GET /task', () => {
             priority: 'high',
             created: Date.parse('2020-10-10'),
             edited: Date.parse('2020-10-15'),
+            color: '#0f0',
             assigned: [ ],
             dependencies: [ ],
             requirements: [
@@ -80,6 +82,7 @@ describe('GET /task', () => {
             priority: 'low',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [],
             dependencies: [ '00000000-0000-4000-8000-000000000005' ],
             requirements: [],
@@ -94,6 +97,7 @@ describe('GET /task', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-11-20'),
+            color: '#f00',
             assigned: [ { user: '00000000-0000-4000-8000-000000000000', time: 120, finished: false } ],
             dependencies: [ ],
             requirements: [
@@ -111,6 +115,7 @@ describe('GET /task', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [ ],
             dependencies: [ ],
             requirements: [ ],
@@ -125,6 +130,7 @@ describe('GET /task', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [ ],
             dependencies: [ ],
             requirements: [ ],
@@ -158,6 +164,7 @@ describe('GET /task/open', () => {
             priority: 'medium',
             created: Date.parse('2020-10-05'),
             edited: Date.parse('2020-10-10'),
+            color: '#00f',
             assigned: [ ],
             dependencies: [ ],
             requirements: [
@@ -182,6 +189,7 @@ describe('GET /task/open', () => {
             priority: 'low',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [],
             dependencies: [ '00000000-0000-4000-8000-000000000005' ],
             requirements: [],
@@ -196,6 +204,7 @@ describe('GET /task/open', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-11-20'),
+            color: '#f00',
             assigned: [ { user: '00000000-0000-4000-8000-000000000000', time: 120, finished: false } ],
             dependencies: [ ],
             requirements: [
@@ -232,6 +241,7 @@ describe('GET /task/closed', () => {
             priority: 'high',
             created: Date.parse('2020-10-10'),
             edited: Date.parse('2020-10-15'),
+            color: '#0f0',
             assigned: [ ],
             dependencies: [ ],
             requirements: [
@@ -256,6 +266,7 @@ describe('GET /task/closed', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [ ],
             dependencies: [ ],
             requirements: [ ],
@@ -289,6 +300,7 @@ describe('GET /task/suspended', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-10-20'),
+            color: '#f00',
             assigned: [ ],
             dependencies: [ ],
             requirements: [ ],
@@ -322,6 +334,7 @@ describe('GET /task/possible', () => {
             priority: 'medium',
             created: Date.parse('2020-10-05'),
             edited: Date.parse('2020-10-10'),
+            color: '#00f',
             assigned: [ ],
             dependencies: [ ],
             requirements: [
@@ -346,6 +359,7 @@ describe('GET /task/possible', () => {
             priority: 'urgent',
             created: Date.parse('2020-10-15'),
             edited: Date.parse('2020-11-20'),
+            color: '#f00',
             assigned: [ { user: '00000000-0000-4000-8000-000000000000', time: 120, finished: false } ],
             dependencies: [ ],
             requirements: [
@@ -373,6 +387,7 @@ describe('GET /task/:uuid', () => {
             priority: 'medium',
             created: Date.parse('2020-10-05'),
             edited: Date.parse('2020-10-10'),
+            color: '#00f',
             assigned: [ ],
             dependencies: [ ],
             requirements: [

@@ -106,6 +106,7 @@ project.get('/:uuid/tasks', async (req, res) => {
             const tasks = await database('team_members')
                 .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('projects', 'tasks.project_id', 'projects.id')
                 .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
                 .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
                 .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
@@ -119,6 +120,7 @@ project.get('/:uuid/tasks', async (req, res) => {
                     priority: 'tasks.priority',
                     created: 'tasks.created',
                     edited: 'tasks.edited',
+                    color: 'projects.color',
                     requirement_role: 'task_requirements.role_id', 
                     requirement_time: 'task_requirements.time', 
                     assigned_user: 'task_assignees.user_id', 

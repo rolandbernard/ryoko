@@ -30,6 +30,7 @@ export interface Task {
     assigned: Array<TaskAssignment>;
     created: number;
     edited: number;
+    color: string;
 }
 
 export function generateFromFlatResult(results: any[]): Task[] {
@@ -47,6 +48,7 @@ export function generateFromFlatResult(results: any[]): Task[] {
                 priority: row.priority,
                 created: row.created,
                 edited: row.edited,
+                color: row.color,
                 requirements: [],
                 assigned: [],
                 dependencies: [],
@@ -97,6 +99,7 @@ task.get('/', async (req, res) => {
         const tasks = await database('team_members')
             .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
             .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .innerJoin('projects', 'tasks.project_id', 'projects.id')
             .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
             .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
             .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
@@ -110,6 +113,7 @@ task.get('/', async (req, res) => {
                 priority: 'tasks.priority',
                 created: 'tasks.created',
                 edited: 'tasks.edited',
+                color: 'projects.color',
                 requirement_role: 'task_requirements.role_id', 
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
@@ -137,6 +141,7 @@ task.get('/:status(open|closed|suspended)', async (req, res) => {
         const tasks = await database('team_members')
             .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
             .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .innerJoin('projects', 'tasks.project_id', 'projects.id')
             .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
             .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
             .leftJoin('task_assignees', 'tasks.id', 'task_assignees.task_id')
@@ -150,6 +155,7 @@ task.get('/:status(open|closed|suspended)', async (req, res) => {
                 priority: 'tasks.priority',
                 created: 'tasks.created',
                 edited: 'tasks.edited',
+                color: 'projects.color',
                 requirement_role: 'task_requirements.role_id', 
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
@@ -178,6 +184,7 @@ task.get('/possible', async (req, res) => {
         const tasks = await database('team_members')
             .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
             .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+            .innerJoin('projects', 'tasks.project_id', 'projects.id')
             .leftJoin('task_requirements', 'tasks.id', 'task_requirements.task_id')
             .leftJoin('task_dependencies', 'tasks.id', 'task_dependencies.task_id')
             .leftJoin({ 'require': 'tasks' }, 'task_dependencies.requires_id', 'require.id')
@@ -192,6 +199,7 @@ task.get('/possible', async (req, res) => {
                 priority: 'tasks.priority',
                 created: 'tasks.created',
                 edited: 'tasks.edited',
+                color: 'projects.color',
                 requirement_role: 'task_requirements.role_id', 
                 requirement_time: 'task_requirements.time', 
                 assigned_user: 'task_assignees.user_id', 
@@ -350,6 +358,7 @@ task.get('/:uuid', async (req, res) => {
             const task = await database('team_members')
                 .innerJoin('team_projects', 'team_members.team_id', 'team_projects.team_id')
                 .innerJoin('tasks', 'team_projects.project_id', 'tasks.project_id')
+                .innerJoin('projects', 'tasks.project_id', 'projects.id')
                 .select({
                     id: 'tasks.id',
                     project: 'tasks.project_id',
@@ -360,6 +369,7 @@ task.get('/:uuid', async (req, res) => {
                     priority: 'tasks.priority',
                     created: 'tasks.created',
                     edited: 'tasks.edited',
+                    color: 'projects.color',
                 })
                 .where({
                     'team_members.user_id': req.body.token.id,
