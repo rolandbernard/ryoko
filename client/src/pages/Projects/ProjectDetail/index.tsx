@@ -6,6 +6,7 @@ import { StatusColors } from 'adapters/common';
 import { getProject, Project } from 'adapters/project';
 
 import Tag from 'components/ui/Tag';
+import LongText from 'components/ui/LongText';
 import Tabs, { Tab } from 'components/navigation/Tabs';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
@@ -55,9 +56,7 @@ export default function ProjectDetail() {
                     <Tag label={project.status} color={StatusColors.get(project.status)} />
                     <h1>{project.name}</h1>
                     <div className="description-container">
-                        <p>
-                            {project.text}
-                        </p>
+                        <LongText text={project.text} />
                     </div>
                     {
                         tabs

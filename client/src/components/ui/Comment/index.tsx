@@ -6,6 +6,7 @@ import { getUser, User } from 'adapters/user';
 import { Comment as IComment } from 'adapters/comment';
 
 import Avatar from 'components/ui/Avatar';
+import LongText from 'components/ui/LongText';
 
 import './comment.scss';
 
@@ -39,7 +40,7 @@ export default function Comment({ comment }: CommentProps) {
                     </div>
                 </div>
                 <div className="comment">
-                    {comment.text}
+                    <LongText text={comment.text} />
                 </div>
             </div>
         )

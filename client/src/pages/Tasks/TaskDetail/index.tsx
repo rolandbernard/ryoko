@@ -9,6 +9,7 @@ import { getProject, Project } from 'adapters/project';
 import { getTask, getTaskAssignees, Task, TaskAssignment } from 'adapters/task';
 
 import Tag from 'components/ui/Tag';
+import LongText from 'components/ui/LongText';
 import Tabs from 'components/navigation/Tabs';
 import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
@@ -25,7 +26,6 @@ export interface Params {
 }
 
 export default function TaskDetail() {
-    const [more, setMore] = useState(false);
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
@@ -49,7 +49,7 @@ export default function TaskDetail() {
             getTaskAssignees(taskId).then(setAssignees);
             setAssignment(task.assigned.find(a => a.user === userId))
         }).catch(() => history.goBack());
-    }, [taskId, history]);
+    }, [taskId, userId, history]);
 
     if (task) {
         return (
@@ -61,20 +61,7 @@ export default function TaskDetail() {
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
                     <div className="description-container">
-                        {
-                            (task.text.length < 300)
-                                ? <p>{task.text}</p>
-                                : (more
-                                    ? <>
-                                        <p>{task.text}</p>
-                                        <a onClick={() => setMore(false)}>less</a>
-                                    </>
-                                    : <>
-                                        <p>{task.text.substr(0, 300) + '... '}</p>
-                                        <a onClick={() => setMore(true)}>more</a>
-                                    </>
-                              )
-                        }
+                        <LongText text={task.text} />
                     </div>
                     <h2>
                         Details
