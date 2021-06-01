@@ -20,15 +20,9 @@ export default function CommentList({ comments, taskId }: Props) {
     const [user, setUser] = useState<User>();
     const [comment, setComment] = useState<string>('');
     const [allComments, setComments] = useState<Comment[]>([]);
-    
-    useEffect(() => {
-        getCurrentUser()
-            .then(setUser)
-            .catch(() => setError(true));
-        setComments(comments);
-    }, [comments]);
 
     const handleSubmit = useCallback((e: FormEvent) => {
+        setError(false);
         e.preventDefault();
         if (comment.length > 0) {
             createComment({ task: taskId, text: comment }).then(id => {
@@ -41,6 +35,13 @@ export default function CommentList({ comments, taskId }: Props) {
             .catch(() => setError(true))
         }
     }, [comment, taskId]);
+    
+    useEffect(() => {
+        getCurrentUser()
+            .then(setUser)
+            .catch(() => setError(true));
+        setComments(comments);
+    }, [comments]);
 
     const onError = useCallback(() => {
         setError(true)

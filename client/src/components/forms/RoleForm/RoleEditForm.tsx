@@ -3,8 +3,9 @@ import { FormEvent, useCallback, useState } from 'react';
 
 import { createTeamRole, Team, TeamRole, updateTeamRole } from 'adapters/team';
 
-import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+import Callout from 'components/ui/Callout';
+import TextInput from 'components/ui/TextInput';
 
 interface Props {
     role?: TeamRole;
@@ -22,28 +23,32 @@ export function validateName(name: string): string | null {
 
 export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props) {
     const [name, setName] = useState(role?.name ?? '');
+    const [error, setError] = useState('');
 
     const onSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (validateName(name) === null) {
             if (!role?.id) {
-                const newRole = await createTeamRole(team.id, name);
-                setAllRoles((state: any) => [...state, newRole]);
-                setEdit(null);
-            } else {
-                if(updateTeamRole(team.id, role.id, name)) {
-                    setAllRoles((state: any) => {
-                        state = state.filter((r: any) => r.id !== role.id);
-                        return [
-                            ...state,
-                            {
-                                ...role,
-                                name: name
-                            }
-                        ]
-                    });
+                try {
+                    const newRole = await createTeamRole(team.id, name);
+                    setAllRoles((state: any) => [...state, newRole]);
+                    setEdit(null);
+                } catch(e) {
+                    setError('Failed to create role.');
                 }
-                setEdit(null);
+            } else {
+                try {
+                    await updateTeamRole(team.id, role.id, name);
+                    setAllRoles((state: any) => {
+                        return [
+                            ...state.filter((r: any) => r.id !== role.id),
+                            { ...role, name: name }
+                        ];
+                    });
+                    setEdit(null);
+                } catch(e) {
+                    setError('Failed to update role.');
+                }
             }
         }
     }, [name, team, setEdit, role, setAllRoles]);
@@ -51,6 +56,9 @@ export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props
     return (
         <form className="role-edit-form" onSubmit={onSubmit}>
             <h2>{!role?.id ? 'Create a new role' : 'Edit role ' + role.name}</h2>
+            {
+                error && <Callout message={error} />
+            }
             <TextInput
                 label="Role name"
                 name="name"

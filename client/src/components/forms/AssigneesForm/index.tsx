@@ -5,18 +5,18 @@ import { TaskAssignment } from "adapters/task";
 
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
-import { possibleMember } from "components/forms/TaskForm";
+import { PossibleMember } from "components/forms/TaskForm";
 
 import './assignees-form.scss';
 
 interface Props {
     assignees: TaskAssignment[];
     setAssignees: Function;
-    members: possibleMember[]
+    members: PossibleMember[]
 }
 
 export default function AssigneesForm({ assignees, setAssignees, members }: Props) {
-    const [possibleMembers, setPossibleMembers] = useState<possibleMember[]>([]);
+    const [possibleMembers, setPossibleMembers] = useState<PossibleMember[]>([]);
     const [addNew, setAddNew] = useState(false);
     const [selectedMember, setSelectedMember] = useState('');
     const [selectedTime, setSelectedTime] = useState('');

@@ -70,8 +70,9 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [allTeams, setAllTeams] = useState<Team[]>([]);
 
     useEffect(() => {
+        setLoadError(false);
         Promise.all([
-            Promise.all(teams.map(team => getTeam(team))),
+            project?.teams ? Promise.all(project?.teams.map(team => getTeam(team))) : [],
             getTeams(),
         ]).then(([projectTeams, userTeams]) => {
             const teamIds = new Set<string>();
@@ -85,7 +86,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             setAllTeams(teams);
         })
         .catch(() => setLoadError(true))
-    }, [teams, loadError])
+    }, [project?.teams, loadError])
 
     const colors = Object.values(ProjectColors);
     const allStatus = Object.values(Status);

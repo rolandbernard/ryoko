@@ -3,20 +3,20 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { TaskRequirement } from 'adapters/task';
 
-import { possibleRole } from 'components/forms/TaskForm';
+import { PossibleRole } from 'components/forms/TaskForm';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
 
 import './requirements-form.scss';
 
 interface Props {
-    roles: possibleRole[],
+    roles: PossibleRole[],
     requirements: TaskRequirement[],
     setRequirements: Function
 }
 
 export default function RequirementsForm({ roles, requirements, setRequirements }: Props) {
-    const [possibleRoles, setPossibleRoles] = useState<possibleRole[]>([]);
+    const [possibleRoles, setPossibleRoles] = useState<PossibleRole[]>([]);
     const [addNew, setAddNew] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
     const [selectedTime, setSelectedTime] = useState('');

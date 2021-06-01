@@ -20,6 +20,7 @@ export default function ProtectedRoute(props: RouteProps) {
     });
 
     useEffect(() => {
+        setError(false);
         getTeams().then(teams => {
             if (teams.length === 0) {
                 history.push('/introduction');

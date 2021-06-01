@@ -7,12 +7,13 @@ import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
 import { Priority, Task, TaskAssignment, TaskRequirement } from 'adapters/task';
 import { Status } from 'adapters/common';
 
+import Button from 'components/ui/Button';
 import Callout from 'components/ui/Callout';
 import TextInput from 'components/ui/TextInput';
+import ErrorScreen from 'components/ui/ErrorScreen';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
-import RequirementsForm from 'components/forms/RequirementsForm';
 import AssigneesForm from 'components/forms/AssigneesForm';
-import Button from 'components/ui/Button';
+import RequirementsForm from 'components/forms/RequirementsForm';
 
 import './task-form.scss';
 import '../form.scss';
@@ -64,11 +65,11 @@ function validatePriority(priority: string): string | null {
     }
 }
 
-export interface possibleRole {
+export interface PossibleRole {
     id: string;
     label: string;
 }
-export interface possibleMember {
+export interface PossibleMember {
     id: string;
     label: string;
 }
@@ -79,8 +80,9 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const [icon, setIcon] = useState(task?.icon);
     const [priority, setPriority] = useState(task?.priority);
     const [status, setStatus] = useState(task?.status);
-    const [error, setError] = useState('');
     const [tasks, setTasks] = useState(task?.dependencies ?? []);
+    const [error, setError] = useState('');
+    const [loadError, setLoadError] = useState(false);
 
     const [requirements, setRequirements] = useState(task?.requirements ?? []);
     const [assignees, setAssignees] = useState(task?.assigned ?? []);
@@ -88,33 +90,38 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
     const allPriorities = Object.values(Priority);
     const allStatus = Object.values(Status);
     const [allTasks, setAllTasks] = useState<Task[]>([]);
-    const [allRoles, setAllRoles] = useState<possibleRole[]>([]);
-    const [allMembers, setAllMembers] = useState<possibleMember[]>([]);
+    const [allRoles, setAllRoles] = useState<PossibleRole[]>([]);
+    const [allMembers, setAllMembers] = useState<PossibleMember[]>([]);
 
     useEffect(() => {
+        setLoadError(false);
         getProjectTasks(project.id).then((tasks) => {
             setAllTasks(tasks.filter(cTask => task?.id !== cTask.id));
-        });
-        project.teams.forEach((teamId) => {
-            getTeam(teamId).then(team => {
-                getTeamRoles(teamId).then((roles) => {
-                    setAllRoles(state => [...state, ...roles.map(role => {
-                        return {
-                            id: role.id,
-                            label: team.name + ': ' + role.name
-                        }
-                    })]);
-                })
-                getTeamMembers(teamId).then((members) => {
-                    setAllMembers(state => [...state, ...members.map(member => {
-                        return {
-                            id: member.id,
-                            label: team.name + ': ' + (member.realname ?? member.username)
-                        }
-                    })]);
-                })
-            })
         })
+        .catch(() => setLoadError(true));
+        Promise.all([
+            Promise.all(project.teams.map(getTeam)),
+            Promise.all(project.teams.map(getTeamRoles)),
+            Promise.all(project.teams.map(getTeamMembers))
+        ]).then(([teams, roles, members]) => {
+            setAllRoles(roles.map((roles, i) => roles.map(role => ({
+                id: role.id,
+                label: role.name + ' (' + teams[i]?.name + ')',
+            }))).flat());
+            const memberIds = new Set<string>();
+            const uniqueMembers = [];
+            for (const member of members.flat()) {
+                if (!memberIds.has(member.id)) {
+                    uniqueMembers.push({
+                        id: member.id,
+                        label: member.realname ?? member.username,
+                    });
+                    memberIds.add(member.id);
+                }
+            }
+            setAllMembers(uniqueMembers);
+        })
+        .catch(() => setLoadError(true));
     }, [task, project]);
 
 
@@ -218,27 +225,33 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             </div>
             <h2>Dependencies</h2>
             <p>Pick tasks of this project that have to be done before this one.</p>
-            {
-                allTasks.length > 0 ? (
-                    <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
-                ) : <div className="error">No other tasks in this project</div>
+            {loadError
+                ? <ErrorScreen />
+                : <>
+                    {
+                            (allTasks.length > 0
+                                ? <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
+                                : <div className="error">No other tasks in this project</div>
+                            )
+                    }
+                    <div className="fields-row">
+                        <div className="col">
+                            {
+                                allRoles.length > 0 && (
+                                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
+                                )
+                            }
+                        </div>
+                        <div className="col">
+                            {
+                                allMembers.length > 0 && (
+                                    <AssigneesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
+                                )
+                            }
+                        </div>
+                    </div>
+                </>
             }
-            <div className="fields-row">
-                <div className="col">
-                    {
-                        allRoles.length > 0 && (
-                            <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
-                        )
-                    }
-                </div>
-                <div className="col">
-                    {
-                        allMembers.length > 0 && (
-                            <AssigneesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
-                        )
-                    }
-                </div>
-            </div>
             <div className="button-container">
                 <Button type="submit" className="expanded">
                     {task ? 'Update task' : 'Create task' }

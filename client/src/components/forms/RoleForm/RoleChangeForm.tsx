@@ -27,8 +27,12 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
                 setResult(currentRole);
             }
             if (member) {
-                await updateTeamMember(team.id, { user: member.id, role: currentRole });
-                reload();
+                try {
+                    await updateTeamMember(team.id, { user: member.id, role: currentRole });
+                    reload();
+                } catch {
+                    setError('Failed to update team member.');
+                }
             }
         }
     }, [currentRole, member, team, setResult]);
@@ -38,9 +42,8 @@ export default function RoleForm({ roles, setEdit, member, team, setResult, setA
             await deleteTeamRole(team.id, id);
             setAllRoles((state: any) => state.filter((role: any) => role.id !== id));
         } catch {
-            setError('There are still users assigned to this role.')
+            setError('Unable to delete this role.');
         }
-
     }, [team, setAllRoles]);
 
     return (

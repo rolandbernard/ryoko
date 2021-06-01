@@ -23,13 +23,13 @@
             filter: saturate(50%);
             transform: scale(90%);
 
-            @include mx.breakpoint(medium) {
+            @include mx.breakpoint(small) {
                 width: calc(100% / 5 - 10px);
                 padding-bottom: calc(100% / 5 - 10px);
 
             }
 
-            @include mx.breakpoint(large) {
+            @include mx.breakpoint(medium) {
                 margin-right: 20px;
                 margin-bottom: 20px;
                 width: calc(100% / 7 - 20px);
