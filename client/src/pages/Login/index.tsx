@@ -22,7 +22,9 @@ export default function Login() {
             } else {
                 setError('The username or password are wrong.');
             }
-        } catch(e) {}
+        } catch(e) {
+            setError('Failed to log in. Try again later.');
+        }
     }, [history]);
 
     return (

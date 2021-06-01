@@ -29,7 +29,6 @@ function validateEmail(email?: string): string | null {
             return 'Please enter a valid email or leave this field blank.'
         }
     } else {
-        console.log(email);
         return null;
     }
 }

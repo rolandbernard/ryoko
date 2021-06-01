@@ -19,8 +19,11 @@ export default function Header({ children }: Props) {
             <div className={'page-wrapper' + (showSidebar ? ' moved' : '')} onClick={() => showSidebar && setShowSidebar(false)}>
                 <Page>
                     <header className="site-header">
-                        <div className="hamburger-container">
-                            <div className="hamburger" onClick={() => !showSidebar && setShowSidebar(true)}>
+                        <div
+                            className="hamburger-container"
+                            onClick={() => !showSidebar && setShowSidebar(true)}
+                        >
+                            <div className="hamburger">
                                 <div className="line"></div>
                             </div>
                         </div>

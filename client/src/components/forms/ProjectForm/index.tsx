@@ -5,9 +5,10 @@ import { Project, ProjectColors } from 'adapters/project';
 import { getTeam, getTeams, Team } from 'adapters/team';
 import { Status } from 'adapters/common';
 
-import Callout from 'components/ui/Callout';
 import Button from 'components/ui/Button';
+import Callout from 'components/ui/Callout';
 import TextInput from 'components/ui/TextInput';
+import ErrorScreen from 'components/ui/ErrorScreen';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
 
 import '../form.scss';
@@ -64,32 +65,27 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [color, setColor] = useState(project?.color);
     const [deadline, setDeadline] = useState(project?.deadline?.toISOString());
     const [error, setError] = useState('');
-
+    const [loadError, setLoadError] = useState(false);
     const [teams, setTeams] = useState(project?.teams ?? []);
     const [allTeams, setAllTeams] = useState<Team[]>([]);
 
     useEffect(() => {
-        teams.forEach((userTeam) => {
-            getTeam(userTeam).then((team) => {
-                setAllTeams(state => {
-                    if (!state.find((t) => t.id === team.id)) {
-                        return [...state, team];
-                    }
-                    return [...state];
-                });
-            });
-        });
-        getTeams().then((allTeamsItems) => {
-            allTeamsItems.forEach(allTeamsItem => {
-                setAllTeams(state => {
-                    if (!state.find((team) => team.id === allTeamsItem.id)) {
-                        return [...state, allTeamsItem];
-                    }
-                    return [...state];
-                });
-            })
-        });
-    }, [teams])
+        Promise.all([
+            Promise.all(teams.map(team => getTeam(team))),
+            getTeams(),
+        ]).then(([projectTeams, userTeams]) => {
+            const teamIds = new Set<string>();
+            const teams = [];
+            for (const team of [...projectTeams, ...userTeams]) {
+                if (!teamIds.has(team.id)) {
+                    teams.push(team);
+                    teamIds.add(team.id);
+                }
+            }
+            setAllTeams(teams);
+        })
+        .catch(() => setLoadError(true))
+    }, [teams, loadError])
 
     const colors = Object.values(ProjectColors);
     const allStatus = Object.values(Status);
@@ -177,7 +173,10 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             <div className="teams">
                 <h2>Teams</h2>
                 <p>Which ones of your teams are working on this project</p>
-                <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
+                { loadError
+                    ? <ErrorScreen />
+                    : <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
+                }
             </div>
             <div className="button-container">
                 <Button type="submit" className="expanded">

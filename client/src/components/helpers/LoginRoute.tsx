@@ -17,8 +17,6 @@ export default function LoginRoute(props: RouteProps) {
         }
     })
 
-    return (
-        <Route {...props} />
-    );
+    return <Route {...props} />;
 }
 

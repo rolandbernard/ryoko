@@ -1,9 +1,8 @@
 
 import { Suspense, lazy } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import Header from 'components/navigation/Header';
-import ProtectedRoute from 'components/helpers/ProtectedRoute';
 
 const Tasks = lazy(() => import('pages/Tasks'));
 const TaskDetail = lazy(() => import('pages/Tasks/TaskDetail'));
@@ -25,20 +24,20 @@ export default function AppWrapper() {
         <Header>
             <Suspense fallback={false}>
                 <Switch>
-                    <ProtectedRoute path="/tasks/:taskId/start" component={TaskStart} />
-                    <ProtectedRoute path="/tasks/:taskId/edit" component={TaskEdit} />
-                    <ProtectedRoute path="/tasks/:taskId" component={TaskDetail} />
-                    <ProtectedRoute path="/tasks" exact component={Tasks} />
-                    <ProtectedRoute path="/projects/create" component={ProjectCreate} />
-                    <ProtectedRoute path="/projects/:projectId/tasks/create" component={TaskCreate} />
-                    <ProtectedRoute path="/projects/:projectId/edit" component={ProjectEdit} />
-                    <ProtectedRoute path="/projects/:projectId" component={ProjectDetail} />
-                    <ProtectedRoute path="/projects" component={Projects} />
-                    <ProtectedRoute path="/stats" component={Stats} />
-                    <ProtectedRoute path="/settings" component={Settings} />
-                    <ProtectedRoute path="/teams/create" exact component={TeamsCreate} />
-                    <ProtectedRoute path="/teams/:teamId/edit" exact component={TeamsEdit} />
-                    <ProtectedRoute path={['/teams/:teamId', '/teams']} component={Teams} />
+                    <Route path="/tasks/:taskId/start" component={TaskStart} />
+                    <Route path="/tasks/:taskId/edit" component={TaskEdit} />
+                    <Route path="/tasks/:taskId" component={TaskDetail} />
+                    <Route path="/tasks" exact component={Tasks} />
+                    <Route path="/projects/create" component={ProjectCreate} />
+                    <Route path="/projects/:projectId/tasks/create" component={TaskCreate} />
+                    <Route path="/projects/:projectId/edit" component={ProjectEdit} />
+                    <Route path="/projects/:projectId" component={ProjectDetail} />
+                    <Route path="/projects" component={Projects} />
+                    <Route path="/stats" component={Stats} />
+                    <Route path="/settings" component={Settings} />
+                    <Route path="/teams/create" exact component={TeamsCreate} />
+                    <Route path="/teams/:teamId/edit" exact component={TeamsEdit} />
+                    <Route path={['/teams/:teamId', '/teams']} component={Teams} />
                 </Switch>
             </Suspense>
         </Header>

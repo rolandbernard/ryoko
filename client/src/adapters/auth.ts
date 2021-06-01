@@ -36,7 +36,7 @@ export function getLoggedInUser() {
 }
 
 extendAccessToken();
-setInterval(extendAccessToken, 1000 * 60 * 30);
+setInterval(extendAccessToken, 1000 * 60 * 5);
 
 async function extendAccessToken() {
     if (isLoggedIn()) {

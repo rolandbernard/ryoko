@@ -9,17 +9,21 @@ import Avatar from 'components/ui/Avatar';
 import LongText from 'components/ui/LongText';
 
 import './comment.scss';
+import LoadingScreen from '../LoadingScreen';
 
 export interface CommentProps {
     comment: IComment;
+    onError?: () => any;
 }
 
-export default function Comment({ comment }: CommentProps) {
+export default function Comment({ comment, onError }: CommentProps) {
     const [user, setUser] = useState<User>();
 
     useEffect(() => {
-        getUser(comment.user).then((user) => setUser(user));
-    }, [comment]);
+        getUser(comment.user)
+            .then((user) => setUser(user))
+            .catch(() => onError?.());
+    }, [comment, onError]);
 
     if (user) {
         return (
@@ -45,7 +49,7 @@ export default function Comment({ comment }: CommentProps) {
             </div>
         )
     } else {
-        return <>Loading</>
+        return <LoadingScreen />
     }
 }
 

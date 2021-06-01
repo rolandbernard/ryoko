@@ -21,7 +21,9 @@ export default function Register() {
             } else {
                 setError('There was an error with your registration. Please try again!');
             }
-        } catch (e) { }
+        } catch (e) {
+            setError('Failed to register. Try again later.');
+        }
     }, [history]);
 
     return (
