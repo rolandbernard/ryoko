@@ -2,6 +2,7 @@
 import { useHistory } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 
+import { reload } from 'index';
 import { getCurrentUser, updateUser, updateUserImage, User } from 'adapters/user';
 
 import Callout from 'components/ui/Callout';
@@ -16,21 +17,21 @@ export default function Settings() {
     const history = useHistory();
 
     useEffect(() => {
-        getCurrentUser().then((user) => setUser(user))
+        getCurrentUser().then(setUser)
     }, []);
 
     const handleSubmit = useCallback(async (name?: string, email?: string, avatar?: File) => {
         try {
-            if (user && updateUser({ realname: name, email })) {
-                if (avatar) {
-                    updateUserImage(avatar);
-                }
-                history.push('/tasks');
-            }
+            await Promise.all([
+                updateUser({ realname: name, email: email }),
+                avatar && updateUserImage(avatar)
+            ])
+            history.push('/tasks');
+            reload();
         } catch (e) {
             setError('There was an issue with saving your settings. Please try again!')
         }
-    }, [history, user]);
+    }, [history]);
 
     return (
         user

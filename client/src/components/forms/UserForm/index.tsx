@@ -19,7 +19,7 @@ interface Props {
     user: User
 }
 
-const validTypes = ['image/jpg', 'image/png', 'image/gif', 'image/svg']
+const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg']
 
 function validateEmail(email?: string): string | null {
     if (email && email.length > 0) {
