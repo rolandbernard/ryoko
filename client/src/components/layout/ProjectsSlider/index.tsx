@@ -1,12 +1,14 @@
 
 import { CSSProperties, useCallback, useState } from 'react';
 
-import ProjectSlide, { ProjectSlideProps } from 'components/ui/ProjectSlide';
+import { Project } from 'adapters/project';
+
+import ProjectSlide from 'components/ui/ProjectSlide';
 
 import './projects-slider.scss';
 
 interface Props {
-    projects: ProjectSlideProps[]
+    projects: Project[]
 }
 
 export default function ProjectsSlider({ projects }: Props) {
@@ -32,10 +34,10 @@ export default function ProjectsSlider({ projects }: Props) {
                     {
                         projects.map(project =>
                             <div
-                                key={project.project.id}
+                                key={project.id}
                                 className="slide"
                             >
-                                <ProjectSlide {...project} />
+                                <ProjectSlide project={project} />
                             </div>
                         )
                     }
