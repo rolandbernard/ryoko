@@ -1,6 +1,6 @@
 
 import { ReactNode } from 'react';
-import { NavLink, Route } from 'react-router-dom';
+import { NavLink, Route, matchPath } from 'react-router-dom';
 
 import './tabs.scss';
 
@@ -20,7 +20,17 @@ export default function Tabs({ tabs }: Props) {
         <>
             <nav className="tabs-container">
                 {tabs.map((tab) => (
-                    <NavLink key={tab.label} className="tab" exact activeClassName="active" to={tab.link ?? tab.route}>
+                    <NavLink
+                        key={tab.label}
+                        className="tab"
+                        activeClassName="active"
+                        to={tab.link ?? tab.route}
+                        isActive={(_, location) =>
+                            matchPath(location.pathname, { path: tab.route, exact: true })
+                                ? true
+                                : false
+                        }
+                    >
                         {tab.label}
                     </NavLink>
                 ))}

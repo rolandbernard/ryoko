@@ -24,12 +24,10 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
 
     useEffect(() => {
         if (isLoggedIn()) {
-            getCurrentUser().then((user) => {
-                setUser(user);
-                getUserActivity(subtractTime(new Date(), 1, 'week'), new Date()).then((a) =>
-                    setActivity(parseActivity(a))
-                );
-            }).catch(() => { });
+            getCurrentUser().then(setUser).catch(() => { });
+            getUserActivity(subtractTime(new Date(), 1, 'week'))
+                .then(parseActivity)
+                .then(setActivity);
         }
     }, [])
 

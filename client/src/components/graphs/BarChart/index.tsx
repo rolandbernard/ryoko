@@ -1,5 +1,5 @@
 
-import { formatDate } from 'timely';
+import { formatDate, addTime } from 'timely';
 
 import { Activity } from 'adapters/common';
 
@@ -10,11 +10,18 @@ export interface ChartItem {
     value: number;
 }
 
-export function parseActivity(activity: Activity[]): ChartItem[] {
-    return activity.map(item => ({
-        label: formatDate(new Date(item.day), 'none', 'short'),
-        value: item.time
-    }));
+export function parseActivity(activity: Activity[], startDate?: Date): ChartItem[] {
+    const results = [];
+    let date = startDate ?? new Date(activity.map(act => act.day).reduce((a, b) => a < b ? a : b));
+    while (date <= new Date()) {
+        const day = date.toISOString().substr(0, 10);
+        results.push({
+            label: formatDate(date, 'none', 'short'),
+            value: activity.find(item => item.day === day)?.time ?? 0,
+        });
+        date = addTime(date, 1, 'day');
+    }
+    return results;
 }
 
 interface Props {
@@ -33,12 +40,14 @@ export default function BarChart({ data, unit, multiplier }: Props) {
                         {
                             data.map((item) => (
                                 <div key={item.label} className="bar" style={{
-                                    height: (item.value / maxValue) * 100 + '%',
+                                    height: ((item.value / maxValue) * 95 + 5) + '%',
                                     width: 'calc(' + Math.min(100 / data.length, 25) + '% - 10px)'
                                 }}>
-                                    <div className="label">
-                                        {item.label}
-                                    </div>
+                                    { data.length < 10 &&
+                                        <div className="label">
+                                            {item.label}
+                                        </div>
+                                    }
                                     <div className="tooltip">
                                         {(item.value * (multiplier ?? 1)).toFixed(2) + (unit ?? '')} 
                                     </div>
