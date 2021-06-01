@@ -132,7 +132,7 @@ export function formatTime(date: Date, precision: Unit = 'minute'): string {
     return result;
 }
 
-export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short' | 'full'): string {
+export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short' | 'full', year = true): string {
     let result = '';
     if (weekday === 'short') {
         result += WEEKDAYS[date.getDay()].substr(0, 3);
@@ -151,7 +151,7 @@ export function formatDate(date: Date, precision: Unit = 'day', weekday?: 'short
         }
         result += MONTHS[date.getMonth()];
     }
-    if (UNITS[precision] <= UNITS['year']) {
+    if (year && UNITS[precision] <= UNITS['year']) {
         if (result.length !== 0) {
             result += ' ';
         }
