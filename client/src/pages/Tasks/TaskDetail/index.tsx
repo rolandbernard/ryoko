@@ -49,7 +49,7 @@ export default function TaskDetail() {
             });
             getTaskAssignees(taskId).then(setAssignees);
             setAssignment(task.assigned.find(a => a.user === userId))
-        }).catch(() => history.goBack());
+        }).catch(() => {});
     }, [taskId, userId, history]);
 
     if (task) {

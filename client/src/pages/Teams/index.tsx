@@ -30,20 +30,19 @@ export default function Teams() {
     const { teamId: teamParamId } = useParams<Params>();
     const lastTeam = sessionStorage.getItem('last-selected-team');
     const teamId = teamParamId ?? lastTeam ?? teams?.[0]?.id
-    sessionStorage.setItem('last-selected-team', teamId);
+    if (teamId) {
+        sessionStorage.setItem('last-selected-team', teamId);
+    }
 
     let currentTeam = teams?.find(team => team.id === teamId);
 
     useEffect(() => {
-        if (teams && (!currentTeam || !teamParamId)) {
-            if (teams.length > 0) {
-                // if no team is defined, take the first one
-                history.replace('/teams/' + teamId);
-            } else {
-                history.push('/introduction');
-            }
+        if (teamId && !teamParamId) {
+            history.replace('/teams/' + teamId);
+        } else if (teams && teams.length === 0) {
+            history.push('/introduction');
         }
-    });
+    }, [teamId, teamParamId, teams, history]);
 
     useEffect(() => {
         getTeams().then(setTeams);
