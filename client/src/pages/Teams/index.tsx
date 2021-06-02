@@ -28,7 +28,9 @@ export default function Teams() {
     const history = useHistory();
 
     const { teamId: teamParamId } = useParams<Params>();
-    const teamId = teamParamId ?? teams?.[0]?.id
+    const lastTeam = sessionStorage.getItem('last-selected-team');
+    const teamId = teamParamId ?? lastTeam ?? teams?.[0]?.id
+    sessionStorage.setItem('last-selected-team', teamId);
 
     let currentTeam = teams?.find(team => team.id === teamId);
 
@@ -36,7 +38,7 @@ export default function Teams() {
         if (teams && (!currentTeam || !teamParamId)) {
             if (teams.length > 0) {
                 // if no team is defined, take the first one
-                history.replace('/teams/' + teams[0].id);
+                history.replace('/teams/' + teamId);
             } else {
                 history.push('/introduction');
             }

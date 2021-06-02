@@ -1,10 +1,12 @@
 
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
 import { getTeam } from 'adapters/team';
-import { StatusColors } from 'adapters/common';
 import { AssignedUser } from 'adapters/user';
+import { StatusColors } from 'adapters/common';
+import { getLoggedInUser } from 'adapters/auth';
 import { getProject, Project } from 'adapters/project';
 import { getTask, getTaskAssignees, Task, TaskAssignment } from 'adapters/task';
 
@@ -19,7 +21,6 @@ import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
 
 import './task-detail.scss';
-import {getLoggedInUser} from 'adapters/auth';
 
 export interface Params {
     taskId: string;
@@ -53,10 +54,10 @@ export default function TaskDetail() {
 
     if (task) {
         return (
-            <div className={'tasks-detail-page theme-' + StatusColors.get(task.status)}>
-                <span className="material-icons back-btn" onClick={history.goBack} >
+            <div className={'tasks-detail-page theme-' + task.color}>
+                <Link className="material-icons back-btn" to={sessionStorage.getItem('task-return-location') ?? '/tasks'} >
                     arrow_back
-                </span>
+                </Link>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>

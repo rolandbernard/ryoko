@@ -1,10 +1,11 @@
 
+import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 
 import { getTeam } from 'adapters/team';
-import { getCurrentUser } from 'adapters/user';
 import { StatusColors, } from 'adapters/common';
+import { getLoggedInUser } from 'adapters/auth';
 import { finishWork, startWork } from 'adapters/work';
 import { getProject, Project } from 'adapters/project';
 import { durationBetween, formatSimpleDuration } from 'timely';
@@ -38,46 +39,45 @@ export default function TaskDetail() {
     const history = useHistory();
 
     const { taskId } = useParams<Params>();
+    const userId = getLoggedInUser();
 
     useEffect(() => {
         getTask(taskId).then((task) => {
             setTask(task);
-            getCurrentUser().then((user) => {
-                const assignee = task.assigned.find(a => a.user = user.id);
-                setAssignee(assignee);
-                if (assignee) {
-                    const minutes = assignee.time * 60 * 1000;
-                    getTaskWork(task.id).then(work => {
-                        const workedItems = work.filter(w => w.user = user.id);
-                        let lastSessionFinished = true;
-                        let workedTime = 0;
-                        workedItems.forEach(w => {
-                            if (!w.finished) {
-                                lastSessionFinished = false;
-                            }
-                            workedTime += durationBetween(w.started, w.finished ?? new Date())
-                        });
-                        setTime(minutes - workedTime);
-                        if (!lastSessionFinished) {
-                            setPaused(false);
-                            setTimer(setInterval(() => {
-                                setTime(handleTimer);
-                            }, 1000))
+            const assignee = task.assigned.find(a => a.user = userId);
+            setAssignee(assignee);
+            if (assignee) {
+                const minutes = assignee.time * 60 * 1000;
+                getTaskWork(task.id).then(work => {
+                    const workedItems = work.filter(w => w.user = userId);
+                    let lastSessionFinished = true;
+                    let workedTime = 0;
+                    workedItems.forEach(w => {
+                        if (!w.finished) {
+                            lastSessionFinished = false;
                         }
-                    })
-                    setInitialTime(minutes);
-                }
-            })
+                        workedTime += durationBetween(w.started, w.finished ?? new Date())
+                    });
+                    setTime(minutes - workedTime);
+                    if (!lastSessionFinished) {
+                        setPaused(false);
+                        setTimer(setInterval(() => {
+                            setTime(handleTimer);
+                        }, 1000))
+                    }
+                })
+                setInitialTime(minutes);
+            }
             getProject(task.project).then((project) => {
                 setProject(project);
                 project.teams.forEach((teamId) =>
                     getTeam(teamId).then((team) => {
                         setTeamNames(state => [...state, team.name])
                     }
-                    ));
+                ));
             });
         }).catch(() => history.goBack());
-    }, [taskId, history]);
+    }, [taskId, userId, history]);
 
     const handleTaskStart = useCallback(() => {
         if (task) {
@@ -116,17 +116,17 @@ export default function TaskDetail() {
 
     if (task && assignee) {
         return (
-            <div className={'tasks-start-page theme-' + StatusColors.get(task.status)}>
-                <span className="material-icons back-btn" onClick={history.goBack} >
+            <div className={'tasks-start-page theme-' + task.color}>
+                <Link className="material-icons back-btn" to={`/tasks/${taskId}`} >
                     arrow_back
-                </span>
+                </Link>
                 <div className="content-container">
                     <Tag label={task.status} color={StatusColors.get(task.status)} />
                     <h1>{task.name}</h1>
                     <CircularProgress
                         percent={time * 100 / initialTime}
                         label={(time < 0 ? '-' : '') + formatSimpleDuration(Math.abs(time))}
-                        color={StatusColors.get(task.status)}
+                        color={task.color}
                     />
                     <div className="button-container">
                         {

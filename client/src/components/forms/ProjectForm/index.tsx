@@ -106,7 +106,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     }, [onSubmit, setError, name, text, color, deadline, teams, status]);
 
     return (
-        <form onSubmit={handleSubmit} className="project-form">
+        <form onSubmit={handleSubmit} className={'project-form theme-' + color}>
             {error && <Callout message={error} />}
             <h2>General</h2>
             <TextInput

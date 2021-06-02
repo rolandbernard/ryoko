@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { useHistory, useParams } from "react-router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -65,10 +66,10 @@ export default function TaskEdit() {
     return (
         (task && project)
             ? (
-                <div className="task-edit-page">
-                    <span className="material-icons back-btn" onClick={history.goBack} >
+                 <div className={'task-edit-page theme-' + task.color}>
+                    <Link className="material-icons back-btn" to={`/tasks/${taskId}`} >
                         arrow_back
-                    </span>
+                    </Link>
                     <div className="content-container">
                         <h1>Edit your task</h1>
                         <TaskForm project={project} task={task} onSubmit={handleSubmit} />

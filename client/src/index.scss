@@ -173,5 +173,7 @@ $color in s.$themeLightMap {
     font-size: 30px;
     height: 84px;
     cursor: pointer;
+    color: s.$body-color;
+    user-select: none;
 }
 

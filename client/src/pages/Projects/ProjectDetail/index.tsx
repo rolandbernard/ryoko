@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
@@ -9,6 +10,7 @@ import Tag from 'components/ui/Tag';
 import LongText from 'components/ui/LongText';
 import Tabs, { Tab } from 'components/navigation/Tabs';
 import LoadingScreen from 'components/ui/LoadingScreen';
+import ButtonLink from 'components/navigation/ButtonLink';
 
 import ProjectTasks from './ProjectTasks';
 import ProjectDetails from './ProjectDetails';
@@ -25,6 +27,7 @@ export default function ProjectDetail() {
     const history = useHistory();
 
     const { projectId } = useParams<Params>();
+    sessionStorage.setItem('task-return-location', `/projects/${projectId}/tasks`);
     
     useEffect(() => {
         getProject(projectId).then((project) => {
@@ -48,16 +51,19 @@ export default function ProjectDetail() {
 
     if (project) {
         return (
-            <div className={"project-detail-page theme-" + project.color}>
-                <span className="material-icons back-btn" onClick={history.goBack} >
+            <div className={'project-detail-page theme-' + project.color}>
+                <Link className="material-icons back-btn" to="/projects" >
                     arrow_back
-                </span>
+                </Link>
                 <div className="content-container">
                     <Tag label={project.status} color={StatusColors.get(project.status)} />
                     <h1>{project.name}</h1>
                     <div className="description-container">
                         <LongText text={project.text} />
                     </div>
+                    <ButtonLink href={`/projects/${project.id}/edit`} className="expanded">
+                        Edit
+                    </ButtonLink>
                     {
                         tabs
                             ? <Tabs tabs={tabs} />

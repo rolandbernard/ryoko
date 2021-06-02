@@ -9,16 +9,16 @@ import './button-link.scss';
 interface Props {
     children: ReactNode;
     href: string;
-    routing?: boolean;
+    html?: boolean;
     className?: string;
 }
 
-export default function ButtonLink({ children, href, routing, className }: Props) {
+export default function ButtonLink({ children, href, html, className }: Props) {
     return (
         <Button className={'button-link ' + (className ?? '')}>
-            { routing
-                ? <Link to={href}>{children}</Link>
-                : <a href={href}>{children}</a>
+            { html
+                ? <a href={href}>{children}</a>
+                : <Link to={href}>{children}</Link>
             }
         </Button>
     );

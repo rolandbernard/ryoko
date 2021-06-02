@@ -11,6 +11,7 @@ import Button from 'components/ui/Button';
 import Callout from 'components/ui/Callout';
 import TextInput from 'components/ui/TextInput';
 import ErrorScreen from 'components/ui/ErrorScreen';
+import LoadingScreen from 'components/ui/LoadingScreen';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
 import AssigneesForm from 'components/forms/AssigneesForm';
 import RequirementsForm from 'components/forms/RequirementsForm';
@@ -89,9 +90,9 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
 
     const allPriorities = Object.values(Priority);
     const allStatus = Object.values(Status);
-    const [allTasks, setAllTasks] = useState<Task[]>([]);
-    const [allRoles, setAllRoles] = useState<PossibleRole[]>([]);
-    const [allMembers, setAllMembers] = useState<PossibleMember[]>([]);
+    const [allTasks, setAllTasks] = useState<Task[]>();
+    const [allRoles, setAllRoles] = useState<PossibleRole[]>();
+    const [allMembers, setAllMembers] = useState<PossibleMember[]>();
 
     useEffect(() => {
         setLoadError(false);
@@ -100,18 +101,19 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
         })
         .catch(() => setLoadError(true));
         Promise.all([
-            Promise.all(project.teams.map(getTeam)),
-            Promise.all(project.teams.map(getTeamRoles)),
-            Promise.all(project.teams.map(getTeamMembers))
-        ]).then(([teams, roles, members]) => {
-            setAllRoles(roles.map((roles, i) => roles.map(role => ({
+            Promise.all(project.teams.map(team => getTeam(team).catch(() => null))),
+            Promise.all(project.teams.map(team => getTeamRoles(team).catch(() => null))),
+            Promise.all(project.teams.map(team => getTeamMembers(team).catch(() => null)))
+        ])
+        .then(([teams, roles, members]) => {
+            setAllRoles(roles.map((roles, i) => roles?.map(role => ({
                 id: role.id,
                 label: role.name + ' (' + teams[i]?.name + ')',
-            }))).flat());
+            })) ?? []).flat());
             const memberIds = new Set<string>();
             const uniqueMembers = [];
             for (const member of members.flat()) {
-                if (!memberIds.has(member.id)) {
+                if (member && !memberIds.has(member.id)) {
                     uniqueMembers.push({
                         id: member.id,
                         label: member.realname ?? member.username,
@@ -228,25 +230,28 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
             {loadError
                 ? <ErrorScreen />
                 : <>
-                    {
-                            (allTasks.length > 0
-                                ? <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
-                                : <div className="error">No other tasks in this project</div>
-                            )
+                    { allTasks
+                        ? (allTasks.length > 0
+                            ? <CheckboxGroup choices={allTasks ?? []} setChosen={setTasks} chosen={tasks ?? []} />
+                            : <div className="error">No other tasks in this project</div>
+                        )
+                        : <LoadingScreen />
                     }
                     <div className="fields-row">
                         <div className="col">
-                            {
-                                allRoles.length > 0 && (
+                            { allRoles
+                                ? allRoles.length > 0 && (
                                     <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
                                 )
+                                : <LoadingScreen />
                             }
                         </div>
                         <div className="col">
-                            {
-                                allMembers.length > 0 && (
+                            { allMembers
+                                ? allMembers.length > 0 && (
                                     <AssigneesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
                                 )
+                                : <LoadingScreen />
                             }
                         </div>
                     </div>

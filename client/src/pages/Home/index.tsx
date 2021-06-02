@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
                             <h1>ryoko</h1>
                             <p>Are you feeling lost with your tasks? Maximize your productivity now with ryoko.</p>
                             <div className="button-container">
-                                <ButtonLink href="/tasks" routing={true}>Get started</ButtonLink>
+                                <ButtonLink href="/tasks">Get started</ButtonLink>
                             </div>
                         </div>
                     </div>

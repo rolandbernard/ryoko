@@ -16,6 +16,8 @@ export default function Tasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [possibleTasks, setPossibleTasks] = useState<Task[]>([]);
 
+    sessionStorage.setItem('task-return-location', `/tasks`);
+
     useEffect(() => {
         getCurrentUser().then(setUser);
         getUserTasks().then(setTasks);

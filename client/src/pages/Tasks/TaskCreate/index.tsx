@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { useHistory, useParams } from "react-router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -58,10 +59,10 @@ export default function TaskCreate() {
     return (
         project
             ? (
-                <div className="task-create-page">
-                    <span className="material-icons back-btn" onClick={history.goBack} >
+                <div className={'task-create-page theme-' + project.color}>
+                    <Link className="material-icons back-btn" to={`/projects/${projectId}/tasks`} >
                         arrow_back
-                    </span>
+                    </Link>
                     <div className="content-container">
                         <h1>Create a new task</h1>
                         {error && <Callout message={error} />}

@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -44,9 +45,9 @@ export default function TeamsEdit() {
       team
          ? (
             <div className="team-edit-page">
-               <span className="material-icons back-btn" onClick={history.goBack} >
+               <Link className="material-icons back-btn" to={`/teams/${teamId}`} >
                   arrow_back
-               </span>
+               </Link>
                <div className="content-container">
                   <h1>Edit {team.name}</h1>
                   {error && <Callout message={error} />}

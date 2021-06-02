@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -52,10 +53,10 @@ export default function ProjectEdit() {
     return (
         project
             ? (
-                <div className="project-create-page">
-                    <span className="material-icons back-btn" onClick={history.goBack} >
+                <div className={'project-create-page theme-' + project.color}>
+                    <Link className="material-icons back-btn" to={`/projects/${projectId}`} >
                         arrow_back
-                    </span>
+                    </Link>
                     <div className="content-container">
                         <h1>Edit the project {project.name}</h1>
                         {error && <Callout message={error} />}

@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import { useCallback, useState } from "react";
 
@@ -22,9 +23,9 @@ export default function TeamsCreate() {
 
     return (
         <div className="teams-create-page">
-            <span className="material-icons back-btn" onClick={history.goBack} >
+            <Link className="material-icons back-btn" to="/teams" >
                 arrow_back
-            </span>
+            </Link>
             <div className="content-container">
                 <h1>Create a new team</h1>
                 {error && <Callout message={error} />}

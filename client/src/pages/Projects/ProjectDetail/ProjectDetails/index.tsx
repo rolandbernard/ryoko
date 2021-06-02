@@ -6,7 +6,6 @@ import { formatDate, subtractTime } from 'timely';
 
 import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
-import ButtonLink from 'components/navigation/ButtonLink';
 import { getProjectActivity, Project } from 'adapters/project';
 import BarChart, { ChartItem, parseActivity } from 'components/graphs/BarChart';
 
@@ -49,9 +48,6 @@ export default function ProjectDetails({ project }: Props) {
                     ? <BarChart unit="h" multiplier={1 / 60 / 60 / 1000} data={activity} />
                     : <LoadingScreen />
             }
-            <ButtonLink routing href={`/projects/${project.id}/edit`} className="expanded">
-                Edit
-            </ButtonLink>
         </section>
     )
 }
