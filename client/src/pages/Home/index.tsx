@@ -1,7 +1,10 @@
 
+import { Status } from 'adapters/common';
+
 import Page from 'components/layout/Page';
 import ContactForm from 'components/forms/ContactForm';
 import ButtonLink from 'components/navigation/ButtonLink';
+import Project from 'components/ui/Project';
 
 import Logo from 'images/logo.svg';
 import ImageRoland from 'images/roland-bernard.jpg';
@@ -55,6 +58,42 @@ export default function Home(): JSX.Element {
                             </p>
                         </div>
                         <div className="preview-container">
+                            <Project demo={true} project={{
+                                id: '55',
+                                name: 'Hello world',
+                                text: 'xxx',
+                                color: 'yellow',
+                                status: Status.OPEN,
+                                deadline: new Date(),
+                                teams: [],
+                            }}/>
+                            <Project demo={true} project={{
+                                id: '73',
+                                name: 'Project',
+                                text: 'xxx',
+                                color: 'red',
+                                status: Status.OPEN,
+                                deadline: new Date(),
+                                teams: [],
+                            }}/>
+                            <Project demo={true} project={{
+                                id: '93',
+                                name: 'Api routes',
+                                text: 'xxx',
+                                color: 'blue',
+                                status: Status.CLOSED,
+                                deadline: new Date(),
+                                teams: [],
+                            }}/>
+                            <Project demo={true} project={{
+                                id: '5',
+                                name: 'Task list',
+                                text: 'xxx',
+                                color: 'green',
+                                status: Status.SUSPENDED,
+                                deadline: new Date(),
+                                teams: [],
+                            }}/>
                         </div>
                     </div>
                 </div>
@@ -138,7 +177,26 @@ export default function Home(): JSX.Element {
                         Do you still have a question? Just contact us directly and we will be glad
                         to help you resolve the issue.
                     </p>
-                    <ContactForm />
+                    <ContactForm onSubmit={
+                        (
+                            firstname: string,
+                            basename: string,
+                            email: string,
+                            subject: string,
+                            message: string
+                        ) => {
+                            window.location.href = 'mailto:dplanoetscher@unibz.it'
+                                + '?subject='
+                                + encodeURIComponent(subject)
+                                + '&body='
+                                + encodeURIComponent(
+                                    `Name: ${firstname} ${basename}\n`
+                                    + `Email: ${email}\n`
+                                    + 'Message:\n\n'
+                                    + message
+                                );
+                        }
+                    }/>
                 </div>
             </section>
             <footer>

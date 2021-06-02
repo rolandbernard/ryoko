@@ -200,15 +200,18 @@
         }
 
         .preview-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-gap: 24px;
             justify-content: center;
             align-items: center;
             background: rgba(255, 255, 255, .5);
             border-radius: 25px;
-            padding: 40px;
+            padding: 24px;
 
             @include mx.breakpoint(large) {
-                padding: 110px;
+                padding: 48px;
             }
         }
 

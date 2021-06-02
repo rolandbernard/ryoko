@@ -15,11 +15,11 @@ export default function ProjectGrid({ projects }: Props) {
     let counter = 0;
     return (
         <div className="project-grid">
-            <div className="add-project project">
-                <Link to="/projects/create" className="content">
+            <Link className="add-project project" to="/projects/create" >
+                <div className="content">
                     +
-                </Link>
-            </div>
+                </div>
+            </Link>
             {
                 projects.map(project => {
                     counter++;

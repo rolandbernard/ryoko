@@ -15,21 +15,31 @@ import CircularProgress from 'components/graphs/CircularProgress';
 import './project.scss';
 
 export interface ProjectProps {
-    project: IProject
-    large?: boolean
+    project: IProject;
+    large?: boolean;
+    demo?: boolean;
 }
 
-export default function Project({ project, large }: ProjectProps) {
+export default function Project({ project, large, demo }: ProjectProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
     const [completion, setCompletion] = useState<Completion>();
     
     useEffect(() => {
-        getProjectAssignees(project.id).then((assignee) => setAssignees(assignee))
-        getProjectCompletion(project.id).then((completion) => setCompletion(completion));
-    }, [project]);
+        if (!demo) {
+            getProjectAssignees(project.id).then(setAssignees)
+            getProjectCompletion(project.id).then(setCompletion);
+        } else {
+            setAssignees([]);
+            setCompletion({
+                closed: parseInt(project.id),
+                open: 0, suspended: 0, overdue: 0,
+                sum: 100
+            });
+        }
+    }, [project, demo]);
 
     return (
-        <Link to={'/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
+        <Link to={demo ? '' : '/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
             <div className="status">
                 <Tag label={project.status} color={StatusColors.get(project.status)} />
             </div>

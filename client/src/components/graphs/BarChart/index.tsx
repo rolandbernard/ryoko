@@ -36,7 +36,7 @@ interface Props {
 }
 
 export default function BarChart({ data, unit, multiplier }: Props) {
-    let maxValue = data.map(e => e.value).sort((a, b) => b - a)[0];
+    let maxValue = data.map(e => e.value).reduce((a, b) => Math.max(a, b), 0);
 
     return (
         <div className="bar-chart-container">
@@ -58,8 +58,9 @@ export default function BarChart({ data, unit, multiplier }: Props) {
                                             ? true
                                             : (data.length < 40
                                                 ? (i % 7) === (data.length % 7 - 1)
-                                                : data.length < 400
-                                                    && i !== 0 && item.label !== data[i - 1]?.label
+                                                : data.length < 120
+                                                    ? i !== 0 && item.label !== data[i - 1]?.label
+                                                    : (i % 80) === (data.length % 80 - 1)
                                             )
                                       ) &&
                                         <div className="label">

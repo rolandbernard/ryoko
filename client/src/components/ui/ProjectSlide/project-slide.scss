@@ -12,7 +12,8 @@
     flex-direction: column;
     justify-content: space-between;
 
-    &:hover {
+    &:hover ,
+    &:focus {
         color: s.$body-color;
         box-shadow: 0 0 35px rgba(s.$black, 0.1);
         transform: translateY(-5px);

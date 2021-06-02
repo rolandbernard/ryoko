@@ -23,14 +23,6 @@ export default function ProjectsSlider({ projects }: Props) {
         projects.length
             ? (
                 <div className="project-slider" style={{ '--position': position } as CSSProperties}>
-                    <div
-                        className={'prev-button' + (position > 0 ? '' : ' disabled' )}
-                        onClick={() => onChange(-1)}
-                    >&lt;</div>
-                    <div
-                        className={'next-button' + (position < projects.length - 1 ? '' : ' disabled')}
-                        onClick={() => onChange(1)}
-                    >&gt;</div>
                     {
                         projects.map(project =>
                             <div
@@ -41,6 +33,14 @@ export default function ProjectsSlider({ projects }: Props) {
                             </div>
                         )
                     }
+                    <div
+                        className={'prev-button' + (position > 0 ? '' : ' disabled' )}
+                        onClick={() => onChange(-1)}
+                    >&lt;</div>
+                    <div
+                        className={'next-button' + (position < projects.length - 1 ? '' : ' disabled')}
+                        onClick={() => onChange(1)}
+                    >&gt;</div>
                 </div>
             )
             : <div>No Projects found.</div>

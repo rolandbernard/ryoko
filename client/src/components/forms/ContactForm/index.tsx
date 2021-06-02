@@ -5,6 +5,7 @@ import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
 
 import './contact-form.scss';
+import '../form.scss';
 
 interface Props {
     onSubmit?: (
@@ -25,41 +26,62 @@ export default function RegisterForm({ onSubmit }: Props) {
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        onSubmit?.(firstname, lastname, email, subject, message);
+        if (firstname && lastname && email && subject && message) {
+            onSubmit?.(firstname, lastname, email, subject, message);
+        }
     }, [onSubmit, firstname, lastname, email, subject, message]);
 
     return (
         <form className="contact-form" onSubmit={handleSubmit}>
-            <TextInput
-                label="Firstname"
-                name="firstname"
-                onChange={setFirstname}
-            />
-            <TextInput
-                label="Lastname"
-                name="lastname"
-                onChange={setLastname}
-            />
-            <TextInput
-                label="Email"
-                name="email"
-                onChange={setEmail}
-            />
-            <TextInput
-                label="Subject"
-                name="subject"
-                onChange={setSubject}
-            />
+            <div className="fields">
+                <div className="fields-row">
+                    <div className="col">
+                        <TextInput
+                            label="Firstname"
+                            name="firstname"
+                            onChange={setFirstname}
+                            validation={(text: string) => text.length !== 0 ? null : 'Field is required'}
+                        />
+                    </div>
+                    <div className="col">
+                        <TextInput
+                            label="Lastname"
+                            name="lastname"
+                            onChange={setLastname}
+                            validation={(text: string) => text.length !== 0 ? null : 'Field is required'}
+                        />
+                    </div>
+                </div>
+                <div className="fields-row">
+                    <div className="col">
+                        <TextInput
+                            label="Email"
+                            name="email"
+                            onChange={setEmail}
+                            validation={(text: string) => text.length !== 0 ? null : 'Field is required'}
+                        />
+                    </div>
+                    <div className="col">
+                        <TextInput
+                            label="Subject"
+                            name="subject"
+                            onChange={setSubject}
+                            validation={(text: string) => text.length !== 0 ? null : 'Field is required'}
+                        />
+                    </div>
+                </div>
+            </div>
             <TextInput
                 label="Message"
                 name="message"
                 type="textarea"
                 onChange={setMessage}
+                validation={(text: string) => text.length !== 0 ? null : 'Field is required'}
             />
             <div className="button-container">
                 <Button type="submit" className="submit-button">
-                    Login
-            </Button>
+                    Send
+                </Button>
             </div>
         </form>
     );

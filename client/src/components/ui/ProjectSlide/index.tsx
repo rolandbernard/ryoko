@@ -2,10 +2,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { Completion } from 'adapters/common';
 import { AssignedUser } from 'adapters/user';
 import { durationBetween, formatDate } from 'timely';
-import { getProjectAssignees, getProjectCompletion, getProjectWork, Project } from 'adapters/project';
+import { getProjectAssignees, getProjectWork, Project } from 'adapters/project';
 
 import AssigneeList from 'components/ui/AssigneeList';
 import LoadingScreen from 'components/ui/LoadingScreen';
@@ -19,18 +18,14 @@ export interface ProjectSlideProps {
 
 export default function ProjectSlide({ project }: ProjectSlideProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
-    const [completion, setCompletion] = useState<Completion>();
-    const [time, setTime] = useState(0);
-    const [totalTime, setTotalTime] = useState(1);
+    const [time, setTime] = useState<number>();
+    const [totalTime, setTotalTime] = useState<number>();
 
     useEffect(() => {
-        getProjectAssignees(project.id).then(
-            (assignee) => {
-                setAssignees(assignee);
-                setTotalTime(assignee.map(a => a.time).reduce((total, c) => total + c, 1) * 60 * 1000)
-            }
-        )
-        getProjectCompletion(project.id).then((completion) => setCompletion(completion));
+        getProjectAssignees(project.id).then(assignee => {
+            setAssignees(assignee);
+            setTotalTime(assignee.map(a => a.time).reduce((total, c) => total + c, 1) * 60 * 1000)
+        });
         getProjectWork(project.id).then((work) =>
             setTime(
                 work.map(w => durationBetween(w.started, w.finished ?? new Date()))
@@ -52,7 +47,7 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
             <div className="details">
                 <AssigneeList assignees={assignees} max={3} />
                 {
-                    completion
+                    (time !== undefined && totalTime !== undefined)
                         ? (
                             <div className="progress">
                                 <LinearProgress percent={time / totalTime * 100} />

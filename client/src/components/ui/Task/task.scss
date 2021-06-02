@@ -12,7 +12,7 @@
     font-weight: s.$weight-regular;
     position: relative;
 
-    &:hover {
+    &:hover, &:focus {
         color: s.$body-color;
         box-shadow: 0 5px 30px rgba(s.$black, 0.15);
         transform: translateY(-5px);

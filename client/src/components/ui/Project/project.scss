@@ -14,7 +14,8 @@
     &:hover,
     &:focus {
         color: s.$body-color;
-        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 35px rgba(s.$black, 0.1);
+        transform: translateY(-5px);
     }
 
     .circular-progress {

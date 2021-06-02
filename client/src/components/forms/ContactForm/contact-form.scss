@@ -1,16 +1,22 @@
 
+@use 'styles/settings' as s;
 @use 'styles/mixins' as mx;
 
 .contact-form {
-    .input-element {
+    .fields {
         width: 100%;
+    }
 
-        @include mx.breakpoint(medium) {
-            width: 50%;
-        }
-
+    .input-element {
         &.textarea {
             width: 100%;
+        }
+
+        .input-field {
+            input, textarea {
+                background-color: #ffffff20;
+                color: white;
+            }
         }
     }
 
