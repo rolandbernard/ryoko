@@ -71,13 +71,14 @@
         .bar {
             background: s.$linear-gradient;
             width: 24px;
-            z-index: 2;
+            z-index: 1;
             position: relative;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
 
             &:hover {
                 opacity: 0.9;
+                z-index: 20000;
 
                 .tooltip {
                     transform: translate(-50%, -100%);

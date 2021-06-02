@@ -1,9 +1,11 @@
 
 import { FormEvent, useCallback, useState } from 'react';
 
-import TextInput from 'components/ui/TextInput';
-import Button from 'components/ui/Button';
 import { exists } from 'adapters/user';
+
+import Button from 'components/ui/Button';
+import TextInput from 'components/ui/TextInput';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './register-form.scss';
 
@@ -34,7 +36,7 @@ function validateRepeatPassword(password: string, password2: string) {
 }
 
 interface Props {
-    onSubmit?: (username: string, password: string, realname?: string, email?: string) => void;
+    onSubmit?: (username: string, password: string, realname?: string, email?: string) => Promise<void>;
     setError?: Function;
 }
 
@@ -44,6 +46,7 @@ export default function RegisterForm({ onSubmit, setError }: Props) {
     const [repeatedPassword, setRepeatedPassword] = useState('');
     const [realName, setRealName] = useState<string | undefined>();
     const [email, setEmail] = useState<string | undefined>();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
@@ -52,7 +55,9 @@ export default function RegisterForm({ onSubmit, setError }: Props) {
             && validatePassword(password) === null
             && validateRepeatPassword(repeatedPassword, password) === null
         ) {
-            onSubmit?.(username, password, realName, email);
+            setLoading(true);
+            await onSubmit?.(username, password, realName, email);
+            setLoading(false);
         } else if(setError) {
             setError('Please fill in the mandatory fields.');
         }
@@ -91,9 +96,10 @@ export default function RegisterForm({ onSubmit, setError }: Props) {
                 compareValue={password}
                 validation={validateRepeatPassword}
             />
-            <Button type="submit">
-                Register now
-            </Button>
+            { loading
+                ? <LoadingScreen />
+                : <Button type="submit">Register now</Button>
+            }
         </form>
     );
 }

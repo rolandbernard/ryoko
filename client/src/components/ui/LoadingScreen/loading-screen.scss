@@ -5,5 +5,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    svg {
+        transform-origin: 50% 50%;
+        animation: rotate 0.5s linear infinite;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 

@@ -15,6 +15,7 @@ export default function Register() {
     const history = useHistory();
 
     const handleSubmit = useCallback(async (username: string, password: string, realname?: string, email?: string) => {
+        setError('');
         try {
             if (await register(username, password, realname ?? null, email ?? null)) {
                 history.push('/tasks');

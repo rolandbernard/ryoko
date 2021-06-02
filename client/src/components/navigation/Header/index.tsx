@@ -15,6 +15,7 @@ export default function Header({ children }: Props) {
 
     return (
         <div className="full-width">
+            <Navigation />
             <Sidebar setMobileShown={setShowSidebar} mobileShown={showSidebar} />
             <div className={'page-wrapper' + (showSidebar ? ' moved' : '')} onClick={() => showSidebar && setShowSidebar(false)}>
                 <Page>
@@ -30,7 +31,6 @@ export default function Header({ children }: Props) {
                     </header>
                     {children}
                 </Page>
-                <Navigation />
             </div>
         </div>
     );

@@ -1,22 +1,26 @@
 
 import { FormEvent, useCallback, useState } from "react";
 
-import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
+import TextInput from 'components/ui/TextInput';
+import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './login-form.scss';
 
 interface Props {
-    onSubmit?: (username: string, password: string) => void
+    onSubmit?: (username: string, password: string) => Promise<void>
 }
 
 export default function RegisterForm({ onSubmit }: Props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
-        onSubmit?.(username, password);
+        setLoading(true);
+        await onSubmit?.(username, password);
+        setLoading(false);
     }, [onSubmit, password, username]);
 
     return (
@@ -32,9 +36,10 @@ export default function RegisterForm({ onSubmit }: Props) {
                 type="password"
                 onChange={setPassword}
             />
-            <Button type="submit">
-                Login
-            </Button>
+            { loading
+                ? <LoadingScreen />
+                : <Button type="submit">Login</Button>
+            }
         </form>
     );
 }
