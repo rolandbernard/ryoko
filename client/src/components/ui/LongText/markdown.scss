@@ -42,6 +42,7 @@
 .md-header-4, .md-header-5, .md-header-6 {
     margin: 0.5rem 0rem;
 }
+
 .md-code pre {
     padding: 1rem;
     margin: 0;
@@ -57,6 +58,9 @@
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
+    overflow-x: auto;
+    color: #abb2bf;
+    background: #282c34;
 }
 
 .md-code .md-code-content {
@@ -98,7 +102,7 @@
 }
 
 .md-ordered-list, .md-unordered-list, .md-footnote {
-    padding-left: 2.5rem; 
+    padding-left: 1.5rem; 
     margin: 0.5rem 0;
 }
 
@@ -135,6 +139,7 @@ li > span > .md-paragraph {
 .md-footnote-ref {
     font-size: 0.85rem;
     vertical-align: top;
+    margin: 0 0.125rem;
 }
 
 .md-align-left {
