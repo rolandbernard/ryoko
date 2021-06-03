@@ -1,0 +1,194 @@
+
+.markdown {
+    font-size: 1rem;
+    line-height: 150%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.md-header-1, .md-header-2 {
+    padding-bottom: 0.1rem;
+    border-bottom: 1px solid #00000015;
+}
+
+.md-header-1 {
+    font-size: 2rem;
+    padding-left: 0.25rem;
+}
+
+.md-header-2 {
+    font-size: 1.5rem;
+    padding-left: 0.15rem;
+}
+
+.md-header-3 {
+    font-size: 1.25rem;
+}
+
+.md-header-4 {
+    font-size: 1rem;
+}
+
+.md-header-5 {
+    font-size: 0.85rem;
+}
+
+.md-header-6 {
+    font-size: 0.65rem;
+}
+
+.md-header-1, .md-header-2, .md-header-3,
+.md-header-4, .md-header-5, .md-header-6 {
+    margin: 0.5rem 0rem;
+}
+.md-code pre {
+    padding: 1rem;
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    width: max-content;
+}
+
+.md-code {
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.md-code .md-code-content {
+    flex: 1 1 auto;
+}
+
+.md-code .md-lines {
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: column;
+    padding: 1rem 0.5rem;
+    border-right: 1px solid #ffffff20;
+    user-select: none;
+    text-align: right;
+}
+
+.md-code .md-lines .md-line {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+}
+
+.md-inline-code  {
+    background: #00000010;
+    padding: 0.1rem 0.25rem;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+.md-quote {
+    border-left: 0.25rem solid #00000018;
+    padding-left: 1.25rem;
+}
+
+.md-hrule {
+    border: 0.125rem solid #00000018;
+    height: 0;
+}
+
+.md-ordered-list, .md-unordered-list, .md-footnote {
+    padding-left: 2.5rem; 
+    margin: 0.5rem 0;
+}
+
+.md-todo-list {
+    list-style: none;
+    padding-left: 1rem; 
+}
+
+.md-todo-list > li {
+    display: flex;
+    align-items: center;
+}
+
+.md-todo-list > li > input {
+    margin-right: 0.5rem;
+}
+
+.md-paragraph {
+    margin: 1rem 0;
+}
+
+li > .md-paragraph {
+    margin: 0.5rem 0;
+}
+
+li > span > .md-paragraph {
+    margin: 0.5rem 0;
+}
+
+.md-link, .md-footnote-ref {
+    text-decoration: none;
+}
+
+.md-footnote-ref {
+    font-size: 0.85rem;
+    vertical-align: top;
+}
+
+.md-align-left {
+    text-align: left;
+}
+
+.md-align-right {
+    text-align: right;
+}
+
+.md-align-center {
+    text-align: center;
+}
+
+.md-table, .md-table-row, .md-table-data, .md-table-header {
+    border-collapse: collapse;
+    border: 1px solid #00000018;
+}
+
+.md-table-data, .md-table-header {
+    padding: 0.125rem 0.5rem;
+}
+
+.md-table-header {
+    font-weight: 500;
+    background: #0000000a;
+}
+
+.md-table-row:nth-child(odd) {
+    background: #00000005;
+}
+
+.md-info-wrap {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 1rem 0.5rem;
+}
+
+.md-info-wrap > p {
+    margin: 0;
+}
+
+.md-info {
+    margin-top: 0.25rem;
+    text-align: center;
+}
+
+.md-inline-info {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.md-image {
+    vertical-align: middle;
+}
+
