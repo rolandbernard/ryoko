@@ -35,7 +35,7 @@ export default function CommentList({ comments, taskId }: Props) {
             .catch(() => setError(true))
         }
     }, [comment, taskId]);
-    
+
     useEffect(() => {
         getCurrentUser()
             .then(setUser)

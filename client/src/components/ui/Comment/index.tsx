@@ -1,9 +1,10 @@
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 
-import { formatRelativeTime } from 'timely';
 import { getUser, User } from 'adapters/user';
-import { Comment as IComment } from 'adapters/comment';
+import { getLoggedInUser } from 'adapters/auth';
+import { currentTime, formatRelativeTime } from 'timely';
+import { Comment as IComment, updateComment } from 'adapters/comment';
 
 import Avatar from 'components/ui/Avatar';
 import LongText from 'components/ui/LongText';
@@ -16,14 +17,44 @@ export interface CommentProps {
     onError?: () => any;
 }
 
-export default function Comment({ comment, onError }: CommentProps) {
+export default function Comment({ comment: initialComment, onError }: CommentProps) {
+    const [comment, setComment] = useState(initialComment);
     const [user, setUser] = useState<User>();
+    const [editing, setEditing] = useState(false);
+    const [text, setText] = useState(comment.text);
+
+    const userId = getLoggedInUser();
+
+    const handleSubmit = useCallback((e: FormEvent) => {
+        e.preventDefault();
+        if (comment.text.length > 0) {
+            setEditing(false);
+            updateComment(comment.id, text).then(() => {
+                setComment({
+                    ...comment,
+                    text: text,
+                    edited: currentTime(),
+                });
+            })
+            .catch(onError);
+        }
+    }, [comment, text, onError]);
+
+    const handleReset = useCallback((e: FormEvent) => {
+        e.preventDefault();
+        setEditing(false);
+    }, [initialComment]);
+
+    const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        setText(e.target.value);
+    }, [comment]);
 
     useEffect(() => {
-        getUser(comment.user)
+        getUser(initialComment.user)
             .then((user) => setUser(user))
             .catch(() => onError?.());
-    }, [comment, onError]);
+    }, [initialComment, onError]);
 
     if (user) {
         return (
@@ -43,9 +74,29 @@ export default function Comment({ comment, onError }: CommentProps) {
                         </div>
                     </div>
                 </div>
-                <div className="comment">
-                    <LongText text={comment.text} />
-                </div>
+                { editing
+                    ? (
+                        <form onSubmit={handleSubmit} onReset={handleReset}>
+                            <textarea value={text} placeholder="Write a comment..." onChange={handleChange}></textarea>
+                            <div className="buttons">
+                                <button type="reset">Cancel</button>
+                                <button type="submit" disabled={text.length <= 0}>Send</button>
+                            </div>
+                        </form>
+                    )
+                    : (
+                        <div className="comment">
+                            <LongText text={comment.text} />
+                        </div>
+                    )
+                }
+                { !editing && userId === comment.user &&
+                    <div className="settings" onClick={() => setEditing(true)}>
+                        <span className="material-icons icon">
+                            edit
+                        </span>
+                    </div>
+                }
             </div>
         )
     } else {

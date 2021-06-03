@@ -2,13 +2,14 @@
 @use 'styles/settings.scss' as s;
 
 .comment-container {
-    padding: 0 20px;
+    position: relative;
     background: rgba(s.$white, 0.95);
     box-shadow: 0 0 25px rgba(s.$black, 0.1);
     border-radius: 25px;
     margin-top: 10px;
 
     .head {
+        margin: 0 20px;
         display: flex;
         align-items: flex-end;
         transform: translateY(-10px);
@@ -38,8 +39,70 @@
     }
 
     .comment {
+        margin: 0 20px;
         font-size: 14px;
         padding: 20px 0;
+    }
+
+    .settings {
+        user-select: none;
+        position: absolute;
+        right: -8px;
+        top: -8px;
+        height: 35px;
+        width: 35px;
+        background: s.$primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        color: s.$white;
+        border-radius: 50%;
+        cursor: pointer;
+
+        .icon {
+            margin-right: 0;
+        }
+    }
+
+    textarea {
+        transition: none;
+        background: s.$light;
+        border: none;
+        border-radius: 25px;
+        width: 100%;
+        margin: 0;
+        height: 100%;
+        font-size: 14px;
+        padding: 25px;
+        display: flex;
+        resize: vertical;
+        outline: none;
+        min-height: 150px;
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 0;
+        right: 20px;
+        transform: translateY(50%);
+
+        button:first-child {
+            margin-right: 10px;
+        }
+    }
+
+    button {
+        padding: 8px 20px;
+        background: s.$linear-gradient;
+        color: s.$white;
+        font-weight: s.$weight-regular;
+        border-radius: 10px;
+
+        &:disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
     }
 }
 
