@@ -43,7 +43,7 @@ export default function ProjectEdit() {
                     status: status,
                     deadline: deadline?.toString()
                 });
-                history.push('/projects');
+                history.push(`/projects/${project.id}`);
             }
         } catch (e) {
             setError('There was an error with updating your project. Please try again!');
