@@ -80,7 +80,7 @@ export default function Comment({ comment: initialComment, onError }: CommentPro
                             <textarea value={text} placeholder="Write a comment..." onChange={handleChange}></textarea>
                             <div className="buttons">
                                 <button type="reset">Cancel</button>
-                                <button type="submit" disabled={text.length <= 0}>Send</button>
+                                <button type="submit" disabled={text.length <= 0}>Update</button>
                             </div>
                         </form>
                     )
