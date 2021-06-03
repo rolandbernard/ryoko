@@ -13,6 +13,7 @@ import { getTask, getTaskWork, Task, TaskAssignment, updateTask } from 'adapters
 
 import Tag from 'components/ui/Tag';
 import Button from 'components/ui/Button';
+import LongText from 'components/ui/LongText';
 import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import CircularProgress from 'components/graphs/CircularProgress';
@@ -149,20 +150,18 @@ export default function TaskDetail() {
                                 </>)
                         }
                     </div>
-                    <div className="description-container">
-                        <h2>
-                            Description
-                        </h2>
-                        <p>
-                            {task.text}
-                        </p>
-                    </div>
                     <DetailGrid
                         details={[
                             { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
                             { icon: 'group', title: 'Teams', label: teamNames.join(', ') }
                         ]}
                     />
+                    <div className="description-container">
+                        <h2>
+                            Description
+                        </h2>
+                        <LongText text={task.text} open={true} />
+                    </div>
                 </div>
             </div>
         );

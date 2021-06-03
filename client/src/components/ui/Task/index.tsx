@@ -2,9 +2,10 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { getTaskAssignees, Task } from 'adapters/task';
 import { User } from 'adapters/user';
+import { getTaskAssignees, Task } from 'adapters/task';
 
+import LongText from '../LongText';
 import AssigneeList from 'components/ui/AssigneeList';
 
 import './task.scss';
@@ -34,7 +35,7 @@ export default function TaskComponent({ task, subtitle }: TaskProps) {
                 </div>
             </div>
             <div className="description-container">
-                {task.text}
+                <LongText text={task.text} open={true} />
             </div>
             <AssigneeList assignees={assignees} max={3} />
         </Link>

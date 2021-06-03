@@ -82,24 +82,24 @@ function compileInlineConstructs(markdown: string, data: LinkRegistry): string {
                     offset++;
                     const start_width = offset;
                     while (
-                        markdown[offset] >= '0' && markdown[offset] <= '9'
+                        (markdown[offset] >= '0' && markdown[offset] <= '9')
                         || markdown[offset] === ' ' || markdown[offset] === '\t'
                     ) {
                         offset++;
                     }
-                    if (offset != start_width) {
+                    if (offset !== start_width) {
                         width = parseInt(markdown.substr(start_width, offset - start_width));
                     }
                     if (markdown[offset] === 'x') {
                         offset++;
                         const start_height = offset;
                         while (
-                            markdown[offset] >= '0' && markdown[offset] <= '9'
+                            (markdown[offset] >= '0' && markdown[offset] <= '9')
                             || markdown[offset] === ' ' || markdown[offset] === '\t'
                         ) {
                             offset++;
                         }
-                        if (offset != start_height) {
+                        if (offset !== start_height) {
                             height = parseInt(markdown.substr(start_height, offset - start_height));
                         }
                     }
@@ -391,9 +391,9 @@ function compileLines(lines: string[], data: LinkRegistry): string[] {
             converted_paragraphs.push(html`<h2 class="markdown md-header-2">${compileInlineConstructs(lines_to_convert.join(' '), data)}</h2>`);
             lines_to_convert.splice(0);
         } else if (
-            line.startsWith('---') && !line.match(/[^-]/)
-            || line.startsWith('***') && !line.match(/[^*]/)
-            || line.startsWith('___') && !line.match(/[^_]/)
+            (line.startsWith('---') && !line.match(/[^-]/))
+            || (line.startsWith('***') && !line.match(/[^*]/))
+            || (line.startsWith('___') && !line.match(/[^_]/))
         ) {
             linesToParagraph(lines_to_convert, converted_paragraphs, data);
             converted_paragraphs.push(html`<hr class="markdown md-hrule"/>`);

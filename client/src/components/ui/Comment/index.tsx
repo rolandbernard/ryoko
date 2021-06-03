@@ -43,12 +43,12 @@ export default function Comment({ comment: initialComment, onError }: CommentPro
     const handleReset = useCallback((e: FormEvent) => {
         e.preventDefault();
         setEditing(false);
-    }, [initialComment]);
+    }, []);
 
     const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         setText(e.target.value);
-    }, [comment]);
+    }, []);
 
     useEffect(() => {
         getUser(initialComment.user)
