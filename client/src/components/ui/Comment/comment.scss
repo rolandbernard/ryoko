@@ -40,7 +40,7 @@
 
     .comment {
         margin: 0 24px;
-        font-size: 14px;
+        font-size: 1rem;
         padding: 0 0 5px 0;
     }
 
@@ -93,6 +93,11 @@
     }
 
     button {
+        margin-bottom: 16px;
+    }
+
+    form button {
+        margin-bottom: 0;
         padding: 8px 20px;
         background: s.$linear-gradient;
         color: s.$white;
