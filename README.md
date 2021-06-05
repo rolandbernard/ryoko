@@ -17,7 +17,15 @@ facilitates effective collaboration.
 
 ## Getting Started
 
-You can test out our web application at https://ryoko-planning.herokuapp.com/.
+A version of this project is hosted at https://ryoko-planning.herokuapp.com/ and you can access it
+using the username 'Tester' and the password 'testtest'. From the landing page you can get directly
+to the login page by pressing the 'Get Started'-button. The hosted application is filled with some
+test data.
+
+Note: Because we are using a service worker to cache the website you might be served an older
+version of the site on subsequent visits. To get the newest version of the site, either refresh the
+side by using the CTRL+SHIFT+R keyboard shortcut, or close all the tabs of our application
+and reopen a new one.
 
 ### Simple deployment
 
