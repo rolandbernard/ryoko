@@ -20,7 +20,8 @@ export default function Filter({ setFilter, tags, filter }: Props) {
         <div className="filter-container">
             <div className="search-container">
                 <i className="material-icons icon">search</i>
-                <input type="text" placeholder="Search..." onChange={event => setFilter((prev: any) => { return { ...prev, term: event.target.value } })} />
+                <label htmlFor="search">Search</label>
+                <input type="text" id="search" onChange={event => setFilter((prev: any) => { return { ...prev, term: event.target.value } })} />
             </div>
             <div className="status-filter">
                 <h3>Filter</h3>

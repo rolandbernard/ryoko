@@ -59,7 +59,10 @@ export default function CommentList({ comments, taskId }: Props) {
                     </div>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <textarea value={comment} placeholder="Write a comment..." onChange={(e) => setComment(e.target.value)}></textarea>
+                    <div className="comment-box">
+                        <label htmlFor="comment">Your comment</label>
+                        <textarea value={comment} id="comment" placeholder="Write a comment..." onChange={(e) => setComment(e.target.value)}></textarea>
+                    </div>
                     <button type="submit" disabled={comment.length <= 0 || error}>Send</button>
                 </form>
             </div>

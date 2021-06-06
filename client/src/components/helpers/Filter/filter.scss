@@ -24,6 +24,13 @@
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(s.$black, 0.05);
         }
+        label {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            transform: translateY(-50%);
+            font-weight: s.$weight-bold;
+        }
     }
 
     .status-filter {

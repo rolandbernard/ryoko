@@ -30,7 +30,7 @@ export default function TaskComponent({ task, subtitle }: TaskProps) {
                 {task.icon}
                 </div>
                 <div className="text-container">
-                    <h4>{task.name}</h4>
+                    <div className="name">{task.name}</div>
                     <div className="time">{subtitle}</div>
                 </div>
             </div>

@@ -21,7 +21,7 @@ export default function Avatar({ user }: Props) {
         <div className="avatar">
             {
                 !error && (
-                    <img src={avatarSrc} alt={user?.username} onError={onError} />
+                    <img src={avatarSrc} alt="" onError={onError} />
                 )
             }
             {
