@@ -1,6 +1,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import Picker from 'emoji-picker-react';
+import { Picker, BaseEmoji } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 
 import { getProjectTasks, Project } from 'adapters/project';
 import { getTeam, getTeamMembers, getTeamRoles } from 'adapters/team';
@@ -70,6 +71,7 @@ export interface PossibleRole {
     id: string;
     label: string;
 }
+
 export interface PossibleMember {
     id: string;
     label: string;
@@ -170,7 +172,7 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                     <div className="current-icon">
                         Current icon: {icon}
                     </div>
-                    <Picker disableSkinTonePicker onEmojiClick={(_e, emoji) => setIcon(emoji.emoji)} />
+                    <Picker native={true} showPreview={false} onSelect={emoji => setIcon((emoji as BaseEmoji).native)} />
                     <div className="note">
                         <span className="material-icons">
                             help_outline

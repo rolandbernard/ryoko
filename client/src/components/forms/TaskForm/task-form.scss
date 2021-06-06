@@ -1,9 +1,22 @@
 
 .task-form {
-    .emoji-picker-react {
-        width: 100%;
+    .emoji-mart {
+        width: 100% !important;
         height: 340px;
         border-radius: 15px;
+        overflow: hidden;
+
+        .emoji-mart-scroll {
+            height: 247.5px;
+        }
+
+        .emoji-mart-preview {
+            display: none;
+        }
+
+        .emoji-mart-emoji span {
+            cursor: pointer;
+        }
     }
 
     .current-icon {
