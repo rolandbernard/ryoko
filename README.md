@@ -15,6 +15,10 @@ Do you want to boost your productivity and agility of your development? With Ryo
 effectively plan your tasks and manage your projects. It is build with developers in mind and
 facilitates effective collaboration.
 
+## Documentation
+
+* [Accessibility Report](docs/accessibility.md)
+
 ## Getting Started
 
 A version of this project is hosted at https://ryoko-planning.herokuapp.com/ and you can access it
@@ -41,11 +45,11 @@ Note:
  * The server can use a public and private key pair to sign the authentication web token. They can
 either be placed into the directory `server/keys/` with the name `cert.pem` (public key) and
 `cert.key` (private key), or they can be given using the `JWT_PUBLIC_KEY` and `JWT_PRIVATE_KEY`
-envirenvironment variables. In any case the keys must be suitable for ES384 signatures. If these
+environment variables. In any case the keys must be suitable for ES384 signatures. If these
 keys are not given it will use a simple password to sign the tokens.
  * If your `PORT` environment variable is set that will be used as the port to host the webserver in stead of port 8000.
  * If your `NODE_ENV` environment variable is set to `production` (with SSL) or `staging` (without SSL) the server will try
-to connect to a postgres database using the connection url inside `DATABASE_URL` or
+to connect to a PostgreSQL database using the connection url inside `DATABASE_URL` or
 `postgresql://postgres@localhost/ryoko` if no such variable is present in the environment.
 
 ### Details
@@ -67,7 +71,7 @@ simultaneously.
 
 To build a production build enter the respective directory (either `server` or `client`) and execute
 `yarn build` (or `npm run build`). The build output will be created inside a directory named `build`
-and can then be executed using node for the server, or served staticaly for the client.
+and can then be executed using node for the server, or served statically for the client.
 
 #### How to Use
 
