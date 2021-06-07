@@ -38,31 +38,43 @@ export default function Project({ project, large, demo }: ProjectProps) {
         }
     }, [project, demo]);
 
-    return (
-        <Link to={demo ? '' : '/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
-            <div className="status">
-                <Tag label={project.status} color={StatusColors.get(project.status)} />
+    const content = <>
+        <div className="status">
+            <Tag label={project.status} color={StatusColors.get(project.status)} />
+        </div>
+        <div className="content">
+            {
+                completion
+                    ? (<CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100} color={project.color} />)
+                    : (<LoadingScreen />)
+            }
+            <div className="title">{project.name}</div>
+            {
+                large &&
+                <div className="details">
+                    {
+                        project.deadline
+                            && (<div className="deadline">{formatDate(project.deadline, 'month')}</div>)
+                    }
+                    <AssigneeList assignees={assignees} max={3} />
+                </div>
+            }
+        </div>
+    </>;
+
+    if (demo) {
+        return (
+            <Link to={'/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
+                { content }
+            </Link>
+        );
+    } else {
+        return (
+            <div className={'project ' + (large ? 'large' : '')}>
+                { content }
             </div>
-            <div className="content">
-                {
-                    completion
-                        ? (<CircularProgress percent={completion.closed / (completion.sum ?? 1) * 100} color={project.color} />)
-                        : (<LoadingScreen />)
-                }
-                <div className="title">{project.name}</div>
-                {
-                    large &&
-                    <div className="details">
-                        {
-                            project.deadline
-                                && (<div className="deadline">{formatDate(project.deadline, 'month')}</div>)
-                        }
-                        <AssigneeList assignees={assignees} max={3} />
-                    </div>
-                }
-            </div>
-        </Link>
-    );
+        );
+    }
 }
 
 
