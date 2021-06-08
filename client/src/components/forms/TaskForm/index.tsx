@@ -243,7 +243,12 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                         <div className="col">
                             { allRoles
                                 ? allRoles.length > 0 && (
-                                    <RequirementsForm setRequirements={setRequirements} roles={allRoles} requirements={requirements} />
+                                    <RequirementsForm
+                                        roles={allRoles}
+                                        requirements={requirements}
+                                        onNew={req => setRequirements([ ...requirements, req ])}
+                                        onDelete={role => setRequirements(requirements.filter(req => req.role !== role))}
+                                    />
                                 )
                                 : <LoadingScreen />
                             }
@@ -251,7 +256,12 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                         <div className="col">
                             { allMembers
                                 ? allMembers.length > 0 && (
-                                    <AssigneesForm members={allMembers} setAssignees={setAssignees} assignees={assignees} />
+                                    <AssigneesForm
+                                        members={allMembers}
+                                        assignees={assignees}
+                                        onNew={mem => setAssignees([ ...assignees, mem ])}
+                                        onDelete={user => setAssignees(assignees.filter(ass => ass.user !== user))}
+                                    />
                                 )
                                 : <LoadingScreen />
                             }

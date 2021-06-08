@@ -1,0 +1,16 @@
+
+.time-field {
+    margin: 20px 0;
+    display: flex;
+    align-items: baseline;
+
+    .formatted {
+        flex: 0 0 auto;
+        content: 'min';
+        margin-left: 10px;
+        min-width: 64px;
+        white-space: nowrap;
+        text-align: center;
+    }
+}
+

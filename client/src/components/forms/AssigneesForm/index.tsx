@@ -6,39 +6,45 @@ import { TaskAssignment } from "adapters/task";
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
 import { PossibleMember } from "components/forms/TaskForm";
+import TimeInput from "components/ui/TimeInput";
 
 import './assignees-form.scss';
 
 interface Props {
     assignees: TaskAssignment[];
-    setAssignees: Function;
     members: PossibleMember[]
+    onNew: (req: TaskAssignment) => any,
+    onDelete: (req: string) => any
 }
 
-export default function AssigneesForm({ assignees, setAssignees, members }: Props) {
+export default function AssigneesForm({ assignees, members, onNew, onDelete }: Props) {
     const [possibleMembers, setPossibleMembers] = useState<PossibleMember[]>([]);
     const [addNew, setAddNew] = useState(false);
     const [selectedMember, setSelectedMember] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedTime, setSelectedTime] = useState(Number.NaN);
 
     useEffect(() => {
         setPossibleMembers(members.filter(member => !assignees.find(r => r.user === member.id)));
-    }, [members, assignees, setAssignees])
+    }, [members, assignees])
 
     const addAssignee = useCallback((e) => {
         e.preventDefault();
-        if (selectedTime && selectedMember) {
-            setAssignees((state: any) => [...state, { user: selectedMember, time: selectedTime }]);
+        if (!Number.isNaN(selectedTime) && selectedMember) {
+            onNew({
+                user: selectedMember,
+                time: selectedTime * 60,
+                finished: false,
+            });
             setAddNew(false);
             setSelectedMember('');
-            setSelectedTime('');
+            setSelectedTime(Number.NaN);
 
         }
-    }, [setAssignees, selectedMember, selectedTime])
+    }, [selectedMember, selectedTime, onNew])
 
     const removeAssignee = useCallback((member: string) => {
-        setAssignees((state: any) => state.filter((r: any) => r.user !== member));
-    }, [setAssignees])
+        onDelete(member);
+    }, [onDelete])
 
     return (
         <>
@@ -78,9 +84,7 @@ export default function AssigneesForm({ assignees, setAssignees, members }: Prop
                                 ))
                             }
                         </select>
-                        <div className="time-field">
-                            <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
-                        </div>
+                        <TimeInput onChange={value => setSelectedTime(value)} />
                         <Button type="submit" onClick={addAssignee} className="Expanded">
                             Add the assignee
                         </Button>

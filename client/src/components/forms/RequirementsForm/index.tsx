@@ -6,20 +6,22 @@ import { TaskRequirement } from 'adapters/task';
 import { PossibleRole } from 'components/forms/TaskForm';
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
+import TimeInput from 'components/ui/TimeInput'
 
 import './requirements-form.scss';
 
 interface Props {
     roles: PossibleRole[],
     requirements: TaskRequirement[],
-    setRequirements: Function
+    onNew: (req: TaskRequirement) => any,
+    onDelete: (req: string) => any
 }
 
-export default function RequirementsForm({ roles, requirements, setRequirements }: Props) {
+export default function RequirementsForm({ roles, requirements, onNew, onDelete }: Props) {
     const [possibleRoles, setPossibleRoles] = useState<PossibleRole[]>([]);
     const [addNew, setAddNew] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedTime, setSelectedTime] = useState(Number.NaN);
 
     useEffect(() => {
         setPossibleRoles(roles.filter(role => !requirements.find(r => r.role === role.id)));
@@ -27,17 +29,20 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
 
     const addRequirement = useCallback((e) => {
         e.preventDefault();
-        if (selectedTime && selectedRole) {
-            setRequirements((state: any) => [...state, { role: selectedRole, time: selectedTime }]);
+        if (!Number.isNaN(selectedTime) && selectedRole) {
+            onNew({
+                role: selectedRole,
+                time: selectedTime * 60,
+            });
             setAddNew(false);
             setSelectedRole('');
-            setSelectedTime('');
+            setSelectedTime(Number.NaN);
         }
-    }, [selectedRole, selectedTime, setRequirements])
+    }, [selectedRole, selectedTime, onNew])
 
     const removeRequirement = useCallback((role: string) => {
-        setRequirements((state: any) => state.filter((r: any) => r.role !== role));
-    }, [setRequirements])
+        onDelete(role);
+    }, [onDelete])
 
     return (
         <>
@@ -75,14 +80,11 @@ export default function RequirementsForm({ roles, requirements, setRequirements 
                                 ))
                             }
                         </select>
-                        <div className="time-field">
-                            <input type="number" min={1} onChange={(e) => setSelectedTime(e.target.value)} />
-                        </div>
+                        <TimeInput onChange={value => setSelectedTime(value)} />
                         <Button type="submit" onClick={addRequirement} className="expanded">
                             Create new requirement
                         </Button>
                     </Popup>
-
                 )
             }
         </>
