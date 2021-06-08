@@ -7,7 +7,7 @@ import { generateAuthToken } from './auth';
 const request = supertest(api);
 
 describe('GET /user/name', () => {
-    test('non existant username returns', async () => {
+    test('non existent username returns', async () => {
         const response = await request.get('/v1/user/name/User3');
         expect(response.status).toEqual(404);
         expect(response.body.status).toEqual('error');

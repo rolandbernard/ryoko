@@ -210,7 +210,7 @@ describe('GET /project/:uuid/work', () => {
         expect(resp.body.work.length).toEqual(3);
     });
 
-    test('containt all finished work information', async () => {
+    test('contains all finished work information', async () => {
         const resp = await request
             .get('/v1/project/00000000-0000-4000-8000-000000000002/work')
             .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
@@ -232,7 +232,7 @@ describe('GET /project/:uuid/work', () => {
         });
     });
 
-    test('containt all unfinished work information', async () => {
+    test('contains all unfinished work information', async () => {
         const resp = await request
             .get('/v1/project/00000000-0000-4000-8000-000000000002/work')
             .set('Authorization', `Bearer ${await generateAuthToken('00000000-0000-4000-8000-000000000000')}`);
