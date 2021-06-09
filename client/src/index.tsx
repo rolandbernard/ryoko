@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 
 import App from 'App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
 
 import 'index.scss';
 
@@ -27,6 +26,7 @@ export function reload() {
 
 render();
 
-serviceWorkerRegistration.register();
-reportWebVitals();
+serviceWorkerRegistration.register({ onUpdate: registration => {
+    registration.waiting?.postMessage({type: 'SKIP_WAITING'});
+}});
 
