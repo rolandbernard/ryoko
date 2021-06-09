@@ -55,5 +55,18 @@
             width: calc(33.3% - 24px);
         }
     }
+
+    @include mx.breakpoint(large) {
+        padding: 30px 90px;
+        margin: -30px -90px;
+
+        .prev-button {
+            left: 70px;
+        }
+
+        .next-button {
+            right: 70px;
+        }
+    }
 }
 
