@@ -3,7 +3,7 @@
 
 .comment-container {
     position: relative;
-    background: rgba(s.$white, 0.95);
+    background: rgba(s.$background-white-rgb, 0.95);
     box-shadow: 0 0 25px rgba(s.$black, 0.1);
     border-radius: 25px;
     margin-top: 10px;
@@ -67,7 +67,7 @@
 
     textarea {
         transition: none;
-        background: s.$light;
+        background: s.$background-light;
         border: none;
         border-radius: 25px;
         width: 100%;

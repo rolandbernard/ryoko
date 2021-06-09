@@ -26,6 +26,11 @@ export function reload() {
 
 render();
 
+if (localStorage.getItem('selected-theme') === 'dark') {
+    const root = document.getElementsByTagName('html')[0];
+    root.classList.add('dark-theme');
+}
+
 serviceWorkerRegistration.register({ onUpdate: registration => {
     registration.waiting?.postMessage({type: 'SKIP_WAITING'});
 }});

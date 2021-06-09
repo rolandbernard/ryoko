@@ -38,6 +38,17 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
         history.push('/login');
     }
 
+    const changeTheme = () => {
+        const root = document.getElementsByTagName('html')[0];
+        if (root.classList.contains('dark-theme')) {
+            root.classList.remove('dark-theme');
+            localStorage.setItem('selected-theme', 'light');
+        } else {
+            root.classList.add('dark-theme');
+            localStorage.setItem('selected-theme', 'dark');
+        }
+    }
+
     return (
         <aside className={'site-aside' + (mobileShown ? ' shown' : '')}>
             <div className="top">
@@ -60,6 +71,14 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                         </span>
                         Settings
                     </NavLink>
+                </nav>
+                <nav className="secondary-nav">
+                    <button className="nav-link" onClick={changeTheme}>
+                        <span className="icon material-icons-outlined">
+                            dark_mode
+                        </span>
+                        Change theme
+                    </button>
                     <button className="nav-link" onClick={logout}>
                         <span className="icon material-icons-outlined">
                             logout

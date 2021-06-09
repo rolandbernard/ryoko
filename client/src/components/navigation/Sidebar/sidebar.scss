@@ -10,7 +10,7 @@
     bottom: 0;
     max-width: 340px;
     width: 100%;
-    background: s.$dark;
+    background: s.$background-dark;
     z-index: 2000;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -99,7 +99,7 @@
             left: 0;
             height: 2px;
             width: 40px;
-            background: rgba(s.$white, 0.1);
+            background: rgba(s.$background-white-rgb, 0.05);
 
         }
 
@@ -121,6 +121,7 @@
 
     .secondary-nav {
         display: block;
+        margin-bottom: 24px;
 
         .nav-link {
             font-size: fn.toRem(18);
@@ -148,7 +149,7 @@
             }
 
             .bar {
-                background: s.$white;
+                background: s.$background-white;
             }
         }
     }
