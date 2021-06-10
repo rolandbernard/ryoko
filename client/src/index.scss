@@ -4,18 +4,62 @@
 @use 'styles/functions' as fn;
 
 :root {
+    &::before {
+        display: none;
+        content: 'light';
+    }
+
     @each $key, $value in s.$light-colors {
         --#{$key}: #{$value};
     }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}-rgb: #{red($value), green($value), blue($value)};
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        &::before {
+            display: none;
+            content: 'dark';
+        }
+
+        @each $key, $value in s.$dark-colors {
+            --#{$key}: #{$value};
+        }
+
+        @each $key, $value in s.$dark-colors {
+            --#{$key}-rgb: #{red($value), green($value), blue($value)};
+        }
+    }
+}
+
+:root.light-theme {
+    &::before {
+        display: none;
+        content: 'light';
+    }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}: #{$value};
+    }
+
     @each $key, $value in s.$light-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
 
 :root.dark-theme {
+    &::before {
+        display: none;
+        content: 'dark';
+    }
+
     @each $key, $value in s.$dark-colors {
         --#{$key}: #{$value};
     }
+
     @each $key, $value in s.$dark-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }

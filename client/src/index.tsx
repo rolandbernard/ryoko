@@ -9,25 +9,30 @@ import 'index.scss';
 
 serviceWorkerRegistration.register();
 
+const root = document.getElementsByTagName('html')[0];
+
 export function getTheme() {
-    const root = document.getElementsByTagName('html')[0];
     return root.classList.contains('dark-theme') ? 'dark' : 'light';
 }
 
 export function toggleTheme() {
-    const root = document.getElementsByTagName('html')[0];
-    if (root.classList.contains('dark-theme')) {
+    const current = getComputedStyle(root, '::before').getPropertyValue('content');
+    if (current === '"dark"') {
         root.classList.remove('dark-theme');
+        root.classList.add('light-theme');
         localStorage.setItem('selected-theme', 'light');
     } else {
+        root.classList.remove('light-theme');
         root.classList.add('dark-theme');
         localStorage.setItem('selected-theme', 'dark');
     }
 }
 
-if (localStorage.getItem('selected-theme') === 'dark') {
-    const root = document.getElementsByTagName('html')[0];
+const lastTheme = localStorage.getItem('selected-theme');
+if (lastTheme === 'dark') {
     root.classList.add('dark-theme');
+} else if (lastTheme === 'light') {
+    root.classList.add('light-theme');
 }
 
 function render() {
