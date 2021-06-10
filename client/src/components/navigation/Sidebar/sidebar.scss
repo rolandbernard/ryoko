@@ -145,11 +145,12 @@
                 &:before,
                 &:after {
                     opacity: 0.15;
+                    background: s.$white;
                 }
             }
 
             .bar {
-                background: s.$background-white;
+                background: s.$white;
             }
         }
     }
