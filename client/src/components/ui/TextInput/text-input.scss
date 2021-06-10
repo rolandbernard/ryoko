@@ -52,7 +52,7 @@
             color: s.$text;
             font-weight: s.$weight-regular;
             font-family: s.$body-font;
-            background: rgba(s.$black, 0.025);
+            background: s.$background-input;
         }
     }
 

@@ -50,7 +50,8 @@ form {
     }
 
     select,
-    input {
+    input,
+    textarea {
         width: 100%;
         font-size: 16px;
         border: none;
@@ -63,7 +64,7 @@ form {
         color: s.$text;
         font-weight: s.$weight-regular;
         font-family: s.$body-font;
-        background: rgba(s.$black, 0.025);
+        background: s.$background-input;
     }
 
     h2 {

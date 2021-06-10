@@ -1,10 +1,13 @@
 
+@use 'styles/settings' as s;
+
 .task-form {
     .emoji-mart {
         width: 100% !important;
         height: 340px;
         border-radius: 15px;
         overflow: hidden;
+        background: s.$background-white;
 
         .emoji-mart-scroll {
             height: 247.5px;
@@ -16,6 +19,15 @@
 
         .emoji-mart-emoji span {
             cursor: pointer;
+        }
+
+        .emoji-mart-category-label span {
+            background: rgba(s.$background-white-rgb, 0.95);
+            color: s.$text;
+        }
+
+        .emoji-mart-category .emoji-mart-emoji:hover::before {
+            background: s.$background-input;
         }
     }
 

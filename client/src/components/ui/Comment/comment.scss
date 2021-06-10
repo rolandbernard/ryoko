@@ -67,7 +67,7 @@
 
     textarea {
         transition: none;
-        background: s.$background-light;
+        background: s.$background-input;
         border: none;
         border-radius: 25px;
         width: 100%;
@@ -79,6 +79,7 @@
         resize: vertical;
         outline: none;
         min-height: 150px;
+        color: s.$text;
     }
 
     .buttons {

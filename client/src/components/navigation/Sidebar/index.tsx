@@ -2,9 +2,10 @@
 import { NavLink, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { subtractTime } from 'timely';
+import { getTheme, toggleTheme } from 'index';
 import { clearToken, isLoggedIn } from 'adapters/auth';
 import { getCurrentUser, getUserActivity, User } from 'adapters/user';
-import { subtractTime } from 'timely';
 
 import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
@@ -21,6 +22,7 @@ interface Props {
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
     const [activity, setActivity] = useState<ChartItem[]>();
+    const [theme, setTheme] = useState(getTheme());
 
     useEffect(() => {
         if (isLoggedIn()) {
@@ -39,14 +41,8 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     }
 
     const changeTheme = () => {
-        const root = document.getElementsByTagName('html')[0];
-        if (root.classList.contains('dark-theme')) {
-            root.classList.remove('dark-theme');
-            localStorage.setItem('selected-theme', 'light');
-        } else {
-            root.classList.add('dark-theme');
-            localStorage.setItem('selected-theme', 'dark');
-        }
+        toggleTheme();
+        setTheme(getTheme());
     }
 
     return (
@@ -75,7 +71,7 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                 <nav className="secondary-nav">
                     <button className="nav-link" onClick={changeTheme}>
                         <span className="icon material-icons-outlined">
-                            dark_mode
+                            {theme + '_mode'}
                         </span>
                         Change theme
                     </button>

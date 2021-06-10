@@ -1,5 +1,8 @@
 
+@use 'styles/settings.scss' as s;
+
 .time-field {
+    position: relative;
     margin: 20px 0;
     display: flex;
     align-items: baseline;
@@ -11,6 +14,32 @@
         min-width: 64px;
         white-space: nowrap;
         text-align: center;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+
+    label {
+        &:after {
+            content: ' *';
+            color: s.$primary;
+        }
+
+        font-size: 16px;
+        position: absolute;
+        left: 20px;
+        font-weight: s.$weight-bold;
+        z-index: 20;
+        transform: translateY(-50%);
     }
 }
 

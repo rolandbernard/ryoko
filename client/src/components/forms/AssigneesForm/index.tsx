@@ -85,7 +85,7 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
                             }
                         </select>
                         <TimeInput onChange={value => setSelectedTime(value)} />
-                        <Button type="submit" onClick={addAssignee} className="Expanded">
+                        <Button type="submit" onClick={addAssignee} className="expanded">
                             Add the assignee
                         </Button>
                     </Popup>
