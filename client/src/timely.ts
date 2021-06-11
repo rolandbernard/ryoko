@@ -13,22 +13,32 @@ const UNITS = {
 
 type Unit = (keyof typeof UNITS);
 
-function formatAmount(amount: number, base: string): string {
-    amount = Math.floor(amount);
-    if (amount === 0) {
-        return 'zero ' + base + 's';
-    } else if (amount === 1) {
-        return 'one ' + base;
+function formatAmount(amount: number, base: string, short: boolean): string {
+    if (short) {
+        return Math.floor(amount) + base[0];
     } else {
-        return amount.toString() + ' ' + base + 's';
+        amount = Math.floor(amount);
+        if (amount === 0) {
+            return 'zero ' + base + 's';
+        } else if (amount === 1) {
+            return 'one ' + base;
+        } else {
+            return amount.toString() + ' ' + base + 's';
+        }
     }
 }
 
-export function formatDuration(millis: number, precision: Unit = 'minute'): string {
+export function formatDuration(millis: number, precision: Unit = 'minute', count = 1, short = false): string {
     if (millis >= UNITS[precision]) {
         for (const key of (Object.keys(UNITS) as Unit[])) {
             if (millis >= UNITS[key]) {
-                return formatAmount(millis / UNITS[key], key);
+                const rest = millis % UNITS[key];
+                const significant = formatAmount(millis / UNITS[key], key, short);
+                if (count <= 1 || rest < UNITS[precision]) {
+                    return significant;
+                } else {
+                    return significant + ' ' + formatDuration(rest, precision, count - 1, short);
+                }
             }
         }
     }
@@ -193,6 +203,10 @@ export function addTime(date: Date, time: number, unit: Unit): Date {
 
 export function subtractTime(date: Date, time: number, unit: Unit): Date {
     return addTime(date, -time, unit);
+}
+
+export function durationFor(time: number, unit: Unit): number {
+    return time * UNITS[unit];
 }
 
 export function durationBetween(from: Date, to: Date): number {

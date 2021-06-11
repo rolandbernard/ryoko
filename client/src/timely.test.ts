@@ -7,6 +7,7 @@ import {
     formatSimpleDuration,
     addTime,
     subtractTime,
+    durationFor,
 } from 'timely';
 
 test('simple duration format works as expected', () => {
@@ -382,5 +383,17 @@ test('in four months formats as expected', () => {
 test('in four years formats as expected', () => {
     expect(formatRelativeTime(new Date('2025-04-10T00:00:00'), new Date('2021-04-01T00:00:00')))
         .toEqual('in 4 years');
+});
+
+test('duration formatting can contain multiple units', () => {
+    expect(formatDuration(1.5 * 60 * 60 * 1000, 'minute', 2)).toEqual('one hour 30 minutes');
+});
+
+test('duration formatting can be short', () => {
+    expect(formatDuration(1.5 * 60 * 60 * 1000, 'minute', 2, true)).toEqual('1h 30m');
+});
+
+test('get duration from amount and unit', () => {
+    expect(durationFor(10, 'hour')).toEqual(10 * 60 * 60 * 1000);
 });
 

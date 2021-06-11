@@ -37,7 +37,7 @@
         bottom: 0;
         left: 0;
         transform: translateY(75%);
-        background: s.$white;
+        background: s.$background-white;
         z-index: 2000;
         border-radius: 5px;
         white-space: nowrap;
@@ -53,7 +53,7 @@
         .dropdown-item {
             padding: 10px 20px;
             display: block;
-            color: s.$body-color;
+            color: s.$text;
             border-radius: 5px;
             min-width: 100px;
 

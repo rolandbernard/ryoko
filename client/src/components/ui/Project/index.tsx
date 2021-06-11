@@ -64,15 +64,15 @@ export default function Project({ project, large, demo }: ProjectProps) {
 
     if (demo) {
         return (
-            <Link to={'/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
-                { content }
-            </Link>
-        );
-    } else {
-        return (
             <div className={'project ' + (large ? 'large' : '')}>
                 { content }
             </div>
+        );
+    } else {
+        return (
+            <Link to={'/projects/' + project.id} className={'project ' + (large ? 'large' : '')}>
+                { content }
+            </Link>
         );
     }
 }

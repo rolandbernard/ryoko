@@ -6,7 +6,7 @@
     flex-direction: column;
 
     .role-item {
-        background: s.$light;
+        background: s.$background-light;
         border-radius: 25px;
         font-size: 18px;
         width: 100%;
@@ -81,7 +81,7 @@
                 transform: translate(-50%, -50%);
                 width: 10px;
                 height: 10px;
-                background: s.$white;
+                background: s.$background-white;
                 border-radius: 50%;
                 opacity: 0;
                 transition: 300ms ease;

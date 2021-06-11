@@ -23,6 +23,8 @@
             outline: none;
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(s.$black, 0.05);
+            background: s.$background-white;
+            color: s.$text;
         }
         label {
             position: absolute;
