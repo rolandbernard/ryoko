@@ -34,7 +34,7 @@ export default function TimeInput({ onChange: userOnChange, initialTime }: Props
     return (
         <div className="time-field">
             <label htmlFor="time">Time in hours</label>
-            <input name="time" min={0} onChange={onChange} defaultValue={initialTime} />
+            <input autoComplete="off" name="time" min={0} onChange={onChange} defaultValue={initialTime} />
             <span className="formatted">{formatted}</span>
         </div>
     );
