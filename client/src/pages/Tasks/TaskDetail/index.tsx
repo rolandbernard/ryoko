@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
 import { getTeam } from 'adapters/team';
@@ -8,7 +8,7 @@ import { AssignedUser } from 'adapters/user';
 import { StatusColors } from 'adapters/common';
 import { getLoggedInUser } from 'adapters/auth';
 import { getProject, Project } from 'adapters/project';
-import { getTask, getTaskAssignees, Task, TaskAssignment } from 'adapters/task';
+import { getTask, getTaskAssignees, Task, updateTask } from 'adapters/task';
 
 import Tag from 'components/ui/Tag';
 import LongText from 'components/ui/LongText';
@@ -21,6 +21,7 @@ import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
 
 import './task-detail.scss';
+import AssignForm from 'components/forms/AssignForm';
 
 export interface Params {
     taskId: string;
@@ -31,11 +32,11 @@ export default function TaskDetail() {
     const [project, setProject] = useState<Project>();
     const [teamNames, setTeamNames] = useState<string[]>([]);
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
-    const [assignment, setAssignment] = useState<TaskAssignment>();
     const history = useHistory();
 
     const { taskId } = useParams<Params>();
     const userId = getLoggedInUser();
+    const assignment = task?.assigned.find(a => a.user === userId);
 
     useEffect(() => {
         getTask(taskId).then((task) => {
@@ -47,10 +48,29 @@ export default function TaskDetail() {
                         .map(team => team.name)
                 );
             });
-            getTaskAssignees(taskId).then(setAssignees);
-            setAssignment(task.assigned.find(a => a.user === userId))
         }).catch(() => {});
+        getTaskAssignees(taskId).then(setAssignees);
     }, [taskId, userId, history]);
+
+    const onAssign = useCallback((time: number) => {
+        const reloadData = () => {
+            getTask(taskId).then(setTask);
+            getTaskAssignees(taskId).then(setAssignees);
+        };
+        if (time > 0) {
+            updateTask(taskId, {
+                remove_assigned: [ userId ],
+                add_assigned: [{
+                    user: userId,
+                    time: time,
+                    finished: assignment?.finished ?? false,
+                }],
+            }).then(reloadData);
+        } else {
+            updateTask(taskId, { remove_assigned: [ userId ] })
+                .then(reloadData);
+        }
+    }, [taskId, userId, assignment]);
 
     if (task) {
         return (
@@ -80,6 +100,7 @@ export default function TaskDetail() {
                             </ButtonLink>
                         )
                     }
+                    <AssignForm onAssign={onAssign} initialTime={assignment && assignment.time} />
                     <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                         Edit
                     </ButtonLink>
