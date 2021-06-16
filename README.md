@@ -17,7 +17,11 @@ facilitates effective collaboration.
 
 ## Documentation
 
+* [Wireframes](docs/wireframes.md)
+* [Mockups](docs/mockups.md)
 * [Accessibility Report](docs/accessibility.md)
+* [User Documentation](docs/user-docs.md)
+* [API Documentation](docs/user-docs.md)
 
 ## Getting Started
 
