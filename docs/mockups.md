@@ -14,3 +14,4 @@ This document includes some of the mockups created during the design phase of th
 ![Tasks](images/mockups/tasks.png)
 ![Team](images/mockups/teams.png)
 ![Team stats](images/mockups/teams-stats.png)
+
