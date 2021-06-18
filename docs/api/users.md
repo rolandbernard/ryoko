@@ -88,7 +88,7 @@ interface Body {
         task: string;
         user: string;
         started: number;
-        finished: number;
+        finished?: number;
     }[];
 }
 ```

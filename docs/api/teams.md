@@ -1,6 +1,6 @@
 ## Teams
 
-### POST `team` [requires authentication]
+### POST `/team` [requires authentication]
 
 Create a new team with the given name. On successful creation the id of the new team will be
 returned.
@@ -22,7 +22,7 @@ interface Body {
 }
 ```
 
-### PUT `team/:uuid` [requires authentication]
+### PUT `/team/:uuid` [requires authentication]
 
 Update the team with the given id.
 
@@ -34,7 +34,7 @@ interface Body {
 }
 ```
 
-### GET `team/` [requires authentication]
+### GET `/team/` [requires authentication]
 
 Return all the teams the authenticated user is a member of.
 
@@ -51,7 +51,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid` [requires authentication]
+### GET `/team/:uuid` [requires authentication]
 
 Return the team with the given id. If the authenticated user is a member of the team, the role will
 also be included.
@@ -69,7 +69,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid/members` [requires authentication]
+### GET `/team/:uuid/members` [requires authentication]
 
 Get all the users that are members of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -92,7 +92,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid/roles` [requires authentication]
+### GET `/team/:uuid/roles` [requires authentication]
 
 Get all the roles of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -109,7 +109,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid/projects` [requires authentication]
+### GET `/team/:uuid/projects` [requires authentication]
 
 Get all the projects of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -130,7 +130,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid/work` [requires authentication]
+### GET `/team/:uuid/work` [requires authentication]
 
 Get all the work of members of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -145,12 +145,12 @@ interface Body {
         task: string;
         user: string;
         started: number;
-        finished: number;
+        finished?: number;
     }[];
 }
 ```
 
-### GET `team/:uuid/activity` [requires authentication]
+### GET `/team/:uuid/activity` [requires authentication]
 
 Get all the activity of members of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -167,7 +167,7 @@ interface Body {
 }
 ```
 
-### GET `team/:uuid/completion` [requires authentication]
+### GET `/team/:uuid/completion` [requires authentication]
 
 Get all the completion of all tasks in the projects of the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -186,7 +186,7 @@ interface Body {
 }
 ```
 
-### POST `team/:uuid/roles` [requires authentication]
+### POST `/team/:uuid/roles` [requires authentication]
 
 Create a new role in the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -199,7 +199,7 @@ interface Body {
 }
 ```
 
-### PUT `team/:teamid/roles/:roleid` [requires authentication]
+### PUT `/team/:teamid/roles/:roleid` [requires authentication]
 
 Update the role with the given role id in the team with the given team id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -212,13 +212,13 @@ interface Body {
 }
 ```
 
-### DELETE `team/:teamid/roles/:roleid` [requires authentication]
+### DELETE `/team/:teamid/roles/:roleid` [requires authentication]
 
 Delete the role with the given role id in the team with the given team id. This request will fail if
 any member of the team still has the given role.
 Only teams that the authenticated user is a member of are visible to this function.
 
-### POST `team/:uuid/members` [requires authentication]
+### POST `/team/:uuid/members` [requires authentication]
 
 Add a new members to the team with the given id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -232,7 +232,7 @@ interface Body {
 }
 ```
 
-### PUT `team/:teamid/members` [requires authentication]
+### PUT `/team/:teamid/members` [requires authentication]
 
 Update the member with the given user id in the team with the given team id.
 Only teams that the authenticated user is a member of are visible to this function.
@@ -246,12 +246,12 @@ interface Body {
 }
 ```
 
-### DELETE `team/:teamid/members/:roleid` [requires authentication]
+### DELETE `/team/:teamid/members/:roleid` [requires authentication]
 
 Remove the member with the given user id in the team with the given team id.
 Only teams that the authenticated user is a member of are visible to this function.
 
-### DELETE `team/:teamid/` [requires authentication]
+### DELETE `/team/:teamid/` [requires authentication]
 
 Cause the authenticated user to leave the team with the given id. This will not delete the team, and
 all other members are still members of the team.

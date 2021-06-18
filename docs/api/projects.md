@@ -111,12 +111,12 @@ interface Body {
         task: string,
         user: string,
         started: number,
-        finished: number,
+        finished?: number,
     }[];
 }
 ```
 
-### GET `/user/activity?since=X&to=X` [requires authentication]
+### GET `/project/activity?since=X&to=X` [requires authentication]
 
 Get the activity for tasks belonging to the project with the given id, if it is visible to the
 currently authenticated user.
@@ -152,7 +152,7 @@ interface Body {
 }
 ```
 
-### POST `team` [requires authentication]
+### POST `/project` [requires authentication]
 
 Create a new project with the given data. On successful creation the id of the new projects id will
 be returned.
@@ -161,7 +161,7 @@ be returned.
 
 ```typescript
 interface Body {
-    teams: Array<string>;
+    teams: string[];
     name: string;
     text: string;
     color: string;
@@ -178,7 +178,7 @@ interface Body {
 }
 ```
 
-### PUT `team/:uuid` [requires authentication]
+### PUT `/project/:uuid` [requires authentication]
 
 Update the project with the given id.
 
@@ -186,8 +186,8 @@ Update the project with the given id.
 
 ```typescript
 interface Body {
-    remove_teams?: Array<string>;
-    add_teams?: Array<string>;
+    remove_teams?: string[];
+    add_teams?: string[];
     name?: string;
     text?: string;
     color?: string;
