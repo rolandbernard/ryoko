@@ -1,4 +1,6 @@
 
+@use 'styles/settings.scss' as s;
+
 .markdown {
     font-size: 1rem;
     line-height: 150%;
@@ -9,7 +11,7 @@
 
 .md-header-1, .md-header-2 {
     padding-bottom: 0.1rem;
-    border-bottom: 1px solid #00000015;
+    border-bottom: 1px solid rgba(s.$black, 0.1);
 }
 
 .md-header-1 {
@@ -59,8 +61,8 @@
     display: flex;
     flex-flow: row nowrap;
     overflow-x: auto;
-    color: #abb2bf;
-    background: #282c34;
+    color: #bbc2cf;
+    background: s.$background-dark;
 }
 
 .md-code .md-code-content {
@@ -72,7 +74,7 @@
     display: flex;
     flex-flow: column;
     padding: 1rem 0.5rem;
-    border-right: 1px solid #ffffff20;
+    border-right: 1px solid rgba(s.$white, 0.15);
     user-select: none;
     text-align: right;
 }
@@ -83,7 +85,7 @@
 }
 
 .md-inline-code  {
-    background: #00000010;
+    background: rgba(s.$black, 0.05);
     padding: 0.1rem 0.25rem;
     border-radius: 4px;
     font-family: 'IBM Plex Mono', monospace;
@@ -92,12 +94,12 @@
 }
 
 .md-quote {
-    border-left: 0.25rem solid #00000018;
+    border-left: 0.25rem solid rgba(s.$black, 0.1);
     padding-left: 1.25rem;
 }
 
 .md-hrule {
-    border: 0.125rem solid #00000018;
+    border: 0.125rem solid rgba(s.$black, 0.1);
     height: 0;
 }
 
@@ -156,7 +158,7 @@ li > span > .md-paragraph {
 
 .md-table, .md-table-row, .md-table-data, .md-table-header {
     border-collapse: collapse;
-    border: 1px solid #00000018;
+    border: 1px solid rgba(s.$black, 0.1);
 }
 
 .md-table-data, .md-table-header {
@@ -165,11 +167,11 @@ li > span > .md-paragraph {
 
 .md-table-header {
     font-weight: 500;
-    background: #0000000a;
+    background: s.$background-input;
 }
 
 .md-table-row:nth-child(odd) {
-    background: #00000005;
+    background: rgba(s.$background-input-rgb, 0.5);
 }
 
 .md-info-wrap {

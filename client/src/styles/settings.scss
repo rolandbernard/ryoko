@@ -1,26 +1,56 @@
 
-// Colors
+$light-colors: (
+    'primary': #AC42FF,
+    'primary-dark': #930AFF,
+    'secondary': #7DEFFF,
+    'red': #E51C4A,
+    'background-dark': #11061A,
+    'background-light': #f9f9f9,
+    'background-white': #ffffff,
+    'background-input': #f4f4f4,
+    'background': #EEF5F5,
+    'text': #3A5255,
+);
+
+$dark-colors: (
+    'primary': #AC42FF,
+    'primary-dark': #930AFF,
+    'secondary': #7DEFFF,
+    'red': #E51C4A,
+    'background-dark': #000000,
+    'background-light': #090909,
+    'background-white': #151515,
+    'background-input': #181818,
+    'background': #0a0a0a,
+    'text': #eAe2e5,
+);
+
 $primary: var(--primary);
 $primary-dark: var(--primary-dark);
-$secondary: #7DEFFF;
-$red: #E51C4A;
-$light: #F9F9F9;
-$dark: #11061A;
+$secondary: var(--secondary);
+$red: var(--red);
+$background: var(--background);
+$background-dark: var(--background-dark);
+$background-light: var(--background-light);
+$background-white: var(--background-white);
+$background-input: var(--background-input);
+$text: var(--text);
 
-$light-gray: #F8F8F8;
-$gray: #F9F9F9;
+$primary-rgb: var(--primary-rgb);
+$primary-dark-rgb: var(--primary-dark-rgb);
+$secondary-rgb: var(--secondary-rgb);
+$red-rgb: var(--red-rgb);
+$background-rgb: var(--background-rgb);
+$background-dark-rgb: var(--background-dark-rgb);
+$background-light-rgb: var(--background-light-rgb);
+$background-white-rgb: var(--background-white-rgb);
+$background-input-rgb: var(--background-input-rgb);
+$text-rgb: var(--text-rgb);
 
 $white: #fff;
 $black: #000;
 
 $error-color: $secondary;
-
-$colors: (
-   'primary': $primary,
-   'secondary': $secondary,
-   'light': $light,
-   'dark': $dark,
-);
 
 $themeDarkMap: (
     'red': #e61e4d,
@@ -46,9 +76,6 @@ $linear-gradient: linear-gradient(to bottom, $primary, $primary-dark);
 $linear-gradient-horizontal: linear-gradient(to right, $primary, $primary-dark);
 $radial-gradient: radial-gradient(100% 115% at 0% 0%, $primary 0%, $primary-dark 100%);
 
-$body-color: #3A5255;
-$body-font: 'Poppins', sans-serif;
-
 // Typography
 $weight-light: 300;
 $weight-regular: 400;
@@ -56,6 +83,8 @@ $weight-medium: 500;
 $weight-semi-bold: 600;
 $weight-bold: 700;
 $weight-xbold: 800;
+
+$body-font: 'Poppins', sans-serif;
 
 // Breakpoints
 $breakpoints: (

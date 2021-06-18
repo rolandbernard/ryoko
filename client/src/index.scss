@@ -4,8 +4,65 @@
 @use 'styles/functions' as fn;
 
 :root {
-    --primary: #AC42FF;
-    --primary-dark: #930AFF;
+    &::before {
+        display: none;
+        content: 'light';
+    }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}: #{$value};
+    }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}-rgb: #{red($value), green($value), blue($value)};
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        &::before {
+            display: none;
+            content: 'dark';
+        }
+
+        @each $key, $value in s.$dark-colors {
+            --#{$key}: #{$value};
+        }
+
+        @each $key, $value in s.$dark-colors {
+            --#{$key}-rgb: #{red($value), green($value), blue($value)};
+        }
+    }
+}
+
+:root.light-theme {
+    &::before {
+        display: none;
+        content: 'light';
+    }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}: #{$value};
+    }
+
+    @each $key, $value in s.$light-colors {
+        --#{$key}-rgb: #{red($value), green($value), blue($value)};
+    }
+}
+
+:root.dark-theme {
+    &::before {
+        display: none;
+        content: 'dark';
+    }
+
+    @each $key, $value in s.$dark-colors {
+        --#{$key}: #{$value};
+    }
+
+    @each $key, $value in s.$dark-colors {
+        --#{$key}-rgb: #{red($value), green($value), blue($value)};
+    }
 }
 
 * {
@@ -21,9 +78,9 @@ html {
 }
 
 body {
-    color: s.$body-color;
+    color: s.$text;
     position: relative;
-    background: #EEF5F5;
+    background: s.$background;
 }
 
 button {
@@ -173,7 +230,7 @@ $color in s.$themeLightMap {
     font-size: 30px;
     height: 84px;
     cursor: pointer;
-    color: s.$body-color;
+    color: s.$text;
     user-select: none;
 }
 

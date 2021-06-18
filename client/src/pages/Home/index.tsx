@@ -19,7 +19,7 @@ export default function Home(): JSX.Element {
                 <div className="hero-container">
                     <header>
                         <a href="index.html">
-                            <img src={Logo} alt="Logo" width="100" height="35" />
+                            <img src={Logo} alt="Go home" width="100" height="35" />
                         </a>
                         <nav>
                             <a href="#hero">Home</a>
@@ -137,7 +137,7 @@ export default function Home(): JSX.Element {
                     <div className="team-list">
                         <div className="team-member">
                             <img className="team-member-image" src={ImageDaniel} width="200" height="200"
-                                alt="Daniel Planötscher" />
+                                alt="" />
                             <div className="team-member-info">
                                 <div className="team-member-title">Web Developer</div>
                                 <h3 className="team-member-name">Daniel Planötscher</h3>
@@ -153,7 +153,7 @@ export default function Home(): JSX.Element {
                         </div>
                         <div className="team-member">
                             <img className="team-member-image" src={ImageRoland} width="200" height="200"
-                                alt="Roland Bernard" />
+                                alt="" />
                             <div className="team-member-info">
                                 <div className="team-member-title">Software Engineer</div>
                                 <h3 className="team-member-name">Roland Bernard</h3>
@@ -202,7 +202,7 @@ export default function Home(): JSX.Element {
             <footer>
                 <div className="content-container footer-container">
                     <div className="footer-copyright">
-                    <img src={Logo} className="logo" alt="Logo" width="70" height="24" />
+                    <img src={Logo} className="logo" alt="" width="70" height="24" />
                     <p>
                         &copy; <a href="index.html">ryoko</a>, 2021
                     </p>

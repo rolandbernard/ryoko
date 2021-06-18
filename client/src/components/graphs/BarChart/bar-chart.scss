@@ -5,7 +5,7 @@
     height: 180px;
     width: 100%;
     padding: 50px;
-    background: s.$white;
+    background: s.$background-white;
     border-radius: 10px;
 
     .error-screen {
@@ -30,7 +30,7 @@
             bottom: 0;
             left: 0;
             height: 24px;
-            background: s.$light;
+            background: s.$background-light;
             width: 100%;
             z-index: 0;
             border-radius: 5px;
@@ -47,7 +47,7 @@
             transform: translate(-50%, -75%);
             padding: 10px;
             background: s.$white;
-            color: s.$body-color;
+            color: s.$black;
             border-radius: 5px;
             display: block;
             visibility: hidden;

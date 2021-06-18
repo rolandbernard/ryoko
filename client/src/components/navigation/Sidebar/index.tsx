@@ -2,9 +2,10 @@
 import { NavLink, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { subtractTime } from 'timely';
+import { getTheme, toggleTheme } from 'index';
 import { clearToken, isLoggedIn } from 'adapters/auth';
 import { getCurrentUser, getUserActivity, User } from 'adapters/user';
-import { subtractTime } from 'timely';
 
 import Navigation from 'components/navigation/Navigation';
 import Avatar from 'components/ui/Avatar';
@@ -21,6 +22,7 @@ interface Props {
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
     const [activity, setActivity] = useState<ChartItem[]>();
+    const [theme, setTheme] = useState(getTheme());
 
     useEffect(() => {
         if (isLoggedIn()) {
@@ -36,6 +38,11 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const logout = () => {
         clearToken();
         history.push('/login');
+    }
+
+    const changeTheme = () => {
+        toggleTheme();
+        setTheme(getTheme());
     }
 
     return (
@@ -60,6 +67,14 @@ export default function Sidebar({ mobileShown, setMobileShown }: Props) {
                         </span>
                         Settings
                     </NavLink>
+                </nav>
+                <nav className="secondary-nav">
+                    <button className="nav-link" onClick={changeTheme}>
+                        <span className="icon material-icons-outlined">
+                            {theme + '_mode'}
+                        </span>
+                        Change theme
+                    </button>
                     <button className="nav-link" onClick={logout}>
                         <span className="icon material-icons-outlined">
                             logout

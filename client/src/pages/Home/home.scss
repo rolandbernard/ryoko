@@ -54,7 +54,7 @@
             display: flex;
 
             a {
-                color: s.$body-color;
+                color: s.$text;
                 font-weight: s.$weight-bold;
                 margin-left: 40px;
                 display: none;
@@ -156,7 +156,7 @@
                         width: 100%;
                         border: 7px solid #303030;
                         border-radius: 25px;
-                        box-shadow: 0 0 40px rgba(0, 0, 0, .15);
+                        box-shadow: 0 0 40px rgba(s.$black, 0.15);
 
                         @include mx.breakpoint(medium) {
                             border-width: 10px;
@@ -206,7 +206,7 @@
             grid-gap: 24px;
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, .5);
+            background: rgba(s.$background-white-rgb, 0.5);
             border-radius: 25px;
             padding: 24px;
 
@@ -272,11 +272,11 @@
                 @keyframes move-up {
                     5%, 35% {
                         transform: translateY(0);
-                        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.05);
+                        box-shadow: 0px 5px 25px rgba(s.$black, 0.05);
                     }
                     10%, 30% {
                         transform: translateY(-10px);
-                        box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.15);
+                        box-shadow: 0px 5px 30px rgba(s.$black, 0.15);
                     }
                 }
 

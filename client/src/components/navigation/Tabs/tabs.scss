@@ -4,7 +4,7 @@
 .tabs-container {
     display: flex;
     justify-content: space-between;
-    background: rgba(s.$white, 0.25);
+    background: rgba(s.$background-white-rgb, 0.25);
     border-radius: 15px;
     margin-top: 30px;
     position: relative;
@@ -15,7 +15,7 @@
         align-items: center;
         width: calc(50% - 20px);
         height: 50px;
-        color: s.$body-color;
+        color: s.$text;
         font-weight: s.$weight-semi-bold;
         font-size: 14px;
         position: relative;
@@ -63,7 +63,7 @@
     .background {
         position: absolute;
         height: 100%;
-        background: s.$white;
+        background: s.$background-white;
         z-index: 0;
         top: 0;
         left: 0;

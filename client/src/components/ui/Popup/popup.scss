@@ -17,17 +17,15 @@
         animation: moveup 300ms ease;
         max-height: 100vh;
         overflow: auto;
-        padding: 30px;
+        padding: 50px;
         max-width: 960px;
-        background: s.$white;
+        background: s.$background-white;
         border-radius: 25px;
         position: relative;
         z-index: 2;
 
         @include mx.breakpoint(medium) {
             margin: -20px 0;
-            width: 50%;
-            padding: 15px;
             padding: 75px 100px;
         }
     }

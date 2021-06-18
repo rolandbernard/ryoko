@@ -1,4 +1,5 @@
 
+@use 'styles/settings' as s;
 @use 'styles/mixins' as mx;
 
 body {
@@ -12,7 +13,7 @@ body {
     max-width: 1540px;
     min-height: 100vh;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(s.$background-white-rgb, 0.5);
     padding-bottom: 80px;
 
     @include mx.breakpoint(xlarge) {

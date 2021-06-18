@@ -1,20 +1,21 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/mixins.scss'as mx;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/mixins.scss' as mx;
 
 .task {
     padding: 30px;
     border-radius: 10px;
-    background: s.$white;
+    background: s.$background-white;
     width: 100%;
     box-shadow: 0 0px 20px rgba(s.$black, 0.05);
     display: block;
-    color: s.$body-color;
+    color: s.$text;
     font-weight: s.$weight-regular;
     position: relative;
 
     &:hover,
     &:focus {
-        color: s.$body-color;
+        color: s.$text;
         box-shadow: 0 5px 30px rgba(s.$black, 0.15);
         transform: translateY(-5px);
 
@@ -46,7 +47,7 @@
             margin-right: 15px;
             width: 50px;
             height: 50px;
-            background: s.$light-gray;
+            background: s.$background;
             display: flex;
             justify-content: center;
             align-items: center;
