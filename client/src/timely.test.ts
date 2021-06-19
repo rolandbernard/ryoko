@@ -94,11 +94,11 @@ test('ten months can be formatted as expected', () => {
     expect(formatDuration(10 * 30 * 24 * 60 * 60 * 1000)).toEqual('10 months');
 });
 
-test('one month can be formatted as expected', () => {
+test('one year can be formatted as expected', () => {
     expect(formatDuration(366 * 24 * 60 * 60 * 1000)).toEqual('one year');
 });
 
-test('ten months can be formatted as expected', () => {
+test('ten years can be formatted as expected', () => {
     expect(formatDuration(10 * 366 * 24 * 60 * 60 * 1000)).toEqual('10 years');
 });
 
