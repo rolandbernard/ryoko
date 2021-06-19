@@ -232,7 +232,7 @@ interface Body {
 
 ### POST `/task` [requires authentication]
 
-Create a new task with the given data. On successful creation the id of the new tasks id will
+Create a new task with the given data. On successful creation the id of the new tasks will
 be returned.
 
 #### Request body

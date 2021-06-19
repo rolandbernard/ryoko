@@ -154,7 +154,7 @@ interface Body {
 
 ### POST `/project` [requires authentication]
 
-Create a new project with the given data. On successful creation the id of the new projects id will
+Create a new project with the given data. On successful creation the id of the new projects will
 be returned.
 
 #### Request body
