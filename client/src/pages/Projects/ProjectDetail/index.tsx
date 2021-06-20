@@ -35,7 +35,7 @@ export default function ProjectDetail() {
             setTabs([
                 {
                     label: 'Details',
-                    route: '/projects/' + projectId,
+                    route: ['/projects/' + projectId, '/projects/' + projectId + '/stats/:time'],
                     component: <ProjectDetails project={project} />
                 },
                 {
