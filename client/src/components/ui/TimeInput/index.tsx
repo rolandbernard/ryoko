@@ -19,7 +19,7 @@ function getFormatted(hours: number) {
 }
 
 export default function TimeInput({ onChange: userOnChange, initialTime }: Props) {
-    const [formatted, setFormatted] = useState(initialTime ? getFormatted(initialTime) : '');
+    const [formatted, setFormatted] = useState(initialTime ? getFormatted(initialTime) : 'none');
 
     const onChange = useCallback(event => {
         const value = parseFloat(event.target.value);
@@ -27,7 +27,7 @@ export default function TimeInput({ onChange: userOnChange, initialTime }: Props
         if (!Number.isNaN(value)) {
             setFormatted(getFormatted(value));
         } else {
-            setFormatted('');
+            setFormatted('none');
         }
     }, [userOnChange]);
 
