@@ -16,9 +16,15 @@ export default function Intro() {
                 </div>
             </header>
             <div className="preview-images">
-                <img src={ProjectsImage} alt="Tasks preview" className="phone-image" />
-                <img src={TasksImage} alt="Tasks preview" className="phone-image" />
-                <img src={TeamsImage} alt="Tasks preview" className="phone-image" />
+                <div className="phone-image">
+                    <img src={ProjectsImage} alt="Tasks preview" />
+                </div>
+                <div className="phone-image">
+                    <img src={TasksImage} alt="Tasks preview" />
+                </div>
+                <div className="phone-image">
+                    <img src={TeamsImage} alt="Tasks preview" />
+                </div>
             </div>
         </section>
     )

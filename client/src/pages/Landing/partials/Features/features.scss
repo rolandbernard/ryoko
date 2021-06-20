@@ -5,15 +5,20 @@
     .features-section {
         h2 {
             text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        strong {
+            color: s.$primary;
         }
 
         .feature-list {
-            margin-top: 10px;
+            margin: -20px;
 
             @include mx.breakpoint(medium) {
                 display: flex;
                 justify-content: space-between;
-                margin: 10px -20px;
+                margin: -20px;
             }
         }
 
@@ -22,12 +27,18 @@
             background: s.$white;
             padding: 1.5rem 0;
             display: block;
+            padding: 30px;
             border-radius: 25px;
+            margin: 20px;
 
             @include mx.breakpoint(medium) {
                 padding: 40px;
-                margin: 20px;
                 width: calc(100% / 3 - 40px);
+            }
+
+            &:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 -5px 40px rgba(s.$black, 0.05);
             }
         }
 
@@ -41,11 +52,21 @@
             justify-content: center;
             align-items: center;
             border-radius: 15px;
-            margin-bottom: 40px;
-       }
+            margin-bottom: 20px;
+
+            @include mx.breakpoint(medium) {
+                margin-bottom: 40px;
+
+            }
+        }
 
         .feature-title {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+
+            @include mx.breakpoint(medium) {
+                margin-bottom: 20px;
+
+            }
         }
     }
 }

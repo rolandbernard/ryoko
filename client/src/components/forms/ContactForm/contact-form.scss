@@ -1,6 +1,5 @@
-
-@use 'styles/settings' as s;
-@use 'styles/mixins' as mx;
+@use 'styles/settings'as s;
+@use 'styles/mixins'as mx;
 
 .contact-form {
     .fields {
@@ -11,19 +10,12 @@
         &.textarea {
             width: 100%;
         }
-
-        .input-field {
-            input, textarea {
-                background-color: #ffffff20;
-                color: white;
-            }
-        }
     }
 
     .submit-button {
         appearance: none;
         border: none;
-        margin: 0.5rem;
+        margin: 0;
     }
 
     .button-container {
@@ -32,4 +24,3 @@
         justify-content: flex-end;
     }
 }
-
