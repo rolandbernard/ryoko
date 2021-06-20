@@ -1,0 +1,96 @@
+@use 'styles/mixins.scss'as mx;
+@use 'styles/settings.scss'as s;
+
+.landing-page {
+    .intro-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 60px;
+
+        @include mx.breakpoint(large) {
+            padding-top: 150px;
+        }
+
+        .heading-container {
+            text-align: center;
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 40px;
+
+            @include mx.breakpoint(large) {
+                margin-bottom: 80px;
+            }
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            
+            @include mx.breakpoint(medium) {
+                font-size: 36px;
+            }
+
+            @include mx.breakpoint(large) {
+                font-size: 64px;
+            }
+        }
+
+        .subtitle {
+            font-weight: s.$weight-semi-bold;
+            font-size: 16px;
+
+            @include mx.breakpoint(medium) {
+                font-size: 20px;
+            }
+
+            @include mx.breakpoint(large) {
+                font-size: 36px;
+            }
+
+        }
+
+        .preview-images {
+            @include mx.breakpoint(medium) {
+                display: flex;
+                align-items: flex-start;
+                margin: -20px;
+            }
+        }
+
+        .phone-image {
+            display: block;
+            border-radius: 25px;
+            border: 10px solid s.$text;
+            position: relative;
+            z-index: 0;
+
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                width: 25%;
+                height: 20px;
+                background: s.$text;
+                left: 50%;
+                top: 2px;
+                z-index: 2;
+                border-radius: 5px;
+                transform: translateX(-50%);
+            }
+
+            &:nth-child(2) {
+                margin-top: 100px;
+            }
+
+            @include mx.breakpoint(medium) {
+                width: calc(100% / 3 - 40px);
+                margin: 20px;
+            }
+        }
+        .button-container {
+            margin-top: 30px;
+        }
+    }
+}
