@@ -1,7 +1,6 @@
-
-@use 'styles/settings' as s;
-@use 'styles/mixins' as mx;
-@use 'styles/functions' as fn;
+@use 'styles/settings'as s;
+@use 'styles/mixins'as mx;
+@use 'styles/functions'as fn;
 
 :root {
     &::before {
@@ -9,11 +8,13 @@
         content: 'light';
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
@@ -25,11 +26,13 @@
             content: 'dark';
         }
 
-        @each $key, $value in s.$dark-colors {
+        @each $key,
+        $value in s.$dark-colors {
             --#{$key}: #{$value};
         }
 
-        @each $key, $value in s.$dark-colors {
+        @each $key,
+        $value in s.$dark-colors {
             --#{$key}-rgb: #{red($value), green($value), blue($value)};
         }
     }
@@ -41,11 +44,13 @@
         content: 'light';
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
@@ -56,11 +61,13 @@
         content: 'dark';
     }
 
-    @each $key, $value in s.$dark-colors {
+    @each $key,
+    $value in s.$dark-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$dark-colors {
+    @each $key,
+    $value in s.$dark-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
@@ -89,7 +96,8 @@ button {
     outline: none;
 }
 
-a, button {
+a,
+button {
     font-size: 1em;
     font-weight: s.$weight-semi-bold;
     color: s.$primary;
@@ -108,8 +116,12 @@ a, button {
     padding: 0 30px;
 }
 
-h1, h2, h3,
-h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: s.$weight-bold;
     line-height: 1.2;
 }
@@ -238,3 +250,15 @@ $color in s.$themeLightMap {
     user-select: none;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: s.$text;
+    border-radius: 5px;
+}
