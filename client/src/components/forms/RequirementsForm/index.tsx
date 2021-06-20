@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { TaskRequirement } from 'adapters/task';
+import { durationFor, formatDuration } from 'timely';
 
 import { PossibleRole } from 'components/forms/TaskForm';
 import Popup from 'components/ui/Popup';
@@ -52,7 +53,9 @@ export default function RequirementsForm({ roles, requirements, onNew, onDelete 
                     requirements.map((requirement) => (
                         <div className="requirement" key={requirement.role}>
                             <div>{roles.find(role => role.id === requirement.role)?.label}</div>
-                            <div>{requirement.time} min</div>
+                            <div>{
+                                formatDuration(durationFor(requirement.time, 'minute'), 'second', 2, true)
+                            }</div>
                             <div className="delete" onClick={() => removeRequirement(requirement.role)}>
                                 <span className="material-icons">
                                     clear

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { durationFor, formatDuration } from 'timely';
 import { getTeams, Team } from 'adapters/team';
 import { getPossibleTasks, Task } from 'adapters/task';
 import { getCurrentUser, getUserTasks, User } from 'adapters/user';
@@ -46,20 +47,18 @@ export default function Tasks() {
                             tasks.length > 0
                                 ? (
                                     <div className="tasks-list">
-                                        {
-                                            tasks
-                                                .map((task) => (
-                                                    <TaskComponent
-                                                        key={task.id}
-                                                        task={task}
-                                                        subtitle={
-                                                            task.assigned
-                                                                .find(assignee => assignee.user === user.id)?.time
-                                                            + ' min'
-                                                        }
-                                                    />
-                                                ))
-                                        }
+                                        {tasks.map((task) => {
+                                            const time = task.assigned.find(assignee => assignee.user === user.id)?.time ?? 0;
+                                            return (
+                                                <TaskComponent
+                                                    key={task.id}
+                                                    task={task}
+                                                    subtitle={
+                                                        formatDuration(durationFor(time, 'minute'), 'second', 2, true)
+                                                    }
+                                                />
+                                            )
+                                        })}
                                     </div>
                                 )
                                 : (<div className="task-error">No open tasks found</div>)

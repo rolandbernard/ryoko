@@ -1,5 +1,6 @@
 
 import { AssignedUser } from 'adapters/user';
+import { durationFor, formatDuration } from 'timely';
 
 import UserList from 'components/layout/UserList';
 import LoadingScreen from 'components/ui/LoadingScreen';
@@ -16,7 +17,9 @@ export default function TaskAssignees({ assignees }: Props) {
                     ? (
                         <UserList
                             users={assignees}
-                            info={user => user.time + " min"}
+                            info={user =>
+                                formatDuration(durationFor(user.time, 'minute'), 'second', 2, true)
+                            }
                         />
                     )
                     : <LoadingScreen />
