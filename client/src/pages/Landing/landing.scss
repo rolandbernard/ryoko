@@ -2,4 +2,11 @@
 @use 'styles/settings.scss'as s;
 
 .landing-page {
+    section:not(:first-child) {
+        margin: 80px auto;
+
+        @include mx.breakpoint(large) {
+            margin: 180px auto;
+        }
+    }
 }
