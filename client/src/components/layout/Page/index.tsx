@@ -1,8 +1,6 @@
 
 import { ReactNode } from 'react';
 
-import DynamicBackground from 'components/layout/DynamicBackground';
-
 import './page.scss';
 
 interface Props {
@@ -15,7 +13,6 @@ export default function Page({ children, className }: Props) {
         <main className={'page-container ' + (className ?? '')}>
             {children}
         </main>
-        <DynamicBackground />
     </>);
 }
 

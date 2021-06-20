@@ -1,0 +1,116 @@
+@use 'styles/mixins.scss'as mx;
+@use 'styles/settings.scss'as s;
+
+.landing-page {
+    .intro-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 60px;
+
+        @include mx.breakpoint(large) {
+            padding-top: 175px;
+        }
+
+        .heading-container {
+            text-align: center;
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 30px;
+
+            @include mx.breakpoint(large) {
+                margin-bottom: 60px;
+            }
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+
+            @include mx.breakpoint(medium) {
+                font-size: 36px;
+            }
+
+            @include mx.breakpoint(large) {
+                font-size: 64px;
+            }
+        }
+
+        .subtitle {
+            font-weight: s.$weight-semi-bold;
+            font-size: 16px;
+
+            @include mx.breakpoint(medium) {
+                font-size: 20px;
+            }
+
+            @include mx.breakpoint(large) {
+                font-size: 36px;
+            }
+
+        }
+
+        .preview-images {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .phone-image {
+            display: block;
+            border-radius: 25px;
+            position: relative;
+            z-index: 0;
+            box-shadow: 0 0 40px rgba(s.$black, 0.25);
+            overflow: hidden;
+            margin: 0 10px;
+            border: 10px solid s.$text;
+
+            img {
+                display: block;
+                width: 100%;
+            }
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                width: 25%;
+                background: s.$text;
+                left: 50%;
+                height: 10px;
+                top: -5px;
+                border-radius: 5px;
+                z-index: 2;
+                transform: translateX(-50%);
+
+                @include mx.breakpoint(medium) {
+                    height: 20px;
+                }
+            }
+
+            &:nth-child(2) {
+                @include mx.breakpoint(medium) {
+                    margin-top: 100px;
+                }
+            }
+
+            &:nth-child(odd) {
+                display: none;
+
+                @include mx.breakpoint(medium) {
+                    display: block
+                }
+            }
+
+
+            @include mx.breakpoint(medium) {
+                width: calc(100% / 3 - 60px);
+                margin: 0 30px;
+            }
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+    }
+}

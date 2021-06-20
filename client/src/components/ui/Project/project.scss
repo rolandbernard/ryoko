@@ -23,7 +23,7 @@
 
         svg {
             height: auto;
-            width: 50%;
+            width: 60%;
         }
     }
 
@@ -37,18 +37,16 @@
         height: 100%;
         position: absolute;
         top: 0;
+        margin-top: 5px;
         left: 0;
     }
 
     .title {
-        margin-top: 15px;
+        margin-top: 10px;
         line-height: 1.4;
         font-size: 16px;
+        text-align: center;
         font-weight: s.$weight-bold;
-
-        @include mx.breakpoint(large) {
-            font-size: 20px;
-        }
     }
 
     .info {

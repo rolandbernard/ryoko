@@ -13,7 +13,7 @@ body {
     max-width: 1540px;
     min-height: 100vh;
     margin: 0 auto;
-    background: rgba(s.$background-white-rgb, 0.5);
+    background: rgba(s.$background-white-rgb, 0.25);
     padding-bottom: 80px;
 
     @include mx.breakpoint(xlarge) {

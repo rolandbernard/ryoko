@@ -1,0 +1,16 @@
+@use 'styles/mixins.scss'as mx;
+@use 'styles/settings.scss'as s;
+
+.landing-page {
+    .contact-section {
+        .heading-container {
+            margin-bottom: 40px;
+            text-align: center;
+
+            @include mx.breakpoint(medium) {
+                margin-bottom: 60px;
+
+            }
+        }
+    }
+}
