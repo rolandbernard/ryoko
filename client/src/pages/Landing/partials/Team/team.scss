@@ -1,11 +1,13 @@
-@use 'styles/mixins.scss'as mx;
-@use 'styles/settings.scss'as s;
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
 
 .landing-page {
     .team-section {
         .heading-container {
             text-align: center;
         }
+
         .team-container {
             @include mx.breakpoint(large) {
                 display: flex;
@@ -48,3 +50,4 @@
         }
     }
 }
+

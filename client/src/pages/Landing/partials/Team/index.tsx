@@ -1,8 +1,11 @@
-import './team.scss';
-import React from 'react';
+
+import Tag from 'components/ui/Tag';
+
 import ImageRoland from 'images/roland-bernard.jpg';
 import ImageDaniel from 'images/daniel-planoetscher.jpg';
-import Tag from 'components/ui/Tag';
+
+import './team.scss';
+
 export default function Team() {
     return (
         <section className="team-section content-container">
@@ -15,8 +18,12 @@ export default function Team() {
             </header>
             <div className="team-list">
                 <div className="team-member">
-                    <img className="team-member-image" src={ImageDaniel} width="200" height="200"
-                        alt="" />
+                    <img
+                        className="team-member-image"
+                        src={ImageDaniel}
+                        width="200" height="200"
+                        alt=""
+                    />
                     <div className="team-member-info">
                         <Tag label="Web Developer" color="purple" />
                         <h3 className="team-member-name">Daniel Planötscher</h3>
@@ -31,8 +38,12 @@ export default function Team() {
                     </div>
                 </div>
                 <div className="team-member">
-                    <img className="team-member-image" src={ImageRoland} width="200" height="200"
-                        alt="" />
+                    <img
+                        className="team-member-image"
+                        src={ImageRoland}
+                        width="200" height="200"
+                        alt=""
+                    />
                     <div className="team-member-info">
                         <Tag label="Software Engineer" color="purple" />
                         <h3 className="team-member-name">Roland Bernard</h3>
@@ -50,3 +61,4 @@ export default function Team() {
         </section>
     )
 }
+

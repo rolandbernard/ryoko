@@ -1,9 +1,11 @@
-import React from 'react'
-import './intro.scss';
+
+import ButtonLink from 'components/navigation/ButtonLink';
+
 import TasksImage from 'images/preview/tasks.jpg';
 import TeamsImage from 'images/preview/teams.jpg';
 import ProjectsImage from 'images/preview/projects.jpg';
-import ButtonLink from 'components/navigation/ButtonLink';
+
+import './intro.scss';
 
 export default function Intro() {
     return (
@@ -29,3 +31,4 @@ export default function Intro() {
         </section>
     )
 }
+

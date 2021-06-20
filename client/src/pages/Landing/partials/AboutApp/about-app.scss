@@ -1,5 +1,6 @@
-@use 'styles/mixins.scss'as mx;
-@use 'styles/settings.scss'as s;
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
 
 .landing-page {
     .about-app-section {
@@ -74,21 +75,17 @@
                 animation: move-up 9s ease-in infinite;
 
                 @keyframes move-up {
-
-                    5%,
-                    35% {
+                    5%, 35% {
                         transform: translateY(0);
                         box-shadow: 0px 5px 25px rgba(s.$black, 0.05);
                     }
-
-                    10%,
-                    30% {
+                    10%, 30% {
                         transform: translateY(-10px);
                         box-shadow: 0px 5px 30px rgba(s.$black, 0.15);
                     }
                 }
-
             }
         }
     }
 }
+

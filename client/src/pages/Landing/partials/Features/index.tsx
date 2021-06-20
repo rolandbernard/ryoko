@@ -1,4 +1,4 @@
-import React from 'react'
+
 import './features.scss';
 
 export default function Features() {
@@ -29,7 +29,7 @@ export default function Features() {
                     </div>
                 </div>
             </div>
-
         </section>
     )
 }
+

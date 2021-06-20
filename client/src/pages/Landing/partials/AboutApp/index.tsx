@@ -1,7 +1,9 @@
-import React from 'react'
-import './about-app.scss';
-import Project from 'components/ui/Project';
+
 import { Status } from 'adapters/common';
+
+import Project from 'components/ui/Project';
+
+import './about-app.scss';
 
 export default function AboutApp() {
     return (
@@ -52,10 +54,10 @@ export default function AboutApp() {
                             deadline: new Date(),
                             teams: [],
                         }} />
-
                     </div>
                 </div>
             </div>
         </section>
     )
 }
+

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import ContactForm from 'components/forms/ContactForm';
 
 import './contact.scss';
@@ -36,3 +36,4 @@ export default function Contact() {
         </section>
     )
 }
+

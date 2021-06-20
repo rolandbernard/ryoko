@@ -1,5 +1,6 @@
-@use 'styles/mixins.scss'as mx;
-@use 'styles/settings.scss'as s;
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
 
 .landing-page {
     width: 100%;
@@ -17,6 +18,7 @@
         font-size: 20px;
         font-weight: s.$weight-semi-bold;
     }
+
     footer {
         display: flex;
         justify-content: center;
