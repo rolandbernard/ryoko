@@ -1,6 +1,7 @@
-@use 'styles/settings'as s;
-@use 'styles/mixins'as mx;
-@use 'styles/functions'as fn;
+
+@use 'styles/settings' as s;
+@use 'styles/mixins' as mx;
+@use 'styles/functions' as fn;
 
 :root {
     &::before {
@@ -225,11 +226,11 @@ $color in s.$themeLightMap {
 @each $key,
 $color in s.$themeLightMap {
     .bg-gradient-#{$key} {
-        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%) !important;
     }
 
     .bg-gradient-horizontal-#{$key} {
-        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%) !important;
     }
 
     .theme-#{$key} {
