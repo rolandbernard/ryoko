@@ -41,7 +41,7 @@ export default function Tasks() {
                     <section className="intro-section">
                         <h1 className="underlined">Tasks</h1>
                     </section>
-                    <p>Hey {user.realname ?? user.username}, you have <strong>{tasks.length} {tasks.length > 1 ? 'tasks' : 'task'}</strong>.</p>
+                    <p>Hey {user.realname ?? user.username}, you have <strong>{tasks.length} {tasks.length !== 1 ? 'tasks' : 'task'}</strong>.</p>
                     <section className="tasks-container">
                         {
                             tasks.length > 0
