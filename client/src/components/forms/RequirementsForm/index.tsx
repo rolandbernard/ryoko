@@ -76,7 +76,7 @@ export default function RequirementsForm({ roles, requirements, onNew, onDelete 
                 addNew && (
                     <Popup onClose={() => setAddNew(false)}>
                         <select onChange={(e) => setSelectedRole(e.target.value)}>
-                            <option value="">Please select a role</option>
+                            <option value="" selected disabled hidden>Please select a role</option>
                             {
                                 possibleRoles.map((role) => (
                                     <option value={role.id} key={role.id}>{role.label}</option>
