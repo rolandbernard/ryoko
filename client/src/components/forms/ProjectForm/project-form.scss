@@ -22,6 +22,7 @@
             position: relative;
             filter: saturate(50%);
             transform: scale(90%);
+            will-change: transform;
 
             @include mx.breakpoint(small) {
                 width: calc(100% / 5 - 10px);

@@ -10,6 +10,7 @@
     width: 160px;
     color: s.$text;
     height: 160px;
+    will-change: transform;
 
     &:hover,
     &:focus {

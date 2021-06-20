@@ -15,6 +15,7 @@
     appearance: none;
     border: none;
     outline: none;
+    will-change: transform;
 
     &.expanded {
         width: 100%;
