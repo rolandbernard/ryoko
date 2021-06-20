@@ -12,11 +12,12 @@
     height: 160px;
     will-change: transform;
 
-    &:hover,
-    &:focus {
-        color: s.$text;
-        box-shadow: 0 0 35px rgba(s.$black, 0.1);
-        transform: translateY(-5px);
+    &:not(.demo)  {
+        &:hover,
+        &:focus {
+            box-shadow: 0 0 35px rgba(s.$black, 0.1);
+            transform: translateY(-5px);
+        }
     }
 
     .circular-progress {
