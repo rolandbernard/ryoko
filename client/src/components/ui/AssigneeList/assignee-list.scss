@@ -5,19 +5,13 @@
     display: flex;
     margin-left: 16px;
 
-    &:hover {
-        .assignee {
-            margin-left: 0;
-        }
-    }
-
     .tooltip {
-        margin-left: -8px;
+        margin-left: -4px;
     }
 
     .assignee,
     .avatar {
-        margin-left: -8px;
+        margin-left: -4px;
         width: 35px;
         height: 35px;
 

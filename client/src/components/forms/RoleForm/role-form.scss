@@ -5,8 +5,11 @@
     display: flex;
     flex-direction: column;
 
+    h2 {
+        margin-top: 0;
+    }
     .role-item {
-        background: s.$background-light;
+        background: s.$background-input;
         border-radius: 25px;
         font-size: 18px;
         width: 100%;
@@ -109,6 +112,7 @@
 .role-edit-form {
     h2 {
         margin-bottom: 40px;
+        margin-top: 0;
     }
 
     .button {
