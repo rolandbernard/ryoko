@@ -12,6 +12,7 @@
     color: s.$text;
     font-weight: s.$weight-regular;
     position: relative;
+    will-change: transform;
 
     &:hover,
     &:focus {

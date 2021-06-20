@@ -50,6 +50,7 @@
             opacity: 0.5;
             transform: scale(90%);
             user-select: none;
+            will-change: transform;
 
             .tag {
                 margin: 0;

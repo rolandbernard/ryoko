@@ -30,6 +30,7 @@
             padding: 30px;
             border-radius: 25px;
             margin: 20px;
+            will-change: transform;
 
             @include mx.breakpoint(medium) {
                 padding: 40px;
