@@ -10,6 +10,7 @@ import TimeInput from "components/ui/TimeInput";
 import { PossibleMember } from "components/forms/TaskForm";
 
 import './assignees-form.scss';
+import '../form.scss';
 
 interface Props {
     assignees: TaskAssignment[];
@@ -79,18 +80,20 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
             {
                 addNew && (
                     <Popup onClose={() => setAddNew(false)}>
-                        <select onChange={(e) => setSelectedMember(e.target.value)}>
-                            <option value="" selected disabled hidden>Please select a user</option>
-                            {
-                                possibleMembers.map((member) => (
-                                    <option value={member.id} key={member.id}>{member.label}</option>
-                                ))
-                            }
-                        </select>
-                        <TimeInput onChange={value => setSelectedTime(value)} />
-                        <Button type="submit" onClick={addAssignee} className="expanded">
-                            Add the assignee
-                        </Button>
+                        <form>
+                            <select onChange={(e) => setSelectedMember(e.target.value)}>
+                                <option value="" selected disabled hidden>Please select a user</option>
+                                {
+                                    possibleMembers.map((member) => (
+                                        <option value={member.id} key={member.id}>{member.label}</option>
+                                    ))
+                                }
+                            </select>
+                            <TimeInput onChange={value => setSelectedTime(value)} />
+                            <Button type="submit" onClick={addAssignee} className="expanded">
+                                Add the assignee
+                            </Button>
+                        </form>
                     </Popup>
                 )
             }
