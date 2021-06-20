@@ -80,7 +80,7 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
                 addNew && (
                     <Popup onClose={() => setAddNew(false)}>
                         <select onChange={(e) => setSelectedMember(e.target.value)}>
-                            <option value="">Please select a user</option>
+                            <option value="" selected disabled hidden>Please select a user</option>
                             {
                                 possibleMembers.map((member) => (
                                     <option value={member.id} key={member.id}>{member.label}</option>

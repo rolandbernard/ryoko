@@ -141,12 +141,12 @@ export default function ProjectForm({ project, onSubmit }: Props) {
                         status &&
                         <div className="field">
                             <label className="field-label" htmlFor="status">Status</label>
-                            <select id="status" defaultValue={project?.status} onChange={(e) => {
+                            <select id="status" defaultValue={project?.status ?? ''} onChange={(e) => {
                                 let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
                                 setStatus(currentStatus);
                             }
                             }>
-                                <option value="">Please choose a status</option>
+                                <option value="" disabled hidden>Please choose a status</option>
                                 {
                                     allStatus.map((s) => (
                                         <option value={s} key={s}>{s}</option>
