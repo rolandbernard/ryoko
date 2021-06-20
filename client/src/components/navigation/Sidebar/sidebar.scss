@@ -18,7 +18,7 @@
     visibility: hidden;
     padding: 50px 30px;
     color: s.$white;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -151,6 +151,16 @@
 
             .bar {
                 background: s.$white;
+            }
+        }
+
+        @media screen and (max-height: 750px) {
+            display: none
+        }
+
+        @include mx.breakpoint(medium) {
+            @media screen and (max-height: 950px) {
+                display: none
             }
         }
     }
