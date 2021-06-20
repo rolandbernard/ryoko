@@ -25,12 +25,15 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
     useEffect(() => {
         getProjectAssignees(project.id).then(assignee => {
             setAssignees(assignee);
-            setTotalTime(assignee.map(a => a.time).reduce((total, c) => total + c, 1) * 60 * 1000)
+            setTotalTime(durationFor(assignee.map(a => a.time).reduce((total, c) => total + c, 0), 'minute'))
         });
         getProjectWork(project.id).then((work) =>
             setTime(
-                work.map(w => durationBetween(w.started, w.finished ?? new Date()))
-                    .reduce((total, c) => total + c, 0)
+                durationFor(
+                    work.map(w => durationBetween(w.started, w.finished ?? new Date()))
+                        .reduce((total, c) => total + c, 0),
+                    'millisecond'
+                )
             )
         )
     }, [project]);
