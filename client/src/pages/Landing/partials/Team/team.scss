@@ -19,7 +19,7 @@
             margin: 30px 0;
 
             @include mx.breakpoint(medium) {
-                background: s.$white;
+                background: s.$background-white;
                 padding: 50px;
                 border-radius: 25px;
                 display: flex;
