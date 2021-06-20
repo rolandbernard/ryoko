@@ -6,11 +6,13 @@ import Tag from 'components/ui/Tag';
 export default function Team() {
     return (
         <section className="team-section content-container">
-            <h2>Our Team</h2>
-            <p className="heading-lead">
-                People are what makes a project great, and here are the people that make us
-                great.
-            </p>
+            <header className="heading-container">
+                <h2>Our Team</h2>
+                <p className="heading-lead">
+                    People are what makes a project great, and here are the people that make us
+                    great.
+                </p>
+            </header>
             <div className="team-list">
                 <div className="team-member">
                     <img className="team-member-image" src={ImageDaniel} width="200" height="200"

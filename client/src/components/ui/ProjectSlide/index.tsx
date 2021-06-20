@@ -45,14 +45,17 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
                 }
             </div>
             <div className="details">
-                <AssigneeList assignees={assignees} max={3} />
+                {
+                    assignees.length > 0 &&
+                    <AssigneeList assignees={assignees} max={3} />
+                }
                 {
                     (time !== undefined && totalTime !== undefined)
                         ? (
                             <div className="progress">
-                                <LinearProgress percent={time / totalTime * 100} />
+                                <LinearProgress percent={time / totalTime * 100} color={project.color} />
                                 <div className="label">{(time / 60 / 60 / 1000).toFixed(2)}h /
-                                <strong>{(totalTime / 60 / 60 / 1000).toFixed(2)}h</strong></div>
+                                    <strong>{(totalTime / 60 / 60 / 1000).toFixed(2)}h</strong></div>
                             </div>
                         )
                         : <LoadingScreen />

@@ -3,6 +3,9 @@
 
 .landing-page {
     .team-section {
+        .heading-container {
+            text-align: center;
+        }
         .team-container {
             @include mx.breakpoint(large) {
                 display: flex;
