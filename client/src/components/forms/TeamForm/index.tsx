@@ -7,6 +7,7 @@ import TextInput from 'components/ui/TextInput';
 import Button from 'components/ui/Button';
 
 import './team-create.scss';
+import '../form.scss';
 
 interface Props {
     onSubmit?: (name: string) => void;

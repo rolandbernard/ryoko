@@ -29,11 +29,8 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
         });
         getProjectWork(project.id).then((work) =>
             setTime(
-                durationFor(
-                    work.map(w => durationBetween(w.started, w.finished ?? new Date()))
-                        .reduce((total, c) => total + c, 0),
-                    'millisecond'
-                )
+                work.map(w => durationBetween(w.started, w.finished ?? new Date()))
+                    .reduce((total, c) => total + c, 0),
             )
         )
     }, [project]);
