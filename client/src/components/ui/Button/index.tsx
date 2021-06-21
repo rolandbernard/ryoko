@@ -7,7 +7,7 @@ interface Props {
     children: ReactNode;
     type?: "button" | "submit" | "reset";
     className?: string;
-    onClick?: MouseEventHandler
+    onClick?: MouseEventHandler;
 }
 
 export default function Button({children, type, className, onClick}: Props) {

@@ -42,15 +42,15 @@ export default function TeamForm({ onSubmit, onBack, team }: Props) {
                 defaultText={name}
             />
             <div className="button-container">
-                {
-                    onBack &&
-                    <Button onClick={onBack} className="hollow">
-                        Go Back
-                    </Button>
-                }
                 <Button type="submit" className={!onBack ? 'expanded' : ''}>
                     {team ? 'Update' : 'Create'}
                 </Button>
+                {
+                    onBack &&
+                    <Button onClick={onBack} className="dark">
+                        Go Back
+                    </Button>
+                }
             </div>
         </form>
     )

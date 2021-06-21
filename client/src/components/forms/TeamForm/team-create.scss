@@ -1,8 +1,18 @@
+@use 'styles/mixins.scss'as mx;
 
 .team-form {
     .button-container {
-        display: flex;
-        justify-content: space-around;
+        margin: -10px;
+        .button {
+            margin: 10px;
+            width: calc(100% - 20px);
+        }
+
+        @include mx.breakpoint(medium) {
+            display: flex;
+            justify-content: space-around;
+            flex-direction: row-reverse;
+
+        }
     }
 }
-
