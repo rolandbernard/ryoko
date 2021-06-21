@@ -18,12 +18,19 @@ export default function Popup({ children, onClose }: Props) {
             body.style.overflow = '';
         }
     }, []);
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") {
-            onClose();
+
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
         }
-    });
+    }, [onClose]);
+
     return createPortal(
         <div className="popup-container">
             <div className="popup">
@@ -31,6 +38,6 @@ export default function Popup({ children, onClose }: Props) {
             </div>
             <div className="background" onClick={() => onClose()}></div>
         </div>, body
-    )
+    );
 }
 
