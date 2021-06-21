@@ -9,11 +9,13 @@
         content: 'light';
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
@@ -25,11 +27,13 @@
             content: 'dark';
         }
 
-        @each $key, $value in s.$dark-colors {
+        @each $key,
+        $value in s.$dark-colors {
             --#{$key}: #{$value};
         }
 
-        @each $key, $value in s.$dark-colors {
+        @each $key,
+        $value in s.$dark-colors {
             --#{$key}-rgb: #{red($value), green($value), blue($value)};
         }
     }
@@ -41,11 +45,13 @@
         content: 'light';
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$light-colors {
+    @each $key,
+    $value in s.$light-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
@@ -56,21 +62,25 @@
         content: 'dark';
     }
 
-    @each $key, $value in s.$dark-colors {
+    @each $key,
+    $value in s.$dark-colors {
         --#{$key}: #{$value};
     }
 
-    @each $key, $value in s.$dark-colors {
+    @each $key,
+    $value in s.$dark-colors {
         --#{$key}-rgb: #{red($value), green($value), blue($value)};
     }
 }
 
 * {
     transition: s.$transition;
+    transition-property: transform, opacity, color, background, box-shadow, stroke;
     font-family: s.$body-font;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-width: thin;
 }
 
 html {
@@ -89,7 +99,8 @@ button {
     outline: none;
 }
 
-a, button {
+a,
+button {
     font-size: 1em;
     font-weight: s.$weight-semi-bold;
     color: s.$primary;
@@ -108,8 +119,12 @@ a, button {
     padding: 0 30px;
 }
 
-h1, h2, h3,
-h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: s.$weight-bold;
     line-height: 1.2;
 }
@@ -184,6 +199,10 @@ h4 {
     }
 }
 
+.text-primary {
+    color: s.$primary;
+}
+
 @each $key,
 $color in s.$themeDarkMap {
     .bg-dark-#{$key} {
@@ -209,11 +228,11 @@ $color in s.$themeLightMap {
 @each $key,
 $color in s.$themeLightMap {
     .bg-gradient-#{$key} {
-        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+        background: linear-gradient(to bottom, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%) !important;
     }
 
     .bg-gradient-horizontal-#{$key} {
-        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%);
+        background: linear-gradient(to left, $color 0%, fn.getFrom(s.$themeDarkMap, $key) 100%) !important;
     }
 
     .theme-#{$key} {
@@ -234,3 +253,15 @@ $color in s.$themeLightMap {
     user-select: none;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: s.$text;
+    border-radius: 5px;
+}

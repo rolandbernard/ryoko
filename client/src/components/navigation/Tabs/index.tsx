@@ -6,7 +6,7 @@ import './tabs.scss';
 
 export interface Tab {
     label: string;
-    route: string;
+    route: string | string[];
     link?: string;
     component: ReactNode
 }
@@ -24,7 +24,7 @@ export default function Tabs({ tabs }: Props) {
                         key={tab.label}
                         className="tab"
                         activeClassName="active"
-                        to={tab.link ?? tab.route}
+                        to={tab.link ?? (typeof tab.route === 'string' ? tab.route : tab.route[0])}
                         isActive={(_, location) =>
                             matchPath(location.pathname, { path: tab.route, exact: true })
                                 ? true

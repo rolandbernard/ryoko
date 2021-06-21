@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { durationFor, formatDuration } from 'timely';
 import { getTeams, Team } from 'adapters/team';
 import { getPossibleTasks, Task } from 'adapters/task';
 import { getCurrentUser, getUserTasks, User } from 'adapters/user';
@@ -29,7 +30,7 @@ export default function Tasks() {
         .filter(task =>
             !task.assigned.some(ass => ass.user === user?.id)
             && task.requirements.some(
-               req => teams?.some(team => team.role === req.role)
+                req => teams?.some(team => team.role === req.role)
             )
         );
 
@@ -39,32 +40,33 @@ export default function Tasks() {
                 <div className="content-container">
                     <section className="intro-section">
                         <h1 className="underlined">Tasks</h1>
+                        <p>Hey {user.realname ?? user.username}, you have <strong>{tasks.length} {tasks.length !== 1 ? 'tasks' : 'task'}</strong>.</p>
                     </section>
-                    <p>Hey {user.realname ?? user.username}, you have <strong>{tasks.length} {tasks.length > 1 ? 'tasks' : 'task'}</strong>.</p>
                     <section className="tasks-container">
+                        <h2>Your tasks</h2>
+                        <p>Here are some tasks for which you were assigned directly, ordered by their priority.</p>
                         {
                             tasks.length > 0
                                 ? (
                                     <div className="tasks-list">
-                                        {
-                                            tasks
-                                                .map((task) => (
-                                                    <TaskComponent
-                                                        key={task.id}
-                                                        task={task}
-                                                        subtitle={
-                                                            task.assigned
-                                                                .find(assignee => assignee.user === user.id)?.time
-                                                            + ' min'
-                                                        }
-                                                    />
-                                                ))
-                                        }
+                                        {tasks.map((task) => {
+                                            const time = task.assigned.find(assignee => assignee.user === user.id)?.time ?? 0;
+                                            return (
+                                                <TaskComponent
+                                                    key={task.id}
+                                                    task={task}
+                                                    subtitle={
+                                                        formatDuration(durationFor(time, 'minute'), 'second', 2, true)
+                                                    }
+                                                />
+                                            )
+                                        })}
                                     </div>
                                 )
-                                : (<div className="task-error">No open tasks found</div>)
+                                : (<div className="task-error">No open tasks found.</div>)
                         }
-                        <h2>Other tasks you could do</h2>
+                        <h2>Recommended tasks</h2>
+                        <p>Here are some tasks you could do, since you fit their requirements.</p>
                         {
                             acceptableTasks.length > 0
                                 ? (
@@ -80,11 +82,11 @@ export default function Tasks() {
                                         }
                                     </div>
                                 )
-                                : (<div className="task-error">You don't fit the requirements for any other tasks</div>)
+                                : (<div className="task-error">No open tasks found.</div>)
                         }
                     </section>
                 </div>
-            </div >
+            </div>
         );
     } else {
         return <LoadingScreen />

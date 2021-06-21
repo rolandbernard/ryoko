@@ -6,6 +6,7 @@ import TextInput from 'components/ui/TextInput';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './login-form.scss';
+import '../form.scss';
 
 interface Props {
     onSubmit?: (username: string, password: string) => Promise<void>

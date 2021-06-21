@@ -1,6 +1,5 @@
-
-@use 'styles/settings.scss' as s;
-@use 'styles/functions.scss' as fn;
+@use 'styles/settings.scss'as s;
+@use 'styles/functions.scss'as fn;
 
 .circular-progress {
     position: relative;
@@ -34,12 +33,14 @@
     svg {
         width: 70px;
         height: 70px;
+        transition: none !important;
 
         path {
             stroke-width: 8;
             stroke-linecap: round;
             stroke: url(#gradient);
             fill: none;
+            transition: none !important;
         }
 
         circle {
@@ -60,4 +61,3 @@
         margin: 0 !important;
     }
 }
-

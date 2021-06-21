@@ -75,6 +75,7 @@
             position: relative;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
+            transition-property: width, height;
 
             &:hover {
                 opacity: 0.9;

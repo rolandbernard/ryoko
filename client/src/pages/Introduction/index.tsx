@@ -57,7 +57,7 @@ export default function Introduction() {
                                 <div className="lead-text">
                                     You are one step away from getting started with ryoko.
                                 </div>
-                                <div className="possibility">
+                                <div className="possibility framed">
                                     Ask one of your colleagues to add you to their team. <br />
                                     Your username is: <strong>{username}</strong>
                                 </div>

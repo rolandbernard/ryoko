@@ -1,5 +1,4 @@
-
-@use 'styles/settings.scss' as s;
+@use 'styles/settings.scss'as s;
 
 .project-slide {
     padding: 30px;
@@ -11,8 +10,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    will-change: transform;
 
-    &:hover ,
+    &:hover,
     &:focus {
         color: s.$text;
         box-shadow: 0 0 35px rgba(s.$black, 0.1);
@@ -20,11 +20,14 @@
     }
 
     .head {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         .name {
             font-weight: s.$weight-bold;
             font-size: 20px;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .range {
@@ -46,8 +49,8 @@
 
             .label {
                 margin-top: 5px;
+                line-height: 1;
             }
         }
     }
 }
-

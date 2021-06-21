@@ -1,0 +1,35 @@
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
+
+.landing-page {
+    width: 100%;
+    overflow: hidden;
+
+    section:not(:first-child) {
+        margin: 80px auto;
+
+        @include mx.breakpoint(large) {
+            margin: 180px auto;
+        }
+    }
+
+    .heading-lead {
+        font-size: 20px;
+        font-weight: s.$weight-semi-bold;
+    }
+
+    footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        img {
+            height: auto;
+            width: 100%;
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+    }
+}

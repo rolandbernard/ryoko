@@ -7,7 +7,7 @@ import { getTeamActivity, getTeamCompletion } from 'adapters/team';
 
 import LoadingScreen from 'components/ui/LoadingScreen';
 import CompletionGrid from 'components/layout/CompletionGrid';
-import Dropdown, { DropDownItem } from 'components/navigation/Dropdown';
+import Dropdown from 'components/navigation/Dropdown';
 import { CompletionProps, parseCompletion } from 'components/ui/Completion';
 import BarChart, { ChartItem, parseActivity } from 'components/graphs/BarChart';
 
@@ -27,14 +27,13 @@ interface Params {
     time: Timespan;
 }
 
-interface FilterDropdownItem extends DropDownItem {
-    time: string
-}
-
 export default function TeamsStats({ teamId }: Props) {
     const [activity, setActivity] = useState<ChartItem[]>([]);
     const [completions, setCompletions] = useState<CompletionProps[]>([]);
-    const [dropdowns] = useState<FilterDropdownItem[]>([
+    const history = useHistory();
+
+    const { time } = useParams<Params>();
+    const dropdowns = [
         {
             time: 'week',
             label: 'Last week',
@@ -50,10 +49,7 @@ export default function TeamsStats({ teamId }: Props) {
             label: 'Last year',
             route: '/teams/' + teamId + '/stats/year'
         }
-    ]);
-    const history = useHistory();
-
-    const { time } = useParams<Params>();
+    ];
 
     useEffect(() => {
         getTeamActivity(teamId, subtractTime(new Date(), 1, time), new Date())

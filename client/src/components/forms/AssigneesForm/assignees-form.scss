@@ -37,6 +37,8 @@
             align-items: center;
             font-size: 24px;
             font-weight: s.$weight-bold;
+            height: calc(2em + 40px);
+            user-select: none;
         }
     }
 }

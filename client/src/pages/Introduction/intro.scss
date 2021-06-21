@@ -25,6 +25,12 @@
             padding: 60px;
             border-radius: 25px;
         }
+
+        .introduction-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         
         .lead-text {
             font-size: 24px;
@@ -33,12 +39,20 @@
         .possibility {
             margin: 20px 0;
             font-size: 18px;
+            &.framed {
+                padding: 20px 40px;
+                background: s.$background-white;
+                display: inline-block;
+                border-radius: 15px;
+            }
         }
     }
     .logout-btn {
         color: s.$primary;
         font-weight: s.$weight-bold;
         cursor: pointer;
+        margin-top: 30px;
+        text-decoration: underline;
 
         &:hover {
             color: s.$primary-dark;

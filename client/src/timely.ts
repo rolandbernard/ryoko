@@ -217,3 +217,6 @@ export function currentTime(): Date {
     return new Date();
 }
 
+export function formatDateShort(date: Date): string {
+    return date.getFullYear() + '-' + formatNumber(date.getMonth() + 1) + '-' + formatNumber(date.getDate());
+}

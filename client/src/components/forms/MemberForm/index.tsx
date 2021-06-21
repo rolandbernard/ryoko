@@ -9,6 +9,7 @@ import RoleForm from 'components/forms/RoleForm';
 import UsernameForm from 'components/forms/MemberForm/UsernameForm';
 
 import './member-form.scss';
+import '../form.scss';
 
 interface Props {
     roles: TeamRole[];

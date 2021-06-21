@@ -9,6 +9,23 @@ interface Props {
     user?: User;
 }
 
+function getUserInitials(user?: User): string {
+    if (user) {
+        if (user.realname) {
+            const names = user.realname.split(/\W+/);
+            if (names.length > 1) {
+                return names[0][0] + names[names.length - 1][0];
+            } else {
+                return user.realname[0];
+            }
+        } else {
+            return user.username[0];
+        }
+    } else {
+        return '?';
+    }
+}
+
 export default function Avatar({ user }: Props) {
     const [error, setError] = useState(false);
     const avatarSrc = user && getUserImageUri(user.id);
@@ -27,7 +44,7 @@ export default function Avatar({ user }: Props) {
             {
                 error && (
                     <div className="standard-image">
-                        {user?.username && user.username.charAt(0)}
+                        {getUserInitials(user)}
                     </div>
                 )
             }

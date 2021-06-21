@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { AssignedUser } from 'adapters/user';
-import { durationBetween, formatDate } from 'timely';
+import { durationBetween, formatDate, formatDuration, durationFor } from 'timely';
 import { getProjectAssignees, getProjectWork, Project } from 'adapters/project';
 
 import AssigneeList from 'components/ui/AssigneeList';
@@ -21,15 +21,16 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
     const [time, setTime] = useState<number>();
     const [totalTime, setTotalTime] = useState<number>();
 
+
     useEffect(() => {
         getProjectAssignees(project.id).then(assignee => {
             setAssignees(assignee);
-            setTotalTime(assignee.map(a => a.time).reduce((total, c) => total + c, 1) * 60 * 1000)
+            setTotalTime(durationFor(assignee.map(a => a.time).reduce((total, c) => total + c, 0), 'minute'))
         });
         getProjectWork(project.id).then((work) =>
             setTime(
                 work.map(w => durationBetween(w.started, w.finished ?? new Date()))
-                    .reduce((total, c) => total + c, 0)
+                    .reduce((total, c) => total + c, 0),
             )
         )
     }, [project]);
@@ -45,14 +46,19 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
                 }
             </div>
             <div className="details">
-                <AssigneeList assignees={assignees} max={3} />
+                {
+                    assignees.length > 0 &&
+                    <AssigneeList assignees={assignees} max={3} />
+                }
                 {
                     (time !== undefined && totalTime !== undefined)
                         ? (
                             <div className="progress">
-                                <LinearProgress percent={time / totalTime * 100} />
-                                <div className="label">{(time / 60 / 60 / 1000).toFixed(2)}h /
-                                <strong>{(totalTime / 60 / 60 / 1000).toFixed(2)}h</strong></div>
+                                <LinearProgress percent={time / totalTime * 100} color={project.color} />
+                                {totalTime > 0 && time > 0 ? (
+                                    <div className="label">{formatDuration(time, 'second', 2, true)} /
+                                        <strong>{formatDuration(totalTime, 'second', 2, true)}</strong></div>
+                                ) : <div className="label">No tasks found</div>}
                             </div>
                         )
                         : <LoadingScreen />

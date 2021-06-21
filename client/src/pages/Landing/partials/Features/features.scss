@@ -1,0 +1,72 @@
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
+
+.landing-page {
+    .features-section {
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        strong {
+            color: s.$primary;
+        }
+
+        .feature-list {
+            margin: -20px;
+
+            @include mx.breakpoint(medium) {
+                display: flex;
+                justify-content: space-between;
+                margin: -20px;
+            }
+        }
+
+        .feature-item {
+            background: s.$background-white;
+            padding: 1.5rem 0;
+            display: block;
+            padding: 30px;
+            border-radius: 25px;
+            margin: 20px;
+            will-change: transform;
+
+            @include mx.breakpoint(medium) {
+                padding: 40px;
+                width: calc(100% / 3 - 40px);
+            }
+
+            &:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 -5px 40px rgba(s.$black, 0.05);
+            }
+        }
+
+        .feature-icon {
+            font-size: 42px;
+            color: s.$primary;
+            background: s.$background-light;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+
+            @include mx.breakpoint(medium) {
+                margin-bottom: 40px;
+            }
+        }
+
+        .feature-title {
+            margin-bottom: 10px;
+
+            @include mx.breakpoint(medium) {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+

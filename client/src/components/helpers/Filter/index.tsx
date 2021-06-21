@@ -3,47 +3,50 @@ import Tag from 'components/ui/Tag';
 
 import './filter.scss';
 
-interface Props {
-    setFilter: Function;
-    filter: {
-        term: string;
-        tags: string[];
-    };
+interface Filter<Tag> {
+    term: string;
+    tags: Tag[];
+}
+
+interface Props<Tag> {
+    setFilter: (filter: Filter<Tag>) => any;
+    filter: Filter<Tag>;
     tags: {
-        label: string;
+        label: Tag;
         color?: string;
     }[];
 }
 
-export default function Filter({ setFilter, tags, filter }: Props) {
+export default function FilterComponent<Tag extends string>({ setFilter, tags, filter }: Props<Tag>) {
     return (
         <div className="filter-container">
             <div className="search-container">
                 <i className="material-icons icon">search</i>
                 <label htmlFor="search">Search</label>
-                <input type="text" id="search" onChange={event => setFilter((prev: any) => { return { ...prev, term: event.target.value } })} />
+                <input
+                    type="text"
+                    id="search"
+                    onChange={event => setFilter({ ...filter, term: event.target.value })}
+                    autoComplete="off"
+                />
             </div>
             <div className="status-filter">
                 <h3>Filter</h3>
                 <div className="tags">
                     {
                         tags.map((tag) => (
-                            <div className={'tag-item' + (filter.tags.indexOf(tag.label) >= 0 ? ' active' : '')} key={tag.label}
+                            <div className={'tag-item' + (filter.tags.includes(tag.label) ? ' active' : '')} key={tag.label}
                                 onClick={() => {
                                     if (filter.tags.indexOf(tag.label) >= 0) {
                                         
-                                        setFilter((prev: any) => {
-                                            return {
-                                                ...prev,
-                                                tags: prev.tags.filter((t: any) => t !== tag.label)
-                                            }
+                                        setFilter({
+                                            ...filter,
+                                            tags: filter.tags.filter((t: any) => t !== tag.label)
                                         })
                                     } else {
-                                        setFilter((prev: any) => {
-                                            return {
-                                                ...prev,
-                                                tags: [...prev.tags, tag.label]
-                                            }
+                                        setFilter({
+                                            ...filter,
+                                            tags: [...filter.tags, tag.label]
                                         })
                                         
                                     }

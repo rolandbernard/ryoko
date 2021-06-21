@@ -19,6 +19,7 @@
             height: 65px;
             border-radius: 50%;
             overflow: hidden;
+            font-size: 28px;
 
             img {
                 width: 100%;
@@ -67,7 +68,7 @@
 
     textarea {
         transition: none;
-        background: s.$background-input;
+        background: s.$background-light;
         border: none;
         border-radius: 25px;
         width: 100%;

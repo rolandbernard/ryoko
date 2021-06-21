@@ -185,11 +185,11 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                         <label className="field-label"  htmlFor="status">
                             Priority
                     </label>
-                        <select defaultValue={priority} onChange={(e) => {
+                        <select defaultValue={priority ?? ''} onChange={(e) => {
                             let currentPriority = Object.values(Priority).find(s => s === e.target.value) ?? undefined;
                             setPriority(currentPriority);
                         }}>
-                            <option value={''}>Please choose a priority</option>
+                            <option value="" disabled hidden>Please choose a priority</option>
                             {
                                 allPriorities.map((priority) => (
                                     <option value={priority} key={priority}>{priority}</option>
@@ -206,16 +206,16 @@ export default function TaskForm({ task, onSubmit, project }: Props) {
                 </div>
                 <div className="col">
                     {
-                        status && (
+                        task && (
                             <div className="field">
                                 <label className="field-label"  htmlFor="status">
                                     Status
                                 </label>
-                                <select defaultValue={status} id="status" onChange={(e) => {
+                                <select defaultValue={status ?? ''} id="status" onChange={(e) => {
                                     let currentStatus = Object.values(Status).find(s => s === e.target.value) ?? undefined;
                                     setStatus(currentStatus);
                                 }}>
-                                    <option value={''}>Please choose a status</option>
+                                    <option value="" disabled hidden>Please choose a status</option>
                                     {
                                         allStatus.map((status) => (
                                             <option value={status} key={status}>{status}</option>

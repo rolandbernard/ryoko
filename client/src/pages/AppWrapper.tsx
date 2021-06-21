@@ -33,7 +33,7 @@ export default function AppWrapper() {
                     <Route path="/projects/:projectId/edit" component={ProjectEdit} />
                     <Route path="/projects/:projectId" component={ProjectDetail} />
                     <Route path="/projects" component={Projects} />
-                    <Route path="/stats" component={Stats} />
+                    <Route path={['/stats/:time', '/stats']} component={Stats} />
                     <Route path="/settings" component={Settings} />
                     <Route path="/teams/create" exact component={TeamsCreate} />
                     <Route path="/teams/:teamId/edit" exact component={TeamsEdit} />

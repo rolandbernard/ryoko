@@ -10,12 +10,14 @@
     width: 160px;
     color: s.$text;
     height: 160px;
+    will-change: transform;
 
-    &:hover,
-    &:focus {
-        color: s.$text;
-        box-shadow: 0 0 35px rgba(s.$black, 0.1);
-        transform: translateY(-5px);
+    &:not(.demo)  {
+        &:hover,
+        &:focus {
+            box-shadow: 0 0 35px rgba(s.$black, 0.1);
+            transform: translateY(-5px);
+        }
     }
 
     .circular-progress {
@@ -23,7 +25,7 @@
 
         svg {
             height: auto;
-            width: 50%;
+            width: 60%;
         }
     }
 
@@ -37,18 +39,17 @@
         height: 100%;
         position: absolute;
         top: 0;
+        margin-top: 5px;
         left: 0;
     }
 
     .title {
-        margin-top: 15px;
+        margin-top: 10px;
         line-height: 1.4;
         font-size: 16px;
+        text-align: center;
         font-weight: s.$weight-bold;
-
-        @include mx.breakpoint(large) {
-            font-size: 20px;
-        }
+        overflow: hidden;
     }
 
     .info {

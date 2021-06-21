@@ -31,7 +31,7 @@ export default function UsernameForm({ setResult }: Props) {
                 name="name"
                 onChange={setUsername}
             />
-            <Button type="submit">
+            <Button type="submit" className="expanded">
                 Add user
             </Button>
         </form >

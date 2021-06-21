@@ -1,0 +1,91 @@
+
+@use 'styles/mixins.scss' as mx;
+@use 'styles/settings.scss' as s;
+
+.landing-page {
+    .about-app-section {
+        @include mx.breakpoint(medium) {
+            display: flex;
+            align-items: center;
+        }
+
+        .text-container {
+            padding-right: 10%;
+            margin-bottom: 50px;
+
+            @include mx.breakpoint(medium) {
+                flex-grow: 1;
+                margin-bottom: 0;
+            }
+
+            .lead {
+                font-size: 18px;
+                font-weight: s.$weight-semi-bold;
+                margin-bottom: 5px;
+            }
+        }
+
+        .preview-container {
+            background: rgba(s.$background-white-rgb, 0.5);
+            border-radius: 25px;
+            padding: 40px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            @include mx.breakpoint(large) {
+                padding: 60px;
+            }
+        }
+
+        .project-overview {
+            display: grid;
+            grid-gap: 35px;
+            grid-template-areas:
+                'small-1 large'
+                'small-2 large';
+
+            @include mx.breakpoint(medium) {
+                grid-gap: 50px;
+            }
+
+            .small-1 {
+                grid-area: small-1;
+            }
+
+            .small-2 {
+                grid-area: small-2;
+
+                .project {
+                    animation-delay: 3s;
+                }
+            }
+
+            .large {
+                grid-area: large;
+
+                .project {
+                    animation-delay: 6s;
+                    height: 100%;
+                }
+            }
+
+            .project {
+                animation: move-up 9s ease-in infinite;
+
+                @keyframes move-up {
+                    5%, 35% {
+                        transform: translateY(0);
+                        box-shadow: 0px 5px 25px rgba(s.$black, 0.05);
+                    }
+                    10%, 30% {
+                        transform: translateY(-10px);
+                        box-shadow: 0px 5px 30px rgba(s.$black, 0.15);
+                    }
+                }
+            }
+        }
+    }
+}
+

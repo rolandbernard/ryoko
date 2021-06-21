@@ -2,13 +2,15 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { TaskAssignment } from "adapters/task";
+import { durationFor, formatDuration } from "timely";
 
 import Popup from 'components/ui/Popup';
 import Button from 'components/ui/Button';
-import { PossibleMember } from "components/forms/TaskForm";
 import TimeInput from "components/ui/TimeInput";
+import { PossibleMember } from "components/forms/TaskForm";
 
 import './assignees-form.scss';
+import '../form.scss';
 
 interface Props {
     assignees: TaskAssignment[];
@@ -56,7 +58,9 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
                             <div className="person">
                                 {members.find(member => member.id === assignee.user)?.label}
                             </div>
-                            <div className="time">{assignee.time} min</div>
+                            <div className="time">{
+                                formatDuration(durationFor(assignee.time, 'minute'), 'second', 2, true)
+                            }</div>
                             <div className="delete" onClick={() => removeAssignee(assignee.user)}>
                                 <span className="material-icons">
                                     clear
@@ -76,18 +80,20 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
             {
                 addNew && (
                     <Popup onClose={() => setAddNew(false)}>
-                        <select onChange={(e) => setSelectedMember(e.target.value)}>
-                            <option value="">Please select a user</option>
-                            {
-                                possibleMembers.map((member) => (
-                                    <option value={member.id} key={member.id}>{member.label}</option>
-                                ))
-                            }
-                        </select>
-                        <TimeInput onChange={value => setSelectedTime(value)} />
-                        <Button type="submit" onClick={addAssignee} className="expanded">
-                            Add the assignee
-                        </Button>
+                        <form>
+                            <select onChange={(e) => setSelectedMember(e.target.value)}>
+                                <option value="" selected disabled hidden>Please select a user</option>
+                                {
+                                    possibleMembers.map((member) => (
+                                        <option value={member.id} key={member.id}>{member.label}</option>
+                                    ))
+                                }
+                            </select>
+                            <TimeInput onChange={value => setSelectedTime(value)} />
+                            <Button type="submit" onClick={addAssignee} className="expanded">
+                                Add the assignee
+                            </Button>
+                        </form>
                     </Popup>
                 )
             }

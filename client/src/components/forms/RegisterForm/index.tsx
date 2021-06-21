@@ -8,6 +8,7 @@ import TextInput from 'components/ui/TextInput';
 import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './register-form.scss';
+import '../form.scss';
 
 async function validateUsername(username: string) {
     if (username?.length < 3) {

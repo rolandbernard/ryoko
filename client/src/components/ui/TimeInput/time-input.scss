@@ -6,27 +6,16 @@
     margin: 20px 0;
     display: flex;
     align-items: baseline;
+    border-radius: 15px;
+    color: s.$text;
+    background: s.$background-light;
 
     .formatted {
         flex: 0 0 auto;
-        content: 'min';
-        margin-left: 10px;
-        min-width: 64px;
+        min-width: 75px;
         white-space: nowrap;
         text-align: center;
     }
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
-
 
     label {
         &:after {

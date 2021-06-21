@@ -7,6 +7,7 @@ import RoleChangeForm from 'components/forms/RoleForm/RoleChangeForm';
 import RoleEditForm from 'components/forms/RoleForm/RoleEditForm';
 
 import './role-form.scss';
+import '../form.scss'
 
 interface Props {
     roles: TeamRole[];
