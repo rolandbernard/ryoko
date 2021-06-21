@@ -25,6 +25,7 @@ export function setToken(token: string) {
 
 export function clearToken() {
     localStorage.removeItem('access-token');
+    sessionStorage.clear()
 }
 
 export function getLoggedInUser() {
