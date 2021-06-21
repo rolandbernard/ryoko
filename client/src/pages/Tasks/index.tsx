@@ -44,7 +44,7 @@ export default function Tasks() {
                     </section>
                     <section className="tasks-container">
                         <h2>Your tasks</h2>
-                        <p>Here are some tasks for which you were assigned directly, ordered by their importancy.</p>
+                        <p>Here are some tasks for which you were assigned directly, ordered by their priority.</p>
                         {
                             tasks.length > 0
                                 ? (
@@ -86,7 +86,7 @@ export default function Tasks() {
                         }
                     </section>
                 </div>
-            </div >
+            </div>
         );
     } else {
         return <LoadingScreen />
