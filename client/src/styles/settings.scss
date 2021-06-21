@@ -96,5 +96,5 @@ $breakpoints: (
 
 // General
 $tTime: 300ms ease;
-$transition: transform $tTime, opacity $tTime, color $tTime, background $tTime, box-shadow $tTime;
+$transition: transform $tTime, opacity $tTime, color $tTime, background $tTime, box-shadow $tTime, visibility $tTime;
 

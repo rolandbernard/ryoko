@@ -1,5 +1,4 @@
-
-@use 'styles/settings.scss' as s;
+@use 'styles/settings.scss'as s;
 
 .tabs-container {
     display: flex;
@@ -70,6 +69,6 @@
         width: calc(50% - 20px);
         border-radius: 15px;
         box-shadow: 0 0 5px rgba(s.$black, 0.05);
+        transition: left 300ms ease;
     }
 }
-
