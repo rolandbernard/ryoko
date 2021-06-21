@@ -12,10 +12,10 @@
     justify-content: center;
     z-index: 2000;
     align-items: center;
+
     & ~ div {
         overflow: hidden;
     }
-    
 
     .popup {
         will-change: transform;

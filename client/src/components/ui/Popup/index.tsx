@@ -1,10 +1,8 @@
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import './popup.scss';
-
-const body = document.getElementsByTagName('body')[0];
 
 interface Props {
     children: ReactNode
@@ -12,12 +10,8 @@ interface Props {
 }
 
 export default function Popup({ children, onClose }: Props) {
-    useEffect(() => {
-        body.style.overflow = 'hidden';
-        return () => {
-            body.style.overflow = '';
-        }
-    }, []);
+    const body = document.getElementsByTagName('body')[0];
+    const root = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
@@ -31,8 +25,33 @@ export default function Popup({ children, onClose }: Props) {
         }
     }, [onClose]);
 
+    useEffect(() => {
+        const ignoreEvent = (e: Event) => {
+            e.preventDefault();
+            return false;
+        };
+        const elements = [ root.current, body ];
+        const events = [
+            'scroll', 'wheel', 'mousewheel', 'DOMMouseScroll',
+            'keydown', 'keypress', 'keyup', 'touchmove',
+            'touchstart', 'touchend', 'focus', 'click'
+        ];
+        for (const elem of elements) {
+            for (const event of events) {
+                elem?.addEventListener(event, ignoreEvent);
+            }
+        }
+        return () => {
+            for (const elem of elements) {
+                for (const event of events) {
+                    elem?.removeEventListener(event, ignoreEvent);
+                }
+            }
+        }
+    });
+
     return createPortal(
-        <div className="popup-container">
+        <div className="popup-container" ref={root}>
             <div className="popup">
                 {children}
             </div>
