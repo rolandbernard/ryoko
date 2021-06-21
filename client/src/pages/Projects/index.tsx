@@ -17,12 +17,10 @@ export default function Projects() {
     const [shownProjects, setShownProjects] = useState<Project[]>([]);
     const [slideProjects, setSlideProjects] = useState<Project[]>([]);
 
-    const allStatus = Object.values(Status).map((status) => {
-        return {
-            label: status.toString(),
-            color: StatusColors.get(status.toString())
-        }
-    });
+    const allStatus = Object.values(Status).map(status => ({
+        label: status,
+        color: StatusColors.get(status.toString())
+    }));
 
     useEffect(() => {
         getProjects().then((projects) => {
@@ -35,7 +33,7 @@ export default function Projects() {
 
     useEffect(() => {
         setShownProjects(allProjects.filter(project => {
-            return project.name.includes(filter.term)
+            return project.name.toLowerCase().includes(filter.term.toLowerCase())
                 && filter.tags.some(tag => tag === project.status);
         }));
     }, [filter, allProjects])

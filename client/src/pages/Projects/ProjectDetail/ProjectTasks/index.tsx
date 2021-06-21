@@ -27,7 +27,7 @@ export default function ProjectTasks({ project }: Props) {
 
     useEffect(() => {
         setShownTasks(allTasks.filter(task => (
-            task.name.indexOf(filter.term) >= 0
+            task.name.toLowerCase().includes(filter.term.toLowerCase())
             && filter.tags.includes(task.status)
         )));
     }, [filter, allTasks])
@@ -38,7 +38,7 @@ export default function ProjectTasks({ project }: Props) {
                 setFilter={setFilter}
                 tags={
                     Object.values(Status).map(status => ({
-                        label: status.toString(),
+                        label: status,
                         color: StatusColors.get(status.toString()),
                     }))
                 }
