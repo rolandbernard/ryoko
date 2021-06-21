@@ -1,18 +1,24 @@
-
-@use 'styles/settings' as s;
-@use 'styles/mixins' as mx;
-@use 'styles/functions' as fn;
+@use 'styles/settings'as s;
+@use 'styles/mixins'as mx;
+@use 'styles/functions'as fn;
 
 .tasks-page {
     h2 {
+
         margin-top: 40px;
+        margin-bottom: 10px;
+
+        @include mx.breakpoint(medium) {
+            margin-top: 60px;
+            margin-bottom: 10px;
+        }
     }
 
     .intro-section {
         font-size: fn.toRem(18);
 
         @include mx.breakpoint(large) {
-            font-size: fn.toRem(24);
+            font-size: fn.toRem(20);
         }
     }
 
@@ -24,12 +30,12 @@
             margin-bottom: 30px;
         }
     }
-    
+
     .task-error {
         margin-top: 20px;
         border-radius: 5px;
         padding: 20px;
         background: s.$background-white;
+        text-align: center;
     }
 }
-
