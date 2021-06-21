@@ -13,6 +13,7 @@ import CheckboxGroup from 'components/ui/CheckboxGroup';
 
 import '../form.scss';
 import './project-form.scss';
+import { formatDate, formatDateShort } from 'timely';
 
 interface Props {
     project?: Project
@@ -63,7 +64,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
     const [text, setText] = useState(project?.text);
     const [status, setStatus] = useState(project?.status);
     const [color, setColor] = useState(project?.color);
-    const [deadline, setDeadline] = useState(project?.deadline?.toISOString());
+    const [deadline, setDeadline] = useState(project?.deadline ? formatDateShort(new Date(project?.deadline)) : '');
     const [error, setError] = useState('');
     const [loadError, setLoadError] = useState(false);
     const [teams, setTeams] = useState(project?.teams ?? []);
@@ -85,7 +86,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             }
             setAllTeams(teams);
         })
-        .catch(() => setLoadError(true))
+            .catch(() => setLoadError(true))
     }, [project?.teams, loadError])
 
     const colors = Object.values(ProjectColors);
@@ -104,6 +105,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             setError('Please fill in the mandatory fields.');
         }
     }, [onSubmit, setError, name, text, color, deadline, teams, status]);
+
 
     return (
         <form onSubmit={handleSubmit} className={'project-form theme-' + color}>
@@ -174,7 +176,7 @@ export default function ProjectForm({ project, onSubmit }: Props) {
             <div className="teams">
                 <h2>Teams</h2>
                 <p>Which ones of your teams are working on this project</p>
-                { loadError
+                {loadError
                     ? <ErrorScreen />
                     : <CheckboxGroup choices={allTeams} chosen={teams} setChosen={setTeams} />
                 }

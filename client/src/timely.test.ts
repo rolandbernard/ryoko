@@ -8,6 +8,7 @@ import {
     addTime,
     subtractTime,
     durationFor,
+    formatDateShort
 } from 'timely';
 
 test('simple duration format works as expected', () => {
@@ -397,3 +398,6 @@ test('get duration from amount and unit', () => {
     expect(durationFor(10, 'hour')).toEqual(10 * 60 * 60 * 1000);
 });
 
+test('format simple date', () => {
+    expect(formatDateShort(new Date('2021-04-29T00:00:00'))).toEqual('2021-04-29');
+});
