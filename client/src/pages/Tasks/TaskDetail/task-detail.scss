@@ -1,3 +1,4 @@
+@use 'styles/mixins.scss' as mx;
 
 .tasks-detail-page {
     .tag {
@@ -19,5 +20,16 @@
     .button {
         margin-bottom: 10px;
     }
-}
 
+    .button-container {
+        @include mx.breakpoint(medium) {
+            display: flex;
+            margin: -5px;
+
+            .button {
+                margin: 5px;
+
+            }
+        }
+    }
+}

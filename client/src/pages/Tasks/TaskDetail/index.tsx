@@ -48,7 +48,7 @@ export default function TaskDetail() {
                         .map(team => team.name)
                 );
             });
-        }).catch(() => {});
+        }).catch(() => { });
         getTaskAssignees(taskId).then(setAssignees);
     }, [taskId, userId, history]);
 
@@ -59,7 +59,7 @@ export default function TaskDetail() {
         };
         if (time > 0) {
             updateTask(taskId, {
-                remove_assigned: [ userId ],
+                remove_assigned: [userId],
                 add_assigned: [{
                     user: userId,
                     time: time,
@@ -67,7 +67,7 @@ export default function TaskDetail() {
                 }],
             }).then(reloadData);
         } else {
-            updateTask(taskId, { remove_assigned: [ userId ] })
+            updateTask(taskId, { remove_assigned: [userId] })
                 .then(reloadData);
         }
     }, [taskId, userId, assignment]);
@@ -100,10 +100,12 @@ export default function TaskDetail() {
                             </ButtonLink>
                         )
                     }
-                    <AssignForm onAssign={onAssign} initialTime={assignment && assignment.time} />
-                    <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
-                        Edit
-                    </ButtonLink>
+                    <div className="button-container">
+                        <AssignForm onAssign={onAssign} initialTime={assignment && assignment.time} />
+                        <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
+                            Edit
+                        </ButtonLink>
+                    </div>
                     <Tabs
                         tabs={[
                             {

@@ -27,7 +27,7 @@ export default function AssignForm({ onAssign, initialTime }: Props) {
     }, [onAssign, selectedTime])
 
     return <>
-        <Button className="expanded" onClick={() => setPopup(true)}>
+        <Button className="expanded dark" onClick={() => setPopup(true)}>
             {initialTime ? 'Change assignment' : 'Assign yourself'}
         </Button>
         {
@@ -36,7 +36,7 @@ export default function AssignForm({ onAssign, initialTime }: Props) {
                     <form onSubmit={addAssignee}>
                         <TimeInput initialTime={initialTime && (initialTime / 60)} onChange={value => setSelectedTime(value)} />
                         <div>
-                            <Button type="submit" className="expanded">
+                            <Button type="submit" className="expanded dark">
                                 {initialTime ? 'Change assignment' : 'Assign yourself'}
                             </Button>
                         </div>
