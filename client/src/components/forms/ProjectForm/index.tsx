@@ -13,7 +13,7 @@ import CheckboxGroup from 'components/ui/CheckboxGroup';
 
 import '../form.scss';
 import './project-form.scss';
-import { formatDate, formatDateShort } from 'timely';
+import { formatDateShort } from 'timely';
 
 interface Props {
     project?: Project
