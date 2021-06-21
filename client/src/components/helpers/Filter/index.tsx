@@ -17,7 +17,7 @@ interface Props<Tag> {
     }[];
 }
 
-export default function Filter<Tag extends string>({ setFilter, tags, filter }: Props<Tag>) {
+export default function FilterComponent<Tag extends string>({ setFilter, tags, filter }: Props<Tag>) {
     return (
         <div className="filter-container">
             <div className="search-container">
