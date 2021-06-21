@@ -17,11 +17,12 @@ facilitates effective collaboration.
 
 ## Documentation
 
+* [User Story](docs/user-story.md)
 * [Wireframes](docs/wireframes.md)
 * [Mockups](docs/mockups.md)
-* [Accessibility Report](docs/accessibility.md)
-* [User Documentation](docs/user-docs.md)
+* [Technologies, Architecture & Development Process](docs/technology.md)
 * [API Documentation](docs/api-docs.md)
+* [Accessibility Report](docs/accessibility.md)
 
 ## Getting Started
 
