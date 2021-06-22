@@ -1,5 +1,6 @@
-@use 'styles/settings.scss'as s;
-@use 'styles/functions.scss'as fn;
+
+@use 'styles/settings.scss' as s;
+@use 'styles/functions.scss' as fn;
 
 .circular-progress {
     position: relative;

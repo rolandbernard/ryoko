@@ -37,7 +37,7 @@ export default function TaskCreate() {
         ) => {
             try {
                 try {
-                    await createTask({
+                    const id = await createTask({
                         project: projectId,
                         name: name,
                         text: text,
@@ -47,7 +47,7 @@ export default function TaskCreate() {
                         requirements: requirements,
                         assigned: assignees
                     });
-                    history.push('/projects/' + projectId);
+                    history.push(`/tasks/${id}`);
                 } catch (e) {
                     setError('There was an error with creating your project. Please try again!');
                 }

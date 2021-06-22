@@ -1,6 +1,5 @@
 
 import { ReactNode, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 
 import './popup.scss';
 
@@ -12,12 +11,6 @@ interface Props {
 }
 
 export default function Popup({ children, onClose }: Props) {
-    useEffect(() => {
-        body.style.overflow = 'hidden';
-        return () => {
-            body.style.overflow = '';
-        }
-    }, []);
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
@@ -31,13 +24,20 @@ export default function Popup({ children, onClose }: Props) {
         }
     }, [onClose]);
 
-    return createPortal(
+    useEffect(() => {
+        body.classList.add('blocked');
+        return () => {
+            body.classList.remove('blocked');
+        }
+    }, []);
+
+    return (
         <div className="popup-container">
             <div className="popup">
                 {children}
             </div>
             <div className="background" onClick={() => onClose()}></div>
-        </div>, body
+        </div>
     );
 }
 

@@ -17,7 +17,6 @@ export default function Tag({ label, icon, color }: Props) {
             )}
             {label}
         </span>
-
     );
-
 }
+

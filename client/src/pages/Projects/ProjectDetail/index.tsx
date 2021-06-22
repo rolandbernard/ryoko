@@ -1,12 +1,12 @@
 
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
-import { StatusColors } from 'adapters/common';
-import { getProject, Project } from 'adapters/project';
+import { Status, StatusColors } from 'adapters/common';
+import { getProject, Project, updateProject } from 'adapters/project';
 
-import Tag from 'components/ui/Tag';
+import EditableTag from 'components/ui/EditableTag';
 import LongText from 'components/ui/LongText';
 import Tabs, { Tab } from 'components/navigation/Tabs';
 import LoadingScreen from 'components/ui/LoadingScreen';
@@ -49,6 +49,19 @@ export default function ProjectDetail() {
         });
     }, [history, projectId])
 
+    const onStatusChange = useCallback((status: Status) => {
+        if (project) {
+            updateProject(project.id, {
+                status: status,
+            }).then(() => {
+                setProject({
+                    ...project,
+                    status: status
+                });
+            });
+        }
+    }, [project]);
+
     if (project) {
         return (
             <div className={'project-detail-page theme-' + project.color}>
@@ -56,7 +69,12 @@ export default function ProjectDetail() {
                     arrow_back
                 </Link>
                 <div className="content-container">
-                    <Tag label={project.status} color={StatusColors.get(project.status)} />
+                    <EditableTag
+                        label={project.status}
+                        color={StatusColors.get(project.status)}
+                        possible={Object.values(Status)}
+                        onChange={onStatusChange}
+                    />
                     <h1>{project.name}</h1>
                     <div className="description-container">
                         <LongText text={project.text} />

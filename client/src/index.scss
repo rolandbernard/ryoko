@@ -75,7 +75,7 @@
 
 * {
     transition: s.$transition;
-    transition-property: transform, opacity, color, background, box-shadow, stroke;
+    transition-property: transform, opacity, color, background, box-shadow, stroke, visibility;
     font-family: s.$body-font;
     margin: 0;
     padding: 0;
@@ -91,6 +91,13 @@ body {
     color: s.$text;
     position: relative;
     background: s.$background;
+    display: flex;
+    flex-flow: row nowrap;
+
+    #root {
+        flex: 1 1 100%;
+        width: 100%;
+    }
 }
 
 button {

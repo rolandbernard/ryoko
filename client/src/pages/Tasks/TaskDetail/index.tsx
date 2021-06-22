@@ -3,25 +3,26 @@ import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
+import { formatRelativeTime } from 'timely';
 import { getTeam } from 'adapters/team';
 import { AssignedUser } from 'adapters/user';
-import { StatusColors } from 'adapters/common';
+import { StatusColors, Status } from 'adapters/common';
 import { getLoggedInUser } from 'adapters/auth';
 import { getProject, Project } from 'adapters/project';
 import { getTask, getTaskAssignees, Task, updateTask } from 'adapters/task';
 
-import Tag from 'components/ui/Tag';
 import LongText from 'components/ui/LongText';
 import Tabs from 'components/navigation/Tabs';
 import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import ButtonLink from 'components/navigation/ButtonLink';
+import AssignForm from 'components/forms/AssignForm';
+import EditableTag from 'components/ui/EditableTag';
 
 import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
 
 import './task-detail.scss';
-import AssignForm from 'components/forms/AssignForm';
 
 export interface Params {
     taskId: string;
@@ -52,7 +53,7 @@ export default function TaskDetail() {
         getTaskAssignees(taskId).then(setAssignees);
     }, [taskId, userId, history]);
 
-    const onAssign = useCallback((time: number) => {
+    const onAssign = useCallback((time: number, finished: boolean) => {
         const reloadData = () => {
             getTask(taskId).then(setTask);
             getTaskAssignees(taskId).then(setAssignees);
@@ -63,14 +64,28 @@ export default function TaskDetail() {
                 add_assigned: [{
                     user: userId,
                     time: time,
-                    finished: assignment?.finished ?? false,
+                    finished: finished,
                 }],
             }).then(reloadData);
         } else {
             updateTask(taskId, { remove_assigned: [userId] })
                 .then(reloadData);
         }
-    }, [taskId, userId, assignment]);
+    }, [taskId, userId]);
+
+    const onStatusChange = useCallback((status: Status) => {
+        if (task) {
+            updateTask(task.id, {
+                status: status,
+            }).then(() => {
+                setTask({
+                    ...task,
+                    status: status,
+                    edited: new Date(),
+                });
+            });
+        }
+    }, [task]);
 
     if (task) {
         return (
@@ -79,7 +94,12 @@ export default function TaskDetail() {
                     arrow_back
                 </Link>
                 <div className="content-container">
-                    <Tag label={task.status} color={StatusColors.get(task.status)} />
+                    <EditableTag
+                        label={task.status}
+                        color={StatusColors.get(task.status)}
+                        possible={Object.values(Status)}
+                        onChange={onStatusChange}
+                    />
                     <h1>{task.name}</h1>
                     <div className="description-container">
                         <LongText text={task.text} />
@@ -90,7 +110,13 @@ export default function TaskDetail() {
                     <DetailGrid
                         details={[
                             { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
-                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') }
+                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') },
+                            { icon: 'priority_high', title: 'Priority', label: task?.priority },
+                            {
+                                icon: 'history',
+                                title: 'Edited',
+                                label: formatRelativeTime(task?.edited)
+                            }
                         ]}
                     />
                     {
@@ -101,7 +127,7 @@ export default function TaskDetail() {
                         )
                     }
                     <div className="button-container">
-                        <AssignForm onAssign={onAssign} initialTime={assignment && assignment.time} />
+                        <AssignForm onAssign={onAssign} initialTime={assignment?.time} initialFinished={assignment?.finished} />
                         <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                             Edit
                         </ButtonLink>
