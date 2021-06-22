@@ -53,7 +53,7 @@ export default function TaskDetail() {
         getTaskAssignees(taskId).then(setAssignees);
     }, [taskId, userId, history]);
 
-    const onAssign = useCallback((time: number) => {
+    const onAssign = useCallback((time: number, finished: boolean) => {
         const reloadData = () => {
             getTask(taskId).then(setTask);
             getTaskAssignees(taskId).then(setAssignees);
@@ -64,14 +64,14 @@ export default function TaskDetail() {
                 add_assigned: [{
                     user: userId,
                     time: time,
-                    finished: assignment?.finished ?? false,
+                    finished: finished,
                 }],
             }).then(reloadData);
         } else {
             updateTask(taskId, { remove_assigned: [userId] })
                 .then(reloadData);
         }
-    }, [taskId, userId, assignment]);
+    }, [taskId, userId]);
 
     const onStatusChange = useCallback((status: Status) => {
         if (task) {
@@ -127,7 +127,7 @@ export default function TaskDetail() {
                         )
                     }
                     <div className="button-container">
-                        <AssignForm onAssign={onAssign} initialTime={assignment && assignment.time} />
+                        <AssignForm onAssign={onAssign} initialTime={assignment?.time} initialFinished={assignment?.finished} />
                         <ButtonLink href={'/tasks/' + taskId + '/edit'} className="dark expanded">
                             Edit
                         </ButtonLink>
