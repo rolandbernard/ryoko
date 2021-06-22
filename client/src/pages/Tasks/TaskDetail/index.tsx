@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 
+import { formatRelativeTime } from 'timely';
 import { getTeam } from 'adapters/team';
 import { AssignedUser } from 'adapters/user';
 import { StatusColors, Status } from 'adapters/common';
@@ -79,7 +80,8 @@ export default function TaskDetail() {
             }).then(() => {
                 setTask({
                     ...task,
-                    status: status
+                    status: status,
+                    edited: new Date(),
                 });
             });
         }
@@ -108,7 +110,13 @@ export default function TaskDetail() {
                     <DetailGrid
                         details={[
                             { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
-                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') }
+                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') },
+                            { icon: 'priority_high', title: 'Priority', label: task?.priority },
+                            {
+                                icon: 'history',
+                                title: 'Edited',
+                                label: formatRelativeTime(task?.edited)
+                            }
                         ]}
                     />
                     {
