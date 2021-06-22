@@ -1,5 +1,5 @@
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Popup from 'components/ui/Popup';
@@ -27,6 +27,16 @@ export default function Dropdown({ children, items, position }: Props) {
             setOpen(false);
         }
     });
+
+    useEffect(() => {
+        if (isOpen) {
+            const onClick = () => setOpen(false);
+            document.addEventListener('click', onClick);
+            return () => {
+                document.removeEventListener('click', onClick);
+            }
+        }
+    }, [isOpen]);
 
     return (
         <>
