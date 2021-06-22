@@ -5,23 +5,23 @@ import { useHistory, useParams } from 'react-router';
 
 import { getTeam } from 'adapters/team';
 import { AssignedUser } from 'adapters/user';
-import { StatusColors } from 'adapters/common';
+import { StatusColors, Status } from 'adapters/common';
 import { getLoggedInUser } from 'adapters/auth';
 import { getProject, Project } from 'adapters/project';
 import { getTask, getTaskAssignees, Task, updateTask } from 'adapters/task';
 
-import Tag from 'components/ui/Tag';
 import LongText from 'components/ui/LongText';
 import Tabs from 'components/navigation/Tabs';
 import DetailGrid from 'components/layout/DetailGrid';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import ButtonLink from 'components/navigation/ButtonLink';
+import AssignForm from 'components/forms/AssignForm';
+import EditableTag from 'components/ui/EditableTag';
 
 import TaskAssignees from './TaskAssignees';
 import TaskComments from './TaskComments';
 
 import './task-detail.scss';
-import AssignForm from 'components/forms/AssignForm';
 
 export interface Params {
     taskId: string;
@@ -72,6 +72,19 @@ export default function TaskDetail() {
         }
     }, [taskId, userId, assignment]);
 
+    const onStatusChange = useCallback((status: Status) => {
+        if (task) {
+            updateTask(task.id, {
+                status: status,
+            }).then(() => {
+                setTask({
+                    ...task,
+                    status: status
+                });
+            });
+        }
+    }, [task]);
+
     if (task) {
         return (
             <div className={'tasks-detail-page theme-' + task.color}>
@@ -79,7 +92,12 @@ export default function TaskDetail() {
                     arrow_back
                 </Link>
                 <div className="content-container">
-                    <Tag label={task.status} color={StatusColors.get(task.status)} />
+                    <EditableTag
+                        label={task.status}
+                        color={StatusColors.get(task.status)}
+                        possible={Object.values(Status)}
+                        onChange={onStatusChange}
+                    />
                     <h1>{task.name}</h1>
                     <div className="description-container">
                         <LongText text={task.text} />

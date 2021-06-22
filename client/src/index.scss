@@ -75,7 +75,7 @@
 
 * {
     transition: s.$transition;
-    transition-property: transform, opacity, color, background, box-shadow, stroke;
+    transition-property: transform, opacity, color, background, box-shadow, stroke, visibility;
     font-family: s.$body-font;
     margin: 0;
     padding: 0;

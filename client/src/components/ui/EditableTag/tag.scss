@@ -1,0 +1,50 @@
+
+@use 'styles/settings.scss' as s;
+
+.tag-wrapper {
+    display: inline-flex;
+    flex-flow: column;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    z-index: 2000;
+
+    &.open {
+        .tag-dropdown {
+            opacity: 1;
+            transform: translateY(80%);
+            visibility: visible;
+        }
+
+        .icon {
+            transform: rotate(180deg);
+        }
+    }
+
+    .tag-dropdown {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform: translateY(75%);
+        background: s.$background-white;
+        z-index: 2000;
+        border-radius: 5px;
+        white-space: nowrap;
+        box-shadow: 0 0 5px rgba(s.$black, 0.05);
+        visibility: hidden;
+        opacity: 0;
+
+        .tag-item {
+            padding: 10px 20px;
+            display: block;
+            color: s.$text;
+            border-radius: 5px;
+            min-width: 100px;
+
+            &:hover {
+                box-shadow: 0 0 10px rgba(s.$black, 0.1);
+            }
+        }
+    }
+}
+
