@@ -2,16 +2,10 @@
 @use 'styles/settings';
 
 .button.button-link {
-    padding: 0;
+    padding: 14px 50px;
 
-    a {
-        display: inline-block;
-        padding: 14px 50px;
-        width: 100%;
-
-        &, &:hover, &:active, &:focus {
-            color: settings.$white;
-        }
+    &, &:hover, &:active, &:focus {
+        color: settings.$white;
     }
 }
 

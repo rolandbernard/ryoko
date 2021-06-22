@@ -3,19 +3,21 @@
 @use 'styles/functions' as fn;
 
 .button {
-    padding: 14px 50px;
     font-size: fn.toRem(18);
     font-weight: s.$weight-bold;
     background: s.$linear-gradient;
     box-shadow: 0px 5px 15px rgba(s.$black, 0.1);
     border-radius: 25px;
-    display: inline-block;
     color: s.$white;
     user-select: none;
     appearance: none;
     border: none;
     outline: none;
     will-change: transform;
+    padding: 14px 50px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 
     &.expanded {
         width: 100%;

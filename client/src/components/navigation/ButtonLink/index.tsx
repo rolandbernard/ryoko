@@ -2,8 +2,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-import Button from 'components/ui/Button';
-
 import './button-link.scss';
 
 interface Props {
@@ -14,13 +12,10 @@ interface Props {
 }
 
 export default function ButtonLink({ children, href, html, className }: Props) {
-    return (
-        <Button className={'button-link ' + (className ?? '')}>
-            { html
-                ? <a href={href}>{children}</a>
-                : <Link to={href}>{children}</Link>
-            }
-        </Button>
+    const classes = 'button button-link ' + (className ?? '');
+    return (html
+        ? <a className={classes} href={href}>{children}</a>
+        : <Link className={classes} to={href}>{children}</Link>
     );
 }
 
