@@ -60,6 +60,7 @@ export default function AssigneesForm({ assignees, members, onNew, onDelete }: P
                             </div>
                             <div className="time">{
                                 formatDuration(durationFor(assignee.time, 'minute'), 'second', 2, true)
+                                + (assignee.finished ? ' (finished)' : '')
                             }</div>
                             <div className="delete" onClick={() => removeAssignee(assignee.user)}>
                                 <span className="material-icons">

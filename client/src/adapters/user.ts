@@ -15,6 +15,7 @@ export interface User {
 
 export interface AssignedUser extends User {
     time: number;
+    finished?: boolean;
 }
 
 export async function exists(username: string) {

@@ -19,6 +19,7 @@ export default function TaskAssignees({ assignees }: Props) {
                             users={assignees}
                             info={user =>
                                 formatDuration(durationFor(user.time, 'minute'), 'second', 2, true)
+                                + (user.finished ? ' (finished)' : '')
                             }
                         />
                     )
