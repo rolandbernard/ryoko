@@ -326,8 +326,9 @@ task.get('/:uuid/assigned', async (req, res) => {
                     username: 'users.user_name',
                     email: 'users.email',
                     realname: 'users.real_name',
+                    time: 'task_assignees.time',
+                    finished: 'task_assignees.finished',
                 })
-                .sum({ time: 'task_assignees.time' })
                 .where({
                     'team_members.user_id': req.body.token.id,
                     'tasks.id': id,
@@ -335,7 +336,10 @@ task.get('/:uuid/assigned', async (req, res) => {
                 .groupBy('users.id');
             res.status(200).json({
                 status: 'success',
-                assigned: users,
+                assigned: users.map(user => ({
+                    ...user,
+                    finished: user.finished ? true : false
+                })),
             });
         } else {
             res.status(400).json({

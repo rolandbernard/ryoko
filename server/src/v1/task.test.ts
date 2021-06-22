@@ -528,6 +528,7 @@ describe('GET /task/:uuid/assigned', () => {
             email: 'test0@example.com',
             realname: 'Testing Tester',
             time: 120,
+            finished: false,
         });
     });
 });
