@@ -100,24 +100,6 @@ body {
     }
 }
 
-body.blocked {
-    overflow: hidden;
-
-    #root {
-        pointer-events: none;
-        user-select: none;
-    }
-
-    &::after {
-        flex: 0 0 auto;
-        height: 100%;
-        overflow-y: scroll;
-        content: '';
-        display: block;
-        scrollbar-width: thin;
-    }
-}
-
 button {
     background: none;
     border: none;

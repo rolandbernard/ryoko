@@ -1,6 +1,5 @@
 
 import { ReactNode, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 
 import './popup.scss';
 
@@ -32,13 +31,13 @@ export default function Popup({ children, onClose }: Props) {
         }
     }, []);
 
-    return createPortal(
+    return (
         <div className="popup-container">
             <div className="popup">
                 {children}
             </div>
             <div className="background" onClick={() => onClose()}></div>
-        </div>, body
+        </div>
     );
 }
 

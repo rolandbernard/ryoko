@@ -2,6 +2,25 @@
 @use 'styles/settings' as s;
 @use 'styles/mixins' as mx;
 
+body.blocked {
+    overflow: hidden;
+
+    #root {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &::after {
+        flex: 0 0 auto;
+        height: 100%;
+        overflow-y: scroll;
+        content: '';
+        display: block;
+        scrollbar-width: thin;
+    }
+}
+
+
 .popup-container {
     position: fixed;
     height: 100%;
@@ -12,6 +31,8 @@
     justify-content: center;
     z-index: 2000;
     align-items: center;
+    pointer-events: auto;
+    user-select: auto;
 
     & ~ div {
         overflow: hidden;
