@@ -31,7 +31,7 @@ export default function EditableTag<Tag extends string>({ label, icon, color, po
             <div className="tag-dropdown">
                 {
                     possible.filter(item => item !== label).map(item => (
-                        <span className="tag-item" onClick={() => onChange(item)}>
+                        <span key={item} className="tag-item" onClick={() => onChange(item)}>
                             {item}
                         </span>
                     ))

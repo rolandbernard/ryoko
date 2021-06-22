@@ -15,8 +15,8 @@ export default function ProjectCreate() {
 
     const handleSubmit = useCallback(async (teams: string[], name: string, text: string, color: string, _status?: Status, deadline?: string) => {
         try {
-            await createProject({ teams, name, text, color, deadline });
-            history.push('/projects');
+            const id = await createProject({ teams, name, text, color, deadline });
+            history.push(`/projects/${id}`);
         } catch (e) {
             setError('There was an error with creating your project. Please try again!');
         }
