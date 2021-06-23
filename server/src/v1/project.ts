@@ -11,6 +11,9 @@ const project = express();
 
 project.use(requireVerification);
 
+/*
+ * This route should return all projects visible to the user.
+ */
 project.get('/', async (req, res) => {
     try {
         const projects = await database('team_members')
@@ -43,6 +46,9 @@ project.get('/', async (req, res) => {
     }
 });
 
+/*
+ * This route should return information on an existing project.
+ */
 project.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -99,6 +105,9 @@ project.get('/:uuid', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the task for an existing project.
+ */
 project.get('/:uuid/tasks', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -150,6 +159,9 @@ project.get('/:uuid/tasks', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all users assigned to tasks of an existing project.
+ */
 project.get('/:uuid/assigned', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -189,6 +201,9 @@ project.get('/:uuid/assigned', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all work items done for tasks of an existing project.
+ */
 project.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -231,6 +246,9 @@ project.get('/:uuid/work', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the activity for an existing project.
+ */
 project.get('/:uuid/activity', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -282,6 +300,9 @@ project.get('/:uuid/activity', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the completion for an existing project.
+ */
 project.get('/:uuid/completion', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -348,6 +369,9 @@ interface AddProjectBody {
     token: Token;
 }
 
+/*
+ * This route should create a new project.
+ */
 project.post('/', async (req, res) => {
     if (isOfType<AddProjectBody>(req.body, [['teams', 'object'], ['name', 'string'], ['text', 'string'], ['color', 'string']])) {
         try {
@@ -420,6 +444,9 @@ interface UpdateProjectBody {
     token: Token;
 }
 
+/*
+ * This route should update an existing project.
+ */
 project.put('/:uuid', async (req, res) => {
     if (isOfType<UpdateProjectBody>(req.body, [])) {
         try {

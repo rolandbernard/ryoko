@@ -15,6 +15,9 @@ interface AddWorkBody {
     token: Token;
 }
 
+/*
+ * This route should create a new work item, started now. The request also closes all unfinished work items.
+ */
 work.post('/start', async (req, res) => {
     if (isOfType<AddWorkBody>(req.body, [['task', 'string']])) {
         try {
@@ -78,6 +81,9 @@ work.post('/start', async (req, res) => {
     }
 });
 
+/*
+ * This route should finish all open work items of the authenticated user.
+ */
 work.put('/finish', async (req, res) => {
     try {
         const work = await database('workhours')
@@ -106,6 +112,9 @@ work.put('/finish', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the unfinished item of the authenticated user.
+ */
 work.get('/', async (req, res) => {
     try {
         const work = await database('workhours')

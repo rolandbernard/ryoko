@@ -33,6 +33,12 @@ export interface Task {
     color: string;
 }
 
+/**
+ * Transform the result from an SQL query to an array of Task elements.
+ * 
+ * @param results The result from an SQL query
+ * @returns The array of tasks
+ */
 export function generateFromFlatResult(results: any[]): Task[] {
     const grouped_tasks: Record<string, Task> = { };
     const to_remove: Array<string> = [];
@@ -94,6 +100,9 @@ const task = express();
 
 task.use(requireVerification);
 
+/*
+ * This route should return all tasks visible to the authenticated user.
+ */
 task.get('/', async (req, res) => {
     try {
         const tasks = await database('team_members')
@@ -136,6 +145,9 @@ task.get('/', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all tasks visible to the authenticated user that have a certain status.
+ */
 task.get('/:status(open|closed|suspended)', async (req, res) => {
     try {
         const tasks = await database('team_members')
@@ -179,6 +191,9 @@ task.get('/:status(open|closed|suspended)', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all tasks visible to the authenticated user that are open and have no open dependencies.
+ */
 task.get('/possible', async (req, res) => {
     try {
         const tasks = await database('team_members')
@@ -224,6 +239,9 @@ task.get('/possible', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all comments for an existing task.
+ */
 task.get('/:uuid/comments', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -270,6 +288,9 @@ task.get('/:uuid/comments', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all work items for an existing task.
+ */
 task.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -312,6 +333,9 @@ task.get('/:uuid/work', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all users assigned to an existing task.
+ */
 task.get('/:uuid/assigned', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -355,6 +379,9 @@ task.get('/:uuid/assigned', async (req, res) => {
     }
 });
 
+/*
+ * This route should return information for an existing task.
+ */
 task.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -452,6 +479,9 @@ interface AddTaskBody {
     token: Token;
 }
 
+/*
+ * This route should create a new task.
+ */
 task.post('/', async (req, res) => {
     if (isOfType<AddTaskBody>(req.body, [
         ['project', 'string'], ['name', 'string'], ['text', 'string'], ['icon', 'string'],
@@ -562,6 +592,9 @@ interface UpdateTaskBody {
     token: Token;
 }
 
+/*
+ * This route should update an existing task.
+ */
 task.put('/:uuid', async (req, res) => {
     if (isOfType<UpdateTaskBody>(req.body, [])) {
         try {

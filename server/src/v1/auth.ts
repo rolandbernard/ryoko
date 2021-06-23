@@ -12,23 +12,34 @@ const auth = express();
 
 const authTokenType = 'ryoko-auth';
 
+/**
+ * A token contains a type and ID. Only if the type is equal to the value in
+ * authTokenType is the token valid for authentication.
+ */
 export interface Token {
     id: string;
     type: string;
 }
 
+/**
+ * Middleware that verifies the token send with a request. A token can either be send using the
+ * Authorization header, using a Bearer token. Or directly in the body with the name token.
+ * 
+ * @param req The request to handle
+ * @param _res The response to the request
+ * @param next The next middleware to call
+ */
 export async function tokenVerification(req: Request, _res: Response, next: NextFunction) {
     const header = req.headers?.authorization;
     let token: string | null = null;
     if (header) {
         const bearer = header.split(' ');
         token = bearer[1];
-    } else if (!req.body) {
-        req.body = {};
     } else if (req.body.token) {
         token = req.body.token;
     }
     if (token) {
+        // Delete the token in the body, if present.
         delete req.body.token;
         try {
             let decoded;
@@ -54,6 +65,14 @@ export async function tokenVerification(req: Request, _res: Response, next: Next
     }
 }
 
+/**
+ * Middleware that will return an error response if no authentication token is provided, or the
+ * provided token is invalid in any way.
+ * 
+ * @param req The request to handle
+ * @param _res The response to  the request
+ * @param next The next middleware to call
+ */
 export function requireVerification(req: Request, res: Response, next: NextFunction) {
     if (req.body?.token) {
         next();
@@ -65,6 +84,12 @@ export function requireVerification(req: Request, res: Response, next: NextFunct
     }
 }
 
+/**
+ * Generate a new authentication token for the given user ID.
+ * 
+ * @param id The id to create a token for
+ * @returns A promise resolving to the generated token signed with the servers key
+ */
 export async function generateAuthToken(id: string) {
     const token: Token = {
         id: id,
@@ -84,6 +109,9 @@ interface RegisterBody {
     realname?: string;
 }
 
+/*
+ * This route should register a new user for this service.
+ */
 auth.post('/register', async (req, res) => {
     if (isOfType<RegisterBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: RegisterBody = req.body;
@@ -123,6 +151,10 @@ interface TokenBody {
     password: string;
 }
 
+/*
+ * This route should request a new authentication token to the user. The token will only be returned
+ * if the given username and password are correct.
+ */
 auth.post('/token', async (req, res) => {
     if (isOfType<TokenBody>(req.body, [['username', 'string'], ['password', 'string']])) {
         const body: TokenBody = req.body;
@@ -164,6 +196,9 @@ auth.post('/token', async (req, res) => {
 
 auth.use(requireVerification);
 
+/*
+ * This route should request an extension to the token that was used to make the request.
+ */
 auth.get("/extend", async function (req, res) {
     const token = await generateAuthToken(req.body.token.id);
     res.status(200).json({
@@ -177,6 +212,9 @@ interface UsernameBody {
     username: string;
 }
 
+/*
+ * This route should change the username of the authenticated user, if the username is not taken.
+ */
 auth.put("/username", async function (req, res) {
     if (isOfType<UsernameBody>(req.body, [['username', 'string']])) {
         const body: UsernameBody = req.body;
@@ -217,6 +255,9 @@ interface PasswordBody {
     password: string;
 }
 
+/*
+ * This route should change the password of the authorized user.
+ */
 auth.put("/password", async function (req, res) {
     if (isOfType<PasswordBody>(req.body, [['password', 'string']])) {
         const body: PasswordBody = req.body;

@@ -15,6 +15,9 @@ interface CreateTeamBody {
     token: Token;
 }
 
+/*
+ * This route should create a new team.
+ */
 team.post('/', async (req, res) => {
     if (isOfType<CreateTeamBody>(req.body, [['name', 'string']])) {
         const team_id = uuid();
@@ -60,6 +63,9 @@ interface UpdateTeamBody {
     token: Token;
 }
 
+/*
+ * This route should update an existing team.
+ */
 team.put('/:uuid', async (req, res) => {
     if (isOfType<UpdateTeamBody>(req.body, [['name', 'string']])) {
         const team_id = req.params.uuid;
@@ -110,6 +116,9 @@ team.put('/:uuid', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all teams a user is a member of.
+ */
 team.get('/', async (req, res) => {
     try {
         const teams = await database('team_members')
@@ -134,6 +143,9 @@ team.get('/', async (req, res) => {
     }
 });
 
+/*
+ * This route should return information for an existing team.
+ */
 team.get('/:uuid/', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -176,6 +188,9 @@ team.get('/:uuid/', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all members of an existing team.
+ */
 team.get('/:uuid/members', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -231,6 +246,9 @@ team.get('/:uuid/members', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all roles of an existing team.
+ */
 team.get('/:uuid/roles', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -271,6 +289,9 @@ team.get('/:uuid/roles', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all projects of an existing team.
+ */
 team.get('/:uuid/projects', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -311,6 +332,9 @@ team.get('/:uuid/projects', async (req, res) => {
     }
 });
 
+/*
+ * This route should return all work items done by members of an existing team.
+ */
 team.get('/:uuid/work', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -352,6 +376,9 @@ team.get('/:uuid/work', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the activity of an existing team.
+ */
 team.get('/:uuid/activity', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -394,6 +421,9 @@ team.get('/:uuid/activity', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the completion of an existing team.
+ */
 team.get('/:uuid/completion', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -456,6 +486,9 @@ interface AddRoleBody {
     token: Token;
 }
 
+/*
+ * This route should create a new role for an existing team.
+ */
 team.post('/:uuid/roles', async (req, res) => {
     if (isOfType<AddRoleBody>(req.body, [['name', 'string']])) {
         try {
@@ -513,6 +546,9 @@ interface UpdateRoleBody {
     token: Token;
 }
 
+/*
+ * This route should update an existing role.
+ */
 team.put('/:teamid/roles/:roleid', async (req, res) => {
     if (isOfType<UpdateRoleBody>(req.body, [['name', 'string']])) {
         try {
@@ -571,6 +607,9 @@ team.put('/:teamid/roles/:roleid', async (req, res) => {
     }
 });
 
+/*
+ * This route should remove an existing role. This should only remove the role if no member has it.
+ */
 team.delete('/:teamid/roles/:roleid', async (req, res) => {
     try {
         const team_id = req.params.teamid;
@@ -631,6 +670,9 @@ interface AddMemberBody {
     token: Token;
 }
 
+/*
+ * This route should create a new member for an existing team.
+ */
 team.post('/:uuid/members', async (req, res) => {
     if (isOfType<AddMemberBody>(req.body, [['user', 'string'], ['role', 'string']])) {
         try {
@@ -687,6 +729,9 @@ interface UpdateMemberBody {
     token: Token;
 }
 
+/*
+ * This route should update an existing team.
+ */
 team.put('/:uuid/members', async (req, res) => {
     if (isOfType<UpdateMemberBody>(req.body, [['user', 'string'], ['role', 'string']])) {
         try {
@@ -738,6 +783,9 @@ team.put('/:uuid/members', async (req, res) => {
     }
 });
 
+/*
+ * This route should remove an existing member from a team.
+ */
 team.delete('/:teamid/members/:userid', async (req, res) => {
     try {
         const team_id = req.params.teamid;
@@ -786,6 +834,9 @@ team.delete('/:teamid/members/:userid', async (req, res) => {
     }
 });
 
+/*
+ * This route should remove the authenticated user from the team.
+ */
 team.delete('/:uuid/', async (req, res) => {
     try {
         const id = req.params.uuid;

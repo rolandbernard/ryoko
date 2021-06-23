@@ -11,6 +11,9 @@ import { generateFromFlatResult } from './task';
 
 const user = express();
 
+/*
+ * This route should return the id of the user with a certain name.
+ */
 user.get('/name/:username', async (req, res) => {
     try {
         const name = req.params.username.trim().toLowerCase();
@@ -39,6 +42,14 @@ user.get('/name/:username', async (req, res) => {
     }
 });
 
+/**
+ * Send data from the given buffer to the response, given the request. This will send data using ranged requests.
+ * This means that only the data that is requested in the request headers will be returned.
+ * 
+ * @param req The request to respond to
+ * @param res The response to write to
+ * @param data The data that should be written
+ */
 function sendRangedData(req: Request, res: Response, data: Buffer) {
     res.setHeader('Accept-Ranges', 'bytes');
     const range = req.range(data.length);
@@ -52,6 +63,9 @@ function sendRangedData(req: Request, res: Response, data: Buffer) {
     }
 }
 
+/*
+ * This route should return the image of an existing user.
+ */
 user.get('/:uuid/image', async (req, res) => {
     try {
         const id = req.params.uuid;
@@ -88,6 +102,9 @@ user.get('/:uuid/image', async (req, res) => {
 
 user.use(requireVerification);
 
+/*
+ * This route should return information of the authenticated user.
+ */
 user.get('/', async (req, res) => {
     try {
         const user = await database('users')
@@ -117,6 +134,9 @@ user.get('/', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the tasks the authenticated user is assigned to.
+ */
 user.get('/tasks', async (req, res) => {
     try {
         const tasks = await database({ 'ut': 'task_assignees' })
@@ -159,6 +179,9 @@ user.get('/tasks', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the work items the authenticated user created.
+ */
 user.get('/work', async (req, res) => {
     try {
         const since = new Date(parseInt(req.query.since as string ?? 0));
@@ -189,6 +212,9 @@ user.get('/work', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the activity of the authenticated user.
+ */
 user.get('/activity', async (req, res) => {
     try {
         const since = new Date(parseInt(req.query.since as string ?? 0));
@@ -220,6 +246,9 @@ user.get('/activity', async (req, res) => {
     }
 });
 
+/*
+ * This route should return the completion of the authenticated user.
+ */
 user.get('/completion', async (req, res) => {
     try {
         const since = new Date(parseInt(req.query.since as string ?? 0));
@@ -273,6 +302,9 @@ interface UserUpdateBody {
     email?: string;
 }
 
+/*
+ * This route should update the authenticated user.
+ */
 user.put('/', async (req, res) => {
     if (isOfType<UserUpdateBody>(req.body, [])) {
         try {
@@ -313,6 +345,9 @@ user.put('/', async (req, res) => {
     }
 });
 
+/*
+ * This route should update the image for the authenticated user.
+ */
 user.put('/image', async (req, res) => {
     if (req.files?.image && isOfType<UploadedFile>(req.files.image, [['data', 'object']])) {
         try {
@@ -350,6 +385,9 @@ user.put('/image', async (req, res) => {
     }
 });
 
+/*
+ * This route should return information for an existing user.
+ */
 user.get('/:uuid', async (req, res) => {
     try {
         const id = req.params.uuid;

@@ -16,6 +16,9 @@ interface AddCommentBody {
     token: Token;
 }
 
+/*
+ * This route should create a new comment.
+ */
 comment.post('/', async (req, res) => {
     if (isOfType<AddCommentBody>(req.body, [['task', 'string'], ['text', 'string']])) {
         try {
@@ -74,6 +77,9 @@ interface UpdateCommentBody {
     token: Token;
 }
 
+/*
+ * This route should update a existing token.
+ */
 comment.put('/:uuid', async (req, res) => {
     if (isOfType<UpdateCommentBody>(req.body, [['text', 'string']])) {
         try {
@@ -118,6 +124,9 @@ comment.put('/:uuid', async (req, res) => {
     }
 });
 
+/*
+ * This route should return information on an existing comment.
+ */
 comment.get('/:uuid', async (req, res) => {
     try {
         const comment_id = req.params.uuid;
