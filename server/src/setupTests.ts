@@ -3,6 +3,9 @@ import { env } from 'process';
 
 import { database, migrate, close } from './database';
 
+/**
+ * This function will load all of the testing data used in the tests into the default database.
+ */
 async function loadTestData() {
     await database('users')
         .insert([
@@ -265,6 +268,10 @@ async function loadTestData() {
         ]);
 }
 
+/**
+ * Delete all the data that is inserted in the loadTestData function. This function must be executed
+ * after the test if we are running inside a production database.
+ */
 async function deleteTestData() {
     if (env.NODE_ENV !== 'test') {
         await database('comments')
@@ -373,11 +380,19 @@ async function deleteTestData() {
     }
 }
 
+/*
+ * This is called before all the test are executed. We have to execute migrations first before we can
+ * load the data.
+ */
 beforeAll(async () => {
     await migrate();
     await loadTestData();
 });
 
+/*
+ * This is called after all the test are executed. After deleting the data, we must close the database
+ * confection, because otherwise the tests will never finish.
+ */
 afterAll(async () => {
     await deleteTestData();
     await close();
