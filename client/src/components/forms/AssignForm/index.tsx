@@ -24,7 +24,7 @@ export default function AssignForm({ onAssign, initialTime, initialFinished }: P
         e.preventDefault();
         setPopup(false);
         if (selectedTime && !Number.isNaN(selectedTime)) {
-            onAssign(selectedTime * 60, finished);
+            onAssign(selectedTime, finished);
         } else {
             onAssign(0, false);
         }
@@ -38,7 +38,7 @@ export default function AssignForm({ onAssign, initialTime, initialFinished }: P
             popup && (
                 <Popup onClose={() => setPopup(false)}>
                     <form onSubmit={addAssignee}>
-                        <TimeInput initialTime={initialTime && (initialTime / 60)} onChange={value => setSelectedTime(value)} />
+                        <TimeInput initialTime={initialTime && (initialTime / 60)} onChange={value => setSelectedTime(value * 60)} />
                         <Checkbox label="Finished" checked={finished} onChange={setFinished} />
                         <div className="assign-yourself">
                             <Button type="submit" className="expanded dark">
