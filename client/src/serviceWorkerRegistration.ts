@@ -12,6 +12,12 @@ type Config = {
     onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
+/**
+ * Register the service worker. Call the callbacks in the config on successful installation
+ * of update of the service worker.
+ * 
+ * @param config The callback to call on success, or update
+ */
 export function register(config?: Config) {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
         // The URL constructor is available in all browsers that support SW.
@@ -109,6 +115,9 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         });
 }
 
+/**
+ * Unregister the service worker for this application.
+ */
 export function unregister() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready

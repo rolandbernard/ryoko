@@ -11,6 +11,9 @@ const Login = lazy(() => import('pages/Login'));
 const Register = lazy(() => import('pages/Register'));
 const Introduction = lazy(() => import('pages/Introduction'));
 
+/**
+ * The App is the entry point of the application. It does some basic routing to the correct components.
+ */
 export default function App() {
     return (
         <Router>

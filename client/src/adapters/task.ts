@@ -40,6 +40,12 @@ export interface Task {
     color: ProjectColors;
 }
 
+/**
+ * Sort the given task by priority, time of creation, status and number of dependencies.
+ * 
+ * @param tasks The array of tasks to sort
+ * @returns The sorted array of tasks
+ */
 export function sortTasks(tasks: Task[]): Task[] {
     const PRIORITY: Record<Priority, number> = {
         'low': 4,
@@ -60,6 +66,11 @@ export function sortTasks(tasks: Task[]): Task[] {
     });
 }
 
+/**
+ * Get all tasks visible to the current user.
+ * 
+ * @returns A promise resolving to an array of tasks
+ */
 export function getTasks(): Promise<Task[]> {
     return executeApiGet(`task`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
@@ -68,6 +79,12 @@ export function getTasks(): Promise<Task[]> {
     }))), "Failed to get tasks");
 }
 
+/**
+ * Get all tasks with a certain status that are visible to the user.
+ * 
+ * @param status The status to filter for
+ * @returns A promise resolving to an array of tasks
+ */
 export function getTasksWithStatus(status: 'open' | 'closed' | 'suspended'): Promise<Task[]> {
     return executeApiGet(`task/${status}`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
@@ -76,6 +93,11 @@ export function getTasksWithStatus(status: 'open' | 'closed' | 'suspended'): Pro
     }))), "Failed to get tasks with status");
 }
 
+/**
+ * Get all tasks that are open and have no open dependencies.
+ * 
+ * @returns A promise resolving to an array of tasks
+ */
 export function getPossibleTasks(): Promise<Task[]> {
     return executeApiGet(`task/possible`, ({ tasks }) => sortTasks(tasks.map((task: any) => ({
         ...task,
@@ -84,6 +106,12 @@ export function getPossibleTasks(): Promise<Task[]> {
     }))), "Failed to get possible tasks");
 }
 
+/**
+ * Get data for the task with the given id.
+ * 
+ * @param uuid The id of the task
+ * @returns A promise resolving to a task
+ */
 export function getTask(uuid: string): Promise<Task> {
     return executeApiGet(`task/${uuid}`, ({ task }) => ({
         ...task,
@@ -92,6 +120,12 @@ export function getTask(uuid: string): Promise<Task> {
     }), "Failed to get task");
 }
 
+/**
+ * Get all comments for the task with the given id.
+ * 
+ * @param uuid The id of the task
+ * @returns A promise resolving to an array of comments
+ */
 export function getTaskComments(uuid: string): Promise<Comment[]> {
     return executeApiGet(`task/${uuid}/comments`, ({ comments }) => comments.map((comment: any) => ({
         ...comment,
@@ -100,6 +134,12 @@ export function getTaskComments(uuid: string): Promise<Comment[]> {
     })), "Failed to get task comments");
 }
 
+/**
+ * Get all work items for the task with the given id.
+ * 
+ * @param uuid The id of the task
+ * @returns A promise resolving to an array of work items
+ */
 export function getTaskWork(uuid: string): Promise<Work[]> {
     return executeApiGet(`task/${uuid}/work`, ({ work }) => work.map((work: any) => ({
         ...work,
@@ -108,6 +148,12 @@ export function getTaskWork(uuid: string): Promise<Work[]> {
     })), "Failed to get task work");
 }
 
+/**
+ * Get all users assigned to the task with the given id.
+ * 
+ * @param uuid The id of the task
+ * @returns A promise resolving to an array of users
+ */
 export function getTaskAssignees(uuid: string): Promise<AssignedUser[]> {
     return executeApiGet(`task/${uuid}/assigned`, ({ assigned }) => assigned, "Failed to get task assignees");
 }
@@ -123,6 +169,12 @@ interface AddTaskBody {
     assigned: Array<TaskAssignment>;
 }
 
+/**
+ * Create a new task.
+ * 
+ * @param task The data for the new task
+ * @returns A promise resolving to the id of the new task
+ */
 export function createTask(task: AddTaskBody): Promise<string> {
     return executeApiPost(`task`, task, ({ id }) => id, "Failed to create task");
 }
@@ -141,6 +193,12 @@ interface UpdateTaskBody {
     add_assigned?: Array<TaskAssignment>;
 }
 
+/**
+ * Update the existing task with the given id.
+ * 
+ * @param uuid The id of the task
+ * @param task The new data for the task
+ */
 export function updateTask(uuid: string, task: UpdateTaskBody) {
     return executeApiPut(`task/${uuid}`, task, () => {}, "Failed to update task");
 }

@@ -1,5 +1,6 @@
 export let apiRoot: string;
 
+// Automatically select the correct api location depending on the environment.
 if (process.env.NODE_ENV === 'production') {
     apiRoot = `${window.location.origin}/api/v1`;
 } else {
