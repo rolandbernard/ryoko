@@ -17,7 +17,11 @@ interface Props {
     ) => void
 }
 
-export default function RegisterForm({ onSubmit }: Props) {
+/**
+ * This is the contact form visible on the landing page. The component will call the onSubmit
+ * property when the form is submitted with the values the user entered.
+ */
+export default function ContactForm({ onSubmit }: Props) {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');

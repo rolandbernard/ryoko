@@ -10,6 +10,13 @@ import LoadingScreen from 'components/ui/LoadingScreen';
 import './register-form.scss';
 import '../form.scss';
 
+/**
+ * This function validates a username. A username should have 4 or more characters and not
+ * already exist in the system.
+ * 
+ * @param username The username input to validate
+ * @returns A promise resolving to a error message
+ */
 async function validateUsername(username: string) {
     if (username?.length < 3) {
         return 'Username has to be at least 4 characters long.';
@@ -20,6 +27,13 @@ async function validateUsername(username: string) {
     }
 }
 
+/**
+ * This function validates that the given password is valid. A password is required to be
+ * 6 or more characters long.
+ * 
+ * @param password The password to validate
+ * @returns A promise resolving to a error message
+ */
 function validatePassword(password: string) {
     if (password?.length < 6) {
         return 'Password has to be at least 6 characters long';
@@ -28,6 +42,13 @@ function validatePassword(password: string) {
     }
 }
 
+/**
+ * This function validates that the two passwords that were input are equal.
+ * 
+ * @param password The first password
+ * @param password2 The second password
+ * @returns A promise resolving to a error message
+ */
 function validateRepeatPassword(password: string, password2: string) {
     if (password !== password2) {
         return 'The passwords are not the same.';
@@ -41,6 +62,10 @@ interface Props {
     setError?: Function;
 }
 
+/**
+ * This component implements the form for registering a new user. When the form is submitted the
+ * onSubmit function in the properties will be called.
+ */
 export default function RegisterForm({ onSubmit, setError }: Props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

@@ -12,6 +12,10 @@ interface Props {
     onSubmit?: (username: string, password: string) => Promise<void>
 }
 
+/**
+ * This component implements the form for logging in a user. When the form is submitted the
+ * onSubmit function in the properties will be called with the provided username and password.
+ */
 export default function RegisterForm({ onSubmit }: Props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

@@ -15,6 +15,11 @@ interface Props {
     initialFinished?: boolean;
 }
 
+/**
+ * This component implements the form for inputing the users own assignment that can quickly be
+ * called in the task details page. The form will start of with the initial values given in the
+ * properties and call the onAssign function when the form is submitted.
+ */
 export default function AssignForm({ onAssign, initialTime, initialFinished }: Props) {
     const [popup, setPopup] = useState(false);
     const [selectedTime, setSelectedTime] = useState<number | undefined>(initialTime);

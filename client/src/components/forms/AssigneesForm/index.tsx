@@ -19,6 +19,11 @@ interface Props {
     onDelete: (req: string) => any
 }
 
+/**
+ * This component implements the form for inputing assigned users in the task edit and create pages.
+ * It shows all assignees and allows adding and removing them, using the callbacks in the properties
+ * of the component.
+ */
 export default function AssigneesForm({ assignees, members, onNew, onDelete }: Props) {
     const [possibleMembers, setPossibleMembers] = useState<PossibleMember[]>([]);
     const [addNew, setAddNew] = useState(false);
