@@ -11,6 +11,11 @@ interface Props {
     projects: IProject[]
 }
 
+/**
+ * This component implements a grid for showing multiple projects. The grid will display all
+ * projects given in the projects property. The grid also gives a link to the project creation
+ * page.
+ */
 export default function ProjectGrid({ projects }: Props) {
     let counter = 0;
     return (

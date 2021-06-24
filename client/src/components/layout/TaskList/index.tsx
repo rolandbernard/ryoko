@@ -12,6 +12,10 @@ interface Props {
     addButton?: boolean
 }
 
+/**
+ * This component implements a list of task. The list also has a link to the task creation page. The
+ * tasks in the tasks property will be displayed under the add button.
+ */
 export default function TaskList({ tasks, addButton }: Props) {
     return (
         <div className="task-list">

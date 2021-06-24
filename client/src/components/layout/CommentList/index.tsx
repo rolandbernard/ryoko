@@ -15,6 +15,11 @@ interface Props {
     taskId: string;
 }
 
+/**
+ * This component implements the list of comment that is to be shown in the task page. This includes
+ * a list of comments given in the comments property and a input form that allows the user to create
+ * a new comment.
+ */
 export default function CommentList({ comments, taskId }: Props) {
     const [error, setError] = useState(false);
     const [user, setUser] = useState<User>();

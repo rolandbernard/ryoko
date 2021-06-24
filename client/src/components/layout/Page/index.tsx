@@ -8,6 +8,10 @@ interface Props {
     className?: string,
 }
 
+/**
+ * This is used as a wrapper for the application content. This is mainly used for styling and layout
+ * purposes.
+ */
 export default function Page({ children, className }: Props) {
     return (<>
         <main className={'page-container ' + (className ?? '')}>

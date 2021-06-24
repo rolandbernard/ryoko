@@ -10,6 +10,11 @@ interface Props {
     label?: string;
 }
 
+/**
+ * This component implements a circular progress element. The completion will be shown in the color
+ * given in the property. If a label will be given, it will be displayed in the center of the
+ * progress circle. The circle itself is implemented as a svg.
+ */
 export default function CircularProgress({ percent, color, label }: Props) {
     const angle = Math.min(Math.max(percent / 100, 0), 0.99) * 2 * Math.PI;
     const largeFlag = angle > Math.PI ? 1 : 0;

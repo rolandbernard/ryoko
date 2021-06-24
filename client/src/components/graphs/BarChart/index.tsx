@@ -81,7 +81,7 @@ export default function BarChart({ data, unit, multiplier }: Props) {
                         {
                             data.map((item, i) => (
                                 <div
-                                    key={i}
+                                    key={data.length - i}
                                     className="bar"
                                     style={{
                                         height: ((item.value / maxValue) * 95 + 5) + '%',
