@@ -17,6 +17,10 @@ interface Props<Tag> {
     }[];
 }
 
+/**
+ * This component contains a filter input. The filter allows inputing a search term and filter by a
+ * series of tags.
+ */
 export default function FilterComponent<Tag extends string>({ setFilter, tags, filter }: Props<Tag>) {
     return (
         <div className="filter-container">

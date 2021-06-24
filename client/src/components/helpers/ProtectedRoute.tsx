@@ -8,6 +8,13 @@ import { getTeams } from 'adapters/team';
 import LoadingScreen from 'components/ui/LoadingScreen';
 import ErrorScreen from 'components/ui/ErrorScreen';
 
+/**
+ * This is a helper component that wrapped a react router route. The route is only
+ * accessible if the user is currently logged in. Otherwise, the user will be redirected
+ * to the login page.
+ * 
+ * @param props The properties to give to the actual react route
+ */
 export default function ProtectedRoute(props: RouteProps) {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);

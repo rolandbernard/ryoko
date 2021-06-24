@@ -19,6 +19,10 @@ interface Props {
     setMobileShown: Function;
 }
 
+/**
+ * This component implements the sidebar navigation of the application. In the desktop version it
+ * also includes the links to the pages that would also be in the bottom navigation.
+ */
 export default function Sidebar({ mobileShown, setMobileShown }: Props) {
     const [user, setUser] = useState<User>();
     const [activity, setActivity] = useState<ChartItem[]>();

@@ -15,6 +15,11 @@ interface Props {
     tabs: Tab[]
 }
 
+/**
+ * This component implements a tab navigation. The tabs given in the tabs property will be visible
+ * at the top as links that can be used to switch content in the bottom. The tabs are selected using
+ * react router routes.
+ */
 export default function Tabs({ tabs }: Props) {
     return (
         <>

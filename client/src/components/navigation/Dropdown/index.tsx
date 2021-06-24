@@ -18,6 +18,11 @@ interface Props {
     position?: 'left'|'right';
 }
 
+/**
+ * This implements a dropdown component that allows the user to select between multiple different
+ * react router links. The dropdown is applied to the children of the component and will open when
+ * these are pressed. The position property allows setting the horizontal offset of the dropdown.
+ */
 export default function Dropdown({ children, items, position }: Props) {
     const [isOpen, setOpen] = useState(false);
     const [openPopup, setOpenPopup] = useState<string | null>(null);

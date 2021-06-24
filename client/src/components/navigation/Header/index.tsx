@@ -10,6 +10,11 @@ import './header.scss';
 interface Props {
     children?: ReactNode
 }
+
+/**
+ * This component contains the navigation header, sidebar and basic site layout. This component is
+ * used as the wrapper for most pages of the application.
+ */
 export default function Header({ children }: Props) {
     const [showSidebar, setShowSidebar] = useState(false);
 

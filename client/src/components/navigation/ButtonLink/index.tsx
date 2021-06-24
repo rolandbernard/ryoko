@@ -11,6 +11,10 @@ interface Props {
     className?: string;
 }
 
+/**
+ * This component implements a link that is formatted to look like a link. If the html properties is
+ * true, a html a-tag will be used, otherwise a react-router link will be used.
+ */
 export default function ButtonLink({ children, href, html, className }: Props) {
     const classes = 'button button-link ' + (className ?? '');
     return (html
