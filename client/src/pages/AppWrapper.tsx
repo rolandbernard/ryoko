@@ -19,6 +19,10 @@ const Teams = lazy(() => import('pages/Teams'));
 const TeamsCreate = lazy(() => import('pages/Teams/TeamsCreate'));
 const Settings = lazy(() => import('pages/Settings'));
 
+/**
+ * This component is a wrapper for all pages for the main application. It includes the header,
+ * sidebar and navigation. It also does the routing for the main application.
+ */
 export default function AppWrapper() {
     return (
         <Header>

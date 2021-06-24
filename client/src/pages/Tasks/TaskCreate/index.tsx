@@ -14,6 +14,9 @@ interface Params {
     projectId: string;
 }
 
+/**
+ * This page should allow the user to create a new task by requesting all required information.
+ */
 export default function TaskCreate() {
     const [error, setError] = useState('');
     const [project, setProject] = useState<Project>();

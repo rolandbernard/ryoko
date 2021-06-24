@@ -21,6 +21,10 @@ export interface Params {
     projectId: string;
 }
 
+/**
+ * This page includes information on a project. It should show the projects stats and the projects
+ * tasks.
+ */
 export default function ProjectDetail() {
     const [project, setProject] = useState<Project>();
     const [tabs, setTabs] = useState<Tab[]>([]);

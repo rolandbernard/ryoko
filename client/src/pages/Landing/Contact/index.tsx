@@ -3,6 +3,10 @@ import ContactForm from 'components/forms/ContactForm';
 
 import './contact.scss';
 
+/**
+ * This is a section with a form that allows users to contact the ryoko team. When send is pressed,
+ * a new email link is opened.
+ */
 export default function Contact() {
     return (
         <section className="contact-section content-container">

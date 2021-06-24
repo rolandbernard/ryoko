@@ -11,6 +11,10 @@ import ProjectsSlider from 'components/layout/ProjectsSlider';
 
 import './projects.scss';
 
+/**
+ * This page should show all projects a user is a part of. It should also facilitate the creation of
+ * new projects.
+ */
 export default function Projects() {
     const [filter, setFilter] = useState({ term: '', tags: Object.values(Status) });
     const [allProjects, setAllProjects] = useState<Project[]>([]);

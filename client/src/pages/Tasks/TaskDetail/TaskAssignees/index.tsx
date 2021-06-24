@@ -9,6 +9,10 @@ interface Props {
     assignees: AssignedUser[]
 }
 
+/**
+ * This is a tab of the task details page. It contains the list of all users assigned to the task
+ * with the amount of time the user is assigned for.
+ */
 export default function TaskAssignees({ assignees }: Props) {
     return (
         <section className="task-assignees-section">

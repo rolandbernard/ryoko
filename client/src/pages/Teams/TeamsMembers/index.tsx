@@ -15,6 +15,9 @@ interface Props {
     team: Team;
 }
 
+/**
+ * This is a tab of the teams page. It contains a list of all team members.
+ */
 export default function TeamsMembers({ members, team }: Props) {
     const [roles, setRoles] = useState<TeamRole[]>();
 

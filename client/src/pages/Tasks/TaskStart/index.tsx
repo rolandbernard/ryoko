@@ -28,7 +28,11 @@ function handleTimer(state: number) {
     return state - 1000;
 }
 
-export default function TaskDetail() {
+/**
+ * This page should allow the user to start or stop working on a task. It should also display some
+ * details for the task.
+ */
+export default function TaskStart() {
     const [task, setTask] = useState<Task>();
     const [time, setTime] = useState(0);
     const [initialTime, setInitialTime] = useState(0);

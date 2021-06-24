@@ -16,6 +16,10 @@ interface Props {
     project: Project
 }
 
+/**
+ * This is a tab of the project details page. It contains the list of all tasks that belong to the
+ * project and filtering options for the tasks.
+ */
 export default function ProjectTasks({ project }: Props) {
     const [filter, setFilter] = useState({ term: '', tags: Object.values(Status) });
     const [allTasks, setAllTasks] = useState<Task[]>([]);

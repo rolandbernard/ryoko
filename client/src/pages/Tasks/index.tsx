@@ -11,6 +11,10 @@ import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './tasks.scss';
 
+/**
+ * This is the first page a user will see. It should include a list of all tasks that the user is
+ * assigned to and a list of suggested tasks that the user might be able to do.
+ */
 export default function Tasks() {
     const [user, setUser] = useState<User>();
     const [teams, setTeams] = useState<Team[]>();

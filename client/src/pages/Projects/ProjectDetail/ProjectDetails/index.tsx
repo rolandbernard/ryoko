@@ -27,6 +27,10 @@ interface Props {
     project: Project
 }
 
+/**
+ * This is a tab of the project details page. It contains some details and stats for the given
+ * project.
+ */
 export default function ProjectDetails({ project }: Props) {
     const [teams, setTeams] = useState<string[]>([]);
     const [activity, setActivity] = useState<ChartItem[]>([]);

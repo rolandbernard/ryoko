@@ -14,6 +14,9 @@ interface Params {
     projectId: string;
 }
 
+/**
+ * This page should allow the user to edit the information for a project.
+ */
 export default function ProjectEdit() {
     const [project, setProject] = useState<Project>();
     const [error, setError] = useState('');

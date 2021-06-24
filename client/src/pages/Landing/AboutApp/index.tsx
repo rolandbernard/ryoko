@@ -5,6 +5,9 @@ import Project from 'components/ui/Project';
 
 import './about-app.scss';
 
+/**
+ * This is a small section containing information about the application.
+ */
 export default function AboutApp() {
     return (
         <section className="about-app-section content-container">

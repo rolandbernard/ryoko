@@ -23,6 +23,9 @@ interface Params {
     time?: Timespan;
 }
 
+/**
+ * This page shows a user personal stats, including activity and completion.
+ */
 export default function Tasks() {
     const [completions, setCompletions] = useState<CompletionProps[]>();
     const [activity, setActivity] = useState<ChartItem[]>();

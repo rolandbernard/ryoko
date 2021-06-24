@@ -1,6 +1,9 @@
 
 import './features.scss';
 
+/**
+ * This is a small section displaying three features of the application on the landing page.
+ */
 export default function Features() {
     return (
         <section className="features-section content-container">

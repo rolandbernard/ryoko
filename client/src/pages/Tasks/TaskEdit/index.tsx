@@ -14,6 +14,9 @@ interface Params {
     taskId: string;
 }
 
+/**
+ * This page should allow the user to edit the information for a task.
+ */
 export default function TaskEdit() {
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();

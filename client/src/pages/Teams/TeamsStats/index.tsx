@@ -27,6 +27,10 @@ interface Params {
     time: Timespan;
 }
 
+/**
+ * This is a tab of the teams page. It contains some stats on the team members activity and
+ * completion.
+ */
 export default function TeamsStats({ teamId }: Props) {
     const [activity, setActivity] = useState<ChartItem[]>([]);
     const [completions, setCompletions] = useState<CompletionProps[]>([]);

@@ -22,6 +22,10 @@ export interface Params {
     teamId: string;
 }
 
+/**
+ * This page includes information on the teams that a user is a member of. It should allow the user
+ * to switch between showing multiple teams.
+ */
 export default function Teams() {
     const [error, setError] = useState<Boolean>(false);
     const [teams, setTeams] = useState<Team[]>();

@@ -10,6 +10,10 @@ import RegisterForm from 'components/forms/RegisterForm';
 
 import './register.scss';
 
+/**
+ * This page contains the ability for a user to register a new account. It also contains a link to
+ * the login page.
+ */
 export default function Register() {
     const [error, setError] = useState('');
     const history = useHistory();

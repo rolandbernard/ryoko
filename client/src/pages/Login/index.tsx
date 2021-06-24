@@ -10,6 +10,10 @@ import LoginForm from 'components/forms/LoginForm';
 
 import './login.scss';
 
+/**
+ * This page contains the ability for the user to login. It also contains a link to the
+ * register page.
+ */
 export default function Login() {
     const [error, setError] = useState<string>('');
     const history = useHistory();

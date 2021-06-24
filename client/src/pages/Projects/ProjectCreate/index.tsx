@@ -9,6 +9,9 @@ import { Status } from "adapters/common";
 import Callout from 'components/ui/Callout';
 import ProjectForm from "components/forms/ProjectForm";
 
+/**
+ * This page should allow the user to create a new project by requesting all required information.
+ */
 export default function ProjectCreate() {
     const [error, setError] = useState('');
     const history = useHistory();

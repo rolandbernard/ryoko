@@ -12,6 +12,10 @@ import TeamForm from 'components/forms/TeamForm';
 
 import './intro.scss';
 
+/**
+ * This page is shown to a user if he is not yet a member of any team. It allows the user to create
+ * a new team of suggests to ask someone to add the user as a team member of a existing team.
+ */
 export default function Introduction() {
     const [username, setUsername] = useState('');
     const [showForm, setShowForm] = useState(false);

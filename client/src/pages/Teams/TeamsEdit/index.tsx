@@ -15,6 +15,9 @@ interface Params {
    teamId: string;
 }
 
+/**
+ * This page should allow the user to edit the information for a team.
+ */
 export default function TeamsEdit() {
    const [team, setTeam] = useState<Team>();
    const [error, setError] = useState('');

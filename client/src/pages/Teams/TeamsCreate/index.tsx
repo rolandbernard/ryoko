@@ -8,6 +8,9 @@ import { createTeam } from "adapters/team";
 import Callout from "components/ui/Callout";
 import TeamForm from "components/forms/TeamForm";
 
+/**
+ * This page should allow the user to create a new team by requesting all required information.
+ */
 export default function TeamsCreate() {
     const [error, setError] = useState('');
     const history = useHistory();

@@ -2,14 +2,18 @@
 import Page from 'components/layout/Page';
 import Logo from 'images/logo.svg';
 
-import Intro from './partials/Intro';
-import Features from './partials/Features';
-import AboutApp from './partials/AboutApp';
-import Team from './partials/Team';
-import Contact from './partials/Contact';
+import Intro from './Intro';
+import Features from './Features';
+import AboutApp from './AboutApp';
+import Team from './Team';
+import Contact from './Contact';
 
 import './landing.scss';
 
+/**
+ * This page is the landing page of the project. It shows some information on the project and
+ * the team. It also includes a contact section with a contact form.
+ */
 export default function LandingPage(): JSX.Element {
     return (
         <Page className="landing-page">

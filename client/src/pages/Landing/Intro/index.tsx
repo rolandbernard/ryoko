@@ -7,6 +7,10 @@ import ProjectsImage from 'images/preview/projects.jpg';
 
 import './intro.scss';
 
+/**
+ * This is the intro section of the landing page, containing the example images and the
+ * "Get started"-button.
+ */
 export default function Intro() {
     return (
         <section className="intro-section content-container">

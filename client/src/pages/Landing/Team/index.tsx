@@ -6,6 +6,10 @@ import ImageDaniel from 'images/daniel-planoetscher.jpg';
 
 import './team.scss';
 
+/**
+ * This is the team section of the landing page. It contains information on the team members of the
+ * project.
+ */
 export default function Team() {
     return (
         <section className="team-section content-container">

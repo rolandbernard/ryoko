@@ -28,6 +28,9 @@ export interface Params {
     taskId: string;
 }
 
+/**
+ * This page includes information on a task. It should show the tasks assignees and comments.
+ */
 export default function TaskDetail() {
     const [task, setTask] = useState<Task>();
     const [project, setProject] = useState<Project>();

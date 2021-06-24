@@ -11,6 +11,10 @@ import LoadingScreen from 'components/ui/LoadingScreen';
 
 import './settings.scss';
 
+/**
+ * This page allows the user to change personal user settings like email and real name. It also
+ * allows the user to upload an image.
+ */
 export default function Settings() {
     const [user, setUser] = useState<User>();
     const [error, setError] = useState('');
