@@ -9,6 +9,10 @@ interface Props {
     children: ReactNode
 }
 
+/**
+ * This component implements a tooltip that will show the text in the property if the user hovers
+ * over the children of the component. The children will be display unchanged.
+ */
 export default function Tooltip({children, text, className}: Props) {
     return (
         <div className={'tooltip-container ' + (className ?? '')}>
