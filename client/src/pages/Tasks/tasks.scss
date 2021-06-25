@@ -32,6 +32,10 @@
         }
     }
 
+    .working-on .task {
+        box-shadow: 0 0 20px var(--primary);
+    }
+
     .task-error {
         margin-top: 20px;
         border-radius: 5px;
