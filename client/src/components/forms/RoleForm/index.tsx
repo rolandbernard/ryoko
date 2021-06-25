@@ -17,6 +17,11 @@ interface Props {
     setRoles: (state: any) => void
 }
 
+/**
+ * This component implements a form for changing the role of a team member. This form is used in the
+ * member list of the teams page and in the MemberForm. This forma also allows adding new roles or
+ * editing existing ones.
+ */
 export default function RoleForm({ roles, team, member, setResult, setRoles }: Props) {
     const [edit, setEdit] = useState<TeamRole | null>(null);
     return (

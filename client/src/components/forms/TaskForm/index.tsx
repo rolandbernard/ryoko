@@ -35,6 +35,13 @@ interface Props {
     project: Project;
 }
 
+/**
+ * Validate that the given name is acceptable as a task name. Task names must
+ * be non-empty.
+ * 
+ * @param name The name to validate
+ * @returns An error message or null
+ */
 function validateName(name: string): string | null {
     if (name.length > 0) {
         return null;
@@ -43,6 +50,13 @@ function validateName(name: string): string | null {
     }
 }
 
+/**
+ * Validate that the given text is acceptable as a task description. Task
+ * descriptions must be non-empty.
+ * 
+ * @param text The text to validate
+ * @returns An error message or null
+ */
 function validateText(text: string): string | null {
     if (text.length > 0) {
         return null;
@@ -51,6 +65,13 @@ function validateText(text: string): string | null {
     }
 }
 
+/**
+ * Validate that the given string is acceptable as a task icon. Task icons
+ * must be non-empty.
+ * 
+ * @param icon The icon to validate
+ * @returns An error message or null
+ */
 function validateIcon(icon: string): string | null {
     if (icon.length > 0) {
         return null;
@@ -59,6 +80,13 @@ function validateIcon(icon: string): string | null {
     }
 }
 
+/**
+ * Validate that the given string is acceptable as a task priority. Task priorities
+ * must be non-empty.
+ * 
+ * @param priority The priority to validate
+ * @returns An error message or null
+ */
 function validatePriority(priority: string): string | null {
     if (priority.length > 0) {
         return null;
@@ -77,6 +105,10 @@ export interface PossibleMember {
     label: string;
 }
 
+/**
+ * This component implements a form for editing information of a task. If the task property is set,
+ * the form will be for editing an existing task, otherwise for creating a new one.
+ */
 export default function TaskForm({ task, onSubmit, project }: Props) {
     const [name, setName] = useState(task?.name);
     const [text, setText] = useState(task?.text);

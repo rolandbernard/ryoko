@@ -16,6 +16,10 @@ interface Props {
     setAllRoles: (state: any) => void
 }
 
+/**
+ * This component implements a form for selecting a new form for a member. It also has a button to
+ * allow adding a new role and buttons to allow editing a roles name.
+ */
 export default function RoleForm({ roles, setEdit, member, team, setResult, setAllRoles }: Props) {
     const [currentRole, setRole] = useState(member?.role.id);
     const [error, setError] = useState('');

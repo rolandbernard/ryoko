@@ -27,6 +27,13 @@ interface Props {
     ) => void;
 }
 
+/**
+ * Validate that the given name is acceptable as a project name. Project names must
+ * be non-empty.
+ * 
+ * @param name The name to validate
+ * @returns An error message or null
+ */
 function validateName(name: string): string | null {
     if (name.length > 0) {
         return null;
@@ -35,6 +42,13 @@ function validateName(name: string): string | null {
     }
 }
 
+/**
+ * Validate that the given text is acceptable as a project description. Project descriptions
+ * must be non-empty.
+ * 
+ * @param text The text to validate
+ * @returns An error message or null
+ */
 function validateText(text: string): string | null {
     if (text.length > 0) {
         return null;
@@ -43,6 +57,13 @@ function validateText(text: string): string | null {
     }
 }
 
+/**
+ * Validate that the given string is acceptable as a project color. Project colors must
+ * be non-empty. The selection method in the form avoid wrong colors.
+ * 
+ * @param color The color to validate
+ * @returns An error message or null
+ */
 function validateColor(color: string): string | null {
     if (color.length > 0) {
         return null;
@@ -51,6 +72,13 @@ function validateColor(color: string): string | null {
     }
 }
 
+/**
+ * Validate that the given array of strings is acceptable as a project team list. A project
+ * must be owned by at least one team.
+ * 
+ * @param teams The teams array to validate
+ * @returns An error message or null
+ */
 function validateTeams(teams: string[]): string | null {
     if (teams.length > 0) {
         return null;
@@ -59,6 +87,11 @@ function validateTeams(teams: string[]): string | null {
     }
 }
 
+/**
+ * This component implements a form for editing information on a project. When the data is
+ * submitted, the onSubmit function is called with the values the user input as parameters. If the
+ * project property is not set, this will show the create form, otherwise the edit form.
+ */
 export default function ProjectForm({ project, onSubmit }: Props) {
     const [name, setName] = useState(project?.name);
     const [text, setText] = useState(project?.text);

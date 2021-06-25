@@ -15,7 +15,7 @@ import '../form.scss';
  * already exist in the system.
  * 
  * @param username The username input to validate
- * @returns A promise resolving to a error message
+ * @returns A promise resolving to an error message or null
  */
 async function validateUsername(username: string) {
     if (username?.length < 3) {
@@ -32,7 +32,7 @@ async function validateUsername(username: string) {
  * 6 or more characters long.
  * 
  * @param password The password to validate
- * @returns A promise resolving to a error message
+ * @returns An error message or null
  */
 function validatePassword(password: string) {
     if (password?.length < 6) {
@@ -47,7 +47,7 @@ function validatePassword(password: string) {
  * 
  * @param password The first password
  * @param password2 The second password
- * @returns A promise resolving to a error message
+ * @returns An error message or null
  */
 function validateRepeatPassword(password: string, password2: string) {
     if (password !== password2) {

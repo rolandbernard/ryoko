@@ -19,6 +19,10 @@ interface Props {
     onDelete: (req: string) => any
 }
 
+/**
+ * This component implements a form for editing the requirements of a task. This form is used in the
+ * task form. It allows delegation and addition of requirements ot the task.
+ */
 export default function RequirementsForm({ roles, requirements, onNew, onDelete }: Props) {
     const [possibleRoles, setPossibleRoles] = useState<PossibleRole[]>([]);
     const [addNew, setAddNew] = useState(false);

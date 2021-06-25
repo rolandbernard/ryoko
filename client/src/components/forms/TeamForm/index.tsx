@@ -22,6 +22,11 @@ export function validateName(name: string): string | null {
     return 'The name is required';
 }
 
+/**
+ * This component implements a form for editing a tasks data. Since a task only consists of a name,
+ * this is only a simple TextInput with two buttons. If the team property is set, the form will be
+ * for updating an existing team, otherwise for creating a new one.
+ */
 export default function TeamForm({ onSubmit, onBack, team }: Props) {
     const [name, setName] = useState(team?.name ?? '');
 
