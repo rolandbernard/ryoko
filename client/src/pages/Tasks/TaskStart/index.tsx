@@ -8,7 +8,7 @@ import { StatusColors, } from 'adapters/common';
 import { getLoggedInUser } from 'adapters/auth';
 import { finishWork, startWork } from 'adapters/work';
 import { getProject, Project } from 'adapters/project';
-import { durationBetween, formatSimpleDuration } from 'timely';
+import { durationBetween, formatRelativeTime, formatSimpleDuration } from 'timely';
 import { getTask, getTaskWork, Task, TaskAssignment, updateTask } from 'adapters/task';
 
 import Tag from 'components/ui/Tag';
@@ -157,7 +157,13 @@ export default function TaskStart() {
                     <DetailGrid
                         details={[
                             { icon: 'folder', title: 'Project', label: project?.name ?? 'Loading...' },
-                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') }
+                            { icon: 'group', title: 'Teams', label: teamNames.join(', ') },
+                            { icon: 'priority_high', title: 'Priority', label: task?.priority },
+                            {
+                                icon: 'history',
+                                title: 'Edited',
+                                label: formatRelativeTime(task?.edited)
+                            }
                         ]}
                     />
                     <div className="description-container">
