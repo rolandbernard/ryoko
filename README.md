@@ -20,6 +20,7 @@ facilitates effective collaboration.
 * [User Story](docs/user-story.md)
 * [Wireframes](docs/wireframes.md)
 * [Mockups](docs/mockups.md)
+* [How to use](docs/how-to-use.md)
 * [Technologies, Architecture & Development Process](docs/technology.md)
 * [API Documentation](docs/api-docs.md)
 * [Accessibility Report](docs/accessibility.md)
