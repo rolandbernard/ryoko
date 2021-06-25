@@ -15,6 +15,10 @@ export interface TaskProps {
     subtitle?: string;
 }
 
+/**
+ * This component shows task information given in the task property. It will also show the given
+ * subtitle under the name of the task.
+ */
 export default function TaskComponent({ task, subtitle }: TaskProps) {
     const [assignees, setAssignees] = useState<User[]>([]);
 
