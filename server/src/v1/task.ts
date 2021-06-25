@@ -357,7 +357,7 @@ task.get('/:uuid/assigned', async (req, res) => {
                     'team_members.user_id': req.body.token.id,
                     'tasks.id': id,
                 })
-                .groupBy('users.id');
+                .distinct('users.id');
             res.status(200).json({
                 status: 'success',
                 assigned: users.map(user => ({
