@@ -17,6 +17,10 @@ interface Props {
     setRoles: (state: any) => void
 }
 
+/**
+ * This component implements a form that allows the user to add a new member to an existing team. The
+ * team is given in the property.
+ */
 export default function MemberForm({ roles, team, setRoles }: Props) {
     const [error, setError] = useState('');
     const [role, setRole] = useState<string>();

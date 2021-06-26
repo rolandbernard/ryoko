@@ -10,6 +10,11 @@ interface Props {
     onClose: Function
 }
 
+/**
+ * This is a component that implements a popup. The popup will display the children of the
+ * component. The onClose callbacks will be called when the popup should be closed. The popup when
+ * open will prevent scrolling on the body any grey out the background.
+ */
 export default function Popup({ children, onClose }: Props) {
 
     useEffect(() => {

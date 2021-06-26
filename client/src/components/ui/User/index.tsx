@@ -12,6 +12,11 @@ export interface UserProps<T extends User> {
     settings?: (user: T) => DropDownItem[];
 }
 
+/**
+ * This component shows the details for one user. The user is given in the properties together with
+ * a info string that will be shown under the users name and a settings function to generate a
+ * dropdown for a settings dropdown.
+ */
 export default function UserComponent<T extends User>({ user, info, settings }: UserProps<T>) {
     return (
         <div className="team-member-item">

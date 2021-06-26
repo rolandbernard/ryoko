@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import { durationFor, formatDuration } from 'timely';
+import { getOpenWork } from 'adapters/work';
 import { getTeams, Team } from 'adapters/team';
 import { getPossibleTasks, Task } from 'adapters/task';
 import { getCurrentUser, getUserTasks, User } from 'adapters/user';
@@ -19,6 +20,7 @@ export default function Tasks() {
     const [user, setUser] = useState<User>();
     const [teams, setTeams] = useState<Team[]>();
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [open, setOpen] = useState<string>();
     const [possibleTasks, setPossibleTasks] = useState<Task[]>([]);
 
     sessionStorage.setItem('task-return-location', `/tasks`);
@@ -28,6 +30,9 @@ export default function Tasks() {
         getUserTasks().then(setTasks);
         getTeams().then(setTeams);
         getPossibleTasks().then(setPossibleTasks);
+        getOpenWork()
+            .then(work => setOpen(work?.task))
+            .catch(() => {});
     }, []);
 
     const acceptableTasks = possibleTasks
@@ -37,6 +42,7 @@ export default function Tasks() {
                 req => teams?.some(team => team.role === req.role)
             )
         );
+    const working = tasks.find(task => task.id === open);
 
     if (user) {
         return (
@@ -53,7 +59,14 @@ export default function Tasks() {
                             tasks.length > 0
                                 ? (
                                     <div className="tasks-list">
-                                        {tasks.map((task) => {
+                                        { working &&
+                                            <TaskComponent
+                                                task={working}
+                                                subtitle="You are working on this task."
+                                                started={true}
+                                            />
+                                        }
+                                        {tasks.filter(task => task.id !== open).map((task) => {
                                             const time = task.assigned.find(assignee => assignee.user === user.id)?.time ?? 0;
                                             return (
                                                 <TaskComponent

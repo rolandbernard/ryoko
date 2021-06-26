@@ -31,7 +31,7 @@ export function finishWork() {
  * 
  * @returns A promise resolving to the work element
  */
-export function openWork(): Promise<Work> {
+export function getOpenWork(): Promise<Work> {
     return executeApiGet(`work/`, ({ work }) => ({
         ...work,
         started: new Date(work.started),

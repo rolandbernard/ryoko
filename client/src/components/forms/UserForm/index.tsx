@@ -21,6 +21,13 @@ interface Props {
 
 const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg']
 
+/**
+ * Validate that the given string is acceptable as a user email. User emails
+ * must match a certain format.
+ * 
+ * @param email The email to validate
+ * @returns An error message or null
+ */
 function validateEmail(email?: string): string | null {
     if (email && email.length > 0) {
         if (email.match('^[^\\s]+@[^\\s]+$')) {
@@ -33,6 +40,13 @@ function validateEmail(email?: string): string | null {
     }
 }
 
+/**
+ * Validate that the given File is acceptable as a user image. User images
+ * must have a image mime type.
+ * 
+ * @param avatar The avatar to validate
+ * @returns An error message or null
+ */
 function validateAvatar(avatar?: File): string | null {
     if (avatar) {
         if (validTypes.find((type) => type === avatar.type)) {
@@ -45,6 +59,10 @@ function validateAvatar(avatar?: File): string | null {
     }
 }
 
+/**
+ * This component implements a form for editing a users information. This form contains fields to
+ * input a users real name and email, as well as a field for uploading a user image.
+ */
 export default function UserForm({ user, onSubmit }: Props) {
     const [name, setName] = useState(user.realname);
     const [email, setEmail] = useState(user.email);

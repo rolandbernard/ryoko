@@ -20,6 +20,10 @@ export interface ProjectProps {
     demo?: boolean;
 }
 
+/**
+ * This is a component that is used in the project grid and shows the information of the given
+ * project. It will also show the deadline, assignees and completion of the project.
+ */
 export default function Project({ project, large, demo }: ProjectProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
     const [completion, setCompletion] = useState<Completion>();

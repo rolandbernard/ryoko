@@ -16,6 +16,10 @@ export interface ProjectSlideProps {
     project: Project;
 }
 
+/**
+ * This is a component that is used in the project slider and shows the information of the given
+ * project. It will also show the deadline, assignees and used time for the project.
+ */
 export default function ProjectSlide({ project }: ProjectSlideProps) {
     const [assignees, setAssignees] = useState<AssignedUser[]>([]);
     const [time, setTime] = useState<number>();

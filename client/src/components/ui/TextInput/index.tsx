@@ -17,6 +17,11 @@ interface Props {
     note?: string;
 }
 
+/**
+ * This component implements a input element for inputing text. The component will display the label
+ * property, the error and note property. If type is equal to 'textarea' then instead of using an html
+ * input element a textarea element will be used.
+ */
 export default function TextInput({ label, name, type, onChange, validation, compareValue, defaultText, note }: Props) {
     const [error, setError] = useState('');
 

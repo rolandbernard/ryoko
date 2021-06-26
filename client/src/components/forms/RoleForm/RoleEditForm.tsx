@@ -21,6 +21,10 @@ export function validateName(name: string): string | null {
     return 'The name is required';
 }
 
+/**
+ * This component implements a form for adding a new role or editing the name of an existing role.
+ * This form is used by the RoleForm.
+ */
 export default function RoleEditForm({ role, team, setEdit, setAllRoles }: Props) {
     const [name, setName] = useState(role?.name ?? '');
     const [error, setError] = useState('');

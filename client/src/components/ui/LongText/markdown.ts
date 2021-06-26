@@ -1,6 +1,15 @@
 
 type TemplateValue = string | number | TemplateValue[];
 
+/**
+ * This is a simple helper function that will join the elements. This is to be used
+ * as a custom string template literal tag. The custom template tag is mainly used
+ * to get syntax highlighting in code editors.
+ * 
+ * @param str The strings of the template
+ * @param values The values in the template
+ * @returns The concatenated string
+ */
 function html(str: TemplateStringsArray, ...values: TemplateValue[]) {
     return str.map((s, i) => {
         const value = values[i];
@@ -23,6 +32,12 @@ interface Link {
 
 type LinkRegistry = Record<string, Footnote | Link>;
 
+/**
+ * Escape the given string to be displayable directly inside of a HTML document.
+ * 
+ * @param markdown The string to escape
+ * @returns The escaped string
+ */
 function escapeHtml(markdown: string) {
     return markdown
         .replace(/"/g, html`&quot;`)
@@ -32,8 +47,15 @@ function escapeHtml(markdown: string) {
         .replace(/>/g, html`&gt;`);
 }
 
+/**
+ * Compile inline constructs of markdown that can be contained inside of a paragraph.
+ * 
+ * @param markdown The source to compile
+ * @param data The data of all footnotes and named links in the source
+ * @returns The compiled output
+ */
 function compileInlineConstructs(markdown: string, data: LinkRegistry): string {
-    let output = '';
+    let output = ''; 
     let offset = 0;
     let last_copy = 0;
     while (offset < markdown.length) {
@@ -333,13 +355,28 @@ function compileInlineConstructs(markdown: string, data: LinkRegistry): string {
     return output;
 }
 
-function linesToParagraph(lines: string[], paragraphs: string[], data: LinkRegistry) {
-    if (lines.length !== 0 && lines.join(' ').trim().length !== 0) {
+/**
+ * Collect the given lines into a single paragraph, also compiling the inline constructs contained
+ * in the given lines.
+ * 
+ * @param lines The lines to compile
+ * @param paragraphs Where to add the paragraphs to
+ * @param data The data of all footnotes and named links in the source
+ */
+function linesToParagraph(lines: string[], paragraphs: string[], data: LinkRegistry): void {
+    if (lines.length !== 0  && lines.join(' ').trim().length !== 0) {
         paragraphs.push(html`<p class="markdown md-paragraph">${compileInlineConstructs(lines.join(' '), data)}</p>`);
     }
     lines.splice(0);
-}
+} 
 
+/**
+ * Compile all the mark source lines into a string of markdown paragraphs.
+ * 
+ * @param lines The lines to compile
+ * @param data The data of all footnotes and named links in the source
+ * @returns The compiled lines
+ */
 function compileLines(lines: string[], data: LinkRegistry): string[] {
     const lines_to_convert: string[] = [];
     const converted_paragraphs: string[] = [];
@@ -632,6 +669,12 @@ function compileLines(lines: string[], data: LinkRegistry): string[] {
     return converted_paragraphs;
 }
 
+/**
+ * Search for all footnotes and named links in the given lines of markdown code.
+ * 
+ * @param lines The lines to search
+ * @returns The LinkRegistry created from the footnotes
+ */
 function getFootnoteRefs(lines: string[]) {
     const data: LinkRegistry = {};
     let footnote_id = 1;
@@ -656,6 +699,27 @@ function getFootnoteRefs(lines: string[]) {
     return data;
 }
 
+/**
+ * This function will compile the given markdown source to a string containing html.
+ * This compiler supports all basic markdown features and some extended features. The following
+ * features are supported:
+ * - Headings
+ * - Bold, italic and strikethrough
+ * - Blockquotes
+ * - Ordered and unordered lists
+ * - Inline code
+ * - Horizontal rule
+ * - Links
+ * - Images
+ * - Tables
+ * - Fenced code blocks
+ * - Footnotes
+ * - Heading ids
+ * - Task list
+ * 
+ * @param markdown The markdown source
+ * @returns The compilation output
+ */
 export function compileMarkdown(markdown: string): string {
     const lines = markdown.split('\n');
     const data = getFootnoteRefs(lines);
