@@ -8,6 +8,10 @@ export interface DetailProps {
     label?: string,
 }
 
+/**
+ * This is a detail bod for use in the detail grid. The box will display information, the given icon
+ * and the given title. The information can either be a number or a label.
+ */
 export default function DetailBox({ number, icon, title, label }: DetailProps) {
     return (
         <div className="detail-box">

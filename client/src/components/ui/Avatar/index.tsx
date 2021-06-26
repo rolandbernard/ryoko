@@ -9,6 +9,13 @@ interface Props {
     user?: User;
 }
 
+/**
+ * This helper function extracts the initials of the users real name or username to be used in the
+ * Avatar component. If no user is given, a question mark will be returned.
+ *
+ * @param user The user to get the initials from
+ * @returns The initials of the user
+ */
 function getUserInitials(user?: User): string {
     if (user) {
         if (user.realname) {
@@ -26,6 +33,11 @@ function getUserInitials(user?: User): string {
     }
 }
 
+/**
+ * This component displays the avatar image for the given user. If the user has not set a image,
+ * this component will display the initials of the real name of the user, or if that is not present,
+ * it will display the first character of the username.
+ */
 export default function Avatar({ user }: Props) {
     const [error, setError] = useState(false);
     const avatarSrc = user && getUserImageUri(user.id);

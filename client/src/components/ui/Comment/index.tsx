@@ -17,6 +17,11 @@ export interface CommentProps {
     onError?: () => any;
 }
 
+/**
+ * This component displays information on the given comment. If an error happens in the component
+ * the onError callback will be called. If the displayed comment was created by the logged in user,
+ * the component also gives the ability to edit the comment.
+ */
 export default function Comment({ comment: initialComment, onError }: CommentProps) {
     const [comment, setComment] = useState(initialComment);
     const [user, setUser] = useState<User>();

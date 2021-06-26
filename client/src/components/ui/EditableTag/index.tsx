@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
-import Tag from '../Tag';
 
+import Tag from 'components/ui/Tag';
 import './tag.scss';
 
 interface Props<Tag> {
@@ -12,6 +12,11 @@ interface Props<Tag> {
     onChange: (value: Tag) => any;
 }
 
+/**
+ * This component shows a simple tag, and allows the user to edit it by clicking the tag and
+ * selecting from the opening dropdown selection. All options for the tag should be given in the
+ * possible property and the onChange function should change the displayed values.
+ */
 export default function EditableTag<Tag extends string>({ label, icon, color, possible, onChange }: Props<Tag>) {
     const [open, setOpen] = useState(false)
 
