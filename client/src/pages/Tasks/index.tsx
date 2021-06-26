@@ -55,18 +55,17 @@ export default function Tasks() {
                     <section className="tasks-container">
                         <h2>Your tasks</h2>
                         <p>Here are some tasks for which you were assigned directly, ordered by their priority.</p>
-                        { working &&
-                            <div className="working-on">
-                                <TaskComponent
-                                    task={working}
-                                    subtitle="You are working on this task."
-                                />
-                            </div>
-                        }
                         {
                             tasks.length > 0
                                 ? (
                                     <div className="tasks-list">
+                                        { working &&
+                                            <TaskComponent
+                                                task={working}
+                                                subtitle="You are working on this task."
+                                                started={true}
+                                            />
+                                        }
                                         {tasks.filter(task => task.id !== open).map((task) => {
                                             const time = task.assigned.find(assignee => assignee.user === user.id)?.time ?? 0;
                                             return (

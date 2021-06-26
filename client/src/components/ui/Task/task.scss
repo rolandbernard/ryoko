@@ -67,6 +67,14 @@
             opacity: .75;
             font-size: 12px;
         }
+
+        .tag {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 12px;
+        }
     }
 
     .description-container {
