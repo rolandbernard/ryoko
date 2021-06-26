@@ -1,6 +1,10 @@
 
 import './loading-screen.scss';
 
+/**
+ * This component implements a simple loading animation. Id does not have to be started and is
+ * visible as soon as the component is displayed.
+ */
 export default function LoadingScreen() {
     return (
         <div className="loading-screen">

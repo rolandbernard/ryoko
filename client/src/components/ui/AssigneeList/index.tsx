@@ -11,6 +11,11 @@ interface Props {
     max: number
 }
 
+/**
+ * This component displays the avatars of the list of users. It will only display a maximum number
+ * of images given in the max property. This component will also add a tooltip to the avatars, that
+ * display the users real name or username if no real name is given.
+ */
 export default function AssigneeList({ assignees, max }: Props) {
     let shownAssignees = assignees, overhead = 0;
     if (assignees.length > max) {

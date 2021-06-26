@@ -6,6 +6,10 @@ interface Props {
     onGoHome?: () => any;
 }
 
+/**
+ * This component shows a simple error message and gives the user the option to reload or go to the
+ * landing page. This component should be used more often in places where data can fail to load.
+ */
 export default function ErrorScreen({ onReload, onGoHome }: Props) {
     return (
         <div className="error-screen">
