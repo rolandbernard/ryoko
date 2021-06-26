@@ -3,48 +3,48 @@
 ## Architecture & Technology
 
 The application is divided into a front-end (`client` folder) and back-end (`server` folder). Both
-are running on [JavaScript](javascript) runtimes and are written in [TypeScript](typescript). The
-communication between the server and client is implement using a [REST API](rest).
+are running on [JavaScript][javascript] runtimes and are written in [TypeScript][typescript]. The
+communication between the server and client is implement using a [REST API][rest].
 
 ### Server
 
-The server runs on the [Node.js](node) environment. The code is rune using [node-ts](nodets) when
-testing, and compiled using the [TypeScript](typescript) compiler before running it with regular
-[node](node) for production.
+The server runs on the [Node.js][node] environment. The code is rune using [node-ts][nodets] when
+testing, and compiled using the [TypeScript][typescript] compiler before running it with regular
+[node][node] for production.
 
-The API is implement on the server using the [express](express) web framework. The server also
+The API is implement on the server using the [express][express] web framework. The server also
 serves the static resources for the front-end. The back-end handles requests using a database
-connection handled by the [Knex.js](knex) query builder. For testing a [SQLite3](sqlite) database is
-used, while for production and staging the server connects to a [PostgreSQL](postgres) database.
+connection handled by the [Knex.js][knex] query builder. For testing a [SQLite3][sqlite] database is
+used, while for production and staging the server connects to a [PostgreSQL][postgres] database.
 
-Authentication is handled using [JSON Web Tokens](jwt) (JWT) that are signed either using a secret
+Authentication is handled using [JSON Web Tokens][jwt] (JWT) that are signed either using a secret
 (in testing) or using a public and private key pair (in production). The authentication token must
 be given for all request that require authentication. Password are salted and hashed using the
-[bcrypt](bcrypt) algorithm and later verified against the provided credentials for generating new
+[bcrypt][bcrypt] algorithm and later verified against the provided credentials for generating new
 tokens. 
 
 The implementation of the API is split into multiple parts. The parts all have unit test in the
-server code, that are run using the [Jest](jest) testing framework and the [supertest](supertest)
+server code, that are run using the [Jest][jest] testing framework and the [supertest][supertest]
 library for testing the API. Documentation for each part can be found in the [API
-Documentation](api).
+Documentation][api].
 
 ### Client
 
-The front-end is running in the browser and implemented as a [Single Page Application](spa). Like
-the server, it is written in [TypeScript](typescript) and transpiled before running in the browser.
-For production builds, the application is bundled and minified using [Webpack](webpack). We are also
-using the [Workbox](workbox) library to simplify the implementation of the service worker and make
-the website a [Progressive Web App](pwa) (PWA).
+The front-end is running in the browser and implemented as a [Single Page Application][spa]. Like
+the server, it is written in [TypeScript][typescript] and transpiled before running in the browser.
+For production builds, the application is bundled and minified using [Webpack][webpack]. We are also
+using the [Workbox][workbox] library to simplify the implementation of the service worker and make
+the website a [Progressive Web App][pwa] (PWA).
 
-The client uses the [React](react) framework together with the [React router](reactrouter) library.
-[React](react) is a [JavaScript](javascript) library for rendering user interfaces. It uses a
+The client uses the [React][react] framework together with the [React router][reactrouter] library.
+[React][react] is a [JavaScript][javascript] library for rendering user interfaces. It uses a
 component structure, where the programmer defines custom components that can be nested and will then
 be rendered by the library into the browsers DOM. We implemented only functional components, and
-used [TSX](tsx) to allow easier input of the [React](react) nodes.
+used [TSX][tsx] to allow easier input of the [React][react] nodes.
 
-We also use [SCSS](sass) for styling the pages and custom components we implemented. It is
-transpiled, similar to [TypeScript](typescript), before running the code in the browser. The
-resulting [CSS](css) will also be bundled using [Webpack](webpack).
+We also use [SCSS][sass] for styling the pages and custom components we implemented. It is
+transpiled, similar to [TypeScript][typescript], before running the code in the browser. The
+resulting [CSS][css] will also be bundled using [Webpack][webpack].
 
 [javascript]: https://developer.mozilla.org/en-US/docs/Web/javascript
 [typescript]: https://www.typescriptlang.org/
