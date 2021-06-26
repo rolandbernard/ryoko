@@ -85,12 +85,3 @@ After starting the development server inside `client`, the website is accessible
 `http://localhost:3000`. Depending on your configuration the site will probably be opened
 automatically in your default browser after execution of `yarn start`.
 
-## Implementation
-<!-- TODO -->
-
-### General
-<!-- TODO -->
-
-### Libraries
-<!-- TODO -->
-
