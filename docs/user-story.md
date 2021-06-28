@@ -10,7 +10,4 @@ The purpose of the web application is to simplify planning processes within team
 
 ## Why?: Benefits
 
-By harnessing the power of creating only requirements for tasks, ryoko is able to suggest the task to team
-members who fit its requirements automatically. Due to that it provides an automatic distribution of tasks
-and lowers many hurdles of project management. On the tasks page of the application, team members can choose the task they want to do, therefore, they can choose the process based on their preferences, yet shows more important tasks above less important tasks. the In addition to that users can keep track of their time spent on each process and on how much time is left for one task.  
-
+By harnessing the power of creating only requirements for tasks, ryoko is able to suggest the task to team members who fit its requirements automatically. Due to that it provides an automatic distribution of tasks and lowers many hurdles of project management. On the tasks page of the application, team members can choose the task they want to do, therefore, they can choose the process based on their preferences, yet shows more important tasks above less important tasks. the In addition to that users can keep track of their time spent on each process and on how much time is left for one task.  
