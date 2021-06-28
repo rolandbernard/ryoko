@@ -12,9 +12,9 @@ export default function AboutApp() {
     return (
         <section className="about-app-section content-container">
             <div className="text-container">
-                <h2 className="left">Plan your projects like a journey!</h2>
+                <h2 className="left">Get started now!</h2>
                 <p className="lead">
-                    Do you want to boost your productivity and agility of your
+                    Do you want to boost the productivity and agility of your
                     development?
                 </p>
                 <p>
