@@ -53,4 +53,30 @@ When switching to the Tasks tab, all the tasks of a project are shown. Here you 
 
 ## 4) Tasks page
 
-The tasks page shows you a list of tasks you are directly assigned to or for which you fit the requirements.
+The tasks page shows you a list of tasks you are directly assigned to or for which you fit the requirements. These lists are ordered by the priority of the task and therefore show the most important ones at the top of the list.
+
+![Tasks page](images/usage/tasks_page.png)
+
+### Work on tasks
+
+Once clicking on a task you are assigned to, you can simply click on start working and start a timer. Once the timer is started, it is active until you make a break or finish the task (it keeps ticking even while switching to other pages). Therefore, keep in mind to switch off timer before making breaks. Once you go above the recommended time, the timer will show by how much you are overdue (with a negative sign e.g. -1:00 => one minute). By clicking finish task, you say to the system that your job is done.
+
+![Start tasks](images/usage/start_task.png)
+
+### Recommended tasks
+
+For recommended tasks however, the user has to add themselves the task by clicking "assign yourself". Afterwards, you can use it like a task you were assigned to directly.
+![Assign yourself you task](images/usage/assign_yourself.png)
+
+### Task comments
+
+The tasks also give you the possibility to write comments. These can be used to inform assignees about special information for the task (without changing its main description).
+
+![Task comments](images/usage/task_comment.png)
+
+
+## 5) Additional pages and settings
+
+The sidebar also allows users to manage their settings on the "Settings" page. It also shows user specific statistics on the "Stats" page. In addition to that, the theme can be switched to dark theme by clicking on "Change theme" and the logout button logs the user out and returns to the Login page.
+
+![Sidebar](images/usage/sidebar.png)
