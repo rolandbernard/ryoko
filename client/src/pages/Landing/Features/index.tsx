@@ -20,7 +20,7 @@ export default function Features() {
                     <span className="feature-icon material-icons">event</span>
                     <h3 className="feature-title">Automatic timetables</h3>
                     <div className="feature-description">
-                        Generate your automatic timetables based on <strong>priorities and decencies</strong> of
+                        Generate your automatic timetables based on <strong>priorities and dependencies</strong> of
                         your tasks
                     </div>
                 </div>
