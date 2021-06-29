@@ -3,8 +3,7 @@
     "version": "0.1.0",
     "description": "Ryoko is a project planning tool build with developers in mind",
     "repository": "https://gitlab.inf.unibz.it/Roland.Bernard/wie_202021_csbillero11.git/",
-    "author": "Roland Bernard <rolbernard@unibz.it>",
-    "license": "MIT",
+    "license": "BSD 2-Clause",
     "private": true,
     "main": "src/index.ts",
     "dependencies": {

@@ -70,15 +70,3 @@ resulting [CSS][css] will also be bundled using [Webpack][webpack].
 [sass]: https://sass-lang.com/
 [css]: https://developer.mozilla.org/en-US/docs/Web/CSS
 
-## Development Process
-
-We started development by thinking about the user story and crating simple wireframes. After we had
-an idea of what the application was supposed to do, we started to design the database structure.
-With the database schema finished and after selecting the technologies, we started work first on the
-backend. At the same time, we also started work on the front-end, initially working on the parts
-that did not need the API. After we completed the functionality of the server code, we focused our
-attention on design and implementation of the client side code. From then on, changes to the
-back-end where small and mainly to fix bugs that were found during the implementation of the
-front-end. We focused the last part of development on finding and fixing bugs, adding only a small
-amount of new features in the last month.
-

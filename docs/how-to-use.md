@@ -7,7 +7,7 @@ This part of the documentation gives you some hints of you can use the app.
 To use the application, the user first has to create an account and login. This can be done by
 clicking on "Get started" directly on the landing page.
 
-![Get started](images/usage/get_started.png)
+![Get started](images/get_started.png)
 
 After that you can either login with your credentials or create a new account by clicking on "you
 don't have an account?". After creating a new account, the user has to join a team. This can be done
@@ -15,8 +15,8 @@ by either creating a new one or asking another team to let them join theirs. For
 the user has to give another team member his username, which can be used to add someone else into a
 team.
 
-![Possibilities for getting started](images/usage/start_possibilities.png)
-![Create a new team](images/usage/create_new_team.png)
+![Possibilities for getting started](images/start_possibilities.png)
+![Create a new team](images/create_new_team.png)
 
 ## 2) Teams page
 
@@ -27,7 +27,7 @@ name of the team) you can show specific information about it. For example, the a
 and members, as well as all its members + their roles and the stats of the team. The page also gives
 the possibility to create a new team and leave the current one (if you are in at least 2 teams.)
 
-![Teams page](images/usage/teams_page.png)
+![Teams page](images/team_page.png)
 
 ### Members
 
@@ -36,8 +36,8 @@ for the automatic finding of members to execute a task. By clicking on the + sig
 be added to the team using their usernames. By clicking on the dropdown in the top-right corner of
 each member, their role can be changed.
 
-![Team members](images/usage/team_members.png)
-![Edit role](images/usage/edit_role.png)
+![Team members](images/team_members.png)
+![Edit role](images/edit_role.png)
 
 In this popup you can create a new role by giving it a custom name after clicking on the + sign.
 Roles can only be deleted if it is not used in within the team.
@@ -47,7 +47,7 @@ Roles can only be deleted if it is not used in within the team.
 By switching to the Stats tab, general statistics (if there are any) are shown, such as the relative
 completion of all projects and recent activities.
 
-![Team stats](images/usage/team_stats.png)
+![Team stats](images/team_stats.png)
 
 ## 3) Projects page
 
@@ -55,7 +55,7 @@ The projects page is used to create new projects and manage them. On that page, 
 through your projects and filter them. By clicking on the + of the list, you can create a new
 project.
 
-![Projects page](images/usage/projects_page.png)
+![Projects page](images/projects_page.png)
 
 ### Detail page
 
@@ -64,7 +64,7 @@ displayed. Here you are able to look at graphs that display information about th
 new tasks. By clicking on the tag in the top-left corner you can change the status directly on the
 detail page.
 
-![Project detail](images/usage/project_detail.png)
+![Project detail](images/project_detail.png)
 
 ### Tasks list
 
@@ -77,7 +77,7 @@ and change its requirements.
 * Assignees: These are direct assignees of a task, which are definite and are shown directly on the
 tasks page to the user.
 
-![Project tasks](images/usage/project_tasks.png)
+![Project tasks](images/project_tasks.png)
 
 ## 4) Tasks page
 
@@ -85,7 +85,7 @@ The tasks page shows you a list of tasks you are directly assigned to or for whi
 requirements. These lists are ordered by the priority of the task and therefore show the most
 important ones at the top of the list.
 
-![Tasks page](images/usage/tasks_page.png)
+![Tasks page](images/tasks_page.png)
 
 ### Work on tasks
 
@@ -96,21 +96,21 @@ making breaks. Once you go above the recommended time, the timer will show by ho
 overdue (with a negative sign e.g. -1:00 => one minute). By clicking finish task, you say to the
 system that your job is done.
 
-![Start tasks](images/usage/start_task.png)
+![Start tasks](images/start_task.png)
 
 ### Recommended tasks
 
 For recommended tasks however, the user has to add themselves the task by clicking "assign
 yourself". Afterwards, you can use it like a task you were assigned to directly.
 
-![Assign yourself you task](images/usage/assign_yourself.png)
+![Assign yourself you task](images/assign_yourself.png)
 
 ### Task comments
 
 The tasks also give you the possibility to write comments. These can be used to inform assignees
 about special information for the task (without changing its main description).
 
-![Task comments](images/usage/task_comment.png)
+![Task comments](images/task_comment.png)
 
 
 ## 5) Additional pages and settings
@@ -120,5 +120,5 @@ specific statistics on the "Stats" page. In addition to that, the theme can be s
 theme by clicking on "Change theme" and the logout button logs the user out and returns to the Login
 page.
 
-![Sidebar](images/usage/sidebar.png)
+![Sidebar](images/sidebar.png)
 

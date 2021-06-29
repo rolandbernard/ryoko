@@ -2,14 +2,7 @@
 
 ## About
 
-This is the source code repository for the Web and Internet Engineering Project 2020/21.
-
-### Group Members
-
-* Roland Bernard, rolbernard@unibz.it
-* Daniel Planötscher, dplanoetscher@unibz.it
-
-### Project Idea
+A web application for easy task organization and management.
 
 Do you want to boost your productivity and agility of your development? With Ryoko you are able to
 effectively plan your tasks and manage your projects. It is build with developers in mind and
@@ -17,25 +10,11 @@ facilitates effective collaboration.
 
 ## Documentation
 
-* [User Story](docs/user-story.md)
-* [Wireframes](docs/wireframes.md)
-* [Mockups](docs/mockups.md)
 * [How to use](docs/how-to-use.md)
-* [Technologies, Architecture & Development Process](docs/technology.md)
+* [Technologies & Architecture](docs/technology.md)
 * [API Documentation](docs/api-docs.md)
-* [Accessibility Report](docs/accessibility.md)
 
 ## Getting Started
-
-A version of this project is hosted at https://ryoko-planning.herokuapp.com/ and you can access it
-using the username 'Tester' and the password 'testtest'. From the landing page you can get directly
-to the login page by pressing the 'Get Started'-button. The hosted application is filled with some
-test data.
-
-Note: Because we are using a service worker to cache the website you might be served an older
-version of the site on subsequent visits. To get the newest version of the site, either refresh the
-side by using the CTRL+SHIFT+R keyboard shortcut, or close all the tabs of our application
-and reopen a new one.
 
 ### Simple deployment
 
